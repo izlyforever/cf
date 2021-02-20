@@ -5,7 +5,7 @@ using LL = long long;
 namespace int128 {
 __int128 read(){
 	__int128 x = 0;
-	boo negetive = false;
+	bool negetive = false;
 	char ch = getchar();
 	while (ch < '0' || ch > '9'){
 		if (ch == '-') negetive = true;
@@ -132,12 +132,14 @@ LL lucas(LL n, LL k) {
 } // namespace Binom
 // 模板例题：https://www.luogu.com.cn/problem/P3807
 
+
+// 注意这里的 nthPrime 以 1 开始编号（其它地方以 0 开始）！即 p[1] = 2
 namespace Prime {
 // O(\sqrt{N}) 最基本的单次素数判断
-bool isPrime(int n) {
+bool isPrime(LL n) {
 	if (n == 2) return true;
 	if (n == 1 || n % 2 == 0) return false;
-	for (int i = 3; i * i <= n; i += 2){
+	for (LL i = 3; i * i <= n; i += 2){
 		if (n % i == 0) return false;
 	}
 	return true;
@@ -148,7 +150,7 @@ const int N = 1e7 + 2;
 bool isp[N];
 // 此算法复杂度为 O(N \log \log N)，实测 N < 1e9 时是最快的
 std::vector<int> initPrime() {
-	std::vector<int> p{2};
+	std::vector<int> p{0, 2};
 	isp[2] = true;
 	for (int i = 3; i < N; i += 2) isp[i] = true;
 	int sq = int(std::sqrt(N + 0.1)) | 1;
@@ -160,13 +162,13 @@ std::vector<int> initPrime() {
 	return p;
 }
 // 此算法是 $O(N)$ 的，但实测不如上面算法快。
-std::vector<int> initPrimeS(int N) { // 放在此处仅供记录。
-	std::vector<int> p{2};
+std::vector<int> initPrimeS() { // 放在此处仅供记录。
+	std::vector<int> p{0, 2};
 	isp[2] = true;
 	for (int i = 3; i < N; i += 2) isp[i] = true;
 	for (int i = 3; i < N; i += 2) {
 		if (isp[i]) p.emplace_back(i);
-		for (int j = 1, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) { // 用除号是防止溢出
+		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) { // 用除号是防止溢出
 			isp[i * p[j]] = false;
 			// 不要下面的一步的话，复杂度 O(nloglogn), 但是不用除法，常数小
 			if (i % p[j] == 0) break;
@@ -179,8 +181,9 @@ std::vector<int> initPrimeS(int N) { // 放在此处仅供记录。
 const int M = 7;
 const int PM = 2 * 3 * 5 * 7 * 11 * 13 * 17;
 int phi[PM + 1][M + 1], sz[M + 1], pi[N];
+std::vector<int> p;
 void init() {
-	initPrime();
+	p = initPrime();
 	pi[2] = 1;
 	for (int i = 3; i < N; ++i) {
 		pi[i] = pi[i - 1];
@@ -220,24 +223,61 @@ LL primepi(LL x) {
 	return ans;
 }
 
-// 动态规划版计算 pi(x)，这种思想特别值得学习！
-LL L[N], R[N];
+// 动态规划版 O(\frac{n}{\log n}) 计算 pi(x)，x < 10^12
 LL primepiS(LL n) {
-	LL rn = (LL) std::sqrt(n + 0.2);
-	for (LL i = 1; i <= rn; ++i) R[i] = n / i - 1;
-	LL ln = n / (rn + 1) + 1;
-	for (LL i = 1; i <= ln; ++i) L[i] = i - 1;
-	for (LL p = 2; p <= rn; ++p) {
+	int rn = std::sqrt(n + 0.2);
+	std::vector<LL> R(rn + 1);
+	for (int i = 1; i <= rn; ++i) R[i] = n / i - 1;
+	int ln = n / (rn + 1) + 1;
+	std::vector<LL> L(ln + 1);
+	for (int i = 1; i <= ln; ++i) L[i] = i - 1;
+	for (int p = 2; p <= rn; ++p) {
 		if (L[p] == L[p - 1]) continue;
-		for (LL i = 1, tn = std::min(n / (p * p), rn); i <= tn; ++i) {
-			R[i] -= (i * p <= rn ? R[i * p] : L[n / (i * p)]) - L[p - 1];
+		for (int i = 1, tn = std::min(n / p / p, LL(rn)); i <= tn; ++i) {
+			R[i] -= (i <= rn / p ? R[i * p] : L[n / i / p]) - L[p - 1];
 		}
-		for (LL i = ln; i >= p * p; --i) {
+		for (int i = ln; i / p >= p; --i) {
 			L[i] -= L[i / p] - L[p - 1];
 		}
 	}
 	return R[1];
 }
+
+// 查看 (s - n, s] (请保证区间较小）内每个数是否为素数，确保 p.back() * p.back() >= r
+std::vector<int> seive(LL s, int n) { // O(N log s)
+	std::vector<int> isP(n, 1); // isP[i] = 1 表示 s - i 是素数
+	for (auto x : p) if (x > 0 && LL(x) * x <= s) {
+		for (int j = s % x; j < n; j += x) isP[j] = 0;
+	}
+	return isP;
+}
+
+// 使用前先初始化，返回第 n 个素数，从 1 开始标号
+LL nthPrime(LL n) { // Newton 梯度法
+	if (n < p.size()) return p[n];
+	LL ans = n * log(n), err = log(n) / log(10);
+	LL m = primepi(ans);
+	while (m < n || m > n + err) {
+		ans += (n - m) / (log(m) - 1) * log(m) * log(m);
+		m = primepi(ans);
+	}
+	int sn = std::sqrt(N);
+	while (1) {
+		auto isP = seive(ans, sn);
+		for (int i = 0; i < sn; ++i) if (isP[i]) {
+			if (m-- == n) return ans - i;
+		}
+		ans -= sn;
+	}
+	// int step = m - n;
+	// // 这里其实可以用分块筛法加速
+	// for (int i = 0; i <= step; ++i) {
+	// 	while (!isPrime(ans)) --ans;
+	// 	--ans;
+	// }
+	// return ++ans;
+} // 原理：https://dna049.com/nthPrimeNumber/
+
 } // namespace Prime
 
 // 单次求 Euler 函数
