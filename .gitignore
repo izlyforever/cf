@@ -1,0 +1,6 @@
+main*
+.vscode*
+in
+out
+*.exe
+test*
