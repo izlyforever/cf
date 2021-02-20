@@ -83,8 +83,8 @@ public:
 class FusionTree {
 	using Node = std::array<int, 4>;
 	std::vector<Node> ch;
-	#define lson ch[p][0]
-	#define rson ch[p][1]
+	#define lsonFT ch[p][0]
+	#define rsonFT ch[p][1]
 	// ch[p][2] 表示以 p 为根的子树的大小
 	// ch[p][3] 表示以 p 为根的子树的异或值
 	void addNode(int p, int c) {
@@ -93,10 +93,10 @@ class FusionTree {
 	}
 	void pushUp(int p) {
 		ch[p][3] = 0;
-		if (lson) ch[p][3] ^= (ch[lson][3] << 1);
-		if (rson) ch[p][3] ^= (ch[rson][3] << 1) | (ch[rson][2] & 1);
+		if (lsonFT) ch[p][3] ^= (ch[lsonFT][3] << 1);
+		if (rsonFT) ch[p][3] ^= (ch[rsonFT][3] << 1) | (ch[rsonFT][2] & 1);
 	}
-	// 注意这里 ch[lson][2] = ch[p][2] - ch[rson] 是延迟更新的。
+	// 注意这里 ch[lson][2] = ch[p][2] - ch[rsonFT] 是延迟更新的。
 	void insert(int p, int x) {
 		++ch[p][2];
 		if (!x) return;
@@ -112,11 +112,11 @@ class FusionTree {
 	}
 	void addAll(int p) {
 		if (!ch[p][2]) return;
-		if (rson) addAll(rson);
-		// 为了进位，先补 0，补 0 的时候记得更新 ch[lson][2]（它延迟更新了）
-		if (!lson) addNode(p, 0);
-		ch[lson][2] = ch[p][2] - (rson ? ch[rson][2] : 0);
-		std::swap(lson, rson);
+		if (rsonFT) addAll(rsonFT);
+		// 为了进位，先补 0，补 0 的时候记得更新 ch[lsonFT][2]（它延迟更新了）
+		if (!lsonFT) addNode(p, 0);
+		ch[lsonFT][2] = ch[p][2] - (rsonFT ? ch[rsonFT][2] : 0);
+		std::swap(lsonFT, rsonFT);
 		pushUp(p);
 	}
 public:

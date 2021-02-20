@@ -136,8 +136,8 @@ public:
 class SegmentTree {
 	int n;
 	std::vector<LL> sm, tag;
-	#define lson l, m, 2 * p
-	#define rson m + 1, r, 2 * p + 1
+	#define lsonST l, m, 2 * p
+	#define rsonST m + 1, r, 2 * p + 1
 	void pull(int p) {
 		sm[p] = sm[2 * p] + sm[2 * p + 1];
 	}
@@ -148,8 +148,8 @@ class SegmentTree {
 	void push(int l, int r, int p) {
 		if (tag[p]) {
 			int m = (l + r) / 2;
-			tagAdd(tag[p], lson);
-			tagAdd(tag[p], rson);
+			tagAdd(tag[p], lsonST);
+			tagAdd(tag[p], rsonST);
 			tag[p] = 0;
 		}
 	}
@@ -160,8 +160,8 @@ class SegmentTree {
 		}
 		push(l, r, p);
 		int m = (l + r) / 2;
-		if (L <= m) rangeAdd(L, R, v, lson);
-		if (R > m) rangeAdd(L, R, v, rson);
+		if (L <= m) rangeAdd(L, R, v, lsonST);
+		if (R > m) rangeAdd(L, R, v, rsonST);
 		pull(p);
 	}
 	// 以下内容根据需要修改
@@ -170,8 +170,8 @@ class SegmentTree {
 		push(l, r, p);
 		int m = (l + r) / 2;
 		LL ans = 0;
-		if (L <= m) ans += query(L, R, lson);
-		if (R > m) ans += query(L, R, rson);
+		if (L <= m) ans += query(L, R, lsonST);
+		if (R > m) ans += query(L, R, rsonST);
 		return ans;
 	}
 	void resize() {
@@ -191,8 +191,8 @@ public:
 				return;
 			}
 			int m = (l + r) / 2;
-			build(lson);
-			build(rson);
+			build(lsonST);
+			build(rsonST);
 			pull(p);
 		};
 		build(1, n, 1);
