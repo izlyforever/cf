@@ -444,4 +444,3 @@ std::vector<int> Manacher(std::string s) {
 	return d;
 }
 // 通过中间加相同特殊符号统一成仅需考虑奇数长回文串
-

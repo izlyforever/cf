@@ -132,63 +132,49 @@ public:
 	}
 };
 
-// 线段树（延迟更新，左开右闭）
+// 最简单的延迟更新求和版本，其它的根据需求修改即可
 class SegmentTree {
 	int n;
-	std::vector<int> mn, tag;
-	std::vector<LL> sm;
+	std::vector<LL> sm, tag;
 	#define lson l, m, 2 * p
 	#define rson m + 1, r, 2 * p + 1
-		void pull(int p) {
-		mn[p] = std::min(mn[2 * p], mn[2 * p + 1]);
+	void pull(int p) {
 		sm[p] = sm[2 * p] + sm[2 * p + 1];
+	}
+	void tagAdd(LL v, int l, int r, int p) {
+		tag[p] += v;
+		sm[p] += v * (r - l + 1);
 	}
 	void push(int l, int r, int p) {
 		if (tag[p]) {
 			int m = (l + r) / 2;
-			set(lson, tag[p]);
-			set(rson, tag[p]);
+			tagAdd(tag[p], lson);
+			tagAdd(tag[p], rson);
 			tag[p] = 0;
 		}
 	}
-	void set(int l, int r, int p, int v) {
-		tag[p] = mn[p] = v;
-		sm[p] = LL(r - l + 1) * v;
-	}
-	void rangeSet(int L, int R, int v, int l, int r, int p) {
+	void rangeAdd(int L, int R, LL v, int l, int r, int p) {
 		if (L <= l && R >= r) {
-			set(l, r, p, v);
+			tagAdd(v, l, r, p);
 			return;
 		}
-		int m = (l + r) / 2;
 		push(l, r, p);
-		if (L <= m) rangeSet(L, R, v, lson);
-		if (R > m) rangeSet(L, R, v, rson);
+		int m = (l + r) / 2;
+		if (L <= m) rangeAdd(L, R, v, lson);
+		if (R > m) rangeAdd(L, R, v, rson);
 		pull(p);
 	}
 	// 以下内容根据需要修改
-	int query(int x, int& y, int l, int r, int p) {
-		if (mn[p] > y) return 0;
-		if (x <= l && sm[p] <= y) {
-			y -= sm[p];
-			return r - l + 1;
-		}
-		int m = (l + r) / 2;
+	LL query(int L, int R, int l, int r, int p) {
+		if (L <= l && R >= r) return sm[p];
 		push(l, r, p);
-		int ans = 0;
-		if (x <= m) ans += query(x, y, lson); 
-		ans += query(x, y, rson);
+		int m = (l + r) / 2;
+		LL ans = 0;
+		if (L <= m) ans += query(L, R, lson);
+		if (R > m) ans += query(L, R, rson);
 		return ans;
 	}
-	int bounded(int v, int l, int r, int p) {
-		if (mn[p] >= v) return r + 1;
-		if (l == r) return l;
-		int m = (l + r) / 2;
-		if (mn[2 * p] >= v) return bounded(v, rson);
-		return bounded(v, lson);
-	}
 	void resize() {
-		mn.resize(4 * n);
 		tag.resize(4 * n);
 		sm.resize(4 * n);
 	}
@@ -196,12 +182,12 @@ public:
 	SegmentTree(int _n) : n(_n) {
 		resize();
 	}
-	SegmentTree(const std::vector<int> &a) {
+	SegmentTree(const std::vector<LL> &a) {
 		n = a.size();
 		resize();
 		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
 			if (l == r) {
-				mn[p] = sm[p] = a[l - 1];
+				sm[p] = a[l - 1];
 				return;
 			}
 			int m = (l + r) / 2;
@@ -211,14 +197,14 @@ public:
 		};
 		build(1, n, 1);
 	}
-	void modify(int x, int y) {
-		int l = bounded(y, 1, n, 1);
-		if (l <= x) rangeSet(l, x, y, 1, n, 1);
+	void add(int L, int R, LL v) {
+		rangeAdd(L, R, v, 1, n, 1);
 	}
-	int query(int x, int y) {
-		return query(x, y, 1, n, 1);
+	LL query(int L, int R) {
+		return query(L, R, 1, n, 1);
 	}
 };
+// 模板例题：https://www.luogu.com.cn/problem/P3372
 
 // 最长（严格）递增子序列
 int LIS(std::vector<int>& a) { // length of longest increasing subsquence

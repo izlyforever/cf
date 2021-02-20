@@ -239,7 +239,6 @@ bool spfa(std::vector<edge> &e, int x = 0) {
 }
 
 // 连通分量之 Kosaraju 缩点算法
-
 struct Scc {
 	int n, nScc;
 	std::vector<int> vis, color, order;
