@@ -198,13 +198,13 @@ void init() {
 	for (int i = 1; i <= M; ++i) {
 		phi[i].resize(sz[i]);
 		for (int j = 0; j < p[i]; ++j) {
-			for (int k = 0; k < sz[i - 1]; ++k) {
-				phi[i][j * sz[i - 1] + k] = j * phi[i - 1].back() + phi[i - 1][k];
+			for (int k = 0, jsz = j * sz[i - 1]; k < sz[i - 1]; ++k) {
+				phi[i][jsz + k] = j * phi[i - 1].back() + phi[i - 1][k];
 			}
 		}
 		for (int k = 0; k < sz[i - 1]; ++k) {
-			for (int j = 0; j < p[i]; ++j) {
-				phi[i][k * p[i] + j] -= phi[i - 1][k];
+			for (int j = 0, kp = k * p[i]; j < p[i]; ++j) {
+				phi[i][kp + j] -= phi[i - 1][k];
 			}
 		}
 	}
