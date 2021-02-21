@@ -10,7 +10,7 @@ class DfsTour {
 	std::vector<int> l, r;
 	std::vector<std::vector<int>> e;
 public:
-	DfsTour(int _n) : n(_n), e(n), l(n), r(n), cnt(0) {}
+	DfsTour(int _n) : n(_n), cnt(0), l(n), r(n), e(n) {}
 	void addEdge(int u, int v) {
 		if (u == v) return;
 		e[u].emplace_back(v);
@@ -364,7 +364,7 @@ class CutEdge {
 		}
 	}
 public:
-	CutEdge(int _n) : n(_n), g(_n), dfs(n), low(n), cnt(0) {}
+	CutEdge(int _n) : n(_n), cnt(0), g(n), dfs(n), low(n) {}
 	void addEdge(int u, int v) {
 		if (u == v) return;
 		g[u].emplace_back(e.size());
@@ -477,10 +477,10 @@ class HLPP {
 				}
 			}
 		}
-		return h[t] == n;
+		return h[s] == n;
 	}
 public:
-	HLPP(int _n) : n(_n), ex(n), h(n, n), g(n) {}
+	HLPP(int _n) : n(_n), g(n), h(n, n), ex(n) {}
 	void addEdge(int u, int v, int c) {
 		if (u == v) return;
 		g[u].emplace_back(e.size());
@@ -548,7 +548,7 @@ class StoerWagner {
 		}
 	}
 public:
-	StoerWagner(int _n) : n(_n), del(n), g(n, std::vector<int>(n)) {}
+	StoerWagner(int _n) : n(_n), g(n, std::vector<int>(n)), del(n) {}
 	void addEdge(int u, int v, int c) {
 		if (u == v) return;
 		g[u][v] += c;
@@ -616,7 +616,7 @@ class Flow {
 		return h[t] != INF;
 	}
 public:
-	Flow(int _n) : n(_n), h(n), path(n), g(n) {}
+	Flow(int _n) : n(_n), g(n), h(n), path(n) {}
 	void addEdge(int u, int v, int c, int w) {
 		if (u == v) return;
 		g[u].emplace_back(e.size());

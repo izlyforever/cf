@@ -111,7 +111,7 @@ void init(int n, LL m) {
 	N = n;
 	fac.resize(N);
 	ifac.resize(N);
-	setMod(m);	
+	setMod(m);
 }
 // 需要预处理小于 n 的所有值！
 LL binom(int n, int k) {
@@ -246,8 +246,8 @@ LL primepiS(LL n) {
 // 查看 (s - n, s] (请保证区间较小）内每个数是否为素数，确保 p.back() * p.back() >= r
 std::vector<int> seive(LL s, int n) { // O(N log s)
 	std::vector<int> isP(n, 1); // isP[i] = 1 表示 s - i 是素数
-	for (auto x : p) if (x > 0 && LL(x) * x <= s) {
-		for (int j = s % x; j < n; j += x) isP[j] = 0;
+	for (int i = 1; LL(p[i]) * p[i] <= s; ++i) {
+		for (int j = s % p[i]; j < n; j += p[i]) isP[j] = 0;
 	}
 	return isP;
 }
@@ -269,13 +269,6 @@ LL nthPrime(LL n) { // Newton 梯度法
 		}
 		ans -= sn;
 	}
-	// int step = m - n;
-	// // 这里其实可以用分块筛法加速
-	// for (int i = 0; i <= step; ++i) {
-	// 	while (!isPrime(ans)) --ans;
-	// 	--ans;
-	// }
-	// return ++ans;
 } // 原理：https://dna049.com/nthPrimeNumber/
 
 } // namespace Prime
@@ -309,12 +302,12 @@ std::vector<int> initPhiS(int N) {
 
 // 函数 O(N) 预处理 Euler 函数
 std::vector<int> initPhi(int N) {
-	std::vector<int> phi(N), p{2};
+	std::vector<int> phi(N), p{0, 2};
 	for (int i = 1; i < N; i += 2) phi[i] = i;
 	for (int i = 2; i < N; i += 2) phi[i] = i >> 1;
 	for (int i = 3; i < N; i += 2) {
 		if (phi[i] == i) p.emplace_back(i), --phi[i];
-		for (int j = 1, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
+		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
 			if (i % p[j] == 0) {
 				phi[i * p[j]] = phi[i] * p[j];
 				break;
@@ -356,11 +349,11 @@ std::vector<int> initMuS(int N) {
 
 // O(n) 预处理版本 Mobius 函数 
 std::vector<int> initMu(int N) {
-	std::vector<int> mu(N), p{2};
+	std::vector<int> mu(N), p{0, 2};
 	for (int i = 1; i < N; i += 2) mu[i] = i;
 	for (int i = 3; i < N; i += 2) {
 		if (mu[i] == i) mu[i] = -1, p.emplace_back(i);
-		for (int j = 1, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
+		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
 			if (i % p[j] == 0) {
 				mu[i * p[j]] = 0;
 				break;
@@ -425,12 +418,12 @@ LL getAbsSum(LL n) { // Q(n) = Q(n-1) + |mu(n)|
 
 // O(N) 预处理所有数的最小素因子
 std::vector<int> spf(int N) {
-	std::vector<int> sp(N), p{2};
+	std::vector<int> sp(N), p{0, 2};
 	for (int i = 2; i < N; i += 2) sp[i] = 2;
 	for (int i = 1; i < N; i += 2) sp[i] = i;
 	for (int i = 3; i < N; i += 2) {
 		if (sp[i] == i) p.emplace_back(i);
-		for (int j = 1; j < p.size() && p[j] <= sp[i] && i * p[j] < N; ++j) {
+		for (int j = 2; j < p.size() && p[j] <= sp[i] && i * p[j] < N; ++j) {
 			sp[i * p[j]] = p[j]; // 注意到sp只被赋值一次
 		}
 	}

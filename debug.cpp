@@ -9,7 +9,6 @@ int main() {
 	std::cin.tie(nullptr);
 	auto start = std::clock();
 	
-
 	std::cout << "Time used: " << (std::clock() - start) << "ms" << std::endl;
 	return 0;
 }
