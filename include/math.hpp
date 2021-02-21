@@ -180,7 +180,7 @@ std::vector<int> initPrimeS() { // 放在此处仅供记录。
 // 计算 pi(x)，理论：https://dna049.com/computationOfPiX
 // 这里预处理 N = 1e7, M = 7 是最好的（预处理 200ms）。
 // 如果 x 特别大，例 1e13 < x < 1e15，建议 N = 1e8, M = 8（预处理耗时很大，2s）
-const int M = 7;
+const int M = 7; // 请不要超过 8，M = 9 已经没有什么意义了。
 int pi[N];
 std::vector<int> p;
 std::vector<std::vector<int>> phi(M + 1);
