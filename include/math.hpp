@@ -178,10 +178,12 @@ std::vector<int> initPrimeS() { // 放在此处仅供记录。
 }
 
 // 计算 pi(x)，理论：https://dna049.com/computationOfPiX
+// 这里预处理 N = 1e7, M = 7 是最好的（预处理 200ms）。
+// 如果 x 特别大，例 1e13 < x < 1e15，建议 N = 1e8, M = 8（预处理耗时很大，2s）
 const int M = 7;
-const int PM = 2 * 3 * 5 * 7 * 11 * 13 * 17;
-int phi[PM + 1][M + 1], sz[M + 1], pi[N];
+int pi[N];
 std::vector<int> p;
+std::vector<std::vector<int>> phi(M + 1);
 void init() {
 	p = initPrime();
 	pi[2] = 1;
@@ -189,18 +191,27 @@ void init() {
 		pi[i] = pi[i - 1];
 		if (isp[i]) ++pi[i];
 	}
-	sz[0] = 1;
-	for (int i = 0; i <= PM; ++i) phi[i][0] = i;
+	std::vector<int> sz(M + 1, 1);
+	for (int i = 1; i <= M; ++i) sz[i] = p[i] * sz[i - 1];
+	phi[0] = {1}; // 注意这里 phi[0] 本质是无意义的
+	// 对本质逻辑 phi[j][i] = phi[j][i - 1] - phi[j / p[i]][i - 1]; 的细节和空间优化
 	for (int i = 1; i <= M; ++i) {
-		sz[i] = p[i] * sz[i - 1];
-		for (int j = 1; j <= PM; ++j) {
-			phi[j][i] = phi[j][i - 1] - phi[j / p[i]][i - 1];
+		phi[i].resize(sz[i]);
+		for (int j = 0; j < p[i]; ++j) {
+			for (int k = 0; k < sz[i - 1]; ++k) {
+				phi[i][j * sz[i - 1] + k] = j * phi[i - 1].back() + phi[i - 1][k];
+			}
+		}
+		for (int k = 0; k < sz[i - 1]; ++k) {
+			for (int j = 0; j < p[i]; ++j) {
+				phi[i][k * p[i] + j] -= phi[i - 1][k];
+			}
 		}
 	}
 }
 LL primepi(LL x);
 LL primephi(LL x, int s) {
-	if (s <= M) return phi[x % sz[s]][s] + (x / sz[s]) * phi[sz[s]][s];
+	if (s <= M) return (x / phi[s].size()) * phi[s].back() + phi[s][x % phi[s].size()];
 	if (x / p[s] <= p[s]) return primepi(x) - s + 1;
 	if (x / p[s] / p[s] <= p[s] && x < N) {
 		int s2x = pi[(int)(std::sqrt(x + 0.2))];
