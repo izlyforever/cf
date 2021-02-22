@@ -4,6 +4,8 @@
 - 文档: https://dna049.com/templateOfCpp/
 - 约定：以 S 为后缀的算法都是 慢且简单 的算法。“？” 表示暂不实现
 - 分类：数学，数据结构，字符串，图论
+- 使用：编译器需支持 C++17，强烈建议开启 O2 优化
+- 要求：请参考注明 github 地址：https://github.com/izlyforever/cf/
 
 
 ## 思想
