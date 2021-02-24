@@ -1,6 +1,98 @@
 #pragma once
 #include <bits/stdc++.h>
 
+// a 单调递增，且最大值小于 mx。a 变成下一个字典序大于自身的序列
+bool next(std::vector<int> &a, int mx) {
+	int n = a.size(), i = 1;
+	while (i <= n && a[n - i] == mx - i) ++i;
+	if (i > n) return false;
+	++a[n - i];
+	for (int j = 1; j < i; ++j) {
+		a[n - j] = a[n - i] + (i - j);
+	}
+	return true;
+}
+// next 应用：暴力枚举，个数为 binom{mx}{n}
+void bruteForce(int n, int mx) {
+	std::vector<int> a(n);
+	std::iota(a.begin(), a.end(), 0);
+	do {
+		for (auto x : a) std::cout << " ";
+		std::cout << "\n";
+	} while (next(a, mx));
+}
+
+// 纠错码 O(n m + k^k n)，目前不知道怎么优化到 O(n m + k^k \sqrt{nm})
+class ECC {
+	std::vector<std::vector<int>> a; // 原始数据 n 个 m 维向量
+	int k; // 容许的最大不同个数
+	std::vector<int> r; // m 维向量
+	std::vector<std::vector<int>> bad; // 与 r 不同的个数
+	int n, m, mxId;
+	void updateMxId(int i) { if (bad[i].size() > bad[mxId].size()) mxId = i;}
+	bool dfs(int c) { // 当前 r 剩余可改变的次数
+		auto bd = bad[mxId];
+		if (bd.size() <= k) return true;
+		if (bd.size() - k > c) return false;
+		// 注意到此时 bd 是 O(k) 的而不是 O(m) 的
+		std::vector<int> f(bd.size() - k);
+		iota(f.begin(), f.end(), 0);
+		int tMxId = mxId;
+		do {
+			mxId = tMxId;
+			std::queue<int> tmp;
+			for (auto x : f) {
+				tmp.push(r[bd[x]]);
+				for (int i = 0; i < n; ++i) {
+					if (a[i][bd[x]] == r[bd[x]]) {
+						bad[i].emplace_back(bd[x]);
+					}
+					if (a[i][bd[x]] == a[mxId][bd[x]]) {
+						bad[i].erase(std::find(bad[i].begin(), bad[i].end(), bd[x]));
+					}
+				}
+				r[bd[x]] = a[mxId][bd[x]];
+			}
+			for (int i = 0; i < n; ++i) updateMxId(i);
+			if (dfs(c - f.size())) return true;
+			for (auto x : f) {
+				for (int i = 0; i < n; ++i) {
+					if (a[i][bd[x]] == r[bd[x]]) {
+						bad[i].emplace_back(bd[x]);
+					}
+					if (a[i][bd[x]] == tmp.front()) {
+						bad[i].erase(std::find(bad[i].begin(), bad[i].end(), bd[x]));
+					}
+				}
+				r[bd[x]] = tmp.front();
+				tmp.pop();
+			}
+		} while (next(f, bd.size()));
+		return false;
+	}
+public:
+	ECC(std::vector<std::vector<int>> _a, int _k) : a(_a), k(_k), r(a[0]) {
+		n = a.size(); m = r.size();
+		bad.resize(n);
+		mxId = 0;
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) if (a[i][j] != r[j]) {
+				bad[i].emplace_back(j);
+			}
+			updateMxId(i);
+		}
+	}
+	void print() {
+		if (dfs(k)) {
+			std::cout << "Yes\n";
+			for (auto x : r) std::cout << x << " ";
+			std::cout << "\n";
+		} else {
+			std::cout << "No\n";
+		}
+	}
+};
+
 // 返回的是离散化之后的数组值对应的原始值
 template<typename T>
 std::vector<T> discrete(std::vector<T>& a) {
