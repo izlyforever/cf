@@ -26,7 +26,6 @@ void bruteForce(int n, int mx) {
 class ECC {
 	std::vector<std::vector<int>> a; // 原始数据 n 个 m 维向量
 	int k; // 容许的最大不同个数
-	std::vector<int> r; // m 维向量
 	std::vector<std::vector<int>> bad; // 与 r 不同的个数
 	int n, m, mxId;
 	void updateMxId(int i) { if (bad[i].size() > bad[mxId].size()) mxId = i;}
@@ -71,7 +70,8 @@ class ECC {
 		return false;
 	}
 public:
-	ECC(std::vector<std::vector<int>> _a, int _k) : a(_a), k(_k), r(a[0]) {
+	std::vector<int> r; // m 维向量，表示当前答案
+	ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
 		n = a.size(); m = r.size();
 		bad.resize(n);
 		mxId = 0;
@@ -82,15 +82,8 @@ public:
 			updateMxId(i);
 		}
 	}
-	void print() {
-		if (dfs(k)) {
-			std::cout << "Yes\n";
-			for (auto x : r) std::cout << x << " ";
-			std::cout << "\n";
-		} else {
-			std::cout << "No\n";
-		}
-	}
+	void setK(int _k) { k = _k;}
+	bool solve() { return dfs(k);}
 };
 
 // 返回的是离散化之后的数组值对应的原始值
