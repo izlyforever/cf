@@ -101,6 +101,8 @@
 
 ## 数据结构
 
+- 暴力枚举
+- 纠错码
 - 离散化
 - 并查集 (Disjoint Union Set)
 - 树状数组 (FenwickTree)
