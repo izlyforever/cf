@@ -69,6 +69,9 @@
 - 最近公共祖先 LCA
 - 最小生成树 Prim
 - 最小树形图 LiuZhu
+- 拓扑排序
+- Euler 路
+- Hamilton 路？（NPC 问题，下次一定）
 - 带路径 Floyd
 - 最短路 Dijkstra
 - 最短路 BellmaFord

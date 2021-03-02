@@ -155,6 +155,70 @@ LL LiuZhu(std::vector<Edge> e, int n, int rt) { // e 中无自环
 	return ans;
 }
 
+
+// 有向无环图的字典序最小的拓扑排序之 Kahn 算法(Topological sorting)
+std::vector<int> TopSort(std::vector<std::set<int>> &e) {
+	std::vector<int> r;
+	std::priority_queue<int> Q; // 默认是最大的在顶部，因此我们存负数
+	int n = e.size();
+	std::vector<int> in(n);
+	for (auto &x : e) for (auto i : x) ++in[i];
+	for (int i = 0; i < n; ++i) if (in[i] == 0) Q.push(-i);
+	while (!Q.empty()) {
+		int u = -Q.top();
+		r.emplace_back(u);
+		Q.pop();
+		for (auto v : e[u]) {
+			if (--in[v] == 0) {
+				Q.push(-v);
+			}
+		}
+	}
+	return r;
+}
+// 模板例题：https://www.luogu.com.cn/problem/U107394
+
+// 求字典序最小的 Euler 路，没有的话输出 空（允许重边，不允许就修改成 set）
+std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
+	int cnt = std::count_if(e.begin(), e.end(), [](auto x) {
+		return x.size() % 2 == 1;
+	});
+	if (cnt > 2) return std::stack<int>();
+	std::stack<int> ans;
+	std::function<void(int)> Hierholzer = [&](int u) {
+		while (!e[u].empty()) {
+			int v = *e[u].begin();
+			e[u].erase(e[u].begin());
+			e[v].erase(e[v].find(u));
+			Hierholzer(v);
+		}
+		ans.push(u);
+	};
+	for (int i = 0; i < e.size(); ++i) {
+		if (!e[i].empty() && ((e[i].size() & 1) || (cnt == 0))) {
+			Hierholzer(i);
+			break;
+		}
+	}
+	return ans;
+}
+// 求 rt 开头的字典序 Euler 路（保证存在且不允许重边，允许重边就修改成 multiset 即可）
+std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt) {
+	std::stack<int> ans;
+	std::function<void(int)> Hierholzer = [&](int u) {
+		while (!e[u].empty()) {
+			int v = *e[u].begin();
+			e[u].erase(e[u].begin());
+			e[v].erase(e[v].find(u));
+			Hierholzer(v);
+		}
+		ans.push(u);
+	};
+	Hierholzer(rt);
+	return ans;
+}
+// 模板例题：https://www.luogu.com.cn/problem/P2731
+
 // Floyd 带路径 --- 未测试
 namespace Floyd {
 const int N = 1003;
