@@ -70,6 +70,7 @@ int main() {
 		}
 		return 0;
 	}
+	// 枚举菊花图
 	for (int u = 1; u <= n; ++u) {
 		auto oddu = odd;
 		oddu.erase(u);
@@ -79,30 +80,56 @@ int main() {
 			uv.emplace_back(v);
 		}
 		if (oddu.size() > 1) continue;
-		int rt = u;
+		std::stack<int> r;
+		// 需要保证最后的图要连通，所以要加判断。
 		if (oddu.empty()) {
-			int t = -1;
+			std::vector<int> tv;
 			for (auto v : uv) if (e[v].size() > 1) {
-				t = v;
-				break;
+				tv.emplace_back(v);
 			}
-			if (t != -1) {
-				oddu.insert(t);
-				uv.erase(std::find(uv.begin(), uv.end(), t));
+			for (auto vi : tv) {
+				for (auto v : uv) if (v != vi) {
+					e[u].erase(v);
+					e[v].erase(u);
+				}
+				r = EulerPath(e, vi);
+				if (r.size() + uv.size() == m + 2) {
+					oddu.insert(vi);
+					uv.erase(std::find(uv.begin(), uv.end(), vi));
+					break;
+				}
+				for (auto v : uv) if (v != vi) {
+					e[u].insert(v);
+					e[v].insert(u);
+				}
 			}
-		}
-		for (auto v : uv) {
-			e[u].erase(v);
-			e[v].erase(u);
-		}
-		if (oddu.size() == 1) rt = *oddu.begin();
-		auto r = EulerPath(e, rt);
-		if (r.size() + uv.size() != m + 1) {
+			if (oddu.empty()) {
+				for (auto v : uv) {
+					e[u].erase(v);
+					e[v].erase(u);
+				}
+				r = EulerPath(e, u);
+				if (r.size() + uv.size() != m + 1) {
+					for (auto v : uv) {
+						e[u].insert(v);
+						e[v].insert(u);
+					}
+					continue;
+				}
+			}
+		} else {
 			for (auto v : uv) {
-				e[u].insert(v);
-				e[v].insert(u);
+				e[u].erase(v);
+				e[v].erase(u);
 			}
-			continue;
+			r = EulerPath(e, *oddu.begin());
+			if (r.size() + uv.size() != m + 1) {
+				for (auto v : uv) {
+					e[u].insert(v);
+					e[v].insert(u);
+				}
+				continue;
+			}
 		}
 		std::cout << r.size() + 1 + 2 * uv.size() << "\n";
 		while (!r.empty()) {
