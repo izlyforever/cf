@@ -16,11 +16,23 @@ LL powMod(LL x, LL n) {
 	}
 	return r;
 }
+std::vector<int> rev;
 void bitreverse(std::vector<LL> &a) {
-	for (int i = 0, j = 0; i != a.size(); ++i) {
-		if (i > j) std::swap(a[i], a[j]);
-		for (int l = a.size() >> 1;
-			(j ^= l) < l; l >>= 1);
+	// 注释部分被淘汰了
+	// for (int i = 0, j = 0; i != a.size(); ++i) {
+	// 	if (i > j) std::swap(a[i], a[j]);
+	// 	for (int l = a.size() >> 1; (j ^= l) < l; l >>= 1);
+	// }
+	int n = a.size();
+	if (n != rev.size()) {
+		int k = __builtin_ctz(n) - 1;
+		rev.resize(n);
+		for (int i = 0; i < n; ++i) {
+			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+		}
+	}
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
 	}
 }
 void nft(std::vector<LL> &a, bool isInverse = false) {

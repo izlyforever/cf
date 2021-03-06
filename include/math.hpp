@@ -910,8 +910,7 @@ LL powMod(LL x, LL n) {
 void bitreverse(std::vector<LL> &a) {
 	for (int i = 0, j = 0; i != a.size(); ++i) {
 		if (i > j) std::swap(a[i], a[j]);
-		for (int l = a.size() >> 1;
-			(j ^= l) < l; l >>= 1);
+		for (int l = a.size() >> 1; (j ^= l) < l; l >>= 1);
 	}
 }
 void nft(std::vector<LL> &a, bool isInverse = false) {
