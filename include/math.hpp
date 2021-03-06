@@ -907,10 +907,23 @@ LL powMod(LL x, LL n) {
 	}
 	return r;
 }
+std::vector<int> rev;
 void bitreverse(std::vector<LL> &a) {
-	for (int i = 0, j = 0; i != a.size(); ++i) {
-		if (i > j) std::swap(a[i], a[j]);
-		for (int l = a.size() >> 1; (j ^= l) < l; l >>= 1);
+	// 注释部分被淘汰了
+	// for (int i = 0, j = 0; i != a.size(); ++i) {
+	// 	if (i > j) std::swap(a[i], a[j]);
+	// 	for (int l = a.size() >> 1; (j ^= l) < l; l >>= 1);
+	// }
+	int n = a.size();
+	if (n != rev.size()) {
+		int k = __builtin_ctz(n) - 1;
+		rev.resize(n);
+		for (int i = 0; i < n; ++i) {
+			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+		}
+	}
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
 	}
 }
 void nft(std::vector<LL> &a, bool isInverse = false) {
@@ -995,7 +1008,7 @@ std::vector<LL> invS(std::vector<LL> a, int n) {
 }
 // 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
 std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
-	int n = a.size(), id = 0, sz = f.size();
+	int n = a.size(), sz = f.size();
 	std::vector<std::vector<LL>> g(4 * n), ans(4 * n);
 	std::vector<LL> ret(n);
 	auto pushUp = [&](int rt) {
@@ -1004,8 +1017,7 @@ std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
 	};
 	std::function<void(int, int, int)> build = [&](int l, int r, int rt) {
 		if (l == r) {
-			g[rt] = {1, (M - a[id]) % M};
-			++id;
+			g[rt] = {1, (a[l - 1] == 0 ? 0 :M - a[l - 1])};
 			return;
 		}
 		int m = (l + r) / 2;
@@ -1023,8 +1035,7 @@ std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
 	};
 	std::function<void(int, int, int)> solve = [&](int l, int r, int rt) {
 		if (l == r) {
-			ret[id] = ans[rt].back();
-			++id;
+			ret[l - 1] = ans[rt].back();
 			return;
 		}
 		pushDown(l, r, rt);
@@ -1036,7 +1047,6 @@ std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
 	ans[1] = f;
 	mult(ans[1], inv(g[1], sz));
 	ans[1].resize(sz);
-	id = 0;
 	solve(1, n, 1);
 	return ret;
 }
@@ -1044,34 +1054,23 @@ std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
 
 // \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
 std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
-	int n = a.size(), id = 0;
-	std::vector<std::vector<LL>> p(4 * n), q(4 * n);
-	auto pushUp = [&](int rt) {
-		p[rt] = p[rt * 2];
-		q[rt] = p[rt * 2 + 1];
-		mul(p[rt], q[rt * 2 + 1]);
-		mul(q[rt], q[rt * 2]);
-		for (int i = 0; i < p[rt].size(); ++i) p[rt][i] += q[rt][i];
-		q[rt] = q[rt * 2];
-		mul(q[rt], q[rt * 2 + 1]);
-	};
-	std::function<void(int, int, int)> build = [&](int l, int r, int rt) {
+	std::function<std::pair<std::vector<LL>, std::vector<LL>>(int, int)> solve = [&](int l, int r) {
 		if (l == r) {
-			p[rt] = {a[id]};
-			q[rt] = {1, (b[id] == 0 ? 0 : M - b[id])};
-			++id;
-			return;
+			return std::make_pair(std::vector<LL>({a[l - 1]}), std::vector<LL>({1, (b[l - 1] == 0 ? 0 : M - b[l - 1])}));
 		}
 		int m = (l + r) / 2;
-		build(l, m, rt * 2);
-		build(m + 1, r, rt * 2 + 1);
-		pushUp(rt);
+		auto [pl, ql] = solve(l, m);
+		auto [pr, qr] = solve(m + 1, r);
+		auto p = pl, q = pr;
+		mul(p, qr); mul(q, ql);
+		for (int i = 0; i < p.size(); ++i) if ((p[i] += q[i]) >= M) p[i] -= M;
+		q = ql; mul(q, qr);
+		return std::make_pair(p, q);
 	};
-	build(1, n, 1);
-	auto ans = p[1];
-	mul(ans, inv(q[1], N));
-	ans.resize(N);
-	return ans;
+	auto [p, q] = solve(1, a.size());
+	mul(p, inv(q, N));
+	p.resize(N);
+	return p;
 }
 } // namespace NFT
 
