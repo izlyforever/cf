@@ -948,6 +948,14 @@ void mul(std::vector<LL>& a, std::vector<LL> b) {
 	nft(a, 1);
 	a.resize(tot);
 }
+// 上面是（加法）卷积，下面是减法卷积
+void mult(std::vector<LL> &a, std::vector<LL> b) {
+	int n = a.size();
+	std::reverse(a.begin(), a.end());
+	NFT::mul(a, b);
+	a.resize(n);
+	std::reverse(a.begin(), a.end());
+}
 // 递归版本
 std::vector<LL> inv(std::vector<LL> a, int n) {
 	if (n == 1) return std::vector<LL>({powMod(a[0], M - 2)});
