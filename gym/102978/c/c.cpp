@@ -58,17 +58,17 @@ void mul(std::vector<LL>& a, std::vector<LL> b) {
 	a.resize(tot);
 }
 // 递归版本
-std::vector<LL> invS(std::vector<LL> a, int n) {
+std::vector<LL> inv(std::vector<LL> a, int n) {
 	if (n == 1) return std::vector<LL>({powMod(a[0], M - 2)});
-	a.resize(n);
-	std::vector<LL> invA(n), b = invS(a, (n + 1) / 2);
-	mul(a, b); a.resize(n);
+	std::vector<LL> invA(n), b = inv(a, (n + 1) / 2);
+	a.resize(n); mul(a, b); a.resize(n);
 	invA[0] = (M + 2 - a[0]) % M;
 	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
 	mul(invA, b); invA.resize(n);
-	return invA;
+	return std::move(invA);
 }
-std::vector<LL> inv(std::vector<LL> a, int n) {
+// 非递归版本实测要慢一些（不敢相信）
+std::vector<LL> invS(std::vector<LL> a, int n) {
 	assert(a[0] != 0);
 	std::vector<LL> invA({powMod(a[0], M - 2)});
 	for (int sz = 1; sz < n; sz *= 2) {
@@ -143,7 +143,7 @@ std::vector<LL> powSum(LL n, int k, LL M){
 		r = r * x % M;
 		a[i] = a[i] * r % M;
 	}
-	NFT::mul(a, NFT::invS(b, k));
+	NFT::mul(a, NFT::inv(b, k));
 	a.resize(k);
 	NFT::mul(e, a);
 	e.resize(k);
@@ -159,7 +159,7 @@ int main() {
 	int B;
 	std::cin >> R >> B;
 	const LL M = 998244353;
-	Binom::init(B + 10086, M);
+	Binom::init(B + 12, M);
 	LL N = R / B, RM = R % M;
 	std::vector<LL> f(B + 1);
 	f[0] = 1;
