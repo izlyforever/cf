@@ -893,9 +893,11 @@ LL powSum(LL n, int k, LL M, const std::vector<int> &sp){
 }
 //模板例题：https://codeforces.com/problemset/problem/622/F
 
-
 namespace NFT {
-const LL M = 998244353, ROOT = 3;
+LL M = 998244353, ROOT = 3;
+void setM(LL _m, LL _root) {
+	M = _m; ROOT = _root;
+}
 LL powMod(LL x, LL n) {
 	LL r(1);
 	while (n) {
@@ -945,6 +947,33 @@ void mul(std::vector<LL>& a, std::vector<LL> b) {
 	for (int i = 0; i != sz; ++i) a[i] = a[i] * b[i] % M;
 	nft(a, 1);
 	a.resize(tot);
+}
+// 递归版本
+std::vector<LL> invR(std::vector<LL> a, int n) {
+	if (n == 1) return std::vector<LL>({powMod(a[0], M - 2)});
+	a.resize(n);
+	std::vector<LL> invA(n), b = invR(a, (n + 1) / 2);
+	mul(a, b); a.resize(n);
+	invA[0] = (M + 2 - a[0]) % M;
+	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
+	mul(invA, b); invA.resize(n);
+	return invA;
+}
+std::vector<LL> inv(std::vector<LL> a, int n) {
+	assert(a[0] != 0);
+	std::vector<LL> invA({powMod(a[0], M - 2)});
+	for (int sz = 1; sz < n; sz *= 2) {
+		auto aa = a;
+		aa.resize(2 * sz);
+		mul(aa, invA);
+		std::vector<LL> invAA(2 * sz);
+		invAA[0] = (M + 2 - aa[0]) % M;
+		for (int i = 1; i < 2 * sz; ++i) invAA[i] = (aa[i] == 0 ? 0 : M - aa[i]);
+		mul(invAA, invA);
+		invAA.resize(2 * sz);
+		std::swap(invAA, invA);
+	}
+	return std::move(invA);
 }
 } // namespace NFT
 
@@ -1037,6 +1066,26 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 };
 } // namespace FMT
 
+// ans[i] = 1^i + 2^i + ... + n^i, 0 < i < k
+std::vector<LL> powSum(LL n, int k, LL M){
+	auto e = Binom::ifac;
+	e.resize(k + 1);
+	auto b = e;
+	for (int i = 0; i < k; ++i) b[i] = b[i + 1];
+	b.resize(k);
+	auto a = b;
+	LL r = 1, x = n % M;
+	for (int i = 0; i < k; ++i) {
+		r = r * x % M;
+		a[i] = a[i] * r % M;
+	}
+	NFT::mul(a, NFT::inv(b, k));
+	a.resize(k);
+	NFT::mul(e, a);
+	e.resize(k);
+	for (int i = 0; i < k; ++i) e[i] = e[i] * Binom::fac[i] % M;
+	return e;
+}
 
 // 计算集合 S 中所有数与 x 异或后的 MEX 值。
 class MEX {

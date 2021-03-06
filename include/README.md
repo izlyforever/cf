@@ -51,7 +51,8 @@
 - Gauss 消元法浮点数版
 - 模 Gauss 消元法
 - 模 Lagrange 插值
-- 模自然数方幂和
+- 模自然数方幂和 $O(k)$ 算法
+- 模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案。
 - MEX
 - NFT（快速数论 Fourier 变换）
 - FMT（快速 Mobius 变换）
