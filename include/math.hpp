@@ -938,8 +938,19 @@ void nft(std::vector<LL> &a, bool isInverse = false) {
 	}
 }
 void mul(std::vector<LL>& a, std::vector<LL> b) {
-	int sz = 1, tot = a.size() + b.size() - 1;
-	while (sz < tot) sz *= 2;
+	int n = a.size(), m = b.size(), tot = n + m - 1;
+	if (n < 8 || m < 8 || tot < 64) {
+		std::vector<LL> c(tot);
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++ j) {
+				c[i + j] += a[i] * b[j] % M;
+			}
+			for (auto &x : c) x %= M;
+		}
+		std::swap(a, c);
+		return;
+	}
+	int sz = 1 << int(std::__lg(tot - 1) + 1);
 	a.resize(sz);
 	b.resize(sz);
 	nft(a);
@@ -982,6 +993,86 @@ std::vector<LL> invS(std::vector<LL> a, int n) {
 		std::swap(invAA, invA);
 	}
 	return std::move(invA);
+}
+// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
+std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
+	int n = a.size(), id = 0, sz = f.size();
+	std::vector<std::vector<LL>> g(4 * n), ans(4 * n);
+	std::vector<LL> ret(n);
+	auto pushUp = [&](int rt) {
+		g[rt] = g[rt * 2];
+		mul(g[rt], g[rt * 2 + 1]);
+	};
+	std::function<void(int, int, int)> build = [&](int l, int r, int rt) {
+		if (l == r) {
+			g[rt] = {1, (M - a[id]) % M};
+			++id;
+			return;
+		}
+		int m = (l + r) / 2;
+		build(l, m, rt * 2);
+		build(m + 1, r, rt * 2 + 1);
+		pushUp(rt);
+	};
+	auto pushDown = [&](int l, int r, int rt) {
+		int m = (l + r) / 2, lm = m - l + 1, rm = r - m;
+		ans[rt * 2] = ans[rt * 2 + 1] = ans[rt];
+		mult(ans[rt * 2], g[rt * 2 + 1]);
+		ans[rt * 2].resize(lm);
+		mult(ans[rt * 2 + 1], g[rt * 2]);
+		ans[rt * 2 + 1].resize(rm);
+	};
+	std::function<void(int, int, int)> solve = [&](int l, int r, int rt) {
+		if (l == r) {
+			ret[id] = ans[rt].back();
+			++id;
+			return;
+		}
+		pushDown(l, r, rt);
+		int m = (l + r) / 2;
+		solve(l, m, rt * 2);
+		solve(m + 1, r, rt * 2 + 1);
+	};
+	build(1, n, 1);
+	ans[1] = f;
+	mult(ans[1], inv(g[1], sz));
+	ans[1].resize(sz);
+	id = 0;
+	solve(1, n, 1);
+	return ret;
+}
+// 模板例题：https://www.luogu.com.cn/problem/P5050
+
+// \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
+std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
+	int n = a.size(), id = 0;
+	std::vector<std::vector<LL>> p(4 * n), q(4 * n);
+	auto pushUp = [&](int rt) {
+		p[rt] = p[rt * 2];
+		q[rt] = p[rt * 2 + 1];
+		mul(p[rt], q[rt * 2 + 1]);
+		mul(q[rt], q[rt * 2]);
+		for (int i = 0; i < p[rt].size(); ++i) p[rt][i] += q[rt][i];
+		q[rt] = q[rt * 2];
+		mul(q[rt], q[rt * 2 + 1]);
+	};
+	std::function<void(int, int, int)> build = [&](int l, int r, int rt) {
+		if (l == r) {
+			p[rt] = {a[id]};
+			q[rt] = {1, (b[id] == 0 ? 0 : M - b[id])};
+			++id;
+			return;
+		}
+		int m = (l + r) / 2;
+		build(l, m, rt * 2);
+		build(m + 1, r, rt * 2 + 1);
+		pushUp(rt);
+	};
+	build(1, n, 1);
+	auto ans = p[1];
+	mul(ans, inv(q[1], N));
+	ans.resize(N);
+	return ans;
 }
 } // namespace NFT
 

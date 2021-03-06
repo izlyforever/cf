@@ -54,7 +54,7 @@
 - 模自然数方幂和 $O(k)$ 算法
 - 模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案。
 - MEX
-- NFT（快速数论 Fourier 变换）
+- NFT（快速数论 Fourier 变换，带多项式乘法，多项式求逆，多点求值，$\sum \frac{a_i}{1 - b_i}$）
 - FMT（快速 Mobius 变换）
 - 二维凸包
 - 旋转卡壳
