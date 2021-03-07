@@ -1189,7 +1189,6 @@ LL linearRecursion(std::vector<LL> a, std::vector<LL> f, int n) {
 	return R.inner(a);
 } // 模板: https://www.luogu.com.cn/problem/P4723
 
-
 // 已经被淘汰了，只是舍不得删
 namespace NFTS {
 LL M = 998244353, ROOT = 3;
