@@ -958,6 +958,10 @@ class Poly {
 	void standard() {
 		while (!a.empty() && !a.back()) a.pop_back();
 	}
+	void reverse() {
+		std::reverse(a.begin(), a.end());
+		standard();
+	}
 public:
 	inline const static LL M = NFT::M, inv2 = (M + 1) / 2;
 	std::vector<LL> a;
@@ -1012,6 +1016,19 @@ public:
 		standard();
 		return *this;
 	}
+	Poly &operator/=(Poly rhs) {
+		int n = size(), m = rhs.size();
+		if (n < m) return (*this) = Poly();
+		reverse();
+		rhs.reverse();
+		(*this) *= rhs.inv(n - m + 1);
+		a.resize(n - m + 1);
+		reverse();
+		return *this;
+	}
+	Poly &operator%=(Poly rhs) {
+		return (*this) -= (*this) / rhs * rhs; 
+	}
 	Poly operator+(const Poly &rhs) const {
 		return Poly(*this) += rhs;
 	}
@@ -1020,6 +1037,28 @@ public:
 	}
 	Poly operator*(Poly rhs) const {
 		return Poly(*this) *= rhs;
+	}
+	Poly operator/(Poly rhs) const {
+		return Poly(*this) /= rhs;
+	}
+	Poly operator%(Poly rhs) const {
+		return Poly(*this) %= rhs;
+	}
+	Poly powMod(int n, Poly p) {
+		Poly r(1), x(*this);
+		while (n) {
+			if (n & 1) (r *= x) %= p;
+			n >>= 1;   (x *= x) %= p;
+		}
+		return r;
+	}
+	LL inner(const Poly & rhs) {
+		LL r = 0;
+		int n = std::min(size(), rhs.size());
+		for (int i = 0; i < n; ++i) {
+			r = (r + a[i] * rhs.a[i]) % M;
+		}
+		return r;
 	}
 	Poly derivation() const {
 		if (a.empty()) return Poly();
@@ -1038,6 +1077,7 @@ public:
 		return Poly(r);
 	}
 	Poly inv(int n) const {
+		assert(a[0] != 0);
 		Poly x(NFT::powMod(a[0], M - 2));
 		int k = 1;
 		while (k < n) {
@@ -1074,6 +1114,15 @@ public:
 		std::reverse(rhs.a.begin(), rhs.a.end());
 		return ((*this) * rhs).divXn(n - 1);
 	}
+	LL eval(LL x) {
+		x %= M;
+		LL r = 0, t = 1;
+		for (int i = 0, n = size(); i < n; ++i) {
+			r = (r + a[i] * t) % M;
+			t = t * x % M;
+		}
+		return r;
+	}
 	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
 	std::vector<LL> eval(std::vector<LL> x) const {
 		if (size() == 0) return std::vector<LL>(x.size());
@@ -1102,7 +1151,7 @@ public:
 		};
 		solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
 		return ans;
-	}
+	} // 模板例题：https://www.luogu.com.cn/problem/P5050
 };
 
 // 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
@@ -1121,7 +1170,21 @@ std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
 	auto ans = p.a;
 	ans.resize(N);
 	return ans;
-}
+} // 模板例题：https://codeforces.com/gym/102978/problem/D
+
+// $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
+// $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
+LL linearRecursion(std::vector<LL> a, std::vector<LL> f, int n) {
+	if (n < a.size()) return a[n];
+	int m = f.size();
+	std::reverse(f.begin(), f.end());
+	std::vector<LL> g(m);
+	g.emplace_back(1);
+	Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
+	Poly R = A.powMod(n, p);
+	return R.inner(a);
+} // 模板: https://www.luogu.com.cn/problem/P4723
+
 
 // 已经被淘汰了，只是舍不得删
 namespace NFTS {
