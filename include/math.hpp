@@ -1086,9 +1086,11 @@ public:
 		}
 		return x.modXn(n);
 	}
+	// 需要保证首项为 1
 	Poly log(int n) const {
 		return (derivation() * inv(n)).integral().modXn(n);
 	}
+	// 需要保证首项为 0
 	Poly exp(int n) const {
 		Poly x(1);
 		int k = 1;
@@ -1098,12 +1100,14 @@ public:
 		}
 		return x.modXn(n);
 	}
+	// 需要保证首项为 1
 	Poly sqrt(int n) const {
 		Poly x(1);
 		int k = 1;
 		while (k < n) {
 			k *= 2;
-			x = (x + (modXn(k) * x.inv(k)).modXn(k) * (inv2 % M));
+			x += modXn(k) * x.inv(k);
+			x = x.modXn(k) * inv2;
 		}
 		return x.modXn(n);
 	}
@@ -1152,7 +1156,7 @@ public:
 		solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
 		return ans;
 	} // 模板例题：https://www.luogu.com.cn/problem/P5050
-};
+}; // Poly 全家桶测试：https://www.luogu.com.cn/training/3015#information
 
 // 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
 std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
