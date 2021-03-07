@@ -2,89 +2,217 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
+// 借鉴了 jiangly 和 Miskcoo 的模板
 namespace NFT {
-LL M = 998244353, ROOT = 3;
-void setM(LL _m, LL _root) {
-	M = _m; ROOT = _root;
-}
+const LL M = 998244353, g = 3;
+std::vector<int> rev, roots{0, 1};
 LL powMod(LL x, LL n) {
 	LL r(1);
 	while (n) {
 		if (n & 1) r = r * x % M;
-		n >>= 1;
-		x = x * x % M;
+		n >>= 1; x = x * x % M;
 	}
 	return r;
 }
-void bitreverse(std::vector<LL> &a) {
-	for (int i = 0, j = 0; i != a.size(); ++i) {
-		if (i > j) std::swap(a[i], a[j]);
-		for (int l = a.size() >> 1;
-			(j ^= l) < l; l >>= 1);
+void dft(std::vector<LL> &a) {
+	int n = a.size();
+	if (rev.size() != n) {
+		int k = __builtin_ctz(n) - 1;
+		rev.resize(n);
+		for (int i = 0; i < n; ++i) {
+			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+		}
 	}
-}
-void nft(std::vector<LL> &a, bool isInverse = false) {
-	LL g = powMod(ROOT, (M - 1) / a.size());
-	if (isInverse) {
-		g = powMod(g, M - 2);
-		LL invLen = powMod(LL(a.size()), M - 2);
-		for (auto & x: a) x = x * invLen % M;
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
 	}
-	bitreverse(a);
-	std::vector<LL> w(a.size(), 1);
-	for (int i = 1; i != w.size(); ++i) w[i] = w[i - 1] * g % M;
-	auto addMod = [](LL x, LL y) {
-		return (x += y) >= M ? x -= M : x;
-	};
-	for (int step = 2, half = 1; half != a.size(); step <<= 1, half <<= 1) {
-		for (int i = 0, wstep = a.size() / step; i != a.size(); i += step) {
-			for (int j = i; j != i + half; ++j) {
-				LL t = (a[j + half] * w[wstep * (j - i)]) % M;
-				a[j + half] = addMod(a[j], M - t);
-				a[j] = addMod(a[j], t);
+	if (roots.size() < n) {
+		int k = __builtin_ctz(roots.size());
+		roots.resize(n);
+		while ((1 << k) < n) {
+			LL e = powMod(3, (M - 1) >> (k + 1));
+			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+				roots[2 * i] = roots[i];
+				roots[2 * i + 1] = roots[i] * e % M;
+			}
+			++k;
+		}
+	}
+	for (int k = 1; k < n; k *= 2) {
+		for (int i = 0; i < n; i += 2 * k) {
+			for (int j = 0; j < k; ++j) {
+				LL u = a[i + j];
+				LL v = a[i + j + k] * roots[k + j] % M;
+				LL x = u + v, y = u - v;
+				if (x >= M) x -= M;
+				if (y < 0) y += M;
+				a[i + j] = x;
+				a[i + j + k] = y;
 			}
 		}
 	}
 }
-void mul(std::vector<LL>& a, std::vector<LL> b) {
-	int sz = 1, tot = a.size() + b.size() - 1;
-	while (sz < tot) sz *= 2;
-	a.resize(sz);
-	b.resize(sz);
-	nft(a);
-	nft(b);
-	for (int i = 0; i != sz; ++i) a[i] = a[i] * b[i] % M;
-	nft(a, 1);
-	a.resize(tot);
-}
-// 递归版本
-std::vector<LL> inv(std::vector<LL> a, int n) {
-	if (n == 1) return std::vector<LL>({powMod(a[0], M - 2)});
-	std::vector<LL> invA(n), b = inv(a, (n + 1) / 2);
-	a.resize(n); mul(a, b); a.resize(n);
-	invA[0] = (M + 2 - a[0]) % M;
-	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
-	mul(invA, b); invA.resize(n);
-	return std::move(invA);
-}
-// 非递归版本实测要慢一些（不敢相信）
-std::vector<LL> invS(std::vector<LL> a, int n) {
-	assert(a[0] != 0);
-	std::vector<LL> invA({powMod(a[0], M - 2)});
-	for (int sz = 1; sz < n; sz *= 2) {
-		auto aa = a;
-		aa.resize(2 * sz);
-		mul(aa, invA);
-		std::vector<LL> invAA(2 * sz);
-		invAA[0] = (M + 2 - aa[0]) % M;
-		for (int i = 1; i < 2 * sz; ++i) invAA[i] = (aa[i] == 0 ? 0 : M - aa[i]);
-		mul(invAA, invA);
-		invAA.resize(2 * sz);
-		std::swap(invAA, invA);
+void idft(std::vector<LL> &a) {
+	int n = a.size();
+	std::reverse(a.begin() + 1, a.end());
+	dft(a);
+	LL inv = powMod(n, M - 2);
+	for (int i = 0; i < n; ++i) {
+		a[i] = a[i] * inv % M;
 	}
-	return std::move(invA);
 }
-} // namespace NFT
+} //namespace NFT
+
+class Poly {
+	void standard() {
+		while (!a.empty() && !a.back()) a.pop_back();
+	}
+public:
+	inline const static LL M = NFT::M, inv2 = (M + 1) / 2;
+	std::vector<LL> a;
+	Poly() {}
+	Poly(LL x) { if (x) a = {x};}
+	Poly(const std::vector<LL> _a) : a(_a) { standard();}
+	int size() const { return a.size();}
+	LL operator[](int id) const {
+		if (id < 0 || id > a.size()) return 0;
+		return a[id];
+	}
+	Poly mulXn(int n) const {
+		auto b = a;
+		b.insert(b.begin(), n, 0);
+		return Poly(b);
+	}
+	Poly modXn(int n) const {
+		if (n > size()) return *this;
+		return Poly(std::vector<LL>(a.begin(), a.begin() + n));
+	}
+	Poly divXn(int n) const {
+		if (size() <= n) return Poly();
+		return Poly(std::vector<LL>(a.begin() + n, a.end()));
+	}
+	Poly &operator+=(const Poly &A) {
+		if (size() < A.size()) a.resize(A.size());
+		for (int i = 0; i < A.size(); ++i) {
+			if ((a[i] += A.a[i]) >= M) a[i] -= M;
+		}
+		standard();
+		return *this;
+	}
+	Poly &operator-=(const Poly &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) {
+			if ((a[i] -= rhs.a[i]) < 0) a[i] += M;
+		}
+		standard();
+		return *this;
+	}
+	Poly &operator*=(Poly rhs) {
+		int n = size(), m = rhs.size(), tot = n + m - 1, sz = 1;
+		while (sz < tot) sz *= 2;
+		a.resize(sz);
+		rhs.a.resize(sz);
+		NFT::dft(a);
+		NFT::dft(rhs.a);
+		for (int i = 0; i < sz; ++i) {
+			a[i] = a[i] * rhs.a[i] % M;
+		}
+		NFT::idft(a);
+		standard();
+		return *this;
+	}
+	Poly operator+(const Poly &rhs) const {
+		return Poly(*this) += rhs;
+	}
+	Poly operator-(const Poly &rhs) const {
+		return Poly(*this) -= rhs;
+	}
+	Poly operator*(Poly rhs) const {
+		return Poly(*this) *= rhs;
+	}
+	Poly derivation() const {
+		if (a.empty()) return Poly();
+		int n = size();
+		std::vector<LL> r(n - 1);
+		for (int i = 1; i < n; ++i) r[i - 1] =  a[i] * i % M;
+		return Poly(r);
+	}
+	Poly integral() const {
+		if (a.empty()) return Poly();
+		int n = size();
+		std::vector<LL> r(n + 1), inv(n + 1);
+		inv[1] = 1;
+		for (int i = 2; i <= n; ++i) inv[i] = (M - M / i) * inv[M % i] % M;
+		for (int i = 0; i < n; ++i) r[i + 1] = a[i] * inv[i + 1] % M;
+		return Poly(r);
+	}
+	Poly inv(int n) const {
+		Poly x(NFT::powMod(a[0], M - 2));
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x *= (Poly(2) - modXn(k) * x).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	Poly log(int n) const {
+		return (derivation() * inv(n)).integral().modXn(n);
+	}
+	Poly exp(int n) const {
+		Poly x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x = (x * (Poly(1) - x.log(k) + modXn(k))).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	Poly sqrt(int n) const {
+		Poly x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x = (x + (modXn(k) * x.inv(k)).modXn(k) * (inv2 % M));
+		}
+		return x.modXn(n);
+	}
+	// 减法卷积，也称转置卷积
+	Poly mulT(Poly rhs) const {
+		if (rhs.size() == 0) return Poly();
+		int n = rhs.size();
+		std::reverse(rhs.a.begin(), rhs.a.end());
+		return ((*this) * rhs).divXn(n - 1);
+	}
+	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
+	std::vector<LL> eval(std::vector<LL> x) const {
+		if (size() == 0) return std::vector<LL>(x.size());
+		int n = x.size();
+		std::vector<LL> ans(n);
+		std::vector<Poly> g(4 * n);
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				g[p] = std::vector<LL>{1, (M - x[l]) % M};
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, 2 * p);
+				build(m, r, 2 * p + 1);
+				g[p] = g[2 * p] * g[2 * p + 1];
+			}
+		};
+		build(0, n, 1);
+		std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+			if (r - l == 1) {
+				ans[l] = f[0];
+			} else {
+				int m = (l + r) / 2;
+				solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
+				solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+			}
+		};
+		solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
+		return ans;
+	}
+};
 
 LL powMod(LL x, LL n, LL p){
 	LL r = 1;
@@ -131,21 +259,23 @@ LL lucas(LL n, LL k) {
 } // namespace Binom
 
 // ans[i] = 1^i + 2^i + ... + n^i, 0 < i < k
-std::vector<LL> powSum(LL n, int k, LL M){
+std::vector<LL> powSum(LL n, int k){
 	auto e = Binom::ifac;
 	e.resize(k + 1);
 	auto b = e;
 	for (int i = 0; i < k; ++i) b[i] = b[i + 1];
 	b.resize(k);
 	auto a = b;
-	LL r = 1, x = n % M;
+	LL M = Poly::M, r = 1, x = n % M;
 	for (int i = 0; i < k; ++i) {
 		r = r * x % M;
 		a[i] = a[i] * r % M;
 	}
-	NFT::mul(a, NFT::inv(b, k));
-	a.resize(k);
-	NFT::mul(e, a);
+	Poly A(a), B(b), E(e);
+	A *= B.inv(k);
+	A.modXn(k);
+	E *= A;
+	e = E.a;
 	e.resize(k);
 	for (int i = 0; i < k; ++i) e[i] = e[i] * Binom::fac[i] % M;
 	return e;
@@ -167,7 +297,7 @@ int main() {
 		f[i] = f[i - 1] * (RM + B + 2 - i) % M;
 	}
 	for (int i = 1; i <= B; ++i) f[i] = f[i] * Binom::ifac[i] % M;
-	auto g = powSum(N, B + 2, M);
+	auto g = powSum(N, B + 2);
 	LL r1 = 0;
 	for (int i = 0; i <= B; ++i) r1 = (r1 + f[i] * g[B - i]) % M;
 	r1 = (R + 1) % M * r1 % M;

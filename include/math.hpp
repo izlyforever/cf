@@ -1380,14 +1380,14 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 } // namespace FMT
 
 // ans[i] = 1^i + 2^i + ... + n^i, 0 < i < k
-std::vector<LL> powSum(LL n, int k, LL M){
+std::vector<LL> powSum(LL n, int k){
 	auto e = Binom::ifac;
 	e.resize(k + 1);
 	auto b = e;
 	for (int i = 0; i < k; ++i) b[i] = b[i + 1];
 	b.resize(k);
 	auto a = b;
-	LL r = 1, x = n % M;
+	LL M = Poly::M, r = 1, x = n % M;
 	for (int i = 0; i < k; ++i) {
 		r = r * x % M;
 		a[i] = a[i] * r % M;
