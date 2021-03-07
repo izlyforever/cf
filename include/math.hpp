@@ -1149,7 +1149,7 @@ public:
 		}
 		return x.modXn(n);
 	}
-	// 需要保证首项为 1
+	// 需要保证首项为 1，开任意次方可以先 ln 再 exp 实现。
 	Poly sqrt(int n) const {
 		Poly x(1);
 		int k = 1;
