@@ -31,7 +31,6 @@ void print(__int128 x){
 }
 } // namespace int128
 
-
 // 0 <= x < p < INT_MAX
 LL powMod(LL x, LL n, LL p){
 	LL r = 1;
@@ -893,7 +892,7 @@ LL powSum(LL n, int k, LL M, const std::vector<int> &sp){
 }
 //模板例题：https://codeforces.com/problemset/problem/622/F
 
-// 借鉴了 jiangly 和 Miskcoo 的模板
+// 借鉴了 jiangly 的模板
 namespace NFT {
 const LL M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
@@ -954,6 +953,7 @@ void idft(std::vector<LL> &a) {
 }
 } //namespace NFT
 
+// 如果需要换模 M，那么就把 M 当做全局变量提出来，NFT 中 g, rev, root 需要重新初始化。
 class Poly {
 	void standard() {
 		while (!a.empty() && !a.back()) a.pop_back();
@@ -1189,7 +1189,7 @@ LL linearRecursion(std::vector<LL> a, std::vector<LL> f, int n) {
 	return R.inner(a);
 } // 模板: https://www.luogu.com.cn/problem/P4723
 
-// 已经被淘汰了，只是舍不得删
+// Miskcoo 的模板，已经被淘汰了，只是舍不得删
 namespace NFTS {
 LL M = 998244353, ROOT = 3;
 LL powMod(LL x, LL n) {
