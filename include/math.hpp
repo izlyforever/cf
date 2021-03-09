@@ -969,7 +969,7 @@ void dft(std::vector<LL> &a) {
 		int k = __builtin_ctz(roots.size());
 		roots.resize(n);
 		while ((1 << k) < n) {
-			LL e = powMod(3, (M - 1) >> (k + 1));
+			LL e = powMod(g, (M - 1) >> (k + 1));
 			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
 				roots[2 * i] = roots[i];
 				roots[2 * i + 1] = roots[i] * e % M;
@@ -1003,6 +1003,7 @@ void idft(std::vector<LL> &a) {
 } //namespace NFT
 
 // 如果需要换模 M，那么就把 M 当做全局变量提出来，NFT 中 g, rev, root 需要重新初始化。
+// 如果只需要换模几个常数 M，可使用 template<LL M>（但是不是特别推荐）
 class Poly {
 	void standard() {
 		while (!a.empty() && !a.back()) a.pop_back();
@@ -1012,7 +1013,7 @@ class Poly {
 		standard();
 	}
 public:
-	inline const static LL M = NFT::M, inv2 = (M + 1) / 2;
+	inline const static LL M = NFT::M;
 	std::vector<LL> a;
 	Poly() {}
 	Poly(LL x) { if (x) a = {x};}
@@ -1153,6 +1154,7 @@ public:
 	Poly sqrt(int n) const {
 		Poly x(1);
 		int k = 1;
+		LL inv2 = (M + 1) / 2;
 		while (k < n) {
 			k *= 2;
 			x += modXn(k) * x.inv(k);
