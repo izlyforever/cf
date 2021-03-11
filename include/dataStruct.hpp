@@ -228,7 +228,7 @@ class SegmentTree {
 	}
 	void pushTag(LL x, int l, int r, int p) {
 		tag[p] += x;
-		sm[p] += x * (r - l + 1);
+		sm[p] += x * (r - l);
 	}
 	void push(int l, int r, int p) {
 		if (tag[p]) {
@@ -271,7 +271,7 @@ public:
 		n = a.size();
 		resize();
 		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
-			if (l == r) {
+			if (r - l == 1) {
 				sm[p] = a[l];
 				return;
 			}
