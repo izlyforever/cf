@@ -217,46 +217,46 @@ public:
 	}
 };
 
-// 最简单的延迟更新求和版本，其它的根据需求修改即可
+// 线段树一般分两个版本，求和（包括异或和）版 以及 最值版。
+// 最值版需要用吉老师线段树记录最值和次值以及最值的个数，例题：https://codeforces.com/gym/102992/problem/J
+// 求和版比较简单，模板例题：https://www.luogu.com.cn/problem/P3372。以下为线段树框架，例子为计算求和
 class SegmentTree {
 	int n;
 	std::vector<LL> sm, tag;
-	#define lsonST l, m, 2 * p
-	#define rsonST m + 1, r, 2 * p + 1
 	void pull(int p) {
-		sm[p] = sm[2 * p] + sm[2 * p + 1];
+		sm[p] = sm[p << 1] + sm[p << 1 | 1];
 	}
-	void tagAdd(LL v, int l, int r, int p) {
-		tag[p] += v;
-		sm[p] += v * (r - l + 1);
+	void pushTag(LL x, int l, int r, int p) {
+		tag[p] += x;
+		sm[p] += x * (r - l + 1);
 	}
 	void push(int l, int r, int p) {
 		if (tag[p]) {
 			int m = (l + r) / 2;
-			tagAdd(tag[p], lsonST);
-			tagAdd(tag[p], rsonST);
+			pushTag(tag[p], l, m, p << 1);
+			pushTag(tag[p], m, r, p << 1 | 1);
 			tag[p] = 0;
 		}
 	}
-	void rangeAdd(int L, int R, LL v, int l, int r, int p) {
+	void rangeAdd(int L, int R, LL x, int l, int r, int p) {
 		if (L <= l && R >= r) {
-			tagAdd(v, l, r, p);
+			pushTag(x, l, r, p);
 			return;
 		}
 		push(l, r, p);
 		int m = (l + r) / 2;
-		if (L <= m) rangeAdd(L, R, v, lsonST);
-		if (R > m) rangeAdd(L, R, v, rsonST);
+		if (L < m) rangeAdd(L, R, x, l, m, p << 1);
+		if (R > m) rangeAdd(L, R, x, m, r, p << 1 | 1);
 		pull(p);
 	}
 	// 以下内容根据需要修改
 	LL query(int L, int R, int l, int r, int p) {
 		if (L <= l && R >= r) return sm[p];
 		push(l, r, p);
-		int m = (l + r) / 2;
 		LL ans = 0;
-		if (L <= m) ans += query(L, R, lsonST);
-		if (R > m) ans += query(L, R, rsonST);
+		int m = (l + r) / 2;
+		if (L < m) ans += query(L, R, l, m, p << 1);
+		if (R > m) ans += query(L, R, m, r, p << 1 | 1);
 		return ans;
 	}
 	void resize() {
@@ -272,24 +272,23 @@ public:
 		resize();
 		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
 			if (l == r) {
-				sm[p] = a[l - 1];
+				sm[p] = a[l];
 				return;
 			}
 			int m = (l + r) / 2;
-			build(lsonST);
-			build(rsonST);
+			build(l, m, p << 1);
+			build(m, r, p << 1 | 1);
 			pull(p);
 		};
-		build(1, n, 1);
+		build(0, n, 1);
 	}
 	void add(int L, int R, LL v) {
-		rangeAdd(L, R, v, 1, n, 1);
+		rangeAdd(--L, R, v, 0, n, 1);
 	}
 	LL query(int L, int R) {
-		return query(L, R, 1, n, 1);
+		return query(--L, R, 0, n, 1);
 	}
 };
-// 模板例题：https://www.luogu.com.cn/problem/P3372
 
 // 最长（严格）递增子序列
 int LIS(std::vector<int>& a) { // length of longest increasing subsquence
@@ -333,7 +332,7 @@ auto LISP(std::vector<int>& a) { // longest increasing subsquence
 		c.push(a[now]);
 	}
 	return c;
-}
+} 
 // lower_bound(first,end,val) 表示在单增 [frist,end) 中首次大于等于 val 的位置
 // upper_bound(first,end,val) 表示在单增 [frist,end) 中首次大于 val 的位置
 
