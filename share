@@ -1,0 +1,27 @@
+#include <bits/stdc++.h>
+#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+using LL = long long;
+
+
+// 多线程函数获取返回值的方式
+class A {
+public:
+	int operator() (const int &a, const int & b, std::promise<int> &promiseObj) const {
+		promiseObj.set_value(a + b);
+		return a + b;
+	}
+};
+
+int main() {
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	A a;
+	std::promise<int> promiseObj;
+	std::future<int> futureObj = promiseObj.get_future();
+	std::thread th1(a, 1, 2, std::ref(promiseObj));
+	th1.join();
+	watch(futureObj.get()); // 注意只能 get 一次。
+	return 0;
+}
+
+
