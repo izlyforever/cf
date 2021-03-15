@@ -25,3 +25,48 @@ int main() {
 }
 
 
+#include <bits/stdc++.h>
+#include <unistd.h>
+
+// 生产者消费者问题
+void solve() {
+	std::queue<int> q;
+	std::mutex mu;
+	std::condition_variable cond;
+	const int C = 3; // 最大产品量
+	const int ST = 2; // 休眠时间
+	auto producer = [&]() {
+		std::srand(std::time(nullptr));
+		while (1) {
+			if(q.size() < C) { // 限流
+				int data = std::rand();
+				std::unique_lock<std::mutex> locker(mu);
+				q.push(data);
+				std::cout << "Saving " << data << std::endl;
+				cond.notify_one(); // 通知取
+			}
+			sleep(ST);
+		}
+	};
+	auto consumer = [&]() {
+		while (1) {
+			std::unique_lock<std::mutex> locker(mu);
+			while (q.size() < C) cond.wait(locker); // 满了之后一次取完
+			while (!q.empty()) {
+				int data = q.front();
+				q.pop();
+				std::cout << "withdraw " << data << std::endl;
+			}
+			sleep(ST);
+		}
+	};
+	std::thread t1(producer);
+	std::thread t2(consumer);
+	t1.join();
+	t2.join();
+}
+
+int main() {
+	solve();
+	return 0;
+}
