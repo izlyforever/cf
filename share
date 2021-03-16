@@ -47,3 +47,19 @@ int main() {
 	std::cout << "Time used: " << (std::clock() - start) << "ms" << std::endl;
 	return 0;
 }
+
+做法：考虑二进制，对于任意给定位，这一位的 1 的个数和都是 m 的倍数，那么就后手赢，否则先手赢。
+
+对于否则的情况，我们总可以找到考虑最高位不是 m 的倍数，然后随便选择余数个（当前位为 1 的）进行改变。并且这些数后面的位是可以任意改变的。然后再继续往低位跑，显然，最终选取的个数总和小于 m。
+
+// 每次选择在 x 堆(0 < x < m) 取石子，不能取的输
+bool multNim(const std::vector<LL> &a, int m) {
+	LL mx = *std::max_element(a.begin(), a.end());
+	int ln = std::__lg(mx + 1) + 1;
+	for (int i = 0; i < ln; ++i) {
+		int cnt = 0;
+		for (auto x : a) if ((x >> i) & 1) ++cnt;
+		if (cnt % m) return true;
+	}
+	return false;
+}
