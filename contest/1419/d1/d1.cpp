@@ -1,24 +1,24 @@
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
-#define print(x) std::cout << (x) << std::endl
 using LL = long long;
- 
+
 int main() {
 	//freopen("in", "r", stdin);
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
 	int n;
 	std::cin >> n;
-	int a[n];
-	for (int i = 0; i < n; ++i) std::cin >> a[i];
-	std::sort(a, a + n);
-	print((n - 1) / 2);
-	int l = 0, r = n - 1;
-	while (l < r) {
-		std::cout << a[r] << " " << a[l] << " ";
-		++l; --r;
+	std::vector<int> a(n);
+	for (auto &x : a) std::cin >> x;
+	std::sort(a.begin(), a.end());
+	int n2 = n / 2;
+	std::cout << (n - 1) / 2 << '\n';
+	std::vector<int> b;
+	for (int i = 0; i < n2; ++i) {
+		b.emplace_back(a[n2 + i]);
+		b.emplace_back(a[i]);
 	}
-	if (l == r) std::cout << a[l] <<" ";
-	std::cout << std::endl;
+	if (n & 1) b.emplace_back(a.back());
+	for (int i = 0; i < n; ++i) std::cout << b[i] << " \n"[i == n - 1];
 	return 0;
 }

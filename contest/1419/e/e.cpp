@@ -1,79 +1,51 @@
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
-#define print(x) std::cout << (x) << std::endl
-#define println std::cout << std::endl;
 using LL = long long;
- 
-const int N = 1e5 + 5;
-bool isp[N];
-std::vector<int> p;
- 
-int initPrimeP() {
-	p.emplace_back(2);
-	isp[2] = true;
-	for (int i = 3; i < N; i += 2) isp[i] = true;
-	int sq = int(std::sqrt(N - 1))|1;
-	for (int i = 3; i <= sq; i += 2) if (isp[i]) {
-		p.emplace_back(i);
-		for (int j = i * i; j < N; j += i << 1) {
-			isp[j] = false;
-		}
+
+std::vector<int> pfactor(int n) {
+	std::vector<int> r;
+	for (int i = 2; i * i <= n; ++i) if (n % i == 0) {
+		r.emplace_back(i);
+		while (n % i == 0) n /= i;
 	}
-	for (int i = sq + 2; i < N; i += 2) if (isp[i]) p.emplace_back(i);
-	return p.size();
+	if (n > 1) r.emplace_back(n);
+	return r;
 }
- 
+
+std::set<int> factor(int n) {
+	std::set<int> S{1};
+	for (int i = 2; i * i <= n; ++i) if (n % i == 0) {
+		S.insert(i);
+		S.insert(n / i);
+	}
+	return S;
+}
+
 int main() {
 	//freopen("in", "r", stdin);
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
-	initPrimeP();
-	int cas;
+	int cas = 1;
 	std::cin >> cas;
 	while (cas--) {
 		int n;
 		std::cin >> n;
-		int nn = n;
-		std::vector<std::pair<int, int>> pfactor;
-		for (int i = 0; p[i] * p[i] <= nn; ++i) {
-			if (nn % p[i] == 0) {
-				int np = 0;
-				while (nn % p[i] == 0) {
-					nn /= p[i];
-					++np;
-				}
-				pfactor.push_back({p[i], np});
+		auto p = pfactor(n);
+		auto S = factor(n);
+		if (p.size() == 2 && S.size() == 3) {
+			std::cout << p[0] << ' ' << p[1] << ' ' << n << "\n1\n";
+			continue;
+		}
+		if (p.size() > 1) for (int i = 0; i < p.size(); ++i) S.erase(p[i] * p[(i + 1) % p.size()]);
+		for (int i = 0; i < p.size(); ++i) {
+			auto pS = factor(n / p[i]);
+			for (auto x : pS) if (int j = x * p[i]; S.count(j)) {
+				S.erase(j);
+				std::cout << j << ' ';
 			}
+			if (p.size() > 2 || i + 1 != p.size()) std::cout << p[i] * p[(i + 1) % p.size()] << ' ';
 		}
-		if (nn > 1) pfactor.push_back({nn, 1});
-		std::set<int> S;
-		S.insert(n);
-		std::cout << n << " ";
-		for (int i = 0; i < pfactor.size(); ++i) {
-			S.insert(pfactor[i].first);
-			S.insert(pfactor[i].first * pfactor[(i + 1) % pfactor.size()].first);
-		}
-		for (int i = 0; i < pfactor.size(); ++i) {
-			std::cout << pfactor[i].first << " ";
-			int ni = n / pfactor[i].first;
-			for (int j = 2; j * j <= ni; ++j) if (ni % j == 0){
-				int c[2] = {j * pfactor[i].first, ni / j * pfactor[i].first};
-				for (int k = 0; k < 2; ++k) {
-					if (S.find(c[k]) == S.end()) {
-						S.insert(c[k]);
-						std::cout << c[k] << " ";
-					}
-				}
-			}
-			int x = pfactor[i].first * pfactor[(i + 1) % pfactor.size()].first;
-			if (pfactor.size() == 2) {
-				if (x != n && i != 1) std::cout << x << " ";
-			} else if (x != n) std::cout << x << " ";
-		}
-		println;
-		if (pfactor.size() == 2 && pfactor[0].second == 1 && pfactor[1].second == 1) {
-			print(1);
-		} else print(0);
+		std::cout << n << "\n0\n";
 	}
 	return 0;
 }
