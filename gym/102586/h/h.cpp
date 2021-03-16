@@ -6,10 +6,10 @@ int main() {
 	//freopen("in", "r", stdin);
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-
-	}
+	const int N = 1e9;
+	std::cout << -N << ' ' << 0 << '\n';
+	std::cout << 1 << ' ' << N << '\n';
+	std::cout << 0 << ' ' << -N << '\n';
+	std::cout << N << ' ' << -1 << '\n';
 	return 0;
 }

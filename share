@@ -1,0 +1,49 @@
+#include <bits/stdc++.h>
+#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+using LL = long long;
+
+template<int N>
+class Nim {
+	std::vector<int> sg, cnt;
+public:
+	Nim() : sg(N), cnt(N + 2) {
+		for (int i = 1, msk = 0, m; i < N; ++i) {
+			if (i & 1) {
+				sg[i] = sg[i >> 1];
+				continue;
+			}
+			if ((i & -i) == i) msk = i * 2 - 1;
+			m = msk ^ i;
+			for (int j = m; j; j = (j - 1) & m) {
+				++cnt[sg[i - j]];
+			}
+			int r = 0;
+			while (cnt[r]) ++r;
+			sg[i] = r;
+			for (int j = m; j; j = (j - 1) & m) {
+				--cnt[sg[i - j]];
+			}
+		}
+	}
+	int solve(const std::vector<int> &a) {
+		int r = 0;
+		for (auto x : a) r ^= sg[x];
+		return r;
+	}
+};
+
+int main() {
+	// freopen("in", "r", stdin);
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
+	auto start = std::clock();
+	const int N = 1e5 + 2;
+	Nim<N> A;
+	int n;
+	std::cin >> n;
+	std::vector<int> a(n);
+	for (auto &x : a) std::cin >> x;
+	std::cout << A.solve(a) << "\n";
+	std::cout << "Time used: " << (std::clock() - start) << "ms" << std::endl;
+	return 0;
+}
