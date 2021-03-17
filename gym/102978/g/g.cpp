@@ -34,6 +34,7 @@ void idft(std::vector<LL> &a) {
 	}
 	std::swap(a, b);
 	LL invN = powMod(n, M - 2);
+	// 这一步可以最后一起做
 	for (auto &x : a) x = x * invN % M;
 }
 
@@ -43,12 +44,9 @@ int main() {
 	std::cin.tie(nullptr);
 	w[0] = 1;
 	for (int i = 1; i < 7; ++i) w[i] = w[i - 1] * g % M;
-	std::vector<int> p(7);
-	p[0] = 1;
-	for (int i = 1; i < 7; ++i) p[i] = p[i - 1] * 7;
 	auto f = [&](int x) {
 		int r = 0;
-		for (int j = 0; j < 7; ++j) if (x >> j & 1) r += p[j];
+		for (int j = 0, t = 1; j < 7; ++j, t *= 7) if (x >> j & 1) r += t;
 		return r;
 	};
 	int n;
