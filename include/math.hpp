@@ -892,7 +892,7 @@ LL powSum(LL n, int k, LL M, const std::vector<int> &sp){
 }
 //模板例题：https://codeforces.com/problemset/problem/622/F
 
-// 任意模数多项式乘法 O(n^{\log n})
+// 任意模数多项式乘法 O(n^{\log_2 3})
 using VL = std::vector<LL>;
 VL Karatsuba(VL a, VL b, LL p) {
 	if (a.size() < b.size()) std::swap(a, b);
@@ -939,6 +939,55 @@ VL Karatsuba(VL a, VL b, LL p) {
 	r.resize(tot);
 	return r;
 } // 模板例题：https://www.luogu.com.cn/problem/P4245
+
+// 任意模数多项式乘法 O(n^{\log_2 3}) 并行版（如果有无穷核心，那岂不是 $O(n \log n)$ 的）
+using VL = std::vector<LL>;
+VL KaratsubaParallel(VL a, VL b, LL p) {
+	if (a.size() < b.size()) std::swap(a, b);
+	auto mulS = [&](VL a, VL b) {
+		int n = a.size(), m = b.size(), sz = n + m - 1;
+		std::vector<__int128> c(sz);
+		for (int i = 0; i < n; ++i) {
+			for (int j = 0; j < m; ++j) {
+				c[i + j] += a[i] * b[j];
+			}
+		}
+		VL r(sz);
+		for (int i = 0; i < sz; ++i) r[i] = c[i] % p;
+		return r;
+	};
+	const int N = 65;
+	std::function<VL(VL, VL, int)> mul = [&](VL a, VL b, int n) -> VL {
+		if (n < N) return mulS(a, b);
+		int n2 = n / 2, n1 = n - 1;
+		VL a2 = VL(a.begin() + n2, a.end());
+		VL b2 = VL(b.begin() + n2, b.end());
+		a.resize(n2); b.resize(n2);
+		VL ap = a2, bp = b2;
+		for (int i = 0; i < n2; ++i) if ((ap[i] += a[i]) >= p) ap[i] -= p;
+		for (int i = 0; i < n2; ++i) if ((bp[i] += b[i]) >= p) bp[i] -= p;
+		std::future<VL> abThread = std::async(mul, a, b, n2);
+		VL a2b = mul(ap, bp, n2);
+		VL ab = abThread.get();
+		VL a2b2 = mul(a2, b2, n2);
+		for (int i = 0; i < n1; ++i) {
+			if ((a2b[i] -= ab[i]) < 0) a2b[i] += p;
+			if ((a2b[i] -= a2b2[i]) < 0) a2b[i] += p;
+		}
+		auto r = ab;
+		r.emplace_back(0);
+		r.insert(r.end(), a2b2.begin(), a2b2.end());
+		for (int i = 0; i < n1; ++i) if ((r[i + n2] += a2b[i]) >= p) r[i + n2] -= p;
+		return r;
+	};
+	int n = a.size(), m = b.size(), tot = n + m - 1, sz = 1;
+	if (m < N || n / m * 2 > m) return mulS(a, b);
+	while (sz < n) sz *= 2;
+	a.resize(sz), b.resize(sz);
+	auto r = mul(a, b, sz);
+	r.resize(tot);
+	return r;
+} // 模板例题：https://www.luogu.com.cn/problem/P4245，无法提交，CE。
 
 
 // 借鉴了 jiangly 的模板
