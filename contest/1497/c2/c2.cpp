@@ -11,6 +11,7 @@ int main() {
 	while (cas--) {
 		int n, k;
 		std::cin >> n >> k;
+		// 思考了太久，哎。
 		for (int i = 3; i < k; ++i) {
 			std::cout << "1 ";
 			--n;
