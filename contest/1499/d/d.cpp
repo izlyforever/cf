@@ -2,31 +2,27 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-std::vector<int> spf(int N) {
-	std::vector<int> sp(N), p{0, 2};
-	for (int i = 2; i < N; i += 2) sp[i] = 2;
-	for (int i = 1; i < N; i += 2) sp[i] = i;
+// O(N) 预处理所有数的(是否算重)素因子个数
+std::pair<std::vector<int>, std::vector<int>> npf(int N) {
+	std::vector<int> np(N, 1), nps(N, 1), p{0, 2};
+	nps[0] = nps[1] = 0;
+	np[0] = np[1] = 0;
 	for (int i = 3; i < N; i += 2) {
-		if (sp[i] == i) p.emplace_back(i);
-		for (int j = 2; j < p.size() && p[j] <= sp[i] && i * p[j] < N; ++j) {
-			sp[i * p[j]] = p[j]; // 注意到sp只被赋值一次
+		if (nps[i] == 1) p.emplace_back(i);
+		for (int j = 2, t; j < p.size() && (t = i * p[j]) < N; ++j) {
+			nps[t] = nps[i] + 1;
+			np[t] = np[i];
+			if (i % p[j] == 0) break;
+			++np[t];
 		}
 	}
-	return sp;
-}
-auto sp = spf(2e7 + 2);
-
-int factor(int n) {
-	int r = 0;
-	while (n > 1) {
-		++r;
-		int sn = sp[n];
-		while (n % sn == 0) n /= sn;
-	}
-	return r;
+	for (int i = 2; i < N; i += 4) np[i] = np[i >> 1] + 1;
+	for (int i = 4; i < N; i += 4) np[i] = np[i >> 1];
+	for (int i = 2; i < N; i += 2) nps[i] = nps[i >> 1] + 1;
+	return {np, nps};
 }
 
-LL solve() {
+int solve(const std::vector<int>& f) {
 	int a, b, c;
 	std::cin >> a >> b >> c;
 	int d = std::gcd(a, b);
@@ -34,15 +30,13 @@ LL solve() {
 	c /= d;
 	a /= d;
 	b /= d;
-	LL r = 0;
+	auto cal = [&](int x) {
+		return x % a ? 0 : 1 << f[x / a];
+	};
+	int r = 0;
 	for (int i = 1; i * i <= c; ++i) if (c % i == 0) {
-		std::set<int> S{b + i, b + c / i};
-		for (auto x: S) {
-			if (x % a == 0) {
-				int fx = factor(x / a);
-				r += 1 << fx;
-			}
-		}
+		r += cal(b + i);
+		if (i * i != c) r += cal(b + c / i);
 	}
 	return r;
 }
@@ -51,10 +45,11 @@ int main() {
 	//freopen("in", "r", stdin);
 	std::ios::sync_with_stdio(false);
 	std::cin.tie(nullptr);
+	auto [f, _] = npf(2e7 + 2);
 	int cas = 1;
 	std::cin >> cas;
 	while (cas--) {
-		std::cout << solve() << '\n';
+		std::cout << solve(f) << '\n';
 	}
 	return 0;
 }
