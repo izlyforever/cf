@@ -1369,7 +1369,7 @@ std::vector<LL> inv(std::vector<LL> a, int n) {
 	invA[0] = (M + 2 - a[0]) % M;
 	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
 	mul(invA, b); invA.resize(n);
-	return std::move(invA);
+	return invA;
 }
 // 非递归版本实测要慢一些（不敢相信）
 std::vector<LL> invS(std::vector<LL> a, int n) {
@@ -1386,7 +1386,7 @@ std::vector<LL> invS(std::vector<LL> a, int n) {
 		invAA.resize(2 * sz);
 		std::swap(invAA, invA);
 	}
-	return std::move(invA);
+	return invA;
 }
 // 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
 std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
