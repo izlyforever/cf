@@ -2,7 +2,7 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-// 借鉴了 jiangly 和 Miskcoo 的模板
+// 借鉴了 jiangly 的模板
 namespace NFT {
 const LL M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
