@@ -440,6 +440,26 @@ std::vector<int> spf(int N) {
 	return sp;
 }
 
+// O(N) 预处理所有数的(是否算重)素因子个数
+std::pair<std::vector<int>, std::vector<int>> npf(int N) {
+	std::vector<int> np(N, 1), nps(N, 1), p{0, 2};
+	nps[0] = nps[1] = 0;
+	np[0] = np[1] = 0;
+	for (int i = 3; i < N; i += 2) {
+		if (nps[i] == 1) p.emplace_back(i);
+		for (int j = 2, t; j < p.size() && (t = i * p[j]) < N; ++j) {
+			nps[t] = nps[i] + 1;
+			np[t] = np[i];
+			if (i % p[j] == 0) break;
+			++np[t];
+		}
+	}
+	for (int i = 2; i < N; i += 4) np[i] = np[i >> 1] + 1;
+	for (int i = 4; i < N; i += 4) np[i] = np[i >> 1];
+	for (int i = 2; i < N; i += 2) nps[i] = nps[i >> 1] + 1;
+	return {np, nps};
+}
+
 // 大素数 Miller-Rabin 概率判别法 和 大整数的最 大/小 因子分解
 namespace PollardRho {
 std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -1211,7 +1231,7 @@ public:
 		}
 		return x.modXn(n);
 	}
-	// 减法卷积，也称转置卷积
+	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
 	Poly mulT(Poly rhs) const {
 		if (rhs.size() == 0) return Poly();
 		int n = rhs.size();
@@ -1369,7 +1389,7 @@ std::vector<LL> inv(std::vector<LL> a, int n) {
 	invA[0] = (M + 2 - a[0]) % M;
 	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
 	mul(invA, b); invA.resize(n);
-	return std::move(invA);
+	return invA;
 }
 // 非递归版本实测要慢一些（不敢相信）
 std::vector<LL> invS(std::vector<LL> a, int n) {
@@ -1386,7 +1406,7 @@ std::vector<LL> invS(std::vector<LL> a, int n) {
 		invAA.resize(2 * sz);
 		std::swap(invAA, invA);
 	}
-	return std::move(invA);
+	return invA;
 }
 // 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
 std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
