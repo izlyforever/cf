@@ -1231,7 +1231,7 @@ public:
 		}
 		return x.modXn(n);
 	}
-	// 减法卷积，也称转置卷积
+	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
 	Poly mulT(Poly rhs) const {
 		if (rhs.size() == 0) return Poly();
 		int n = rhs.size();
