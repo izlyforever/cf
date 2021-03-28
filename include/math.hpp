@@ -94,6 +94,20 @@ LL floorSum(int n, int m, int a, int b) {
 }
 // 模板例题：https://atcoder.jp/contests/practice2/tasks/practice2_c
 
+// n 个集合中选 k 个
+void GospersHack(int n, int k) {
+	int cur = (1 << k) - 1;
+	int limit = (1 << n);
+	std::vector<int> r;
+	while (cur < limit) {
+		// do something
+		int lb = cur & -cur;
+		int r = cur + lb;
+		cur = (((r ^ cur) >> 2) / lb) | r;
+	}
+}
+
+
 // 一般情况下 N < 1e6, M 必须是一个小于 INT_MAX 的素数
 namespace Binom {
 int N = 0;
