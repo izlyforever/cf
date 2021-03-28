@@ -97,9 +97,17 @@ LL floorSum(int n, int m, int a, int b) {
 // n 个集合中选 k 个
 void GospersHack(int n, int k) {
 	int cur = (1 << k) - 1;
-	int limit = (1 << n);
-	std::vector<int> r;
-	while (cur < limit) {
+	while (!(cur >> n)) {
+		// do something
+		int lb = __builtin_ctz(cur);
+		int r = cur + (1 << lb);
+		cur = ((r ^ cur) >> 2 + lb) | r;
+	}
+}
+
+void GospersHackS(int n, int k) {
+	int cur = (1 << k) - 1;
+	while (!(cur >> n)) {
 		// do something
 		int lb = cur & -cur;
 		int r = cur + lb;
