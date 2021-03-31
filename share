@@ -1,0 +1,21 @@
+from PIL import Image
+import numpy as np
+image = Image.open('smile.png')
+data = np.asarray(image)
+print(data)
+out_color = (255, 255, 255, 255)
+in_color = (255,   0,   0, 255)
+colors = {in_color: 'IN', out_color: 'OUT'}
+answers = [[None for _ in range(64)] for _ in range(64)]
+out_answers = set()
+for i in range(64):
+    for j in range(64):
+        x = i * 15 + 7 # 964 / 64 = 15, 15 // 2 = 7
+        y = j * 15 + 7
+        answers[i][j] = colors[tuple(data[x][y])]
+        if answers[i][j] == 'OUT':
+            out_answers.add((i, j))
+for i, j in [(0, 0), (27, 0), (0, 27), (27, 27)]:
+    print(i, j, answers[i][j])
+with open('out_answers.txt', 'w') as f:
+    f.write(str(out_answers))
