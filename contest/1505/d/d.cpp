@@ -8,6 +8,14 @@ int main() {
 	std::cin.tie(nullptr);
 	int n, m;
 	std::cin >> n >> m;
-	std::cout << (n < (1 << m - 1) ? "YES" : "NO") << '\n';
+	std::vector<int> cnt(m);
+	while (n) {
+		if (++cnt[n % m] > 1) {
+			std::cout << "NO\n";
+			return 0;
+		}
+		n /= m;
+	}
+	std::cout << "YES\n";
 	return 0;
 }
