@@ -1023,7 +1023,7 @@ VL KaratsubaParallel(VL a, VL b, LL p) {
 		return r;
 	};
 	int n = a.size(), m = b.size(), tot = n + m - 1, sz = 1;
-	if (m < N || n / m * 2 > m) return mulS(a, b);
+	if (m < N || n / m * 8 > m) return mulS(a, b);
 	while (sz < n) sz *= 2;
 	a.resize(sz), b.resize(sz);
 	auto r = mul(a, b, sz);
