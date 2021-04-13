@@ -7,8 +7,7 @@ const LL M = 1e9 + 7;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int cas = 1;
 	std::cin >> cas;
 	while (cas--) {

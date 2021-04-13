@@ -22,8 +22,7 @@ std::vector<LL> Dijkstra(int s, const edge &e) {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, m;
 	std::cin >> n >> m;
 	edge e(4 * n);

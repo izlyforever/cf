@@ -17,8 +17,7 @@ std::pair<std::vector<int>, std::vector<int>> f(std::string s) {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int cas = 1;
 	std::cin >> cas;
 	while (cas--) {

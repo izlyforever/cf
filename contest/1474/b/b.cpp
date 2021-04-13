@@ -22,8 +22,7 @@ void initPrimeP() {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	initPrimeP();
 	int cas = 1;
 	std::cin >> cas;

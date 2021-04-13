@@ -33,8 +33,7 @@ LL solve(int n, int a, int c) {
 }
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	std::string s;
 	int c;
 	std::cin >> s >> c;

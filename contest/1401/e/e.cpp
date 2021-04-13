@@ -31,8 +31,7 @@ struct TreeArray {
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, m;
 	std::cin >> n >> m;
 	std::vector<std::pair<int, int>> la, ra;

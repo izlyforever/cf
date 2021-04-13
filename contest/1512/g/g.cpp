@@ -4,8 +4,7 @@ using LL = long long;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	const int N = 1e7 + 2;
 	std::vector<int> a(N), r(N, -1);
 	for (int i = 1; i < N; ++i) {

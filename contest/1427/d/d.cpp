@@ -7,8 +7,7 @@ using LL = long long;
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n;
 	std::cin >> n;
 	std::vector<int> a(n + 1), p(n + 1), b(n + 1);

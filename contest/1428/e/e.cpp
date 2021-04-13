@@ -21,8 +21,7 @@ public:
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, k;
 	std::cin >> n >> k;
 	std::priority_queue<pii, std::vector<pii>, cmp> Q;

@@ -12,8 +12,7 @@ std::tuple<LL, LL, LL> exGcd(LL a, LL b) {
 const int N = 1e6 + 2;
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, m;
 	LL k;
 	std::cin >> n >> m >> k;

@@ -283,8 +283,7 @@ std::vector<LL> powSum(LL n, int k){
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	LL R;
 	int B;
 	std::cin >> R >> B;

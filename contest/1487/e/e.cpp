@@ -32,8 +32,7 @@ std::vector<int> solve(const std::vector<int> &a, int m) {
 };
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n[4];
 	for (int i = 0; i < 4; ++i) std::cin >> n[i];
 	std::vector<int> a[4];

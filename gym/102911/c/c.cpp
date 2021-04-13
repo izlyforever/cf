@@ -22,8 +22,7 @@ int spf() {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	spf();
 	int m, n, x, y;
 	std::cin >> m >> n >> x >> y;

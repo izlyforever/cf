@@ -9,8 +9,7 @@ LL dp[N][3][2][2];
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	std::memset(dp, -0x3f, sizeof(dp));
 	auto upmax = [](LL &a, LL b) {
 		if (a < b) a = b;

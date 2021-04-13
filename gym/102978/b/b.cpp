@@ -49,8 +49,7 @@ LL lucas(LL n, LL k) {
 } // namespace Binom
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n;
 	std::cin >> n;
 	std::vector<int> a(n);

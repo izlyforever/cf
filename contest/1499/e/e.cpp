@@ -4,8 +4,7 @@ using LL = long long;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	std::string a, b;
 	std::cin >> a >> b;
 	int n = a.size(), m = b.size();

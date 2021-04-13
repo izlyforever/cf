@@ -7,8 +7,7 @@ const LL M = 1e9 + 7;
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	std::string a;
 	std::cin >> a;
 	LL r = 0, n = 0, id = 1, r2 = 0;

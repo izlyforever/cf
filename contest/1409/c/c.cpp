@@ -6,8 +6,7 @@ using LL = long long;
 int main() {
 	std::string a;
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int cas;
 	std::cin >> cas;
 	while (cas--) {

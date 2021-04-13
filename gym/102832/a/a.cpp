@@ -4,8 +4,7 @@ using LL = long long;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n;
 	std::cin >> n;
 	std::vector<std::pair<int, int>> p{{1, 8}, {6, 18}, {28, 28}, {88, 58}, {198, 128}, {328, 198}, {648, 388}};

@@ -4,8 +4,7 @@ using LL = long long;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	auto check = [](std::vector<int> a) {
 		int now = 0;
 		for (auto x : a) {

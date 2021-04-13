@@ -6,8 +6,7 @@ using LL = long long;
  
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, m ,k;
 	std::cin >> n >> m >> k;
 	auto cmax = [](int &x, int y) {

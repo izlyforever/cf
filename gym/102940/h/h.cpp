@@ -5,8 +5,7 @@ using LL = long long;
 const int M = 1e9 + 7;
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, k;
 	std::cin >> n >> k;
 	std::vector<std::vector<int>> factor(n + 1);

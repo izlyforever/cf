@@ -43,8 +43,7 @@ int solve(const std::vector<int>& f) {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	auto [f, _] = npf(2e7 + 2);
 	int cas = 1;
 	std::cin >> cas;

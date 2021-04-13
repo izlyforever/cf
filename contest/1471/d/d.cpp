@@ -4,8 +4,7 @@ using LL = long long;
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	const int N = 5e7 + 10086; // 再多内存吃不消。 1e8 就要 400 M 内存了。
 	std::vector<int> f(N);
 	for (int i = 1; i * i < N; ++i) {

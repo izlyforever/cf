@@ -41,8 +41,7 @@ std::vector<int> countPrefix(std::string s, std::string t) {
 
 int main() {
 	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
 	std::string s;
 	std::cin >> s;
 	auto p = prefixFunction(s);
