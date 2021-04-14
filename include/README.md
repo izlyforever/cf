@@ -29,6 +29,7 @@
 - 二进制快速 gcd
 - 拓展 gcd
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
+- sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
 - 模二项式系数
 - Lucas 定理
 - 快速 $O(n \log \log n)$ 素数筛和慢速线性筛

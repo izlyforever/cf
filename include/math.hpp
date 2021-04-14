@@ -94,6 +94,20 @@ LL floorSum(int n, int m, int a, int b) {
 }
 // 模板例题：https://atcoder.jp/contests/practice2/tasks/practice2_c
 
+// \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}
+int sumNum(const std::vector<int> &c, int m, int M) {
+	std::vector<int> dp(m + 1);
+	dp[0] = 1;
+	for (int i = 1; i <= m; ++i) {
+		for (auto x : c) if (x <= i) {
+			dp[i] += dp[i - x];
+			if (dp[i] >= M) dp[i] -= M;
+		}
+	}
+	return dp[m];
+}
+// 解释：https://dna049.com/classicalCombination/
+
 // n 个集合中选 k 个
 void GospersHack(int n, int k) {
 	int cur = (1 << k) - 1;
