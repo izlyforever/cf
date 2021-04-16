@@ -65,7 +65,7 @@ int main() {
 			// 这一部分可以被自动向量化
 			for (int i = l; i < m; ++i) {
 				for (int j = m; j < r; ++j) {
-					ans = std::max(ans, LL(j - i + 1) * std::min(lx[i], rx[j]) * std::min(ly[i], ry[j]));
+					ans = std::max(ans, 1LL * (j - i + 1) * (lx[i] < rx[j] ? lx[i] : rx[j]) * (ly[i] < ry[j] ? ly[i] : ry[j]));
 				}
 			}
 		}
