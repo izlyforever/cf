@@ -108,7 +108,7 @@ int sumNum(const std::vector<int> &c, int m, int M) {
 }
 // 解释：https://dna049.com/classicalCombination/
 
-// n 个集合中选 k 个
+// n 个集合中选 k 个，二进制为 1 的表示选择
 void GospersHack(int n, int k) {
 	int cur = (1 << k) - 1;
 	while (!(cur >> n)) {
@@ -142,7 +142,7 @@ void setMod(LL m) {
 	ifac[N - 1] = powMod(fac[N - 1], M - 2, M);
 	for (int i = N - 1; i; --i) ifac[i - 1] = ifac[i] * i % M;
 }
-void init(int n, LL m) {
+void init(int n, LL m = M) {
 	N = n;
 	fac.resize(N);
 	ifac.resize(N);
