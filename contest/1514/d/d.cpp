@@ -12,14 +12,15 @@ int main() {
 	for (auto &x : a) std::cin >> x;
 	std::vector<std::vector<int>> s(n);
 	for (int i = 0; i < n; ++i) s[--a[i]].emplace_back(i);
-	const int mxCnt = 50;
+	// 随机化做法，结果正确的概率为 1 / 2^CNT;
+	const int CNT = 50;
 	while (q--) {
 		int l, r;
 		std::cin >> l >> r;
 		--l; --r;
 		std::map<int, int> mp;
 		int ans = 1, len = r - l + 1;
-		for (int i = 0; i < mxCnt; ++i) {
+		for (int i = 0; i < CNT; ++i) {
 			int j = rnd() % len, x = a[l + j];
 			if (++mp[x + l] == 1) {
 				auto il = std::lower_bound(s[x].begin(), s[x].end(), l);

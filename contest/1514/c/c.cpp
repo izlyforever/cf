@@ -8,12 +8,12 @@ int main() {
 	int n;
 	std::cin >> n;
 	std::vector<int> ans;
-	LL r = 1;
+	int r = 1;
 	for (int i = 1; i < n; ++i) if (std::gcd(i, n) == 1) {
 		ans.emplace_back(i);
-		r = r * i % n;
+		r = LL(r) * i % n;
 	}
-	if (r != 1) ans.pop_back();
+	if (r != 1) ans.erase(std::find(ans.begin(), ans.end(), r));
 	std::cout << ans.size() << '\n';
 	for (auto x : ans) std::cout << x << ' ';
 	std::cout << '\n';
