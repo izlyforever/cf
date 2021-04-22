@@ -1627,6 +1627,7 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 } // namespace FMT
 
 // ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
+// 原理：https://dna049.com/fastPowSumOfNaturalNumber/
 std::vector<LL> powSum(LL n, int k) {
 	Poly Numerator = Poly(std::vector<LL>{0, n}).exp(k + 1).divXn(1);
 	Poly denominator  = Poly(std::vector<LL>{0, 1}).exp(k + 1).divXn(1);
