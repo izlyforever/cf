@@ -135,13 +135,14 @@ namespace Binom {
 int N = 0;
 LL M = 1e9 + 7;
 std::vector<LL> fac, ifac;
-void setMod(LL m) { 
+void setMod(LL m) {
 	M = m;
 	fac[0] = 1;
 	for (int i = 1; i < N; ++i) fac[i] = fac[i - 1] * i % M;
 	ifac[N - 1] = powMod(fac[N - 1], M - 2, M);
 	for (int i = N - 1; i; --i) ifac[i - 1] = ifac[i] * i % M;
 }
+// 请确保 n < m，否则无法保证后面的正确性
 void init(int n, LL m = M) {
 	N = n;
 	fac.resize(N);
