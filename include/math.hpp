@@ -1337,7 +1337,7 @@ public:
 		return ans;
 	} // 模板例题：https://www.luogu.com.cn/problem/P5050
 }; // Poly 全家桶测试：https://www.luogu.com.cn/training/3015#information
-// 非 NFT-friendly 的模数可以看我的这份提交：
+// 非 NFT-friendly 的模数可以看我的这份提交：https://codeforces.com/contest/1516/submission/113886543
 
 // 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
 std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
@@ -1626,8 +1626,23 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 };
 } // namespace FMT
 
+// ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
+std::vector<LL> powSum(LL n, int k) {
+	Poly Numerator = Poly(std::vector<LL>{0, n}).exp(k + 1).divXn(1);
+	Poly denominator  = Poly(std::vector<LL>{0, 1}).exp(k + 1).divXn(1);
+	auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
+	auto ans = f.a;
+	ans.resize(k);
+	LL now = 1;
+	for (int i = 2; i < k; ++i) {
+		now = now * i % M;
+		ans[i] = ans[i] * now % M;
+	}
+	return ans;
+}
+
 // ans[i] = 1^i + 2^i + ... + n^i, 0 < i < k
-std::vector<LL> powSum(LL n, int k){
+std::vector<LL> powSumOld(LL n, int k) {
 	auto e = Binom::ifac;
 	e.resize(k + 1);
 	auto b = e;

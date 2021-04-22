@@ -61,6 +61,7 @@
 - NFT（快速数论 Fourier 变换），可以写成并行版，但是时间最多减半。
 - 多项式 (加减乘除余，转置乘法，求导，积分，指数，对数，求逆，开方，一点求值，多点求值，快速幂模，内积)
 - 多元多项式乘法就每一维分别做 DFT，然后相乘再 iDFT，小优化就是 invN 可以最后一起乘。
+- 不用 NFT 的多项式示例见：https://codeforces.com/contest/1516/submission/113886543
 - $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
 - 计算 $O(n \log^2 n)$ 计算 $\sum_{i = 1}^n \frac{a_i}{1 - b_i}$
 - FMT（快速 Mobius 变换）
