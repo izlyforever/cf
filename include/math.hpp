@@ -167,6 +167,30 @@ LL lucas(LL n, LL k) {
 } // namespace Binom
 // 模板例题：https://www.luogu.com.cn/problem/P3807
 
+namespace Stirling {
+const LL M = 1e9 + 7;
+const int N = 1e3 + 2;
+std::vector<std::vector<LL>> S1(N), S2(N);
+void init() {
+	S1[0] = {1, 0};
+	for (int i = 1; i < N; ++i) {
+		S1[i].resize(i + 2);
+		for (int j = 1; j <= i; ++j) {
+			S1[i][j] = (S1[i - 1][j - 1] + S1[i - 1][j] * (i - 1)) % M;
+		}
+	}
+	S2[0] = {1, 0};
+	for (int i = 1; i < N; ++i) {
+		S2[i].resize(i + 2);
+		for (int j = 1; j <= i; ++j) {
+			S2[i][j] = (S2[i - 1][j - 1] + S2[i - 1][j] * j) % M;
+		}
+	}
+}
+} // namespace Stirling
+// 模板例题：https://www.luogu.com.cn/problem/P5408
+// 模板例题：https://www.luogu.com.cn/problem/P5395
+
 
 // 注意这里的 nthPrime 以 1 开始编号（其它地方以 0 开始）！即 p[1] = 2
 namespace Prime {
@@ -1313,6 +1337,7 @@ public:
 		return ans;
 	} // 模板例题：https://www.luogu.com.cn/problem/P5050
 }; // Poly 全家桶测试：https://www.luogu.com.cn/training/3015#information
+// 非 NFT-friendly 的模数可以看我的这份提交：
 
 // 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
 std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {

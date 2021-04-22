@@ -31,7 +31,8 @@
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
 - 模二项式系数
-- Lucas 定理
+- 模 Lucas 定理
+- 模 Stirling 数
 - 快速 $O(n \log \log n)$ 素数筛和慢速线性筛
 - 快速计算 $\pi(x)$
 - 快速计算第 n 个素数（从 1 开始标号，p[1] = 2，p[0] 无意义）
@@ -49,7 +50,7 @@
 - 模偶素数幂开根号？
 - 模奇素数幂开根号？
 - 模任意数开根号（先因式分解，看作模素数方开根号，再 CRT 整合）？
-- 模 $N \time N$ 矩阵乘法类（缓存优化）
+- 模 $N \times N$ 矩阵乘法类（缓存优化）
 - Gauss 消元法浮点数版
 - 模 Gauss 消元法
 - 模 Lagrange 插值

@@ -4,6 +4,11 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 #include "include/izlyforever.hpp"
+template<typename T>
+void debug(vector<T> a){
+	for (auto &i : a) std::cout << i << ' ';
+	std::cout << std::endl; 
+}
 
 int main() {
 	// freopen("C:\\Users\\dna049\\cf\\in", "r", stdin);

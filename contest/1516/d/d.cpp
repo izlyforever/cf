@@ -1,7 +1,7 @@
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
-const int N = 1.1e5 + 2;
+const int N = 1e5 + 2;
 bool isp[N];
 std::vector<int> p{0, 2};
 void initPrime() {
@@ -43,13 +43,16 @@ int main() {
 		dp[i] = mn;
 	}
 	// 倍增打基础
+	bool flag = true;
 	std::vector<std::vector<int>> ans(n);
 	for (int i = 0; i < n; ++i) ans[i].emplace_back(dp[i]);
-	for (int st = 1; st <= n; st *= 2) {
+	while (flag) {
+		flag = false;
 		for (int i = 0; i < n; ++i) if (ans[i].back() != n) {
 			ans[i].emplace_back(ans[ans[i].back()].back());
+			flag = true;
 		}
-	}
+	} 
 	while (q--) {
 		int l, r;
 		std::cin >> l >> r;
