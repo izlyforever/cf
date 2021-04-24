@@ -93,7 +93,7 @@ std::vector<T> discrete(std::vector<T>& a) {
 	std::sort(b.begin(), b.end());
 	b.erase(std::unique(b.begin(), b.end()), b.end());
 	std::vector<T> r(b.size());
-	for (auto & x : a) {
+	for (auto &x : a) {
 		int id = std::lower_bound(b.begin(), b.end(), x) - b.begin();
 		r[id] = x;
 		x = id;
