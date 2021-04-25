@@ -5,7 +5,7 @@
 using LL = long long;
 #include "include/izlyforever.hpp"
 template<typename T>
-void debug(vector<T> a){
+void debug(std::vector<T> a){
 	for (auto &i : a) std::cout << i << ' ';
 	std::cout << std::endl; 
 }

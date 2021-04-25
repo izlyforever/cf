@@ -521,6 +521,107 @@ std::pair<std::vector<int>, std::vector<int>> npf(int N) {
 	return {np, nps};
 }
 
+// 获取全部不同素因子
+std::vector<int> factor(int n, const std::vector<int> &sp) {
+	std::vector<int> ans;
+	while (n > 1) {
+		int pn = sp[n];
+		ans.emplace_back(pn);
+		while (n % pn == 0) n /= pn;
+	}
+	return ans;
+}
+// 获取全部素因子
+std::vector<std::pair<int, int>> Factor(int n, const std::vector<int> &sp) {
+	std::vector<std::pair<int, int>> ans;
+	while (n > 1) {
+		int pn = sp[n], cnt = 0;
+		while (n % pn == 0) n /= pn, ++cnt;
+		ans.emplace_back(pn, cnt);
+	}
+	return ans;
+}
+
+// 返回最小原根，无的话返回 0
+int primitiveRoot(int n, const std::vector<int> &sp) {
+	if (n < 2) return 0;
+	if (n == 2 || n == 4) return n - 1;
+	if (n % 4 == 0) return 0;
+	int n2 = n % 2 == 0 ? n / 2 : n;
+	int pn = sp[n2];
+	while (n2 % pn == 0) n2 /= pn;
+	if (n2 != 1) return 0;
+	auto fp = factor(pn - 1, sp);
+	auto check = [&](int i) {
+		for (auto x : fp) {
+			if (powMod(i, (pn - 1) / x, pn) == 1) return false;
+		}
+		return true;
+	};
+	int ans = 2;
+	while (!check(ans)) ++ans;
+	n2 = n % 2 == 0 ? n / 2 : n;
+	if (n2 != pn) {
+		int m = n2 / pn * (pn - 1);
+		auto fm = factor(m, sp);
+		for (auto x : fp) {
+			if (powMod(ans, m / x, m) == 1) {
+				ans += pn;
+				break;
+			}
+		}
+	}
+	if (n2 != n && (ans % 2 == 0)) ans += n2;
+	return ans;
+}
+// 返回所有原根，若无返回空
+std::vector<int> primitiveRootAllS(int n, const std::vector<int> &sp) {
+	int g = primitiveRoot(n, sp);
+	if (g == 0) return {};
+	if (n == 2 || n == 4) return {n - 1};
+	int n2 = n & 1 ? n : n / 2;
+	int pn = sp[n2], m = n2 / pn * (pn - 1), now = g;
+	std::vector<int> ans{g};
+	for (int i = 2; i < m; ++i) {
+		now = LL(now) * g % n;
+		if (std::gcd(i, m) == 1) ans.emplace_back(now);
+	}
+	std::sort(ans.begin(), ans.end());
+	return ans;
+}
+
+// 返回所有原根，若无返回空
+std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
+	if (n < 2) return {};
+	if (n == 2 || n == 4) return {n - 1};
+	if (n % 4 == 0) return {};
+	int n2 = n % 2 == 0 ? n / 2 : n, pn = sp[n2];
+	while (n2 % pn == 0) n2 /= pn;
+	if (n2 != 1) return {};
+	int m = (n & 1 ? n : n / 2) / pn * (pn - 1);
+	std::vector<int> vis(n, -1), ans;
+	for (int i = 2; i < n; ++i) if (vis[i] == -1 && std::gcd(i, n) == 1) {
+		bool flag = true;
+		LL now = 1;
+		for (int j = 1; j < m; ++j) {
+			now = now * i % n;
+			if (now == 1) {
+				flag = false;
+				break;
+			}
+			if (std::gcd(j, m) == 1) vis[now] = i;
+			else vis[now] = 0;
+		}
+		if (flag) { // 此时 i 必然是最小原根
+			for (int j = 0; j < n; ++j) if (vis[j] == i) {
+				ans.emplace_back(j);
+			}
+			return ans;
+		}
+	}
+	return {};
+} // 模板例题：https://www.luogu.com.cn/problem/P6091
+
 // 大素数 Miller-Rabin 概率判别法 和 大整数的最 大/小 因子分解
 namespace PollardRho {
 std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
@@ -1629,7 +1730,7 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 
 // ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
 // 原理：https://dna049.com/fastPowSumOfNaturalNumber/
-std::vector<LL> powSum(LL n, int k) {
+std::vector<LL> powSum(LL n, int k, LL M) {
 	Poly Numerator = Poly(std::vector<LL>{0, n}).exp(k + 1).divXn(1);
 	Poly denominator  = Poly(std::vector<LL>{0, 1}).exp(k + 1).divXn(1);
 	auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
