@@ -626,8 +626,8 @@ std::mt19937_64 rnd(std::chrono::steady_clock::now().time_since_epoch().count())
 LL powModll(LL x, LL n, LL p) {
 	LL r = 1;
 	while (n) {
-		if (n & 1) r = __int128(r) * x % p;
-		n >>= 1;   x = __int128(x) * x % p;
+		if (n&1) r = __int128(r) * x % p;
+		n >>= 1; x = __int128(x) * x % p;
 	}
 	return r;
 }
@@ -928,7 +928,7 @@ std::vector<int> Gauss(std::vector<std::vector<int>> A, std::vector<int> b) {
 			std::swap(b[i], b[row]);
 		}
 		int inva = powMod(A[i][i], M - 2, M);
-		(b[i] *= inva) %= M;
+		b[i] = b[i] * inva % M;
 		for (int j = m - 1; j >= i; --j) A[i][j] = 1LL * A[i][j] * inva % M;
 		for (int row = i + 1; row < n; ++row) {
 			sub(b[row], 1LL * A[row][i] * b[i] % M);
@@ -1326,8 +1326,8 @@ public:
 	Poly powMod(int n, Poly p) {
 		Poly r(1), x(*this);
 		while (n) {
-			if (n & 1) (r *= x) %= p;
-			n >>= 1;   (x *= x) %= p;
+			if (n&1) (r *= x) %= p;
+			n >>= 1; (x *= x) %= p;
 		}
 		return r;
 	}
