@@ -181,7 +181,7 @@ std::vector<int> TopSort(std::vector<std::set<int>> &e) {
 // 求字典序最小的 Euler 路，没有的话输出 空（允许重边，不允许就修改成 set）
 std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
 	int cnt = std::count_if(e.begin(), e.end(), [](auto x) {
-		return x.size() % 2 == 1;
+		return x.size() & 1;
 	});
 	if (cnt > 2) return std::stack<int>();
 	std::stack<int> ans;

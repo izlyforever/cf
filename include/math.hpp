@@ -142,7 +142,7 @@ void setMod(int m) {
 	for (int i = N - 1; i; --i) ifac[i - 1] = 1LL * ifac[i] * i % M;
 }
 // 请确保 n < m，否则无法保证后面的正确性
-void init(int n, LL m = M) {
+void init(int n, int m = M) {
 	N = n;
 	fac.resize(N);
 	ifac.resize(N);
@@ -600,9 +600,9 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
 	std::vector<int> vis(n, -1), ans;
 	for (int i = 2; i < n; ++i) if (vis[i] == -1 && std::gcd(i, n) == 1) {
 		bool flag = true;
-		LL now = 1;
+		int now = 1;
 		for (int j = 1; j < m; ++j) {
-			now = now * i % n;
+			now = 1LL * now * i % n;
 			if (now == 1) {
 				flag = false;
 				break;
@@ -695,7 +695,7 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2){
 	LL ans = (a1 + (a2 - a1) / d * t1 % m2 * m1) % m;
 	return std::make_pair(ans < 0 ? ans + m: ans, m);
 }
-std::pair<LL,LL> crt(const std::vector<std::pair<LL,LL>> &a){
+std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &a){
 	auto ans = a[0];
 	for (int i = 1; i < a.size(); ++i) {
 		ans = crt2(ans.first, ans.second, a[i].first, a[i].second);
@@ -709,7 +709,7 @@ int babyStepGiantStep(int a, int b, int p) {
 	a %= p, b %= p;
 	if (a == 0) return b % p ? -1 : 1;
 	if (b == 1) return 0;
-	LL cnt = 0, t = 1;
+	int cnt = 0, t = 1;
 	for (int g = std::gcd(a, p); g != 1; g = std::gcd(a, p)) {
 		if (b % g) return -1;
 		p /= g, b /= g, t = 1LL * t * (a / g) % p;
@@ -1056,7 +1056,7 @@ int Lagrange(const std::vector<int> &f, int m, int M) {
 // 简化得 f(m) = \sum_{i = 0}^{n - 1} (-1)^{n - 1 - i} f_i \binom{m}{i} \binom{m - i - 1}{n - 1 - i}
 
 // 基于 lagrange 插值 O(k) 计算自然数方幂和
-int powSum(LL n, int k, LL M, const std::vector<int> &sp){
+int powSum(int n, int k, int M, const std::vector<int> &sp){
 	if (k == 0) return n % M;
 	std::vector<int> f(k + 2);
 	f[1] = 1;
