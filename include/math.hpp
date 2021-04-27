@@ -31,26 +31,25 @@ void print(__int128 x){
 }
 } // namespace int128
 
-// 0 <= x < p < INT_MAX
-LL powMod(LL x, LL n, LL p){
-	LL r = 1;
+int powMod(int x, int n, int p) {
+	int r = 1;
 	while (n) {
-		if (n&1) r = r * x % p;
-		n >>= 1; x = x * x % p;
+		if (n&1) r = 1LL * r * x % p;
+		n >>= 1; x = 1LL * x * x % p;
 	}
 	return r;
 }
-
 // 求逆 0 < a < p and gcd(a,p) = 1，单次 p 为奇素数时，请使用 powMod(a, p - 2, p)
 // 猜想复杂度为 $O(\log^2 p)$，已知上界 O(\sqrt{N})
-LL inv(LL a, LL p){
-	return a == 1 ? 1 : (p - p / a) * inv(p % a, p) % p;
+
+int inv(int a, int p){
+	return a == 1 ? 1 : 1LL * (p - p / a) * inv(p % a, p) % p;
 }
 // O(n) 预处理全部逆元
-std::vector<LL> initInv(LL N, LL M) {
-	std::vector<LL> inv(N);
+std::vector<int> initInv(int N, int M) {
+	std::vector<int> inv(N);
 	inv[1] = 1;
-	for (int i = 2; i < N; ++i) inv[i] = (M - M / i) * inv[M % i] % M;
+	for (int i = 2; i < N; ++i) inv[i] = 1LL * (M - M / i) * inv[M % i] % M;
 	return inv;
 }
 
@@ -69,7 +68,8 @@ LL gcd(LL a, LL b) {
 // 参考 https://cp-algorithms.com/algebra/euclid-algorithm.html
 
 // ax + by = gcd(a,b)
-std::tuple<LL, LL, LL> exGcd(LL a, LL b) {
+template<typename T>
+std::tuple<T, T, T> exGcd(T a, T b) {
 	if (b == 0) return {a, 1, 0};
 	auto [d, y, x] = exGcd(b, a % b);
 	return {d, x, y - a / b * x};
@@ -79,16 +79,16 @@ std::tuple<LL, LL, LL> exGcd(LL a, LL b) {
 LL floorSum(int n, int m, int a, int b) {
 	LL r = 0;
 	if (a >= m) {
-		r += LL(a / m) * (n - 1) * n / 2;
+		r += 1LL * a / m * (n - 1) * n / 2;
 		a %= m;
 	}
 	if (b >= m) {
-		r += LL(b / m) * n;
+		r += 1LL * b / m * n;
 		b %= m;
 	}
-	int yMax = (LL(a) * n + b) / m;
+	int yMax = (1LL * a * n + b) / m;
 	if (yMax == 0) return r;
-	r += LL(n - 1) * yMax;
+	r += 1LL * (n - 1) * yMax;
 	r -= floorSum(yMax, a, m, m - b - 1);
 	return r;
 }
@@ -132,15 +132,14 @@ void GospersHackS(int n, int k) {
 
 // 一般情况下 N < 1e6, M 必须是一个小于 INT_MAX 的素数
 namespace Binom {
-int N = 0;
-LL M = 1e9 + 7;
-std::vector<LL> fac, ifac;
-void setMod(LL m) {
+int N = 0, M = 1e9 + 7;
+std::vector<int> fac, ifac;
+void setMod(int m) {
 	M = m;
 	fac[0] = 1;
-	for (int i = 1; i < N; ++i) fac[i] = fac[i - 1] * i % M;
+	for (int i = 1; i < N; ++i) fac[i] = 1LL * fac[i - 1] * i % M;
 	ifac[N - 1] = powMod(fac[N - 1], M - 2, M);
-	for (int i = N - 1; i; --i) ifac[i - 1] = ifac[i] * i % M;
+	for (int i = N - 1; i; --i) ifac[i - 1] = 1LL * ifac[i] * i % M;
 }
 // 请确保 n < m，否则无法保证后面的正确性
 void init(int n, LL m = M) {
@@ -150,17 +149,17 @@ void init(int n, LL m = M) {
 	setMod(m);
 }
 // 需要预处理小于 n 的所有值！
-LL binom(int n, int k) {
+int binom(int n, int k) {
 	if (n < 0 || n < k) return 0;
-	return fac[n] * ifac[k] % M * ifac[n - k] % M;
+	return 1LL * fac[n] * ifac[k] % M * ifac[n - k] % M;
 }
 // 一般说来需要预处理出小于 M 的所有值，且 M 是素数！
-LL lucas(LL n, LL k) {
-	LL r = 1;
+int lucas(int n, int k) {
+	int r = 1;
 	while (n && k) {
 		int np = n % M, kp = k % M;
 		if (np < kp) return 0;
-		r = r * binom(np, kp) % M;
+		r = 1LL * r * binom(np, kp) % M;
 		n /= M; k /= M;
 	}
 	return r;
@@ -169,22 +168,21 @@ LL lucas(LL n, LL k) {
 // 模板例题：https://www.luogu.com.cn/problem/P3807
 
 namespace Stirling {
-const LL M = 1e9 + 7;
-const int N = 1e3 + 2;
-std::vector<std::vector<LL>> S1(N), S2(N);
+const int N = 1e3 + 2, M = 1e9 + 7;
+std::vector<std::vector<int>> S1(N), S2(N);
 void init() {
 	S1[0] = {1, 0};
 	for (int i = 1; i < N; ++i) {
 		S1[i].resize(i + 2);
 		for (int j = 1; j <= i; ++j) {
-			S1[i][j] = (S1[i - 1][j - 1] + S1[i - 1][j] * (i - 1)) % M;
+			S1[i][j] = (1LL * S1[i - 1][j] * (i - 1) + S1[i - 1][j - 1]) % M;
 		}
 	}
 	S2[0] = {1, 0};
 	for (int i = 1; i < N; ++i) {
 		S2[i].resize(i + 2);
 		for (int j = 1; j <= i; ++j) {
-			S2[i][j] = (S2[i - 1][j - 1] + S2[i - 1][j] * j) % M;
+			S2[i][j] = (1LL * S2[i - 1][j] * j + S2[i - 1][j - 1]) % M;
 		}
 	}
 }
@@ -287,7 +285,7 @@ LL primepi(LL x) {
 	if (x < N) return pi[x];
 	int ps2x = primepi(int(std::sqrt(x + 0.2)));
 	int ps3x = primepi(int(std::cbrt(x + 0.2)));
-	LL ans = primephi(x, ps3x) + LL(ps2x + ps3x - 2) * (ps2x - ps3x + 1) / 2;
+	LL ans = primephi(x, ps3x) + 1LL * (ps2x + ps3x - 2) * (ps2x - ps3x + 1) / 2;
 	for (int i = ps3x + 1, ed = ps2x; i <= ed; ++i) {
 		ans -= primepi(x / p[i]);
 	}
@@ -317,7 +315,7 @@ LL primepiS(LL n) {
 // 查看 (s - n, s] (请保证区间较小）内每个数是否为素数，确保 p.back() * p.back() >= r
 std::vector<int> seive(LL s, int n) { // O(N log s)
 	std::vector<int> isP(n, 1); // isP[i] = 1 表示 s - i 是素数
-	for (int i = 1; LL(p[i]) * p[i] <= s; ++i) {
+	for (int i = 1; 1LL * p[i] * p[i] <= s; ++i) {
 		for (int j = s % p[i]; j < n; j += p[i]) isP[j] = 0;
 	}
 	return isP;
@@ -583,7 +581,7 @@ std::vector<int> primitiveRootAllS(int n, const std::vector<int> &sp) {
 	int pn = sp[n2], m = n2 / pn * (pn - 1), now = g;
 	std::vector<int> ans{g};
 	for (int i = 2; i < m; ++i) {
-		now = LL(now) * g % n;
+		now = 1LL * now * g % n;
 		if (std::gcd(i, m) == 1) ans.emplace_back(now);
 	}
 	std::sort(ans.begin(), ans.end());
@@ -624,7 +622,7 @@ std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
 
 // 大素数 Miller-Rabin 概率判别法 和 大整数的最 大/小 因子分解
 namespace PollardRho {
-std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+std::mt19937_64 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 LL powModll(LL x, LL n, LL p) {
 	LL r = 1;
 	while (n) {
@@ -707,67 +705,67 @@ std::pair<LL,LL> crt(const std::vector<std::pair<LL,LL>> &a){
 // 模板例题：https://www.luogu.com.cn/problem/P1495
 
 // 离散对数：返回最小的 x 使得 a^x = b mod p，p 为素数，无解输出 -1。
-LL babyStepGiantStep(LL a, LL b, LL p) {
+int babyStepGiantStep(int a, int b, int p) {
 	a %= p, b %= p;
 	if (a == 0) return b % p ? -1 : 1;
 	if (b == 1) return 0;
 	LL cnt = 0, t = 1;
-	for (LL g = std::gcd(a, p); g != 1; g = std::gcd(a, p)) {
+	for (int g = std::gcd(a, p); g != 1; g = std::gcd(a, p)) {
 		if (b % g) return -1;
-		p /= g, b /= g, t = t * (a / g) % p;
+		p /= g, b /= g, t = 1LL * t * (a / g) % p;
 		++cnt;
 		if (b == t) return cnt;
 	}
-	std::map<LL, LL> mp;
-	LL m = LL(std::sqrt(p + 0.1) + 1);
-	LL base = b;
-	for (LL i = 0; i != m; ++i) {
+	std::map<int, int> mp;
+	int m = std::sqrt(p + 0.1) + 1;
+	int base = b;
+	for (int i = 0; i != m; ++i) {
 		mp[base] = i;
-		base = base * a % p;
+		base = 1LL * base * a % p;
 	}
 	base = powMod(a, m, p);
-	for (LL i = 1; i <= m + 1; ++i) {
-		t = t * base % p;
-		if (mp.count(t)) return i * m - mp[t] + cnt;
+	for (int i = 1; i <= m + 1; ++i) {
+		t = 1ll * t * base % p;
+		if (mp.count(t)) return (1LL * i * m - mp[t] + cnt) % p;
 	}
 	return -1;
 }
 // 模板例题：https://www.luogu.com.cn/problem/P3846
 
 // 模开方：返回 x 使得 x^2 = a mod p, 无解输出 -1。复杂度 $O(\log^2 p)$
-LL sqrtModp(LL a, LL p) { // p 为素数，0 <= a < p < INT_MAX。
+int sqrtModp(int a, int p) { // p 为素数，0 <= a < p < INT_MAX。
 	if (a == 0 || p == 2) return a;
-	auto pow = [p](LL x, LL n) {
-		LL r = 1;
+	auto pow = [p](int x, int n) {
+		int r = 1;
 		while (n) {
-			if (n&1) r = r * x % p;
-			n >>= 1; x = x * x % p;
+			if (n&1) r = 1LL * r * x % p;
+			n >>= 1; x = 1LL * x * x % p;
 		}
 		return r;
 	};
-	LL q = (p - 1) / 2;
+	int q = (p - 1) / 2;
 	if (pow(a, q) != 1) return -1;
 	if (q & 1) return pow(a, (q + 1) / 2);
-	LL b; // 寻找一个非二次剩余
+	int b; // 寻找一个非二次剩余
 	std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 	while (pow(b = rnd() % (p - 1) + 1, q) == 1);
 	int c = __builtin_ctzll(q);
 	q >>= c; // p - 1 = q << (c + 1)
 	b = pow(b, q);
-	LL x = pow(a, (q + 1) / 2), t = pow(a, q);
+	int x = pow(a, (q + 1) / 2), t = pow(a, q);
 	// 始终保持 x^2 = a t, t^{2^c} = 1, b^{2^c} = -1
 	while (t != 1) {
 		// 返回最小的 r 使得 u^{2^r} = -1 
-		int cc = [p](LL u) {
+		int cc = [p](int u) {
 			int r = 0;
-			while ((u = u * u % p) != 1) ++r;
+			while ((u = 1LL * u * u % p) != 1) ++r;
 			return r;
 		}(t);
-		LL d = pow(b, 1LL << (c - cc - 1)); // d^{2^{cc + 1}} = -1
+		int d = pow(b, 1LL << (c - cc - 1)); // d^{2^{cc + 1}} = -1
 		// (xd)^2 = a t d^2, (t d^2)^{2^{cc}} = 1, (d^2)^{2^cc} = -1
-		x = x * d % p;
-		b = d * d % p;
-		t = t * b % p;
+		x = 1LL * x * d % p;
+		b = 1LL * d * d % p;
+		t = 1LL * t * b % p;
 		c = cc;
 	}
 	return x;
@@ -777,8 +775,7 @@ LL sqrtModp(LL a, LL p) { // p 为素数，0 <= a < p < INT_MAX。
 class Matrix {
 public:
 	const static int N = 1003;
-	LL a[N][N], mod;
-	int n;
+	int n, a[N][N], mod;
 	Matrix() {}
 	Matrix(int _n, int x = 0): n(_n) { // xIn
 		all(0);
@@ -808,7 +805,7 @@ public:
 		for (int i = 0; i < n; ++i) {
 			for (int k = 0; k < n; ++k) {
 				for (int j = 0; j < n; ++j) {
-					R.a[i][j] = (R.a[i][j] + a[i][k] * A.a[k][j]) % mod;
+					R.a[i][j] = (R.a[i][j] + 1LL * a[i][k] * A.a[k][j]) % mod;
 				}
 			}
 		}
@@ -817,7 +814,7 @@ public:
 	void print() {
 		for (int i = 0; i < n; ++i) {
 			for (int j = 0; j < n; ++j) {
-				std::cout << a[i][j] << " ";
+				std::cout << a[i][j] << ' ';
 			}
 			std::cout << std::endl;
 		}
@@ -888,20 +885,20 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 }
 
 // 模 Gauss 消元法 Ax = b
-std::vector<LL> Gauss(std::vector<std::vector<LL>> A, std::vector<LL> b) {
-	const LL M = 998244353;
+std::vector<int> Gauss(std::vector<std::vector<int>> A, std::vector<int> b) {
+	const int M = 998244353;
 	int n = A.size(), m = A[0].size();
-	std::vector<LL> x(m);
-	std::vector<int> p(m);
+	std::vector<int> x(m), p(m);
 	std::iota(p.begin(), p.end(), 0);
-	auto sub = [](LL &x, LL y) {
+	auto sub = [](int &x, int y) {
 		(x -= y) < 0 && (x += M);
 	};
 	auto triangleGauss = [&](int sz) { // A[i][i] = 1
-		std::vector<LL> x(sz);
+		std::vector<int> x(sz);
 		for (int i = sz - 1; i >=0; --i) {
-			x[i] = (b[i] + M) % M;
-			for (int row = 0; row < i; ++row) sub(b[row], A[row][i] * x[i] % M);
+			x[i] = b[i];
+			if (x[i] < 0) x[i] += M;
+			for (int row = 0; row < i; ++row) sub(b[row], 1LL * A[row][i] * x[i] % M);
 		}
 		x.resize(A[0].size());
 		return x;
@@ -921,7 +918,7 @@ std::vector<LL> Gauss(std::vector<std::vector<LL>> A, std::vector<LL> b) {
 		if (i == m) {
 			for (int row = m; row < n; ++row) if (b[row]) {
 				// std::cout << "\nNo answer\n";
-				return std::vector<LL>();
+				return {};
 			}
 			sz = i;
 			break;
@@ -930,13 +927,13 @@ std::vector<LL> Gauss(std::vector<std::vector<LL>> A, std::vector<LL> b) {
 			std::swap(A[i], A[row]);
 			std::swap(b[i], b[row]);
 		}
-		LL inva = powMod(A[i][i], M - 2, M);
+		int inva = powMod(A[i][i], M - 2, M);
 		(b[i] *= inva) %= M;
-		for (int j = m - 1; j >= i; --j) (A[i][j] *= inva) %= M;
+		for (int j = m - 1; j >= i; --j) A[i][j] = 1LL * A[i][j] * inva % M;
 		for (int row = i + 1; row < n; ++row) {
-			sub(b[row], A[row][i] * b[i] % M);
+			sub(b[row], 1LL * A[row][i] * b[i] % M);
 			for (int j = m - 1; j >= i; --j) {
-				sub(A[row][j], A[row][i] * A[i][j] % M);
+				sub(A[row][j], 1LL * A[row][i] * A[i][j] % M);
 			}
 		}
 	}
@@ -1036,35 +1033,36 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
 }
 
 // 计算在 f 处的 lagrange 函数在 m 点的取值（模 M），M 为素数，0 <= f[i] < M
-LL Lagrange(const std::vector<LL> &f, int m, LL M) {
+int Lagrange(const std::vector<int> &f, int m, int M) {
 	int n = f.size();
 	if (m < n) return f[m];
-	LL nfac = 1;
-	for (int i = 2; i < n; ++i) nfac = nfac * i % M;
-	std::vector<LL> ifac(n), AP(n), BP(n);
+	int nfac = 1;
+	for (int i = 2; i < n; ++i) nfac = 1LL * nfac * i % M;
+	std::vector<int> ifac(n), AP(n), BP(n);
 	ifac[n - 1] = powMod(nfac, M - 2, M);
-	for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * i % M;
+	for (int i = n - 1; i > 0; --i) ifac[i - 1] = 1LL * ifac[i] * i % M;
 	AP[0] = BP[n - 1] = 1;
-	for (int i = 1; i < n; ++i) AP[i] = AP[i - 1] * (m + 1 - i) % M;
-	for (int i = n - 2; ~i; --i) BP[i] = BP[i + 1] * (m - 1 - i) % M;
-	LL ans = 0;
+	for (int i = 1; i < n; ++i) AP[i] = 1LL * AP[i - 1] * (m + 1 - i) % M;
+	for (int i = n - 2; ~i; --i) BP[i] = 1LL * BP[i + 1] * (m - 1 - i) % M;
+	int ans = 0;
 	for (int i = 0; i < n; ++i) {
-		LL x = f[i] * AP[i] % M * BP[i] % M * ifac[i] % M * ifac[n - 1 - i] % M;
+		int x = 1LL * f[i] * AP[i] % M * BP[i] % M * ifac[i] % M * ifac[n - 1 - i] % M;
 		ans += (n - 1 - i) & 1 ? M - x : x;
+		if (ans >= M) ans -= M;
 	}
-	return ans % M;
+	return ans;
 }
 // 由 lagrange 插值定理 知f(x) =  \sum_{i = 0}^{n - 1} f_i \prod_{j \neq i} \frac{x - j}{i - j}
 // 简化得 f(m) = \sum_{i = 0}^{n - 1} (-1)^{n - 1 - i} f_i \binom{m}{i} \binom{m - i - 1}{n - 1 - i}
 
 // 基于 lagrange 插值 O(k) 计算自然数方幂和
-LL powSum(LL n, int k, LL M, const std::vector<int> &sp){
+int powSum(LL n, int k, LL M, const std::vector<int> &sp){
 	if (k == 0) return n % M;
-	std::vector<LL> f(k + 2);
+	std::vector<int> f(k + 2);
 	f[1] = 1;
 	for (int i = 2; i < f.size(); ++i) {
 		if (sp[i] == i) f[i] = powMod(i, k, M);
-		else f[i] = f[sp[i]] * f[i / sp[i]] % M;
+		else f[i] = 1LL * f[sp[i]] * f[i / sp[i]] % M;
 	}
 	for (int i = 1; i < f.size(); ++i) {
 		f[i] += f[i - 1];
@@ -1174,17 +1172,17 @@ VL KaratsubaParallel(VL a, VL b, LL p) {
 
 // 借鉴了 jiangly 的模板
 namespace NFT {
-const LL M = 998244353, g = 3;
+const int M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
-LL powMod(LL x, LL n) {
-	LL r(1);
+int powMod(int x, int n) {
+	int r(1);
 	while (n) {
-		if (n & 1) r = r * x % M;
-		n >>= 1; x = x * x % M;
+		if (n&1) r = 1LL * r * x % M;
+		n >>= 1; x = 1LL * x * x % M;
 	}
 	return r;
 }
-void dft(std::vector<LL> &a) {
+void dft(std::vector<int> &a) {
 	int n = a.size();
 	if (rev.size() != n) {
 		int k = __builtin_ctz(n) - 1;
@@ -1200,10 +1198,10 @@ void dft(std::vector<LL> &a) {
 		int k = __builtin_ctz(roots.size());
 		roots.resize(n);
 		while ((1 << k) < n) {
-			LL e = powMod(g, (M - 1) >> (k + 1));
+			int e = powMod(g, (M - 1) >> (k + 1));
 			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
 				roots[2 * i] = roots[i];
-				roots[2 * i + 1] = roots[i] * e % M;
+				roots[2 * i + 1] = 1LL * roots[i] * e % M;
 			}
 			++k;
 		}
@@ -1211,9 +1209,9 @@ void dft(std::vector<LL> &a) {
 	for (int k = 1; k < n; k *= 2) {
 		for (int i = 0; i < n; i += 2 * k) {
 			for (int j = 0; j < k; ++j) {
-				LL u = a[i + j];
-				LL v = a[i + j + k] * roots[k + j] % M;
-				LL x = u + v, y = u - v;
+				int u = a[i + j];
+				int v = 1LL * a[i + j + k] * roots[k + j] % M;
+				int x = u + v, y = u - v;
 				if (x >= M) x -= M;
 				if (y < 0) y += M;
 				a[i + j] = x;
@@ -1222,13 +1220,13 @@ void dft(std::vector<LL> &a) {
 		}
 	}
 }
-void idft(std::vector<LL> &a) {
+void idft(std::vector<int> &a) {
 	int n = a.size();
 	std::reverse(a.begin() + 1, a.end());
 	dft(a);
-	LL inv = powMod(n, M - 2);
+	int inv = powMod(n, M - 2);
 	for (int i = 0; i < n; ++i) {
-		a[i] = a[i] * inv % M;
+		a[i] = 1LL * a[i] * inv % M;
 	}
 }
 } //namespace NFT
@@ -1244,13 +1242,13 @@ class Poly {
 		standard();
 	}
 public:
-	inline const static LL M = NFT::M;
-	std::vector<LL> a;
+	inline const static int M = NFT::M;
+	std::vector<int> a;
 	Poly() {}
-	Poly(LL x) { if (x) a = {x};}
-	Poly(const std::vector<LL> _a) : a(_a) { standard();}
+	Poly(int x) { if (x) a = {x};}
+	Poly(const std::vector<int> _a) : a(_a) { standard();}
 	int size() const { return a.size();}
-	LL operator[](int id) const {
+	int operator[](int id) const {
 		if (id < 0 || id > a.size()) return 0;
 		return a[id];
 	}
@@ -1261,11 +1259,11 @@ public:
 	}
 	Poly modXn(int n) const {
 		if (n > size()) return *this;
-		return Poly(std::vector<LL>(a.begin(), a.begin() + n));
+		return Poly({a.begin(), a.begin() + n});
 	}
 	Poly divXn(int n) const {
 		if (size() <= n) return Poly();
-		return Poly(std::vector<LL>(a.begin() + n, a.end()));
+		return Poly({a.begin() + n, a.end()});
 	}
 	Poly &operator+=(const Poly &A) {
 		if (size() < A.size()) a.resize(A.size());
@@ -1291,7 +1289,7 @@ public:
 		NFT::dft(a);
 		NFT::dft(rhs.a);
 		for (int i = 0; i < sz; ++i) {
-			a[i] = a[i] * rhs.a[i] % M;
+			a[i] = 1LL * a[i] * rhs.a[i] % M;
 		}
 		NFT::idft(a);
 		standard();
@@ -1333,28 +1331,26 @@ public:
 		}
 		return r;
 	}
-	LL inner(const Poly & rhs) {
-		LL r = 0;
-		int n = std::min(size(), rhs.size());
+	int inner(const Poly & rhs) {
+		int r = 0, n = std::min(size(), rhs.size());
 		for (int i = 0; i < n; ++i) {
-			r = (r + a[i] * rhs.a[i]) % M;
+			r = (r + 1LL * a[i] * rhs.a[i]) % M;
 		}
 		return r;
 	}
 	Poly derivation() const {
 		if (a.empty()) return Poly();
 		int n = size();
-		std::vector<LL> r(n - 1);
-		for (int i = 1; i < n; ++i) r[i - 1] =  a[i] * i % M;
+		std::vector<int> r(n - 1);
+		for (int i = 1; i < n; ++i) r[i - 1] =  1LL * a[i] * i % M;
 		return Poly(r);
 	}
 	Poly integral() const {
 		if (a.empty()) return Poly();
 		int n = size();
-		std::vector<LL> r(n + 1), inv(n + 1);
-		inv[1] = 1;
-		for (int i = 2; i <= n; ++i) inv[i] = (M - M / i) * inv[M % i] % M;
-		for (int i = 0; i < n; ++i) r[i + 1] = a[i] * inv[i + 1] % M;
+		std::vector<int> r(n + 1), inv(n + 1, 1);
+		for (int i = 2; i <= n; ++i) inv[i] = 1LL * (M - M / i) * inv[M % i] % M;
+		for (int i = 0; i < n; ++i) r[i + 1] = 1LL * a[i] * inv[i + 1] % M;
 		return Poly(r);
 	}
 	Poly inv(int n) const {
@@ -1385,7 +1381,7 @@ public:
 	Poly sqrt(int n) const {
 		Poly x(1);
 		int k = 1;
-		LL inv2 = (M + 1) / 2;
+		int inv2 = (M + 1) / 2;
 		while (k < n) {
 			k *= 2;
 			x += modXn(k) * x.inv(k);
@@ -1400,24 +1396,24 @@ public:
 		std::reverse(rhs.a.begin(), rhs.a.end());
 		return ((*this) * rhs).divXn(n - 1);
 	}
-	LL eval(LL x) {
-		x %= M;
-		LL r = 0, t = 1;
+	int eval(int x) {
+		int r = 0, t = 1;
 		for (int i = 0, n = size(); i < n; ++i) {
-			r = (r + a[i] * t) % M;
-			t = t * x % M;
+			r = (r + 1LL * a[i] * t) % M;
+			t = 1LL * t * x % M;
 		}
 		return r;
 	}
 	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
-	std::vector<LL> eval(std::vector<LL> x) const {
-		if (size() == 0) return std::vector<LL>(x.size());
+	std::vector<int> eval(std::vector<int> x) const {
+		if (size() == 0) return std::vector<int>(x.size());
 		int n = x.size();
-		std::vector<LL> ans(n);
+		std::vector<int> ans(n);
 		std::vector<Poly> g(4 * n);
 		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
 			if (r - l == 1) {
-				g[p] = std::vector<LL>{1, (M - x[l]) % M};
+				// g[p] = std::vector<int>{1, x[i] ? M - x[l] : 0};
+				g[p] = Poly({1, x[l] ? M - x[l] : 0});
 			} else {
 				int m = (l + r) / 2;
 				build(l, m, 2 * p);
@@ -1442,10 +1438,10 @@ public:
 // 非 NFT-friendly 的模数可以看我的这份提交：https://codeforces.com/contest/1516/submission/113886543
 
 // 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
-std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
+std::vector<int> sumFraction(std::vector<int> a, std::vector<int> b, int N) {
 	std::function<std::pair<Poly, Poly>(int, int)> solve = [&](int l, int r) -> std::pair<Poly, Poly> {
 		if (r - l == 1) {
-			return {Poly(a[l]), Poly({1, (Poly::M - b[l]) % Poly::M})};
+			return {Poly(a[l]), Poly({1, b[l] ? Poly::M - b[l] : 0})};
 		}
 		int m = (l + r) / 2;
 		auto [pl, ql] = solve(l, m);
@@ -1461,187 +1457,19 @@ std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
 
 // $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
 // $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
-LL linearRecursion(std::vector<LL> a, std::vector<LL> f, int n) {
+int linearRecursion(std::vector<int> a, std::vector<int> f, int n) {
 	if (n < a.size()) return a[n];
 	int m = f.size();
 	std::reverse(f.begin(), f.end());
-	std::vector<LL> g(m);
+	std::vector<int> g(m);
 	g.emplace_back(1);
 	Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
 	Poly R = A.powMod(n, p);
 	return R.inner(a);
 } // 模板: https://www.luogu.com.cn/problem/P4723
 
-// Miskcoo 的模板，已经被淘汰了，只是舍不得删
-namespace NFTS {
-LL M = 998244353, ROOT = 3;
-LL powMod(LL x, LL n) {
-	LL r(1);
-	while (n) {
-		if (n & 1) r = r * x % M;
-		n >>= 1;
-		x = x * x % M;
-	}
-	return r;
-}
-std::vector<int> rev;
-void bitreverse(std::vector<LL> &a) {
-	for (int i = 0, j = 0; i != a.size(); ++i) {
-		if (i > j) std::swap(a[i], a[j]);
-		for (int l = a.size() >> 1; (j ^= l) < l; l >>= 1);
-	}
-}
-void nft(std::vector<LL> &a, bool isInverse = false) {
-	LL g = powMod(ROOT, (M - 1) / a.size());
-	if (isInverse) {
-		g = powMod(g, M - 2);
-		LL invLen = powMod(LL(a.size()), M - 2);
-		for (auto & x: a) x = x * invLen % M;
-	}
-	bitreverse(a);
-	std::vector<LL> w(a.size(), 1);
-	for (int i = 1; i != w.size(); ++i) w[i] = w[i - 1] * g % M;
-	auto addMod = [](LL x, LL y) {
-		return (x += y) >= M ? x -= M : x;
-	};
-	for (int step = 2, half = 1; half != a.size(); step <<= 1, half <<= 1) {
-		for (int i = 0, wstep = a.size() / step; i != a.size(); i += step) {
-			for (int j = i; j != i + half; ++j) {
-				LL t = (a[j + half] * w[wstep * (j - i)]) % M;
-				a[j + half] = addMod(a[j], M - t);
-				a[j] = addMod(a[j], t);
-			}
-		}
-	}
-}
-void mul(std::vector<LL>& a, std::vector<LL> b) {
-	int n = a.size(), m = b.size(), tot = n + m - 1;
-	if (n < 8 || m < 8 || tot < 64) {
-		std::vector<LL> c(tot);
-		for (int i = 0; i < n; ++i) {
-			for (int j = 0; j < m; ++ j) {
-				c[i + j] += a[i] * b[j] % M;
-			}
-			for (auto &x : c) x %= M;
-		}
-		std::swap(a, c);
-		return;
-	}
-	int sz = 1 << int(std::__lg(tot - 1) + 1);
-	a.resize(sz);
-	b.resize(sz);
-	nft(a);
-	nft(b);
-	for (int i = 0; i != sz; ++i) a[i] = a[i] * b[i] % M;
-	nft(a, 1);
-	a.resize(tot);
-}
-// 上面是（加法）卷积，下面是减法卷积
-void mult(std::vector<LL> &a, std::vector<LL> b) {
-	int n = a.size();
-	std::reverse(a.begin(), a.end());
-	mul(a, b);
-	a.resize(n);
-	std::reverse(a.begin(), a.end());
-}
-// 递归版本
-std::vector<LL> inv(std::vector<LL> a, int n) {
-	if (n == 1) return std::vector<LL>({powMod(a[0], M - 2)});
-	std::vector<LL> invA(n), b = inv(a, (n + 1) / 2);
-	a.resize(n); mul(a, b); a.resize(n);
-	invA[0] = (M + 2 - a[0]) % M;
-	for (int i = 1; i < n; ++i) invA[i] = (a[i] == 0 ? 0 : M - a[i]);
-	mul(invA, b); invA.resize(n);
-	return invA;
-}
-// 非递归版本实测要慢一些（不敢相信）
-std::vector<LL> invS(std::vector<LL> a, int n) {
-	assert(a[0] != 0);
-	std::vector<LL> invA({powMod(a[0], M - 2)});
-	for (int sz = 1; sz < n; sz *= 2) {
-		auto aa = a;
-		aa.resize(2 * sz);
-		mul(aa, invA);
-		std::vector<LL> invAA(2 * sz);
-		invAA[0] = (M + 2 - aa[0]) % M;
-		for (int i = 1; i < 2 * sz; ++i) invAA[i] = (aa[i] == 0 ? 0 : M - aa[i]);
-		mul(invAA, invA);
-		invAA.resize(2 * sz);
-		std::swap(invAA, invA);
-	}
-	return invA;
-}
-// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
-std::vector<LL> multiValue(std::vector<LL> f, std::vector<LL> a) {
-	int n = a.size(), sz = f.size();
-	std::vector<std::vector<LL>> g(4 * n), ans(4 * n);
-	std::vector<LL> ret(n);
-	auto pushUp = [&](int rt) {
-		g[rt] = g[rt * 2];
-		mul(g[rt], g[rt * 2 + 1]);
-	};
-	std::function<void(int, int, int)> build = [&](int l, int r, int rt) {
-		if (l == r) {
-			g[rt] = {1, (a[l - 1] == 0 ? 0 :M - a[l - 1])};
-			return;
-		}
-		int m = (l + r) / 2;
-		build(l, m, rt * 2);
-		build(m + 1, r, rt * 2 + 1);
-		pushUp(rt);
-	};
-	auto pushDown = [&](int l, int r, int rt) {
-		int m = (l + r) / 2, lm = m - l + 1, rm = r - m;
-		ans[rt * 2] = ans[rt * 2 + 1] = ans[rt];
-		mult(ans[rt * 2], g[rt * 2 + 1]);
-		ans[rt * 2].resize(lm);
-		mult(ans[rt * 2 + 1], g[rt * 2]);
-		ans[rt * 2 + 1].resize(rm);
-	};
-	std::function<void(int, int, int)> solve = [&](int l, int r, int rt) {
-		if (l == r) {
-			ret[l - 1] = ans[rt].back();
-			return;
-		}
-		pushDown(l, r, rt);
-		int m = (l + r) / 2;
-		solve(l, m, rt * 2);
-		solve(m + 1, r, rt * 2 + 1);
-	};
-	build(1, n, 1);
-	ans[1] = f;
-	mult(ans[1], inv(g[1], sz));
-	ans[1].resize(sz);
-	solve(1, n, 1);
-	return ret;
-}
-// 模板例题：https://www.luogu.com.cn/problem/P5050
-
-// \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
-std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
-	std::function<std::pair<std::vector<LL>, std::vector<LL>>(int, int)> solve = [&](int l, int r) {
-		if (l == r) {
-			return std::make_pair(std::vector<LL>({a[l - 1]}), std::vector<LL>({1, (b[l - 1] == 0 ? 0 : M - b[l - 1])}));
-		}
-		int m = (l + r) / 2;
-		auto [pl, ql] = solve(l, m);
-		auto [pr, qr] = solve(m + 1, r);
-		auto p = pl, q = pr;
-		mul(p, qr); mul(q, ql);
-		for (int i = 0; i < p.size(); ++i) if ((p[i] += q[i]) >= M) p[i] -= M;
-		q = ql; mul(q, qr);
-		return std::make_pair(p, q);
-	};
-	auto [p, q] = solve(1, a.size());
-	mul(p, inv(q, N));
-	p.resize(N);
-	return p;
-}
-} // namespace NFTS
-
 namespace FMT {
-const int M = 998244353;
-const int inv2 = (M + 1) / 2;
+const int M = 998244353, inv2 = (M + 1) / 2;
 auto add = [](int &x, int y) {
 	(x += y) >= M && (x -= M);
 };
@@ -1682,7 +1510,7 @@ auto FMTxor = [](std::vector<int> &a, bool isRev) {
 			a[j] = (v - u + M) % M;
 			a[j ^ (1 << i)] = (u + v) % M;
 		}
-		if (isRev) for (auto &x : a) x = LL(inv2) * x % M;
+		if (isRev) for (auto &x : a) x = 1LL * inv2 * x % M;
 	}
 };
 auto fun = [](std::function<void(std::vector<int> &, bool)> f, std::vector<int> a, std::vector<int> b) {
@@ -1690,7 +1518,7 @@ auto fun = [](std::function<void(std::vector<int> &, bool)> f, std::vector<int> 
 	a.resize(1 << n); b.resize(1 << n);
 	f(a, 0); f(b, 0);
 	std::vector<int> c(1 << n);
-	for (int i = 0; i < (1 << n); ++i) c[i] = LL(a[i]) * b[i] % M;
+	for (int i = 0; i < (1 << n); ++i) c[i] = 1LL * a[i] * b[i] % M;
 	f(c, 1);
 	return c;
 };
@@ -1717,7 +1545,7 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 	for (int i = 0; i <= n; ++i) {
 		for (int j = 0; j <= i; ++j) {
 			for (int k = 0; k < (1 << n); ++k) {
-				add(sc[i][k], LL(sa[j][k]) * sb[i - j][k] % M);
+				add(sc[i][k], 1LL * sa[j][k] * sb[i - j][k] % M);
 			}
 		}
 		FMTor(sc[i], 1);
@@ -1730,41 +1558,18 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 
 // ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
 // 原理：https://dna049.com/fastPowSumOfNaturalNumber/
-std::vector<LL> powSum(LL n, int k, LL M) {
-	Poly Numerator = Poly(std::vector<LL>{0, n}).exp(k + 1).divXn(1);
-	Poly denominator  = Poly(std::vector<LL>{0, 1}).exp(k + 1).divXn(1);
+std::vector<int> powSum(int n, int k) {
+	Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
+	Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
 	auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
 	auto ans = f.a;
 	ans.resize(k);
-	LL now = 1;
+	int now = 1;
 	for (int i = 2; i < k; ++i) {
-		now = now * i % M;
-		ans[i] = ans[i] * now % M;
+		now = 1LL * now * i % Poly::M;
+		ans[i] = 1LL * ans[i] * now % Poly::M;
 	}
 	return ans;
-}
-
-// ans[i] = 1^i + 2^i + ... + n^i, 0 < i < k
-std::vector<LL> powSumOld(LL n, int k) {
-	auto e = Binom::ifac;
-	e.resize(k + 1);
-	auto b = e;
-	for (int i = 0; i < k; ++i) b[i] = b[i + 1];
-	b.resize(k);
-	auto a = b;
-	LL M = Poly::M, r = 1, x = n % M;
-	for (int i = 0; i < k; ++i) {
-		r = r * x % M;
-		a[i] = a[i] * r % M;
-	}
-	Poly A(a), B(b), E(e);
-	A *= B.inv(k);
-	A.modXn(k);
-	E *= A;
-	e = E.a;
-	e.resize(k);
-	for (int i = 0; i < k; ++i) e[i] = e[i] * Binom::fac[i] % M;
-	return e;
 }
 
 // 计算集合 S 中所有数与 x 异或后的 MEX 值。
@@ -1805,7 +1610,6 @@ public:
 		return r;
 	}
 };
-
 
 namespace Geomerty {
 using Point = std::pair<double, double>;
@@ -1896,7 +1700,7 @@ double minDist(std::vector<Point> a) {
 } // https://www.luogu.com.cn/problem/P1429
 } // namespace Geomerty
 
-// a 是 k * n 矩阵表示 n 个 k 维向量，输出每个小于自身的向量个数
+// a 是 k * n 矩阵表示 n 个 k 维向量，满足序关系的对的个数。
 std::vector<int> partialOrder(std::vector<std::vector<int>> &a) {
 // 直接暴力不太行，所以需要时间换空间，具体说就是分块。
 	int k = a.size(), n = a[0].size();
