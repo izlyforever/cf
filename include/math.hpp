@@ -1577,11 +1577,10 @@ class MEX {
 	// 具体数值要对应修改。
 	inline static const int B = 20;
 	std::array<std::map<int, int>, B> mp;
-	std::set<int> S;
+	std::map<int, int> S;
 public:
 	void insert(int x) {
-		if (S.count(x)) return;
-		S.insert(x);
+		if (S[x]++) return;
 		int mask = 0;
 		for (int i = B - 1; i >= 0; --i) {
 			mask |= 1 << i;
@@ -1589,7 +1588,7 @@ public:
 		}
 	}
 	void erase(int x) {
-		if (!S.count(x)) return;
+		if (--S[x]) return;
 		S.erase(x);
 		int mask = 0;
 		for (int i = B - 1; i >= 0; --i) {
