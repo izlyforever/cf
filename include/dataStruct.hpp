@@ -290,6 +290,64 @@ public:
 	}
 };
 
+// 可持续化线段树，学习资料：https://zhuanlan.zhihu.com/p/250565583
+class PstSegTree {
+// 此版本 val
+struct Node {
+	int l, r;
+	LL val;
+};
+void pushUp(int p) {
+	tree[p].val = tree[tree[p].l].val + tree[tree[p].r].val;
+}
+public:
+int n;
+std::vector<int> root; // 保存版本号
+std::vector<Node> tree;
+int newNode() {
+	int sz = tree.size();
+	tree.emplace_back(Node());
+	return sz;
+}
+PstSegTree(const std::vector<int> &a) : n(a.size()) {
+	root.emplace_back(newNode());
+	std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+		if (r - l == 1) {
+			tree[p].val = a[l];
+		} else {
+			int m = (l + r) / 2;
+			build(l, m, tree[p].l = newNode());
+			build(m, r, tree[p].r = newNode());
+			pushUp(p);
+		}
+	};
+	build(0, n, root.back());
+}
+// 单点更新，p 位当前版本，q 为新版本
+void update(int pos, int val, int l, int r, int p, int q) {
+	if (r - l == 1) {
+		tree[q].val = val;
+	} else {
+		tree[q] = tree[p];
+		int m = (l + r) / 2;
+		if (pos < m) update(pos, val, l, m, tree[p].l, tree[q].l = newNode());
+		else update(pos, val, m, r, tree[p].r, tree[q].r = newNode());
+		pushUp(q);
+	}
+}
+// 区间求和，p 位当前版本，q 为新版本
+LL query(int L, int R, int l, int r, int p) {
+	if (L <= l && R >= r) return tree[p].val;
+	int m = (l + r) / 2;
+	LL ans = 0;
+	if (L < m) ans += query(L, R, l, m, tree[p].l);
+	if (R > m) ans += query(L, R, m, r, tree[p].r);
+	return ans;
+}
+};
+// 模板例题：https://www.luogu.com.cn/problem/P3919
+
+
 // 最长（严格）递增子序列
 int LIS(std::vector<int>& a) { // length of longest increasing subsquence
 	std::vector<int> b;

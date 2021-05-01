@@ -124,6 +124,7 @@
 - 并查集 (Disjoint Union Set)
 - 树状数组 (FenwickTree)
 - 线段树 (Segment Tree)
+- 可持续化线段树(Persistable Segment Tree)
 - 莫队（线段树一样都是通用的类型，具体问题具体写）
 - 最长（严格）递增子序列
 - 单调队列
