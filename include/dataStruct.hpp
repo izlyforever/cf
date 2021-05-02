@@ -325,10 +325,10 @@ PstSegTree(const std::vector<int> &a) : n(a.size()) {
 }
 // 单点更新，p 位当前版本，q 为新版本
 void update(int pos, int val, int l, int r, int p, int q) {
+	tree[q] = tree[p];
 	if (r - l == 1) {
 		tree[q].val = val;
 	} else {
-		tree[q] = tree[p];
 		int m = (l + r) / 2;
 		if (pos < m) update(pos, val, l, m, tree[p].l, tree[q].l = newNode());
 		else update(pos, val, m, r, tree[p].r, tree[q].r = newNode());
