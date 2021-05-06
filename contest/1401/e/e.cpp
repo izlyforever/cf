@@ -4,10 +4,10 @@
 using LL = long long;
 const int N = 1e6;
  
-struct TreeArray {
+struct Bitree {
 	std::vector<LL> s;
-	TreeArray() {}
-	TreeArray(int n) {
+	Bitree() {}
+	Bitree(int n) {
 		s.resize(n);
 	}
 	int lowbit(int n) {
@@ -47,7 +47,7 @@ int main() {
 	for (auto &[x, ly, ry] : b) std::cin >> x >> ly >> ry;
 	sort(b.begin(), b.end());
 	LL r = 1;
-	TreeArray A(N + 1);
+	Bitree A(N + 1);
 	for (auto &[x, y] : la) {
 		A.add(y + 1, 1);
 		if (x == N) ++r;

@@ -115,7 +115,6 @@
 - Lyndon 分解的 Duval 算法
 - 处理回文的 Manacher 算法
 
-
 ## 数据结构
 
 - 暴力枚举
@@ -125,6 +124,7 @@
 - 树状数组 (FenwickTree)
 - 线段树 (Segment Tree)
 - 可持续化线段树(Persistable Segment Tree)
+- 树状数组套线段树求动态区间第 k 小
 - 莫队（线段树一样都是通用的类型，具体问题具体写）
 - 最长（严格）递增子序列
 - 单调队列

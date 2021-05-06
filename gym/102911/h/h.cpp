@@ -2,10 +2,10 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-struct TreeArray {
+struct Bitree {
 	std::vector<LL> s;
-	TreeArray() {}
-	TreeArray(int n) : s(n + 1) {}
+	Bitree() {}
+	Bitree(int n) : s(n + 1) {}
 	int lowbit(int n) { 
 		return n & (-n);
 	}
@@ -38,7 +38,7 @@ int main() {
 		a[i] = {h[i], i + 1, w[i]};
 	}
 	std::sort(a.rbegin(), a.rend());
-	TreeArray A(n);
+	Bitree A(n);
 	LL r = 0;
 	for (auto [hi, id, wi] : a) {
 		r += A.sum(id) * wi;

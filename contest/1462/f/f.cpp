@@ -18,10 +18,10 @@ std::vector<T> discrete(std::vector<T>& a) {
 	return r;
 }
 
-struct TreeArray {
+struct Bitree {
 	std::vector<int> s;
-	TreeArray() {}
-	TreeArray(int n) { init(n); }
+	Bitree() {}
+	Bitree(int n) { init(n); }
 	void init(int n) {
 		s.resize(n + 1);
 		std::fill(s.begin(), s.end(), 0);
@@ -66,7 +66,7 @@ int main() {
 			a[i].first = b[2 * i];
 			a[i].second = b[2 * i + 1];
 		}
-		TreeArray A(2 * n);
+		Bitree A(2 * n);
 		int r = 0;
 		for (int i = 0; i < n; ++i) {
 			int it = std::lower_bound(a.begin(), a.end(), std::make_pair(b[i * 2 + 1], 0)) - a.begin();

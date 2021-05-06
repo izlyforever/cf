@@ -4,10 +4,10 @@
 #define println std::cout << std::endl
 using LL = long long;
  
-struct TreeArray {
+struct Bitree {
 	std::vector<LL> s;
-	TreeArray() {}
-	TreeArray(int n) { init(n); }
+	Bitree() {}
+	Bitree(int n) { init(n); }
 	void init(int n) {
 		s.resize(n + 1);
 		std::fill(s.begin(), s.end(), 0);
@@ -63,7 +63,7 @@ int main() {
 		tmp[s[i - 1] - 'a'].pop_back();
 	}
 	for (int i = 1; i <= n; ++i) p[a[i]] = i;
-	TreeArray A(n);
+	Bitree A(n);
 	LL r = 0;
 	for (int i = n; i > 0; --i) {
 		r += A.sum(p[i]);
