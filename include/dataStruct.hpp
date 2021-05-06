@@ -414,7 +414,8 @@ class BitPstSegTree {
 		for (int i = r; i; i -= lowbit(i)) q.emplace_back(i);
 		return query(k, 0, N, p, q);
 	}
-};	// 模板例题：https://www.luogu.com.cn/problem/P2617
+};
+// 模板例题：https://www.luogu.com.cn/problem/P2617
 
 // 最长（严格）递增子序列
 int LIS(std::vector<int> &a) {	// length of longest increasing subsquence
