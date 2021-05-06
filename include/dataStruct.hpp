@@ -183,7 +183,7 @@ struct Bitree {
 };
 
 // 加强版树状数组（编号从 1 开始，区间更新，区间求和）
-class TreeArrayPlus {
+class BitreePlus {
 	int n;
 	// c[i] = a[i] - a[i - 1], b_i = (i - 1) * c_i
 	Bitree B, C;
@@ -193,8 +193,8 @@ class TreeArrayPlus {
 	}
 
    public:
-	TreeArrayPlus() {}
-	TreeArrayPlus(int _n) : n(_n), B(n), C(n) {}
+	BitreePlus() {}
+	BitreePlus(int _n) : n(_n), B(n), C(n) {}
 	void add(int l, int r, int p) {
 		add(l, p);
 		add(r + 1, -p);
