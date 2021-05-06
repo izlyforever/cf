@@ -1,0 +1,101 @@
+#include <bits/stdc++.h>
+#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+using LL = long long;
+
+class PstSegTree {
+	struct Node {
+		int l, r, val;
+	};
+	int n;
+	std::vector<Node> tree;
+	void pushUp(int p) {
+		tree[p].val = std::min(tree[tree[p].l].val, tree[tree[p].r].val);
+	}
+public:
+	int newNode() {
+		int sz = tree.size();
+		tree.emplace_back(Node());
+		return sz;
+	}
+	std::vector<int> root;
+	PstSegTree(int _n) : n(_n) {
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				tree[p].val = -1;
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, tree[p].l = newNode());
+				build(m, r, tree[p].r = newNode());
+				pushUp(p);
+			}
+		};
+		root.emplace_back(newNode());
+		build(0, n, root.back());
+	}
+	void add(int x, int val, int l, int r, int p, int q) {
+		tree[q] = tree[p];
+		if (r - l == 1) {
+			tree[q].val += val;
+		} else {
+			int m = (l + r) / 2;
+			if (x < m) add(x, val, l, m, tree[p].l, tree[q].l = newNode());
+			else add(x, val, m, r, tree[p].r, tree[q].r = newNode());
+			pushUp(q);
+		}
+	}
+	int query(int k, int l, int r, std::vector<int> &p, std::vector<int> &q) {
+		if (r - l == 1) return l;
+		int m = (l + r) / 2, now = 0;
+		for (auto x : q) now += tree[tree[x].l].val;
+		for (auto x : p) now -= tree[tree[x].l].val;
+		if (now >= k) {
+			for (auto &x : q) x = tree[x].l;
+			for (auto &x : p) x = tree[x].l;
+			return query(k, l, m, p, q);
+		}
+		for (auto &x : q) x = tree[x].r;
+		for (auto &x : p) x = tree[x].r;
+		return query(k - now, m, r, p, q);
+	}
+};
+
+int main() {
+	// freopen("in", "r", stdin);
+	std::cin.tie(nullptr)->sync_with_stdio(false);
+	int n, q;
+	std::cin >> n >> q;
+	std::vector<int> a(n);
+	for (auto &x : a) std::cin >> x;
+	auto b = a;
+	struct Node {
+		bool op;
+		int l, r, k, x, y;
+	};
+	std::vector<Node> Q(q);
+	for (int i = 0; i < q; ++i) {
+		char op;
+		std::cin >> op;
+		if (op == 'Q') {
+			Q[i].op = 1;
+			std::cin >> Q[i].l >> Q[i].r >> Q[i].k;
+		} else {
+			Q[i].op = 0;
+			std::cin >> Q[i].x >> Q[i].y;
+			b.emplace_back(Q[i].y);
+		}
+	}
+	std::sort(b.begin(), b.end());
+	b.erase(std::unique(b.begin(), b.end()), b.end());
+	auto f = [&](int x) {
+		return std::lower_bound(b.begin(), b.end(), x) - b.begin();	
+	};
+	int m = b.size();
+	PstSegTree A(m);
+	for (int i = 0; i < n; ++i) {
+		A.root.emplace_back(A.newNode());
+		// A.update()
+		// for (int j = i; j <= n; j += j & -j) A.add()
+		// A.update(a[i], 1, 0, m, A.root[i], A.root[i + 1]);
+	}
+	return 0;
+}

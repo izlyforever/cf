@@ -2,77 +2,99 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-// O(N) 预处理所有数的最小素因子
-std::vector<int> spf(int N) {
-	std::vector<int> sp(N), p{0, 2};
-	for (int i = 2; i < N; i += 2) sp[i] = 2;
-	for (int i = 1; i < N; i += 2) sp[i] = i;
-	for (int i = 3; i < N; i += 2) {
-		if (sp[i] == i) p.emplace_back(i);
-		for (int j = 2; j < p.size() && p[j] <= sp[i] && i * p[j] < N; ++j) {
-			sp[i * p[j]] = p[j]; // 注意到sp只被赋值一次
+class PstDSU {
+public:
+	int n;
+	struct Node {
+		int l, r, fa, dep;
+	};
+	int newNode () {
+		int sz = tree.size();
+		tree.emplace_back(Node());
+		return sz;
+	}
+	std::vector<Node> tree;
+	std::vector<int> root;
+	PstDSU(int _n) : n(_n) {
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				tree[p].fa = l;
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, tree[p].l = newNode());
+				build(m, r, tree[p].r = newNode());
+			}
+		};
+		root.emplace_back(newNode());
+		build(0, n, root.back());
+	}
+	int find(int x, int p) {
+		int px = query(x, 0, n, p);
+		if (x == px) return x;
+		return find(px, p);
+	}
+	int query(int x, int l, int r, int p) {
+		if (r - l == 1) return tree[p].fa;
+		int m = (l + r) / 2;
+		if (x < m) return query(x, l, m, tree[p].l);
+		return query(x, m, r, tree[p].r);
+	}
+	int queryDep(int x, int l, int r, int p) {
+		if (r - l == 1) return tree[p].dep;
+		int m = (l + r) / 2;
+		if (x < m) return query(x, l, m, tree[p].l);
+		return query(x, m, r, tree[p].r);
+	}
+	void update(int x, int y, int l, int r, int p, int q) {
+		tree[q] = tree[p];
+		if (r - l == 1) {
+			tree[q].fa = y;
+		} else {
+			int m = (l + r) / 2;
+			if (x < m) update(x, y, l, m, tree[p].l, tree[q].l = newNode());
+			update(x, y, m, r, tree[p].r, tree[q].r = newNode());
 		}
 	}
-	return sp;
-}
-// 返回最小原根，无的话返回 0
-int primitiveRoot(int n, const std::vector<int> &sp) {
-	if (n < 2) return 0;
-	if (n == 2 || n == 4) return n - 1;
-	if (n % 4 == 0) return 0;
-	int n2 = n % 2 == 0 ? n / 2 : n;
-	int pn = sp[n2];
-	while (n2 % pn == 0) n2 /= pn;
-
-}
-// 返回所有原根，若无返回空
-std::vector<int> primitiveRootAll(int n, const std::vector<int> &sp) {
-	if (n < 2) return {};
-	if (n == 2 || n == 4) return {n - 1};
-	if (n % 4 == 0) return {};
-	int n2 = n % 2 == 0 ? n / 2 : n, pn = sp[n2];
-	while (n2 % pn == 0) n2 /= pn;
-	if (n2 != 1) return {};
-	int m = (n & 1 ? n : n / 2) / pn * (pn - 1);
-	std::vector<int> vis(n, -1), ans;
-	for (int i = 2; i < n; ++i) if (vis[i] == -1 && std::gcd(i, n) == 1) {
-		bool flag = true;
-		LL now = 1;
-		for (int j = 1; j < m; ++j) {
-			now = now * i % n;
-			if (now == 1) {
-				flag = false;
-				break;
+	void merge(int x, int y, int p) {
+		int fx = find(x, p), fy = find(y, p);
+		if (fx != fy) {
+			root.emplace_back(newNode());
+			if (tree[fx].dep > tree[fy].dep) {
+				update(fy, fx, 0, n, p, root.back());
+			} else {
+				update(fx, fy, 0, n, p, root.back());
+				if (tree[fx].dep == tree[fy].dep) ++tree[fy].dep;
 			}
-			if (std::gcd(j, m) == 1) vis[now] = i;
-			else vis[now] = 0;
-		}
-		if (flag) { // 此时 i 必然是最小原根
-			for (int j = 0; j < n; ++j) if (vis[j] == i) {
-				ans.emplace_back(j);
-			}
-			return ans;
-		}
+		} else root.emplace_back(root.back());
 	}
-	return {};
-}
+};
 
 int main() {
-	//freopen("in", "r", stdin);
+	// freopen("in", "r", stdin);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
-	auto sp = spf(1e6 + 2);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int n, d;
-		std::cin >> n >> d;
-		auto ans = primitiveRootAll(n, sp);
-		// debug(ans);
-		std::cout << ans.size() << '\n';
-		for (int i = 0; i < ans.size(); ++i) if ((i + 1) % d == 0) {
-			std::cout << ans[i] << ' ';
+	int n, q;
+	std::cin >> n >> q;
+	PstDSU A(n);
+	while (q--) {
+		int op;
+		std::cin >> op;
+		if (op == 2) {
+			int k;
+			std::cin >> k;
+			A.root.emplace_back(A.root[k]);
+		} else {
+			int a, b;
+			std::cin >> a >> b;
+			--a; --b;
+			if (op == 1) {
+				A.merge(a, b, A.root.back());
+			} else {
+				int fa = A.find(a, A.root.back());
+				int fb = A.find(b, A.root.back());
+				std::cout << (fa == fb ? 1 : 0) << '\n';
+				A.root.emplace_back(A.root.back());
+			}
 		}
-		std::cout << '\n';
 	}
 	return 0;
 }
