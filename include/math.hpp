@@ -1738,3 +1738,51 @@ std::vector<int> partialOrder(std::vector<std::vector<int>> &a) {
 	}
 	return r;
 } // http://cogs.pro:8081/cogs/problem/problem.php?pid=vSJzQVejP
+
+
+// 二维区间型: f_{l, r} = \min_{l \leq k < r} f_{l, k} + f_{k + 1, r} + w(l, r) \qquad (1 \leq l < r \leq n)
+template<typename T>
+std::vector<std::vector<T>> quadrangleItvDp(std::vector<std::vector<T>> w, int n) {
+	std::vector<std::vector<T>> f(n + 1, std::vector<T>(n + 1)), mf(n + 1, std::vector<T>(n + 1));
+	for (int i = 1; i < n; ++i) {
+		f[i][i + 1] = w[i][i + 1];
+		mf[i][i + 1] = i;
+	}
+	auto const inf = std::numeric_limits<T>::max() / 2;
+	for (int len = 2; len < n; ++len) {
+		for (int l = 1, r = len + 1; r <= n; ++l, ++r) {
+			f[l][r] = inf;
+			for (int k = mf[l][r - 1]; k <= mf[l + 1][r]; ++k) {
+				if (f[l][r] > f[l][k] + f[k + 1][r]) {
+					f[l][r] = f[l][k] + f[k + 1][r];
+					mf[l][r] = k;
+				}
+			}
+			f[l][r] += w[l][r];
+		}
+	}
+	return f;
+}
+
+// 二维滚动型: f_{i, j} = \min_{k < j} f_{i - 1, k} + w(k + 1, j) \quad (1 \leq i \leq n, 1 \leq j \leq m)
+template<typename T>
+std::vector<std::vector<T>> quadrangleRollDp(std::vector<std::vector<T>> w, int n, int m) {
+// w 是 (n + 1, n + 1) 矩阵，答案是 (m + 1, n + 1) 矩阵
+	std::vector<std::vector<T>> f(m + 1, std::vector<T>(n + 1)), mf(m + 1,  std::vector<T>(n + 2));
+	auto const inf = std::numeric_limits<T>::max() / 2;
+	for (int i = 1; i < n; ++i) f[0][i] = inf;
+	for (int i = 1; i <= m; ++i) {
+		mf[i][n + 1] = n;
+		for (int j = n; j > 0; --j) {
+			f[i][j] = inf;
+			for (int k = std::max(i - 1, mf[i - 1][j]); k < j && k <= mf[i][j + 1]; ++k) {
+				if (f[i][j] > f[i - 1][k] + w[k + 1][j]) {
+					f[i][j] = f[i - 1][k] + w[k + 1][j];
+					mf[i][j] = k;
+				}
+			}
+		}
+	}
+	return f;
+}
+// https://www.luogu.com.cn/problem/P4767

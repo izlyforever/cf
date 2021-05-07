@@ -73,6 +73,7 @@
 - 旋转卡壳（彻底弄懂原理，之后应用此原理推广应用解决：https://www.luogu.com.cn/problem/P7164）
 - 分治法求平面最短距离
 - k 维偏序之 bitset 暴力优化 $O(\frac{k n^2}{w})$
+- 四边形优化 DP
 - [博弈](https://dna049.com/nimSgFunction/#%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F)
 
 

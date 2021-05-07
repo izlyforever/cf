@@ -191,8 +191,7 @@ class BitreePlus {
 		C.add(id, p);
 		B.add(id, (id - 1) * p);
 	}
-
-   public:
+public:
 	BitreePlus() {}
 	BitreePlus(int _n) : n(_n), B(n), C(n) {}
 	void add(int l, int r, int p) {
@@ -261,8 +260,7 @@ class SegmentTree {
 		tag.resize(4 * n);
 		sm.resize(4 * n);
 	}
-
-   public:
+public:
 	SegmentTree(int _n) : n(_n) { resize(); }
 	SegmentTree(const std::vector<LL> &a) {
 		n = a.size();
