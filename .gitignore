@@ -1,5 +1,5 @@
 main*
-in*
-out*
+in
+out
 *.exe
 test*
