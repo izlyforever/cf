@@ -20,13 +20,10 @@ int main() {
 		std::vector<int> son(n + 1);
 		for (int i = 1; i <= n; ++i) son[i] = g[i].size() - 1;
 		++son[1];
-		std::vector<std::set<std::pair<int, int>>> e(n + 1);
-		for (int i = 1; i <= n; ++i) {
-			for (auto x : g[i]) e[i].insert({-son[x], x});
-		}
+		auto e = g;
 		std::vector<std::pair<int, int>> cut, add;
 		std::function<void(int, int)> dfs = [&](int u, int fa) {
-			for (auto [_, v] : e[u]) if (v != fa) dfs(v, u);
+			for (auto v : e[u]) if (v != fa) dfs(v, u);
 			if (son[u] >= 2) {
 				if (g[u].count(fa)) {
 					g[u].erase(fa);
@@ -35,7 +32,7 @@ int main() {
 					--son[fa];
 				}
 			}
-			for (auto [_, v] : e[u]) if (v != fa && son[u] > 2) {
+			for (auto v : e[u]) if (v != fa && son[u] > 2) {
 				if (g[u].count(v)) {
 					g[u].erase(v);
 					g[v].erase(u);

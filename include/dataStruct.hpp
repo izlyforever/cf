@@ -291,8 +291,7 @@ class PstSegTree {
 	void pushUp(int p) {
 		tree[p].val = tree[tree[p].l].val + tree[tree[p].r].val;
 	}
-
-   public:
+public:
 	int n;
 	std::vector<int> root;	// 保存版本号
 	std::vector<Node> tree;
