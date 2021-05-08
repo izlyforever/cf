@@ -1786,12 +1786,3 @@ std::vector<std::vector<T>> quadrangleRollDp(std::vector<std::vector<T>> w, int 
 	return f;
 }
 // https://www.luogu.com.cn/problem/P4767
-
-// 不公平博弈，a[i] 值域为 {1, -1}
-double surrealNumber(std::vector<int> a) {
-	double r = 0;
-	int i = 0, n = a.size();
-	while (i < n && a[i] == a[0]) r += a[i], ++i;
-	for (double k = 2; i < n; ++i, k *= 2) r += a[i] / k;
-	return r;
-}
