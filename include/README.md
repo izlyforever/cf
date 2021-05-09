@@ -31,6 +31,7 @@
 - 拓展 gcd
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
+- decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
 - 模二项式系数
 - 模 Lucas 定理
 - 模 Stirling 数

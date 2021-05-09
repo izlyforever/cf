@@ -108,6 +108,23 @@ int sumNum(const std::vector<int> &c, int m, int M) {
 }
 // 解释：https://dna049.com/classicalCombination/
 
+// 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
+int decInc(int n, int m) {
+	if (n > m) return n - m;
+	int ans = n - 1;
+	// 让 n 变成 i，那么结果就是 n - i + (m % i ? i - m % i : 0) <= n - m % i
+	// 注意到 m % i = m - m / i * i 因此可以用数论分块技术加速
+	for (int i = 1; i <= n; i = m / (m / i) + 1) {
+		ans = std::min(ans, n - m % i);
+	}
+	// 再特判一下 m % i == 0 的情况
+	for (int i = 1; i <= n && i * i <= m; ++i) if (m % i == 0) {
+		ans = std::min(ans, n - i);
+		if (m / i <= n) ans = std::min(ans, n - m / i);
+	}
+	return ans;
+}
+
 // n 个集合中选 k 个，二进制为 1 的表示选择
 void GospersHack(int n, int k) {
 	int cur = (1 << k) - 1;
