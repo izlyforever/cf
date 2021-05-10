@@ -58,11 +58,10 @@ int main() {
 		e[u].emplace_back(v);
 		e[v].emplace_back(u);
 	}
-	std::vector<int> dep(n + 1, INT_MAX), sz(n + 1, 1), nxt(n + 1, 1);
+	std::vector<int> dep(n + 1, INT_MAX);
 	std::function<void(int, int)> pdfs = [&](int u, int fa) {
 		for (auto v : e[u]) if (v != fa) {
 			pdfs(v, u);
-			sz[u] += sz[v];
 			dep[u] = std::min(dep[u], dep[v] + 1);
 		}
 		if (dep[u] == INT_MAX) dep[u] = 1;
@@ -75,7 +74,7 @@ int main() {
 		return e[x].size() == 2;
 	};
 	std::function<int(int, int, int)> dfs = [&](int d, int u, int fa) -> int {
-		if (sz[u] == dep[u]) return Binom::binom(sz[u], d);
+		if (dep[u] == 1) return 1;
 		int ans = 1;
 		if (d < dep[u] && check(u)) {
 			int v = u, f = fa;
@@ -85,7 +84,7 @@ int main() {
 				f = tmp;
 			}
 			if (d >= dep[v]) {
-				ans = 1LL * ans * Binom::binom(dep[u] - dep[v], d - dep[v] + 1) * dfs(dep[v], v, f) % M;
+				ans = 1LL * ans * Binom::binom(dep[u] - dep[v] + 1, d - dep[v] + 1) * dfs(dep[v], v, f) % M;
 			} else {
 				ans = dfs(d, v, f);
 			}
