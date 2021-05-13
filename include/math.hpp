@@ -184,6 +184,40 @@ int lucas(int n, int k) {
 } // namespace Binom
 // 模板例题：https://www.luogu.com.cn/problem/P3807
 
+// 模固定数阶乘 O(M) 编译时间，$O(sqrt(\sqrt{M}))$ 单次操作
+template<int M>
+struct Factorial {
+	const static int N = M;
+	const static int sn = sqrt(N);
+	int fac[sn];
+	constexpr Factorial(): fac() {
+		fac[0] = 1;
+		for (int i = 1, cur = 1, ans = 1; i < sn; ++i) {
+			for (int j = 0; j < sn; ++j) {
+				ans = 1LL * ans * cur % N;
+				++cur;
+			}
+			fac[i] = ans;
+		}
+	}
+};
+int getFactorial(int n) {
+	// 编译时间长的离谱，
+	static constexpr Factorial<998244353> A;
+	int ans = A.fac[n / A.sn];
+	for (int i = n / A.sn * A.sn + 1; i < n; ++i) {
+		ans = 1LL * ans * i % A.N;
+	}
+	return ans;
+}
+// 例题：https://vjudge.net/problem/LibreOJ-170
+
+// 编译示例：g++ main.cpp -O2 -std=c++17 -fconstexpr-loop-limit=12345678 -fconstexpr-ops-limit=1234567890
+
+// 任意模素数 min_25 求阶乘 $O(\sqrt{n} \log n)$
+
+// 例题：https://www.luogu.com.cn/problem/solution/P5282
+
 namespace Stirling {
 const int N = 1e3 + 2, M = 1e9 + 7;
 std::vector<std::vector<int>> S1(N), S2(N);
