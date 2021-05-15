@@ -1340,7 +1340,7 @@ void idft(std::vector<C> &a) {
 } // namespace FFT 
 // 模板例题：https://www.luogu.com.cn/problem/P3803
 
-// 任意模数多项式模板
+// 任意模数多项式模板（基于 FFT)
 class PolyM {
 	void standard() {
 		while (!a.empty() && a.back() == 0) a.pop_back();
@@ -1556,7 +1556,7 @@ public:
 
 // 借鉴了 jiangly 的模板
 namespace NFT {
-const int M = 998244353, g = 3;
+int M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
 int powMod(int x, int n) {
 	int r(1);
@@ -1707,7 +1707,7 @@ public:
 	Poly operator%(Poly rhs) const {
 		return Poly(*this) %= rhs;
 	}
-	Poly powMod(int n, Poly p) {
+	Poly powModPoly(int n, Poly p) {
 		Poly r(1), x(*this);
 		while (n) {
 			if (n&1) (r *= x) %= p;
@@ -1848,7 +1848,7 @@ int linearRecursion(std::vector<int> a, std::vector<int> f, int n) {
 	std::vector<int> g(m);
 	g.emplace_back(1);
 	Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
-	Poly R = A.powMod(n, p);
+	Poly R = A.powModPoly(n, p);
 	return R.inner(a);
 } // 模板: https://www.luogu.com.cn/problem/P4723
 
@@ -1955,6 +1955,235 @@ std::vector<int> powSum(int n, int k) {
 	}
 	return ans;
 }
+
+
+// 任意模数多项式模板（基于 3 模数，太慢了，不推荐）
+class PolyMTT {
+	void standard() {
+		while (!a.empty() && a.back() == 0) a.pop_back();
+	}
+	void reverse() {
+		std::reverse(a.begin(), a.end());
+		standard();
+	}
+public:
+	inline const static int M[3] = {469762049, 998244353, 1004535809};
+	inline const static LL M01 = 1LL * M[0] * M[1];
+	std::vector<ModInt> a;
+	PolyMTT() {}
+	PolyMTT(ModInt x) { if (x != 0) a = {x};}
+	PolyMTT(const std::vector<ModInt> _a) : a(_a) { standard();}
+	int size() const { return a.size();}
+	ModInt operator[](int id) const {
+		if (id < 0 || id > a.size()) return 0;
+		return a[id];
+	}
+	PolyMTT mulXn(int n) const {
+		auto b = a;
+		b.insert(b.begin(), n, 0);
+		return PolyMTT(b);
+	}
+	PolyMTT modXn(int n) const {
+		if (n > size()) return *this;
+		return PolyMTT({a.begin(), a.begin() + n});
+	}
+	PolyMTT divXn(int n) const {
+		if (size() <= n) return PolyMTT();
+		return PolyMTT({a.begin() + n, a.end()});
+	}
+	PolyMTT &operator+=(const PolyMTT &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) a[i] += rhs.a[i];
+		standard();
+		return *this;
+	}
+	PolyMTT &operator-=(const PolyMTT &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) a[i] -= rhs.a[i];
+		standard();
+		return *this;
+	}
+	friend std::vector<int> mulCore(PolyMTT A, PolyMTT B, int sz) {
+		std::vector<int> a(A.size()), b(B.size());
+		for (int i = 0; i < a.size(); ++i) a[i] = A.a[i];
+		for (int i = 0; i < b.size(); ++i) b[i] = B.a[i];
+		a.resize(sz);
+		b.resize(sz);
+		NFT::dft(a);
+		NFT::dft(b);
+		for (int i = 0; i < sz; ++i) {
+			a[i] = 1LL * a[i] * b[i] % NFT::M;
+		}
+		NFT::idft(a);
+		a.resize(A.size() + B.size() - 1);
+		return a;
+	}
+	static ModInt crt(int a0, int a1, int a2) {
+		int t0 = powMod(M[0], M[1] - 2, M[1]);
+		LL x = (a0 + 1LL * (a1 - a0) * t0 % M[1] * M[0]) % M01;
+		if (x < 0) x += M01;
+		int t1 = powMod(M01 % M[2], M[2] - 2, M[2]);
+		LL y = (a2 - x) % M[2];
+		if (y < 0) y += M[2];
+		y = y * t1 % M[2];
+		if (y < 0) y += M01;
+		return ModInt(x) + ModInt(y) * ModInt(M01);
+	}
+	friend PolyMTT mul(PolyMTT A, PolyMTT B) {
+		int tot = std::max(1, A.size() + B.size() - 1);
+		int sz = 1 << std::__lg(tot * 2 - 1);
+		std::vector<int> c[3];
+		for (int i = 0; i < 3; ++i) {
+			NFT::M = M[i];
+			NFT::roots = {0, 1};
+			c[i] = mulCore(A, B, sz);
+		}
+		std::vector<ModInt> ans(tot);
+		for (int i = 0; i < tot; ++i) ans[i] = crt(c[0][i], c[1][i], c[2][i]);
+		return PolyMTT(ans);
+	}
+	PolyMTT &operator*=(PolyMTT rhs) {
+		return (*this) = (*this) * rhs;
+	}
+	PolyMTT &operator/=(PolyMTT rhs) {
+		int n = size(), m = rhs.size();
+		if (n < m) return (*this) = PolyMTT();
+		reverse();
+		rhs.reverse();
+		(*this) *= rhs.inv(n - m + 1);
+		a.resize(n - m + 1);
+		reverse();
+		return *this;
+	}
+	PolyMTT &operator%=(PolyMTT rhs) {
+		return (*this) -= (*this) / rhs * rhs; 
+	}
+	PolyMTT operator+(const PolyMTT &rhs) const {
+		return PolyMTT(*this) += rhs;
+	}
+	PolyMTT operator-(const PolyMTT &rhs) const {
+		return PolyMTT(*this) -= rhs;
+	}
+	PolyMTT operator*(PolyMTT rhs) const {
+		return mul(*this, rhs);
+	}
+	PolyMTT operator/(PolyMTT rhs) const {
+		return PolyMTT(*this) /= rhs;
+	}
+	PolyMTT operator%(PolyMTT rhs) const {
+		return PolyMTT(*this) %= rhs;
+	}
+	PolyMTT powModPoly(int n, PolyMTT p) {
+		PolyMTT r(1), x(*this);
+		while (n) {
+			if (n&1) (r *= x) %= p;
+			n >>= 1; (x *= x) %= p;
+		}
+		return r;
+	}
+	ModInt inner(const PolyMTT &rhs) {
+		ModInt r(0);
+		int n = std::min(size(), rhs.size());
+		for (int i = 0; i < n; ++i) r += a[i] * rhs.a[i];
+		return r;
+	}
+	PolyMTT derivation() const {
+		if (a.empty()) return PolyMTT();
+		int n = size();
+		std::vector<ModInt> r(n - 1);
+		for (int i = 1; i < n; ++i) r[i - 1] = a[i] * ModInt(i);
+		return PolyMTT(r);
+	}
+	PolyMTT integral() const {
+		if (a.empty()) return PolyMTT();
+		int n = size();
+		std::vector<ModInt> r(n + 1), inv(n + 1, 1);
+		for (int i = 2; i <= n; ++i) inv[i] = ModInt(ModInt::mod() - ModInt::mod() / i) * inv[ModInt::mod() % i];
+		for (int i = 0; i < n; ++i) r[i + 1] = a[i] * inv[i + 1];
+		return PolyMTT(r);
+	}
+	PolyMTT inv(int n) const {
+		assert(a[0] != 0);
+		PolyMTT x(a[0].inv());
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x *= (PolyMTT(2) - modXn(k) * x).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	// 需要保证首项为 1
+	PolyMTT log(int n) const {
+		return (derivation() * inv(n)).integral().modXn(n);
+	}
+	// 需要保证首项为 0
+	PolyMTT exp(int n) const {
+		PolyMTT x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x = (x * (PolyMTT(1) - x.log(k) + modXn(k))).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	// 需要保证首项为 1，开任意次方可以先 ln 再 exp 实现。
+	PolyMTT sqrt(int n) const {
+		PolyMTT x(1), inv2 = ModInt(2).inv();
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x += modXn(k) * x.inv(k);
+			x = x.modXn(k) * inv2;
+		}
+		return x.modXn(n);
+	}
+	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
+	PolyMTT mulT(PolyMTT rhs) const {
+		if (rhs.size() == 0) return PolyMTT();
+		int n = rhs.size();
+		std::reverse(rhs.a.begin(), rhs.a.end());
+		return ((*this) * rhs).divXn(n - 1);
+	}
+	int eval(int x) {
+		ModInt r(0), t(1);
+		for (int i = 0, n = size(); i < n; ++i) {
+			r += a[i] * t;
+			t *= x;
+		}
+		return r;
+	}
+	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
+	std::vector<ModInt> eval(std::vector<ModInt> x) const {
+		if (size() == 0) return std::vector<ModInt>(x.size());
+		int n = x.size();
+		std::vector<ModInt> ans(n);
+		std::vector<PolyMTT> g(4 * n);
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				g[p] = PolyMTT({1, -x[l]});
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, 2 * p);
+				build(m, r, 2 * p + 1);
+				g[p] = g[2 * p] * g[2 * p + 1];
+			}
+		};
+		build(0, n, 1);
+		std::function<void(int, int, int, const PolyMTT &)> solve = [&](int l, int r, int p, const PolyMTT &f) {
+			if (r - l == 1) {
+				ans[l] = f[0];
+			} else {
+				int m = (l + r) / 2;
+				solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
+				solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+			}
+		};
+		solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
+		return ans;
+	} // 模板例题：https://www.luogu.com.cn/problem/P5050
+}; // PolyMTT 全家桶测试：https://www.luogu.com.cn/training/3015#information
+
+
 
 // 计算集合 S 中所有数与 x 异或后的 MEX 值。
 class MEX {
