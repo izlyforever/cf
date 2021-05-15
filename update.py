@@ -15,3 +15,10 @@ os.system('git push origin master')
 # 强制让本地和服务器的一致.
 # git fetch --all
 # git reset --hard origin/master
+
+# 创建新分支并上传
+# git checkout -b [branch name]
+# git push origin [branch name]
+
+# 切换分支
+# git checkout [branch name]
