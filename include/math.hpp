@@ -1956,7 +1956,6 @@ std::vector<int> powSum(int n, int k) {
 	return ans;
 }
 
-
 // 任意模数多项式模板（基于 3 模数，太慢了，不推荐）
 class PolyMTT {
 	void standard() {
