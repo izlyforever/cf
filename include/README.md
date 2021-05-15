@@ -24,9 +24,9 @@
 
 ## 数学
 
+- 模快速幂
 - int128 读写（快读，int, long long 也可以使用）
 - 线性模预处理逆元
-- 模快速幂
 - 二进制快速 gcd
 - 拓展 gcd
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
@@ -63,7 +63,10 @@
 - 模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案
 - MEX（集合中不出现的最小的自然数）
 - 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
-- NFT（快速数论 Fourier 变换），可以写成并行版，但是时间最多减半。
+- ModInt
+- FFT
+- 基于 FFT 的任意模数多项式
+- NFT（快速数论 Fourier 变换），部分并行版，但是时间最多减半，意义不大。
 - 多项式 (加减乘除余，转置乘法，求导，积分，指数，对数，求逆，开方，一点求值，多点求值，快速幂模，内积)
 - 多元多项式乘法就每一维分别做 DFT，然后相乘再 iDFT，小优化就是 invN 可以最后一起乘。
 - 不用 NFT 的多项式示例见：https://codeforces.com/contest/1516/submission/113886543

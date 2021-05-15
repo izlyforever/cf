@@ -2,6 +2,15 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
+int powMod(int x, int n, int p) {
+	int r = 1;
+	while (n) {
+		if (n&1) r = 1LL * r * x % p;
+		n >>= 1; x = 1LL * x * x % p;
+	}
+	return r;
+}
+
 namespace int128 {
 __int128 read(){
 	__int128 x = 0;
@@ -31,17 +40,8 @@ void print(__int128 x){
 }
 } // namespace int128
 
-int powMod(int x, int n, int p) {
-	int r = 1;
-	while (n) {
-		if (n&1) r = 1LL * r * x % p;
-		n >>= 1; x = 1LL * x * x % p;
-	}
-	return r;
-}
 // 求逆 0 < a < p and gcd(a,p) = 1，单次 p 为奇素数时，请使用 powMod(a, p - 2, p)
 // 猜想复杂度为 $O(\log^2 p)$，已知上界 O(\sqrt{N})
-
 int inv(int a, int p){
 	return a == 1 ? 1 : 1LL * (p - p / a) * inv(p % a, p) % p;
 }
@@ -1138,8 +1138,9 @@ VL Karatsuba(VL a, VL b, LL p) {
 		for (int i = 0; i < n1; ++i) if ((r[i + n2] += a2b[i]) >= p) r[i + n2] -= p;
 		return r;
 	};
-	int n = a.size(), m = b.size(), tot = n + m - 1, sz = 1;
+	int n = a.size(), m = b.size(), tot = std::max(1, n + m - 1);
 	if (m < N || n / m * 2 > m) return mulS(a, b);
+	int sz = 1 << std::__lg(tot * 2 - 1);
 	while (sz < n) sz *= 2;
 	a.resize(sz), b.resize(sz);
 	auto r = mul(a, b, sz);
@@ -1187,15 +1188,371 @@ VL KaratsubaParallel(VL a, VL b, LL p) {
 		for (int i = 0; i < n1; ++i) if ((r[i + n2] += a2b[i]) >= p) r[i + n2] -= p;
 		return r;
 	};
-	int n = a.size(), m = b.size(), tot = n + m - 1, sz = 1;
+	int n = a.size(), m = b.size(), tot = std::max(1, n + m - 1);
 	if (m < N || n / m * 8 > m) return mulS(a, b);
-	while (sz < n) sz *= 2;
+	int sz = 1 << std::__lg(tot * 2 - 1);
 	a.resize(sz), b.resize(sz);
 	auto r = mul(a, b, sz);
 	r.resize(tot);
 	return r;
 } // 模板例题：https://www.luogu.com.cn/problem/P4245，无法提交，CE。
 
+
+class ModInt {
+	inline static int M = 998244353;
+	int n;
+	int static inv(int x) {
+		assert(std::gcd(x, M) == 1);
+		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
+	}
+public:
+	void static setMod(int m) {
+		M = m;
+	}
+	int static mod() {
+		return M;
+	}
+	ModInt(LL x = 0) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	operator int() const {
+		return n;
+	}
+	ModInt& operator+=(const ModInt &A) {
+		n += A.n;
+		if (n >= M) n -= M;
+		return (*this);
+	}
+	ModInt& operator-=(const ModInt &A) {
+		n -= A.n;
+		if (n < 0) n += M;
+		return (*this);
+	}
+	ModInt& operator*=(const ModInt &A) {
+		n = 1LL * n * A.n % M;
+		return (*this);
+	}
+	ModInt& operator/=(const ModInt &A) {
+		return (*this) *= A.inv();
+	}
+	ModInt operator+(const ModInt &A) const {
+		return ModInt(*this) += A;
+	}
+	ModInt operator-(const ModInt &A) const {
+		return ModInt(*this) -= A;
+	}
+	ModInt operator*(const ModInt &A) const {
+		return ModInt(*this) *= A;
+	}
+	ModInt operator/(const ModInt &A) const {
+		return ModInt(*this) /= A;
+	}
+	ModInt operator<<(int x) const {
+		LL r = n;
+		r <<= x;
+		return ModInt(r % M);
+	}
+	ModInt& operator<<=(int x) {
+		return (*this) = (*this) << x;
+	}
+	ModInt& operator>>=(int x) {
+		n >>= x;
+		return (*this);
+	}
+	ModInt operator>>(int x) const {
+		return ModInt(*this) >> x;
+	}
+	ModInt operator&(int x) const {
+		return ModInt(*this) & x;
+	}
+	ModInt& operator&=(int x) {
+		n &= x;
+		return (*this);
+	}
+	ModInt inv() const {
+		return inv(n);
+	}
+	friend ModInt pow(ModInt A, int n) {
+		ModInt R(1);
+		while (n) {
+			if (n& 1) R *= A;
+			n >>= 1;  A *= A;
+		}
+		return R;
+	}
+	friend std::istream &operator>>(std::istream &in, ModInt &A) {
+		LL x;
+		in >> x;
+		A = ModInt(x);
+		return in;
+	}
+	friend std::ostream &operator<<(std::ostream &out, const ModInt &A) {
+		out << A.n;
+		return out;
+	}
+};
+
+namespace FFT {
+const double PI = std::acos(-1);
+using C = std::complex<double>;
+std::vector<int> rev;
+std::vector<C> roots{C(0, 0), C(1, 0)};
+void dft(std::vector<C> &a) {
+	int n = a.size();
+	if (rev.size() != n) {
+		int k = __builtin_ctz(n) - 1;
+		rev.resize(n);
+		for (int i = 0; i < n; ++i) {
+			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+		}
+	}
+	if (roots.size() < n) {
+		int k = __builtin_ctz(roots.size());
+		roots.resize(n);
+		while ((1 << k) < n) {
+			C e = std::polar(1.0, PI / (1 << k));
+			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+				roots[2 * i] = roots[i];
+				roots[2 * i + 1] = roots[i] * e;
+			}
+			++k;
+		}
+	}
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
+	}
+	for (int k = 1; k < n; k *= 2) {
+		for (int i = 0; i < n; i += 2 * k) {
+			for (int j = 0; j < k; ++j) {
+				auto u = a[i + j], v = a[i + j + k] * roots[k + j];
+				a[i + j] = u + v;
+				a[i + j + k] = u - v;
+			}
+		}
+	}
+}
+void idft(std::vector<C> &a) {
+	int n = a.size();
+	std::reverse(a.begin() + 1, a.end());
+	dft(a);
+	for (auto &x : a) x /= n;
+}	
+} // namespace FFT 
+// 模板例题：https://www.luogu.com.cn/problem/P3803
+
+// 任意模数多项式模板
+class PolyM {
+	void standard() {
+		while (!a.empty() && a.back() == 0) a.pop_back();
+	}
+	void reverse() {
+		std::reverse(a.begin(), a.end());
+		standard();
+	}
+public:
+	std::vector<ModInt> a;
+	PolyM() {}
+	PolyM(ModInt x) { if (x != 0) a = {x};}
+	PolyM(const std::vector<ModInt> _a) : a(_a) { standard();}
+	int size() const { return a.size();}
+	ModInt operator[](int id) const {
+		if (id < 0 || id > a.size()) return 0;
+		return a[id];
+	}
+	PolyM mulXn(int n) const {
+		auto b = a;
+		b.insert(b.begin(), n, 0);
+		return PolyM(b);
+	}
+	PolyM modXn(int n) const {
+		if (n > size()) return *this;
+		return PolyM({a.begin(), a.begin() + n});
+	}
+	PolyM divXn(int n) const {
+		if (size() <= n) return PolyM();
+		return PolyM({a.begin() + n, a.end()});
+	}
+	PolyM &operator+=(const PolyM &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) a[i] += rhs.a[i];
+		standard();
+		return *this;
+	}
+	PolyM &operator-=(const PolyM &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) a[i] -= rhs.a[i];
+		standard();
+		return *this;
+	}
+	friend PolyM mulCore(PolyM A, PolyM B, int sz) {
+		std::vector<std::complex<double>> C(sz);
+		for (int i = 0; i < A.size(); ++i) C[i].real(A[i]);
+		for (int i = 0; i < B.size(); ++i) C[i].imag(B[i]);
+		FFT::dft(C);
+		for (auto &x : C) x *= x;
+		FFT::idft(C);
+		std::vector<ModInt> ans(A.size() + B.size() - 1);
+		for (int i = 0; i < ans.size(); ++i) ans[i] = ModInt(C[i].imag() / 2 + 0.5);
+		return PolyM(ans);
+	}
+	friend PolyM mul(PolyM A, PolyM B) {
+		int n = std::max(A.size(), B.size()), tot = std::max(1, n * 2 - 1);
+		int sz = 1 << std::__lg(tot * 2 - 1);
+		// return mulCore(A, B, sz); // 为了保证精度必须拆分
+		auto A2 = A, B2 = B;
+		const static int bit = 15, msk = (1 << bit) - 1;
+		for (auto &x : A.a) x >>= bit;
+		for (auto &x : A2.a) x &= msk;
+		for (auto &x : B.a) x >>= bit;
+		for (auto &x : B2.a) x &= msk;
+		PolyM ans = mulCore(A, B, sz);
+		for (auto &x : ans.a) x <<= bit;
+		ans += mulCore(A2, B, sz);
+		ans += mulCore(A, B2, sz);
+		for (auto &x : ans.a) x <<= bit;
+		ans += mulCore(A2, B2, sz);
+		return ans;
+	}
+	PolyM &operator*=(PolyM rhs) {
+		return (*this) = (*this) * rhs;
+	}
+	PolyM &operator/=(PolyM rhs) {
+		int n = size(), m = rhs.size();
+		if (n < m) return (*this) = PolyM();
+		reverse();
+		rhs.reverse();
+		(*this) *= rhs.inv(n - m + 1);
+		a.resize(n - m + 1);
+		reverse();
+		return *this;
+	}
+	PolyM &operator%=(PolyM rhs) {
+		return (*this) -= (*this) / rhs * rhs; 
+	}
+	PolyM operator+(const PolyM &rhs) const {
+		return PolyM(*this) += rhs;
+	}
+	PolyM operator-(const PolyM &rhs) const {
+		return PolyM(*this) -= rhs;
+	}
+	PolyM operator*(PolyM rhs) const {
+		return mul(*this, rhs);
+	}
+	PolyM operator/(PolyM rhs) const {
+		return PolyM(*this) /= rhs;
+	}
+	PolyM operator%(PolyM rhs) const {
+		return PolyM(*this) %= rhs;
+	}
+	PolyM powMod(int n, PolyM p) {
+		PolyM r(1), x(*this);
+		while (n) {
+			if (n&1) (r *= x) %= p;
+			n >>= 1; (x *= x) %= p;
+		}
+		return r;
+	}
+	ModInt inner(const PolyM &rhs) {
+		ModInt r(0);
+		int n = std::min(size(), rhs.size());
+		for (int i = 0; i < n; ++i) r += a[i] * rhs.a[i];
+		return r;
+	}
+	PolyM derivation() const {
+		if (a.empty()) return PolyM();
+		int n = size();
+		std::vector<ModInt> r(n - 1);
+		for (int i = 1; i < n; ++i) r[i - 1] = a[i] * ModInt(i);
+		return PolyM(r);
+	}
+	PolyM integral() const {
+		if (a.empty()) return PolyM();
+		int n = size();
+		std::vector<ModInt> r(n + 1), inv(n + 1, 1);
+		for (int i = 2; i <= n; ++i) inv[i] = ModInt(ModInt::mod() - ModInt::mod() / i) * inv[ModInt::mod() % i];
+		for (int i = 0; i < n; ++i) r[i + 1] = a[i] * inv[i + 1];
+		return PolyM(r);
+	}
+	PolyM inv(int n) const {
+		assert(a[0] != 0);
+		PolyM x(a[0].inv());
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x *= (PolyM(2) - modXn(k) * x).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	// 需要保证首项为 1
+	PolyM log(int n) const {
+		return (derivation() * inv(n)).integral().modXn(n);
+	}
+	// 需要保证首项为 0
+	PolyM exp(int n) const {
+		PolyM x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x = (x * (PolyM(1) - x.log(k) + modXn(k))).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	// 需要保证首项为 1，开任意次方可以先 ln 再 exp 实现。
+	PolyM sqrt(int n) const {
+		PolyM x(1), inv2 = ModInt(2).inv();
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x += modXn(k) * x.inv(k);
+			x = x.modXn(k) * inv2;
+		}
+		return x.modXn(n);
+	}
+	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
+	PolyM mulT(PolyM rhs) const {
+		if (rhs.size() == 0) return PolyM();
+		int n = rhs.size();
+		std::reverse(rhs.a.begin(), rhs.a.end());
+		return ((*this) * rhs).divXn(n - 1);
+	}
+	int eval(int x) {
+		ModInt r(0), t(1);
+		for (int i = 0, n = size(); i < n; ++i) {
+			r += a[i] * t;
+			t *= x;
+		}
+		return r;
+	}
+	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
+	std::vector<ModInt> eval(std::vector<ModInt> x) const {
+		if (size() == 0) return std::vector<ModInt>(x.size());
+		int n = x.size();
+		std::vector<ModInt> ans(n);
+		std::vector<PolyM> g(4 * n);
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				g[p] = PolyM({1, -x[l]});
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, 2 * p);
+				build(m, r, 2 * p + 1);
+				g[p] = g[2 * p] * g[2 * p + 1];
+			}
+		};
+		build(0, n, 1);
+		std::function<void(int, int, int, const PolyM &)> solve = [&](int l, int r, int p, const PolyM &f) {
+			if (r - l == 1) {
+				ans[l] = f[0];
+			} else {
+				int m = (l + r) / 2;
+				solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
+				solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+			}
+		};
+		solve(0, n, 1, mulT(g[1].inv(size())).modXn(n));
+		return ans;
+	} // 模板例题：https://www.luogu.com.cn/problem/P5050
+}; // PolyM 全家桶测试：https://www.luogu.com.cn/training/3015#information
 
 // 借鉴了 jiangly 的模板
 namespace NFT {
@@ -1218,9 +1575,6 @@ void dft(std::vector<int> &a) {
 			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
 		}
 	}
-	for (int i = 0; i < n; ++i) if (rev[i] < i) {
-		std::swap(a[i], a[rev[i]]);
-	}
 	if (roots.size() < n) {
 		int k = __builtin_ctz(roots.size());
 		roots.resize(n);
@@ -1232,6 +1586,9 @@ void dft(std::vector<int> &a) {
 			}
 			++k;
 		}
+	}
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
 	}
 	for (int k = 1; k < n; k *= 2) {
 		for (int i = 0; i < n; i += 2 * k) {
@@ -1269,7 +1626,7 @@ class Poly {
 		standard();
 	}
 public:
-	inline const static int M = NFT::M;
+	inline static int M = NFT::M;
 	std::vector<int> a;
 	Poly() {}
 	Poly(int x) { if (x) a = {x};}
@@ -1292,10 +1649,10 @@ public:
 		if (size() <= n) return Poly();
 		return Poly({a.begin() + n, a.end()});
 	}
-	Poly &operator+=(const Poly &A) {
-		if (size() < A.size()) a.resize(A.size());
-		for (int i = 0; i < A.size(); ++i) {
-			if ((a[i] += A.a[i]) >= M) a[i] -= M;
+	Poly &operator+=(const Poly &rhs) {
+		if (size() < rhs.size()) a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) {
+			if ((a[i] += rhs.a[i]) >= M) a[i] -= M;
 		}
 		standard();
 		return *this;
@@ -1309,8 +1666,8 @@ public:
 		return *this;
 	}
 	Poly &operator*=(Poly rhs) {
-		int n = size(), m = rhs.size(), tot = n + m - 1, sz = 1;
-		while (sz < tot) sz *= 2;
+		int n = size(), m = rhs.size(), tot = std::max(1, n + m - 1);
+		int sz = 1 << std::__lg(tot * 2 - 1);
 		a.resize(sz);
 		rhs.a.resize(sz);
 		NFT::dft(a);
@@ -1358,7 +1715,7 @@ public:
 		}
 		return r;
 	}
-	int inner(const Poly & rhs) {
+	int inner(const Poly &rhs) {
 		int r = 0, n = std::min(size(), rhs.size());
 		for (int i = 0; i < n; ++i) {
 			r = (r + 1LL * a[i] * rhs.a[i]) % M;
