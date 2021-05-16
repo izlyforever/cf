@@ -32,6 +32,7 @@
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
 - decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
+- 快速暴力 $n$ 个集合中选 $k$ 个，二进制为 1 的表示选择
 - 模二项式系数
 - 模 Lucas 定理
 - 模 Stirling 数
@@ -80,7 +81,10 @@
 - 四边形优化 DP
 - [博弈](https://dna049.com/nimSgFunction/#%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F)
 
-> 多项式的三个版本其实可以统一，即先给出一个大类，然后用纯虚函数定义 `*=`，然后用继承的办法重写这三个。由于改动过大，需要重开一个版本
+
+### 多项式
+
+
 
 ## 图论
 
