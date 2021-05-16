@@ -52,13 +52,6 @@ int decInc(int n, int m) {
 	return ans;
 }
 
-
-// 任意模素数 min_25 求阶乘 $O(\sqrt{n} \log n)$
-
-
-// 例题：https://www.luogu.com.cn/problem/solution/P5282
-
-
 class Matrix {
 public:
 	const static int N = 1003;

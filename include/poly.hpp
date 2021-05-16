@@ -225,6 +225,8 @@ protected:
 		int n = std::max(this->size(), rhs.size()), tot = std::max(1, n * 2 - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		// return mulCore(A, B, sz); // 为了保证精度必须拆分
+		// 下面用三次变两次优化 所以总 dft 次数为 8，一个小技巧可以变成 7 次
+		// 利用 dft与共轭的关系可以优化到 4 次，懒得搞
 		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
 		const static int bit = 15, msk = (1 << bit) - 1;
 		for (auto &x : A1.a) x >>= bit;
@@ -467,3 +469,8 @@ std::vector<ModInt> powSum(int n, int k) {
 	}
 	return ans;
 }
+
+// 任意模素数 min25 求阶乘 $O(\sqrt{n} \log n)$
+
+
+// 例题：https://www.luogu.com.cn/problem/solution/P5282
