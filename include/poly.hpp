@@ -137,6 +137,7 @@ public:
 	}
 };
 
+// 这里其实可以写成模板形式：template<int M>
 class PolyBaseNFT : public PolyBase {
 protected:
 	PolyBaseNFT mul(const PolyBaseNFT &rhs) const {
@@ -416,7 +417,7 @@ public:
 		};
 		solve(0, n, 1, mulT(g[1].inv(this->size())).modXn(n));
 		return ans;
-	}
+	} // 这里如果是任意模数的，可以先 3 模数把答案求出来再用 crt，肯定会大大提高性能
 };
 
 using PolyNFT = Poly<PolyBaseNFT>;
