@@ -18,24 +18,37 @@
 - 分块
 - 分治
 - 水涨船高
+- 决策单调性优化
 - Meet in Middle
 - Small to Large
 
 
 ## 数学
 
+> 内容太多，还是分拆一下好
+
+### 基础模块：primary.hpp
+
 - 模快速幂
 - int128 读写（快读，int, long long 也可以使用）
+- ModInt
 - 线性模预处理逆元
 - 二进制快速 gcd
 - 拓展 gcd
-- floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
-- sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
-- decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
 - 快速暴力 $n$ 个集合中选 $k$ 个，二进制为 1 的表示选择
 - 模二项式系数
 - 模 Lucas 定理
 - 模 Stirling 数
+- 中国剩余定理 CRT
+- 模 Lagrange 插值
+- 模自然数方幂和 $O(k)$ 算法
+- FMT（快速 Mobius 变换）
+- MEX（集合中不出现的最小的自然数）
+
+
+
+### 初等数论：numberTheory.hpp
+
 - 快速 $O(n \log \log n)$ 素数筛和慢速线性筛
 - 快速计算 $\pi(x)$
 - 快速计算第 n 个素数（从 1 开始标号，p[1] = 2，p[0] 无意义）
@@ -49,41 +62,50 @@
 - 求原根
 - 大素数 Miller-Rabin 概率判别法
 - Pollard-Pho 大整数最大最小素因子分解
-- 中国剩余定理 CRT
 - 模素数取 log（BabyStepGaintStep）
 - 模素数开根号 $O(log^2 p)$
 - 模素数开根号 $O(log p)$ 的 Cipolla 算法？
 - 模偶素数幂开根号？
 - 模奇素数幂开根号？
 - 模任意数开根号（先因式分解，看作模素数方开根号，再 CRT 整合）？
-- 模 $N \times N$ 矩阵乘法类（缓存优化）
-- Gauss 消元法浮点数版
-- 模 Gauss 消元法
-- 模 Lagrange 插值
-- 模自然数方幂和 $O(k)$ 算法
-- 模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案
-- MEX（集合中不出现的最小的自然数）
-- 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
-- ModInt
-- FFT
-- 任意模数多项式（基于 FFT）
-- NFT（快速数论 Fourier 变换，三大 NFT-friendly 数：469762049, 998244353, 1004535809，它们原根都是 3）
-- 多项式 (加减乘除余，转置乘法，求导，积分，指数，对数，求逆，开方，一点求值，多点求值，快速幂模，内积)
-- 多元多项式乘法就每一维分别做 DFT，然后相乘再 iDFT，小优化就是 invN 可以最后一起乘。
-- 任意模数多项式模板（基于 3 模数，太慢了，不推荐）
-- $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
+
+
+### 多项式
+
+- FFT 快速 Fourier 快速
+- NFT 快速数论变换
+- 无运算的多项式底层基类：PolyBase
+- 仅包含乘法的三大多项式底层基类分别为：PolyBaseNFT, PolyBaseMFT, PolyBaseFFT
+- PolyBaseNFT：基于固定的 NFT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）
+- PolyBaseMFT：基于三个固定的 NFT-friendly 且原根为 3 的三模数（469762049, 998244353, 1004535809），利用 crt 求解任意模数多项式乘法
+- PolyBaseFFT：基于 FFT 求解任意模数多项式乘法（需要注意精度）
+- 通过模板继承拓展得到全面的多项式类 Poly (加减乘除余，转置乘法，求导，积分，指数，对数，求逆，开方，一点求值，多点求值，快速幂模，内积)，这个过程学到了很多东西
 - 计算 $O(n \log^2 n)$ 计算 $\sum_{i = 1}^n \frac{a_i}{1 - b_i}$
-- FMT（快速 Mobius 变换）
+- $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
+- 模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案
+
+
+### 几何
+
 - 二维凸包
 - 旋转卡壳（彻底弄懂原理，之后应用此原理推广应用解决：https://www.luogu.com.cn/problem/P7164）
 - 分治法求平面最短距离
 - k 维偏序之 bitset 暴力优化 $O(\frac{k n^2}{w})$
 - 四边形优化 DP
+
+
+### 杂类
+
+- floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
+- sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
+- decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
+- 模 $N \times N$ 矩阵乘法类（缓存优化）
+- Gauss 消元法浮点数版
+- 模 Gauss 消元法
+- 线性规划之单纯形算法
+- - 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
+- 线性规划
 - [博弈](https://dna049.com/nimSgFunction/#%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F)
-
-
-### 多项式
-
 
 
 ## 图论
