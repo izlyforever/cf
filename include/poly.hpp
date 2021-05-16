@@ -138,12 +138,13 @@ public:
 };
 
 class PolyBaseNFT : public PolyBase {
-	friend PolyBaseNFT mul(const PolyBaseNFT &A, const PolyBaseNFT &B) {
-		int n = A.size(), m = B.size(), tot = std::max(1, n + m - 1);
+protected:
+	PolyBaseNFT mul(const PolyBaseNFT &rhs) const {
+		int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		std::vector<int> a(n), b(m);
-		for (int i = 0; i < n; ++i) a[i] = A.a[i];
-		for (int i = 0; i < m; ++i) b[i] = B.a[i];
+		for (int i = 0; i < n; ++i) a[i] = this->a[i];
+		for (int i = 0; i < m; ++i) b[i] = rhs.a[i];
 		a.resize(sz); b.resize(sz);
 		nft.dft(a);
 		nft.dft(b);
@@ -160,46 +161,10 @@ public:
 	inline static NFT<M> nft;
 	using PolyBase::PolyBase;
 	PolyBaseNFT(const PolyBase &A) : PolyBase(A) {}
-	PolyBaseNFT mulXn(int n) const {
-		auto b = a;
-		b.insert(b.begin(), n, 0);
-		return PolyBaseNFT(b);
-	}
-	PolyBaseNFT modXn(int n) const {
-		if (n > size()) return *this;
-		return PolyBaseNFT({a.begin(), a.begin() + n});
-	}
-	PolyBaseNFT divXn(int n) const {
-		if (size() <= n) return PolyBaseNFT();
-		return PolyBaseNFT({a.begin() + n, a.end()});
-	}
-	PolyBaseNFT &operator+=(const PolyBaseNFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] += rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseNFT &operator-=(const PolyBaseNFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] -= rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseNFT operator+(const PolyBaseNFT &rhs) const {
-		return PolyBaseNFT(*this) += rhs;
-	}
-	PolyBaseNFT operator-(const PolyBaseNFT &rhs) const {
-		return PolyBaseNFT(*this) -= rhs;
-	}
-	PolyBaseNFT operator*(const PolyBaseNFT &rhs) const {
-		return mul(*this, rhs);
-	}
-	PolyBaseNFT &operator*=(const PolyBaseNFT &rhs) {
-		return (*this) = (*this) * rhs;
-	}
 };
 
 class PolyBaseMFT : public PolyBase {
+protected:
 	static ModInt crt(int a0, int a1, int a2) {
 		int t0 = nft1.powMod(M0, M1 - 2);
 		LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
@@ -211,12 +176,12 @@ class PolyBaseMFT : public PolyBase {
 		if (y < 0) y += M01;
 		return ModInt(x) + ModInt(y) * ModInt(M01);
 	}
-	friend PolyBaseMFT mul(PolyBaseMFT A, PolyBaseMFT B) {
-		int tot = std::max(1, A.size() + B.size() - 1);
+	PolyBaseMFT mul(const PolyBaseMFT &rhs) const {
+		int tot = std::max(1, this->size() + rhs.size() - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
-		std::vector<int> a0(A.size()), b0(B.size());
-		for (int i = 0; i < A.size(); ++i) a0[i] = A.a[i];
-		for (int i = 0; i < B.size(); ++i) b0[i] = B.a[i];
+		std::vector<int> a0(this->size()), b0(rhs.size());
+		for (int i = 0; i < this->size(); ++i) a0[i] = this->a[i];
+		for (int i = 0; i < rhs.size(); ++i) b0[i] = rhs.a[i];
 		a0.resize(sz); b0.resize(sz);
 		auto a1 = a0, a2 = a0, b1 = b0, b2 = b0;
 		nft0.dft(a0); nft0.dft(b0);
@@ -241,47 +206,11 @@ public:
 	inline static NFT<M2> nft2;
 	using PolyBase::PolyBase;
 	PolyBaseMFT(const PolyBase &A) : PolyBase(A) {}
-	PolyBaseMFT mulXn(int n) const {
-		auto b = a;
-		b.insert(b.begin(), n, 0);
-		return PolyBaseMFT(b);
-	}
-	PolyBaseMFT modXn(int n) const {
-		if (n > size()) return *this;
-		return PolyBaseMFT({a.begin(), a.begin() + n});
-	}
-	PolyBaseMFT divXn(int n) const {
-		if (size() <= n) return PolyBaseMFT();
-		return PolyBaseMFT({a.begin() + n, a.end()});
-	}
-	PolyBaseMFT &operator+=(const PolyBaseMFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] += rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseMFT &operator-=(const PolyBaseMFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] -= rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseMFT operator+(const PolyBaseMFT &rhs) const {
-		return PolyBaseMFT(*this) += rhs;
-	}
-	PolyBaseMFT operator-(const PolyBaseMFT &rhs) const {
-		return PolyBaseMFT(*this) -= rhs;
-	}
-	PolyBaseMFT operator*(const PolyBaseMFT &rhs) const {
-		return mul(*this, rhs);
-	}
-	PolyBaseMFT &operator*=(const PolyBaseMFT &rhs) {
-		return (*this) = (*this) * rhs;
-	}
 };
 
 class PolyBaseFFT : public PolyBase {
-	friend PolyBaseFFT mulCore(PolyBaseFFT A, PolyBaseFFT B, int sz) {
+protected:
+	friend std::vector<ModInt> mulCore(PolyBaseFFT A, PolyBaseFFT B, int sz) {
 		std::vector<std::complex<double>> C(sz);
 		for (int i = 0; i < A.size(); ++i) C[i].real(A[i]);
 		for (int i = 0; i < B.size(); ++i) C[i].imag(B[i]);
@@ -290,65 +219,31 @@ class PolyBaseFFT : public PolyBase {
 		FFT::idft(C);
 		std::vector<ModInt> ans(A.size() + B.size() - 1);
 		for (int i = 0; i < ans.size(); ++i) ans[i] = ModInt(C[i].imag() / 2 + 0.5);
-		return PolyBaseFFT(ans);
+		return ans;
 	}
-	friend PolyBaseFFT mul(PolyBaseFFT A, PolyBaseFFT B) {
-		int n = std::max(A.size(), B.size()), tot = std::max(1, n * 2 - 1);
+	PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
+		int n = std::max(this->size(), rhs.size()), tot = std::max(1, n * 2 - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		// return mulCore(A, B, sz); // 为了保证精度必须拆分
-		auto A2 = A, B2 = B;
+		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
 		const static int bit = 15, msk = (1 << bit) - 1;
-		for (auto &x : A.a) x >>= bit;
+		for (auto &x : A1.a) x >>= bit;
 		for (auto &x : A2.a) x &= msk;
-		for (auto &x : B.a) x >>= bit;
+		for (auto &x : B1.a) x >>= bit;
 		for (auto &x : B2.a) x &= msk;
-		auto ans = mulCore(A, B, sz);
-		for (auto &x : ans.a) x <<= bit;
-		ans += mulCore(A2, B, sz);
-		ans += mulCore(A, B2, sz);
-		for (auto &x : ans.a) x <<= bit;
-		ans += mulCore(A2, B2, sz);
-		return ans;
+		auto ans = mulCore(A1, B1, sz);
+		auto A1B2 = mulCore(A1, B2, sz);
+		auto A2B1 = mulCore(A2, B1, sz);
+		auto A2B2 = mulCore(A2, B2, sz);
+		for (auto &x : ans) x <<= bit;
+		for (int i = 0; i < ans.size(); ++i) ans[i] += A1B2[i] + A2B1[i];
+		for (auto &x : ans) x <<= bit;
+		for (int i = 0; i < ans.size(); ++i) ans[i] += A2B2[i];
+		return PolyBaseFFT(ans);
 	}
 public:
 	using PolyBase::PolyBase;
-	PolyBaseFFT mulXn(int n) const {
-		auto b = a;
-		b.insert(b.begin(), n, 0);
-		return PolyBaseFFT(b);
-	}
-	PolyBaseFFT modXn(int n) const {
-		if (n > size()) return *this;
-		return PolyBaseFFT({a.begin(), a.begin() + n});
-	}
-	PolyBaseFFT divXn(int n) const {
-		if (size() <= n) return PolyBaseFFT();
-		return PolyBaseFFT({a.begin() + n, a.end()});
-	}
-	PolyBaseFFT &operator+=(const PolyBaseFFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] += rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseFFT &operator-=(const PolyBaseFFT &rhs) {
-		if (size() < rhs.size()) a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) a[i] -= rhs.a[i];
-		standard();
-		return *this;
-	}
-	PolyBaseFFT operator+(const PolyBaseFFT &rhs) const {
-		return PolyBaseFFT(*this) += rhs;
-	}
-	PolyBaseFFT operator-(const PolyBaseFFT &rhs) const {
-		return PolyBaseFFT(*this) -= rhs;
-	}
-	PolyBaseFFT operator*(const PolyBaseFFT &rhs) const {
-		return mul(*this, rhs);
-	}
-	PolyBaseFFT &operator*=(const PolyBaseFFT &rhs) {
-		return (*this) = (*this) * rhs;
-	}
+	PolyBaseFFT (const PolyBase &x) : PolyBase(x) {}
 };
 
 template<typename T>
@@ -356,6 +251,43 @@ class Poly : public T {
 public:
 	using T::T;
 	Poly (const T &x) : T(x) {}
+	Poly mulXn(int n) const {
+		auto b = this->a;
+		b.insert(b.begin(), n, 0);
+		return Poly(b);
+	}
+	Poly modXn(int n) const {
+		if (n > this->size()) return *this;
+		return Poly({this->a.begin(), this->a.begin() + n});
+	}
+	Poly divXn(int n) const {
+		if (this->size() <= n) return Poly();
+		return Poly({this->a.begin() + n, this->a.end()});
+	}
+	Poly &operator+=(const Poly &rhs) {
+		if (this->size() < rhs.size()) this->a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
+		this->standard();
+		return *this;
+	}
+	Poly &operator-=(const Poly &rhs) {
+		if (this->size() < rhs.size()) this->a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
+		this->standard();
+		return *this;
+	}
+	Poly operator+(const Poly &rhs) const {
+		return Poly(*this) += rhs;
+	}
+	Poly operator-(const Poly &rhs) const {
+		return Poly(*this) -= rhs;
+	}
+	Poly operator*(const Poly &rhs) const {
+		return this->mul(rhs);
+	}
+	Poly &operator*=(const Poly &rhs) {
+		return (*this) = (*this) * rhs;
+	}
 	Poly inv(int n) const {
 		assert(this->a[0] != 0);
 		Poly x(this->a[0].inv());
@@ -380,16 +312,17 @@ public:
 		return Poly(*this) /= rhs;
 	}
 	Poly &operator%=(const Poly &rhs) {
-		return (*this) = (*this) % rhs; 
+		return *this -= (*this) / rhs * rhs; 
 	}
 	Poly operator%(const Poly &rhs) const {
-		Poly x(*this);
-		x /= rhs; x *= rhs;
-		return *this - x;
+		return Poly(*this) %= rhs;
 	}
 	Poly powModPoly(int n, const Poly &p) const {
 		Poly r(1), x(*this);
-		for (; n; n >>= 1, x *= x, x %= p) if (n & 1) r *= x, r %= p;
+		while (n) {
+			if (n&1) r = r * x % p;
+			n >>= 1; x = x * x % p;
+		}
 		return r;
 	}
 	ModInt inner(const Poly &rhs) const {
