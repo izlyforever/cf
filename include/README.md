@@ -74,7 +74,7 @@
 ### 多项式
 
 - FFT 快速 Fourier 快速
-- NFT 快速数论变换
+- NFT 快速数论变换（注意 FFT 和 NFT 的形式高度一致，其实可以写成类的，可以统一写，但是更麻烦就算了）
 - 无运算的多项式底层基类：PolyBase
 - 仅包含乘法的三大多项式底层基类分别为：PolyBaseNFT, PolyBaseMFT, PolyBaseFFT
 - PolyBaseNFT：基于固定的 NFT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）

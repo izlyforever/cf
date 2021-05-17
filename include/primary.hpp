@@ -42,13 +42,13 @@ void print(__int128 x){
 
 template<int N>
 class MInt {
-	static inline const int M = N;
+	static inline constexpr int M = N;
 	int n;
+public:
 	static int inv(int x) {
 		assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
-public:
 	static void setMod(int m) {
 		M = m;
 	}
@@ -284,7 +284,7 @@ void GospersHack(int n, int k) {
 		// do something
 		int lb = __builtin_ctz(cur);
 		int r = cur + (1 << lb);
-		cur = ((r ^ cur) >> 2 + lb) | r;
+		cur = ((r ^ cur) >> (2 + lb)) | r;
 	}
 }
 
@@ -370,7 +370,7 @@ std::pair<LL, LL> crt2(LL a1, LL m1, LL a2, LL m2){
 }
 std::pair<LL, LL> crt(const std::vector<std::pair<LL, LL>> &a){
 	auto ans = a[0];
-	for (int i = 1; i < a.size(); ++i) {
+	for (int i = 1, na = a.size(); i < na; ++i) {
 		ans = crt2(ans.first, ans.second, a[i].first, a[i].second);
 	}
 	return ans;
@@ -406,11 +406,11 @@ int powSum(int n, int k, int M, const std::vector<int> &sp){
 	if (k == 0) return n % M;
 	std::vector<int> f(k + 2);
 	f[1] = 1;
-	for (int i = 2; i < f.size(); ++i) {
+	for (int i = 2, nf = f.size(); i < nf; ++i) {
 		if (sp[i] == i) f[i] = powMod(i, k, M);
 		else f[i] = 1LL * f[sp[i]] * f[i / sp[i]] % M;
 	}
-	for (int i = 1; i < f.size(); ++i) {
+	for (int i = 1, nf = f.size(); i < nf; ++i) {
 		f[i] += f[i - 1];
 		if (f[i] >= M) f[i] -= M;
 	}
