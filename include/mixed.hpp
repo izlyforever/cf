@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "poly.hpp"
 using LL = long long;
 
 // O(\log n) 计算 \displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor
@@ -459,3 +460,126 @@ std::vector<std::vector<T>> quadrangleRollDp(std::vector<std::vector<T>> w, int 
 	return f;
 }
 // https://www.luogu.com.cn/problem/P4767
+
+
+
+
+
+
+
+// 请谨慎使用，仅有答案的值域在 0 <= M0 * M1 * M2 时才对！
+template<typename valT>
+class PolyMFTStrictly {
+public:
+	static inline constexpr int M0 = 469762049;
+	static inline constexpr int M1 = 998244353;
+	static inline constexpr int M2 = 1004535809;
+	using P0 = Poly<PolyBaseNFT<M0>, MInt<M0>>;
+	using P1 = Poly<PolyBaseNFT<M1>, MInt<M1>>;
+	using P2 = Poly<PolyBaseNFT<M2>, MInt<M2>>;
+	P0 poly0; P1 poly1; P2 poly2;
+	PolyMFTStrictly(const P0 &A, const P1 &B, const P2 &C) : poly0(A), poly1(B), poly2(C) {}
+	PolyMFTStrictly() {}
+	PolyMFTStrictly(valT x = 0) : poly0(int(x)), poly1(int(x)), poly2(int(x)) {}
+	PolyMFTStrictly(const std::vector<valT> &a) {
+		int n = a.size();
+		std::vector<MInt<M0>> a0(n);
+		std::vector<MInt<M1>> a1(n);
+		std::vector<MInt<M2>> a2(n);
+		for (int i = 0; i < n; ++i) {
+			int t = a[i];
+			a0[i] = t; a1[i] = t; a2[i] = t;
+		}
+		*this = PolyMFTStrictly(a0, a1, a2);
+	}
+	int size() {
+		return std::max({poly0.size(), poly1.size(), poly2.size()});
+	}
+	void resize(int n) {
+		poly0.size(); poly1.size(); poly2.size();
+	}
+	std::vector<valT> get(int n) {
+		std::vector<valT> ans(n);
+		for (int i = 0; i < n; ++i) ans[i] = crt(poly0.at(i), poly1.at(i), poly2.at(i));
+		return ans;
+	}
+	PolyMFTStrictly operator+(const PolyMFTStrictly &rhs) const {
+		return PolyMFTStrictly(poly0 + rhs.poly0, poly1 + rhs.poly1, poly2 + rhs.poly2);
+	}
+	PolyMFTStrictly operator-(const PolyMFTStrictly &rhs) const {
+		return PolyMFTStrictly(poly0 - rhs.poly0, poly1 - rhs.poly1, poly2 - rhs.poly2);
+	}
+	PolyMFTStrictly operator*(const PolyMFTStrictly &rhs) const {
+		return PolyMFTStrictly(poly0 * rhs.poly0, poly1 * rhs.poly1, poly2 * rhs.poly2);
+	}
+	PolyMFTStrictly operator/(const PolyMFTStrictly &rhs) const {
+		return PolyMFTStrictly(poly0 / rhs.poly0, poly1 / rhs.poly1, poly2 / rhs.poly2);
+	}
+	PolyMFTStrictly operator%(const PolyMFTStrictly &rhs) const {
+		return PolyMFTStrictly(poly0 % rhs.poly0, poly1 % rhs.poly1, poly2 % rhs.poly2);
+	}
+	PolyMFTStrictly &operator+=(const PolyMFTStrictly &rhs) {
+		return *this = *this + rhs;
+	}
+	PolyMFTStrictly &operator-=(const PolyMFTStrictly &rhs) {
+		return *this = *this - rhs;
+	}
+	PolyMFTStrictly &operator*=(const PolyMFTStrictly &rhs) {
+		return *this = *this * rhs;
+	}
+	PolyMFTStrictly &operator/=(const PolyMFTStrictly &rhs) {
+		return *this = *this / rhs;
+	}
+	PolyMFTStrictly &operator%(const PolyMFTStrictly &rhs) {
+		return *this = *this % rhs;
+	}
+	PolyMFTStrictly inv(int n) const {
+		return PolyMFTStrictly(poly0.inv(n), poly1.inv(n), poly2.inv(n));
+	}
+	PolyMFTStrictly powModPoly(int n, const PolyMFTStrictly &p) const {
+		return PolyMFTStrictly(poly0.powModPoly(n, p.poly0), poly1.powModPoly(n, p.poly1), poly2.powModPoly(n, p.poly2));
+	}
+	valT inner(const PolyMFTStrictly &rhs) const {
+		return crt(poly0.inner(rhs.poly0), poly1.inner(rhs.poly1), poly2.inner(rhs.poly2));
+	}
+	PolyMFTStrictly derivation() const {
+		return PolyMFTStrictly(poly0.derivation(), poly1.derivation(), poly2.derivation());
+	}
+	PolyMFTStrictly integral() const {
+		return PolyMFTStrictly(poly0.integral(), poly1.integral(), poly2.integral());
+	}
+	PolyMFTStrictly log(int n) const {
+		return PolyMFTStrictly(poly0.log(n), poly1.log(n), poly2.log(n));
+	}
+	PolyMFTStrictly exp(int n) const {
+		return PolyMFTStrictly(poly0.exp(n), poly1.exp(n), poly2.exp(n));
+	}
+	PolyMFTStrictly sqrt(int n) const {
+		return PolyMFTStrictly(poly0.sqrt(n), poly1.sqrt(n), poly2.sqrt(n));
+	}
+	PolyMFTStrictly mulT(PolyMFTStrictly rhs) const {
+		return PolyMFTStrictly(poly0.mulT(rhs.poly0), poly1.mulT(poly1), poly2.mulT(poly2));
+	}
+	valT eval(valT x) const {
+		return crt(poly0.eval(int(x)), poly1.eval(int(x)), poly2.eval(int(x)));
+	}
+	std::vector<valT> evals(std::vector<valT> x) const {
+		PolyMFTStrictly val(x);
+		PolyMFTStrictly ans = PolyMFTStrictly(poly0.evals(val.poly0.a), poly1.evals(val.poly1.a), poly2.evals(poly2.a));
+		return ans.get(x.size());
+	}
+protected:
+	static inline constexpr LL M01 = 1LL * M0 * M1;
+	static valT crt(int a0, int a1, int a2) {
+		static const int t0 = MInt<M1>::inv(M0);
+		static const int t1 = MInt<M2>::inv(M01 % M2);
+		static const valT m01(M01);
+		LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
+		if (x < 0) x += M01;
+		LL y = (a2 - x) % M2;
+		if (y < 0) y += M2;
+		y = y * t1 % M2;
+		if (y < 0) y += M01;
+		return valT(x) + valT(y) * m01;
+	}
+};
