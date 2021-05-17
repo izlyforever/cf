@@ -31,7 +31,8 @@
 
 - 模快速幂
 - int128 读写（快读，int, long long 也可以使用）
-- ModInt
+- 静态模数 MInt（模板实现）
+- 动态模数 ModInt
 - 线性模预处理逆元
 - 二进制快速 gcd
 - 拓展 gcd

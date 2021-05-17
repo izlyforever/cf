@@ -40,6 +40,107 @@ void print(__int128 x){
 }
 } // namespace int128
 
+template<int N>
+class MInt {
+	static inline const int M = N;
+	int n;
+	static int inv(int x) {
+		assert(std::gcd(x, M) == 1);
+		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
+	}
+public:
+	static void setMod(int m) {
+		M = m;
+	}
+	static constexpr int mod() {
+		return M;
+	}
+	// 请自行确保 0 <= x < M
+	static MInt raw(int x) {
+		MInt A;
+		A.n = x;
+		return A;
+	}
+	MInt(LL x = 0) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	operator int() const {
+		return n;
+	}
+	MInt& operator+=(const MInt &A) {
+		n += A.n;
+		if (n >= M) n -= M;
+		return (*this);
+	}
+	MInt& operator-=(const MInt &A) {
+		n -= A.n;
+		if (n < 0) n += M;
+		return (*this);
+	}
+	MInt& operator*=(const MInt &A) {
+		n = 1LL * n * A.n % M;
+		return (*this);
+	}
+	MInt& operator/=(const MInt &A) {
+		return (*this) *= A.inv();
+	}
+	MInt operator+(const MInt &A) const {
+		return MInt(*this) += A;
+	}
+	MInt operator-(const MInt &A) const {
+		return MInt(*this) -= A;
+	}
+	MInt operator*(const MInt &A) const {
+		return MInt(*this) *= A;
+	}
+	MInt operator/(const MInt &A) const {
+		return MInt(*this) /= A;
+	}
+	MInt operator<<(int x) const {
+		LL r = n;
+		r <<= x;
+		return MInt(r % M);
+	}
+	MInt& operator<<=(int x) {
+		return (*this) = (*this) << x;
+	}
+	MInt& operator>>=(int x) {
+		n >>= x;
+		return (*this);
+	}
+	MInt operator>>(int x) const {
+		return MInt(*this) >> x;
+	}
+	MInt operator&(int x) const {
+		return MInt(*this) & x;
+	}
+	MInt& operator&=(int x) {
+		n &= x;
+		return (*this);
+	}
+	MInt inv() const {
+		return inv(n);
+	}
+	friend MInt pow(MInt A, int n) {
+		MInt R(1);
+		while (n) {
+			if (n& 1) R *= A;
+			n >>= 1;  A *= A;
+		}
+		return R;
+	}
+	friend std::istream &operator>>(std::istream &in, MInt &A) {
+		LL x;
+		in >> x;
+		A = MInt(x);
+		return in;
+	}
+	friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
+		out << A.n;
+		return out;
+	}
+};
+
 
 class ModInt {
 	static inline int M = 998244353;

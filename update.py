@@ -18,6 +18,8 @@ os.system('git push origin master')
 
 # 创建新分支并上传
 # git checkout -b [branch name]
+# git add .
+# git commit -m "update"
 # git push origin [branch name]
 
 # 切换分支
