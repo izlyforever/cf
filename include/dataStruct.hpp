@@ -17,7 +17,7 @@ void bruteForce(int n, int mx) {
 	std::vector<int> a(n);
 	std::iota(a.begin(), a.end(), 0);
 	do {
-		for (auto x : a) std::cout << " ";
+		for (auto x : a) std::cout << x << " ";
 		std::cout << "\n";
 	} while (next(a, mx));
 }
@@ -33,8 +33,8 @@ class ECC {
 	}
 	bool dfs(int c) {  // 当前 r 剩余可改变的次数
 		auto bd = bad[mxId];
-		if (bd.size() <= k) return true;
-		if (bd.size() - k > c) return false;
+		if ((int)bd.size() <= k) return true;
+		if ((int)bd.size() - k > c) return false;
 		// 注意到此时 bd 是 O(k) 的而不是 O(m) 的
 		std::vector<int> f(bd.size() - k);
 		iota(f.begin(), f.end(), 0);
@@ -77,8 +77,7 @@ class ECC {
    public:
 	std::vector<int> r;	 // m 维向量，表示当前答案
 	ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
-		n = a.size();
-		m = r.size();
+		n = a.size(); m = r.size();
 		bad.resize(n);
 		mxId = 0;
 		for (int i = 0; i < n; ++i) {
@@ -132,7 +131,8 @@ struct BitreeMin {
 	BitreeMin(int n) : s(n + 1, INT_MAX) {}
 	int lowbit(int n) { return n & (-n); }
 	void modify(int id, int p) {
-		while (id < s.size()) {
+		int ns = s.size();
+		while (id < ns) {
 			s[id] = std::min(s[id], p);
 			id += lowbit(id);
 		}
@@ -155,7 +155,8 @@ struct Bitree {
 	Bitree(int n) : s(n + 1) {}
 	int lowbit(int n) { return n & (-n); }
 	void add(int id, int p) {
-		while (id < s.size()) {
+		int ns = s.size();
+		while (id < ns) {
 			s[id] += p;
 			id += lowbit(id);
 		}
@@ -173,7 +174,7 @@ struct Bitree {
 		LL sum = 0;
 		int id = 0;
 		for (int i = std::__lg(s.size()); ~i; --i) {
-			if (id + (1 << i) < s.size() && sum + s[id + (1 << i)] < val) {
+			if (id + (1 << i) < (int)s.size() && sum + s[id + (1 << i)] < val) {
 				id += (1 << i);
 				sum += s[id];
 			}
@@ -438,7 +439,7 @@ int LNDS(std::vector<int> &a) {	 // length of longest increasing subsquence
 auto LISP(std::vector<int> &a) {  // longest increasing subsquence
 	std::vector<int> b, pb, pa(a.size());
 	std::iota(pa.begin(), pa.end(), 0);
-	for (int i = 0; i != a.size(); ++i) {
+	for (int i = 0, na = a.size(); i < na; ++i) {
 		if (auto it = std::upper_bound(b.begin(), b.end(), a[i]);
 			it == b.end()) {
 			if (!pb.empty()) pa[i] = pb.back();
@@ -468,7 +469,7 @@ auto LISP(std::vector<int> &a) {  // longest increasing subsquence
 std::vector<int> monicDequeMax(std::vector<int> &a, int m) {
 	std::vector<int> r;
 	std::deque<int> Q;
-	for (int i = 0; i < a.size(); ++i) {
+	for (int i = 0, na = a.size(); i < na; ++i) {
 		if (!Q.empty() && i - Q.front() >= m) Q.pop_front();
 		// 如果求最小值，大于号改成小于号即可
 		while (!Q.empty() && a[i] > a[Q.back()]) Q.pop_back();
@@ -530,7 +531,7 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 	std::sort(a.begin(), a.end());
 	// 去重操作
 	int last = 0;
-	for (int i = 1; i < a.size(); ++i) {
+	for (int i = 1, na = a.size(); i < na; ++i) {
 		if (a[i].x != a[i - 1].x || a[i].y != a[i - 1].y ||
 			a[i].z != a[i - 1].z) {
 			int t = i - last - 1;
@@ -543,7 +544,7 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 		}
 	}
 	int t = a.size() - last - 1;
-	for (int i = last; i < a.size(); ++i) {
+	for (int i = last, na = a.size(); i < na; ++i) {
 		ans[a[i].id] = t;
 		a[i].w = 0;
 	}

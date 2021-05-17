@@ -38,7 +38,7 @@ std::vector<int> initPrimeS() { // 放在此处仅供记录。
 	for (int i = 3; i < N; i += 2) isp[i] = true;
 	for (int i = 3; i < N; i += 2) {
 		if (isp[i]) p.emplace_back(i);
-		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) { // 用除号是防止溢出
+		for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) { // 用除号是防止溢出
 			isp[i * p[j]] = false;
 			// 不要下面的一步的话，复杂度 O(nloglogn), 但是不用除法，常数小
 			if (i % p[j] == 0) break;
@@ -135,7 +135,7 @@ std::vector<int> seive(LL s, int n) { // O(N log s)
 
 // 使用前先初始化，返回第 n 个素数，从 1 开始标号
 LL nthPrime(LL n) { // Newton 梯度法
-	if (n < p.size()) return p[n];
+	if (n < (int)p.size()) return p[n];
 	LL ans = n * log(n), err = log(n) / log(10);
 	LL m = primepi(ans);
 	while (m < n || m > n + err) {
@@ -188,7 +188,7 @@ std::vector<int> initPhi(int N) {
 	for (int i = 2; i < N; i += 2) phi[i] = i >> 1;
 	for (int i = 3; i < N; i += 2) {
 		if (phi[i] == i) p.emplace_back(i), --phi[i];
-		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
+		for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) {
 			if (i % p[j] == 0) {
 				phi[i * p[j]] = phi[i] * p[j];
 				break;
@@ -234,7 +234,7 @@ std::vector<int> initMu(int N) {
 	for (int i = 1; i < N; i += 2) mu[i] = i;
 	for (int i = 3; i < N; i += 2) {
 		if (mu[i] == i) mu[i] = -1, p.emplace_back(i);
-		for (int j = 2, t = (N - 1) / i + 1; j < p.size() && p[j] < t; ++j) {
+		for (int j = 2, t = (N - 1) / i + 1, np = p.size(); j < np && p[j] < t; ++j) {
 			if (i % p[j] == 0) {
 				mu[i * p[j]] = 0;
 				break;
@@ -304,7 +304,7 @@ std::vector<int> spf(int N) {
 	for (int i = 1; i < N; i += 2) sp[i] = i;
 	for (int i = 3; i < N; i += 2) {
 		if (sp[i] == i) p.emplace_back(i);
-		for (int j = 2; j < p.size() && p[j] <= sp[i] && i * p[j] < N; ++j) {
+		for (int j = 2, np = p.size(); j < np && p[j] <= sp[i] && i * p[j] < N; ++j) {
 			sp[i * p[j]] = p[j]; // 注意到sp只被赋值一次
 		}
 	}
@@ -318,7 +318,7 @@ std::pair<std::vector<int>, std::vector<int>> npf(int N) {
 	np[0] = np[1] = 0;
 	for (int i = 3; i < N; i += 2) {
 		if (nps[i] == 1) p.emplace_back(i);
-		for (int j = 2, t; j < p.size() && (t = i * p[j]) < N; ++j) {
+		for (int j = 2, t, pSize = p.size(); j < pSize && (t = i * p[j]) < N; ++j) {
 			nps[t] = nps[i] + 1;
 			np[t] = np[i];
 			if (i % p[j] == 0) break;

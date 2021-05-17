@@ -194,7 +194,7 @@ std::stack<int> EulerPathS(std::vector<std::multiset<int>> e) {
 		}
 		ans.push(u);
 	};
-	for (int i = 0; i < e.size(); ++i) {
+	for (int i = 0, ne = e.size(); i < ne; ++i) {
 		if (!e[i].empty() && ((e[i].size() & 1) || (cnt == 0))) {
 			Hierholzer(i);
 			break;
@@ -478,7 +478,7 @@ class Dinic {
 	LL dfs(int u, int t, LL f) {
 		if (u == t || f == 0) return f;
 		LL r = f;
-		for (int &i = cur[u]; i < g[u].size(); ++i) {
+		for (int &i = cur[u], ng = g[u].size(); i < ng; ++i) {
 			int j = g[u][i];
 			auto [v, c] = e[j];
 			if (c > 0 && h[v] == h[u] + 1) {
@@ -645,7 +645,7 @@ public:
 
 // 最小费用最大流
 class Flow {
-	static inline constexpr int INF = 1e9;
+	inline static const int INF = 1e9;
 	int n;
 	// e[i] 表示第 i 条边的终点和容量，注意存边的时候 e[i ^ 1] 是 e[i] 的反向边。
 	// g[u] 存的是所有以 u 为起点的边，这就很像链式前向星的做法
@@ -665,10 +665,10 @@ class Flow {
 			Q.pop();
 			if (d[u] != -du) continue;
 			for (auto i : g[u]) {
-				auto [v, c, w] = e[i];
-				w += h[u] - h[v];
-				if (c > 0 && d[v] > d[u] + w) {
-					d[v] = d[u] + w;
+				auto [v, w, c] = e[i];
+				c += h[u] - h[v];
+				if (w > 0 && d[v] > d[u] + c) {
+					d[v] = d[u] + c;
 					path[v] = i;
 					Q.push({-d[v], v});
 				}
@@ -681,12 +681,12 @@ class Flow {
 	}
 public:
 	Flow(int _n) : n(_n), g(n), h(n), path(n) {}
-	void addEdge(int u, int v, int c, int w) {
+	void addEdge(int u, int v, int w, int c) {
 		if (u == v) return;
 		g[u].emplace_back(e.size());
-		e.emplace_back(v, c, w);
+		e.emplace_back(v, w, c);
 		g[v].emplace_back(e.size());
-		e.emplace_back(u, 0, -w);
+		e.emplace_back(u, 0, -c);
 	}
 	std::pair<LL, LL> maxFlow(int s, int t) {
 		LL flow = 0, cost = 0;
@@ -708,3 +708,4 @@ public:
 		return {flow, cost};
 	}
 };
+// 模板例题：https://www.luogu.com.cn/problem/P3381

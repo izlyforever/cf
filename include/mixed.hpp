@@ -160,7 +160,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 	}
 	// if (sz != A[0].size()) std::cout << "\nInfinite answer\n";
 	auto xt = triangleGauss(sz);
-	for (int t = 0; t < A[0].size(); ++t) x[p[t]] = xt[t];
+	for (int t = 0, na = A[0].size(); t < na; ++t) x[p[t]] = xt[t];
 	return x;
 }
 
@@ -219,7 +219,7 @@ std::vector<int> Gauss(std::vector<std::vector<int>> A, std::vector<int> b) {
 	}
 	// if (sz != A[0].size()) std::cout << "\nInfinite answer\n";
 	auto xt = triangleGauss(sz);
-	for (int t = 0; t < A[0].size(); ++t) x[p[t]] = xt[t];
+	for (int t = 0, na = A[0].size(); t < na; ++t) x[p[t]] = xt[t];
 	return x;
 }
 
@@ -282,11 +282,11 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
 	assert(Alq.size() == blq.size());
 	int n = Aq.size() + Alq.size();
 	int m = c.size();
-	for (int i = 0; i < bq.size(); ++i) if (bq[i] < -eps) {
+	for (int i = 0, nb = bq.size(); i < nb; ++i) if (bq[i] < -eps) {
 		for (auto &x : Aq[i]) x = -x;
 		bq[i] = -bq[i];
 	}
-	for (int i = 0; i < blq.size(); ++i) if (blq[i] < -eps) {
+	for (int i = 0, nb = blq.size(); i < nb; ++i) if (blq[i] < -eps) {
 		for (auto &x : Alq[i]) x = -x;
 		++m;
 	}
@@ -294,20 +294,20 @@ VD simplex(VD c, std::vector<VD> Aq, VD bq, std::vector<VD> Alq, VD blq) {
 	VD f(n + m), b(n);
 	int now = n + c.size();
 	for (int i = 0; i < n; ++i) A[i][i] = 1;
-	for (int i = 0; i < Aq.size(); ++i) {
-		for (int j = 0; j < Aq[i].size(); ++j) A[i][n + j] = Aq[i][j];
+	for (int i = 0, na = Aq.size(); i < na; ++i) {
+		for (int j = 0; j < na; ++j) A[i][n + j] = Aq[i][j];
 		b[i] = bq[i];
 		f[i] = -inf;
 	}
-	for (int i = 0; i < Alq.size(); ++i) {
-		for (int j = 0; j < Alq[i].size(); ++j) A[i + Aq.size()][n + j] = Alq[i][j];
+	for (int i = 0, na = Alq.size(); i < na; ++i) {
+		for (int j = 0; j < na; ++j) A[i + Aq.size()][n + j] = Alq[i][j];
 		if (blq[i] < -eps) {
 			A[i + Aq.size()][now++] = -1;
 			f[i + Aq.size()] = -inf;
 		}
 		b[i + Aq.size()] = fabs(blq[i]);
 	}
-	for (int i = 0; i < c.size(); ++i) f[n + i] = c[i];
+	for (int i = 0, nc = c.size(); i < nc; ++i) f[n + i] = c[i];
 	auto x = simplexCore(f, A, b);
 	return VD(x.begin() + n, x.begin() + n + c.size());
 }

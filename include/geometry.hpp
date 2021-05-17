@@ -79,8 +79,8 @@ double minDist(std::vector<Point> a) {
 			p.emplace_back(a[i].second, a[i].first);
 		}
 		std::sort(p.begin(), p.end());
-		for (int i = 0; i < p.size(); ++i) {
-			for (int j = i + 1; j < p.size() && p[j].first - p[i].first < d; ++j) {
+		for (int i = 0, np = p.size(); i < np; ++i) {
+			for (int j = i + 1; j < np && p[j].first - p[i].first < d; ++j) {
 				d = std::min(d, dist(p[i], p[j]));
 			}
 		}
