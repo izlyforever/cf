@@ -342,7 +342,7 @@ public:
 
 // 树状数组套权值线段树求动态区间第 k 小（可强制在线，非离散化）
 class BitPstSegTree {
-	inline const static int N = 1e9 + 2;
+	static inline constexpr int N = 1e9 + 2;
 	struct Node {
 		int l, r, val;
 	};

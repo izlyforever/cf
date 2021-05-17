@@ -101,7 +101,7 @@ std::vector<int> partialOrder(std::vector<std::vector<int>> &a) {
 		std::sort(f[i].begin(), f[i].end());
 	}
 	int sn = std::sqrt(n);
-	const int N = 4e4 + 2;
+	constexpr int N = 4e4 + 2;
 	using Data = std::vector<std::bitset<N>>;
 	std::vector<Data> bs(k, Data(n / sn + 1));;
 	for (int i = 0; i < k; ++i) {

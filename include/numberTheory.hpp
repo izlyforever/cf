@@ -16,7 +16,7 @@ bool isPrime(LL n) {
 }
 
 // 预处理判断所有素数
-const int N = 1e7 + 2;
+constexpr int N = 1e7 + 2;
 bool isp[N];
 // 此算法复杂度为 O(N \log \log N)，实测 N < 1e9 时是最快的
 std::vector<int> initPrime() {
@@ -50,7 +50,7 @@ std::vector<int> initPrimeS() { // 放在此处仅供记录。
 // 计算 pi(x)，理论：https://dna049.com/computationOfPiX
 // 这里预处理 N = 1e7, M = 7 是最好的（预处理 200ms）。
 // 如果 x 特别大，例 1e13 < x < 1e15，建议 N = 1e8, M = 8（预处理耗时很大，2s）
-const int M = 7; // 请不要超过 8，M = 9 已经没有什么意义了。
+constexpr int M = 7; // 请不要超过 8，M = 9 已经没有什么意义了。
 int pi[N];
 std::vector<int> p;
 std::vector<std::vector<int>> phi(M + 1);
@@ -248,7 +248,7 @@ std::vector<int> initMu(int N) {
 
 // min25 筛法 O(n^{\frac{2}{3}}) 求 Euler 函数前缀和 以及 Mobius 函数（绝对值）前缀和
 namespace min25 {
-const int N = 5e6 + 2;
+constexpr int N = 5e6 + 2;
 
 // Euler 函数前缀和
 std::vector<LL> sumPhi(N);
@@ -454,7 +454,7 @@ bool witness(LL a, LL n, LL m, int t) {
 	}
 	return true;
 }
-const int TIMES = 52;
+constexpr int TIMES = 52;
 bool rabin(LL n) {
 	if (n < 2) return false;
 	if (n == 2) return true;

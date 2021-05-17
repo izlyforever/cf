@@ -54,7 +54,7 @@ int decInc(int n, int m) {
 
 class Matrix {
 public:
-	const static int N = 1003;
+	static constexpr int N = 1003;
 	int n, a[N][N], mod;
 	Matrix() {}
 	Matrix(int _n, int x = 0): n(_n) { // xIn
@@ -166,7 +166,7 @@ std::vector<double> Gauss(std::vector<std::vector<double>> A, std::vector<double
 
 // 模 Gauss 消元法 Ax = b
 std::vector<int> Gauss(std::vector<std::vector<int>> A, std::vector<int> b) {
-	const int M = 998244353;
+	constexpr int M = 998244353;
 	int n = A.size(), m = A[0].size();
 	std::vector<int> x(m), p(m);
 	std::iota(p.begin(), p.end(), 0);
@@ -329,7 +329,7 @@ VL Karatsuba(VL a, VL b, LL p) {
 		for (int i = 0; i < sz; ++i) r[i] = c[i] % p;
 		return r;
 	};
-	const int N = 65;
+	constexpr int N = 65;
 	std::function<VL(VL, VL, int)> mul = [&](VL a, VL b, int n) -> VL {
 		if (n < N) return mulS(a, b);
 		int n2 = n / 2, n1 = n - 1;
@@ -378,7 +378,7 @@ VL KaratsubaParallel(VL a, VL b, LL p) {
 		for (int i = 0; i < sz; ++i) r[i] = c[i] % p;
 		return r;
 	};
-	const int N = 65;
+	constexpr int N = 65;
 	std::function<VL(VL, VL, int)> mul = [&](VL a, VL b, int n) -> VL {
 		if (n < N) return mulS(a, b);
 		int n2 = n / 2, n1 = n - 1;

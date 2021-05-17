@@ -56,7 +56,7 @@ template<int N>
 class NFT {
 	std::vector<int> rev, roots{0, 1};
 public:
-	inline const static int g = 3, M = N;
+	static inline constexpr int g = 3, M = N;
 	int powMod(int x, int n) {
 		int r(1);
 		while (n) {
@@ -158,8 +158,8 @@ protected:
 		return PolyBaseNFT(ans);
 	}
 public:
-	inline const static int M = 998244353;
-	inline static NFT<M> nft;
+	static inline constexpr int M = 998244353;
+	static inline NFT<M> nft;
 	using PolyBase::PolyBase;
 	PolyBaseNFT(const PolyBase &A) : PolyBase(A) {}
 };
@@ -200,11 +200,11 @@ protected:
 		return PolyBaseMFT(ans);
 	}
 public:
-	inline constexpr static int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
-	inline const static LL M01 = 1LL * M0 * M1;
-	inline static NFT<M0> nft0;
-	inline static NFT<M1> nft1;
-	inline static NFT<M2> nft2;
+	static inline constexpr int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
+	static inline constexpr LL M01 = 1LL * M0 * M1;
+	static inline  NFT<M0> nft0;
+	static inline  NFT<M1> nft1;
+	static inline  NFT<M2> nft2;
 	using PolyBase::PolyBase;
 	PolyBaseMFT(const PolyBase &A) : PolyBase(A) {}
 };
@@ -229,7 +229,7 @@ protected:
 		// 下面用三次变两次优化 所以总 dft 次数为 8，一个小技巧可以变成 7 次
 		// 利用 dft与共轭的关系可以优化到 4 次，懒得搞
 		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
-		const static int bit = 15, msk = (1 << bit) - 1;
+		static constexpr int bit = 15, msk = (1 << bit) - 1;
 		for (auto &x : A1.a) x >>= bit;
 		for (auto &x : A2.a) x &= msk;
 		for (auto &x : B1.a) x >>= bit;

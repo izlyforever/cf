@@ -42,18 +42,24 @@ void print(__int128 x){
 
 
 class ModInt {
-	inline static int M = 998244353;
+	static inline int M = 998244353;
 	int n;
-	int static inv(int x) {
+	static int inv(int x) {
 		assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
 public:
-	void static setMod(int m) {
+	static void setMod(int m) {
 		M = m;
 	}
-	int static mod() {
+	static int mod() {
 		return M;
+	}
+	// 自行确保 0 <= x < M
+	static ModInt raw(int x) {
+		ModInt A;
+		A.n = x;
+		return A;
 	}
 	ModInt(LL x = 0) : n(x % M) {
 		if (n < 0) n += M;
@@ -231,7 +237,7 @@ int lucas(int n, int k) {
 
 
 namespace Stirling {
-const int N = 1e3 + 2, M = 1e9 + 7;
+constexpr int N = 1e3 + 2, M = 1e9 + 7;
 std::vector<std::vector<int>> S1(N), S2(N);
 void init() {
 	S1[0] = {1, 0};
@@ -313,7 +319,7 @@ int powSum(int n, int k, int M, const std::vector<int> &sp){
 
 
 namespace FMT {
-const int M = 998244353, inv2 = (M + 1) / 2;
+constexpr int M = 998244353, inv2 = (M + 1) / 2;
 auto add = [](int &x, int y) {
 	(x += y) >= M && (x -= M);
 };
@@ -404,7 +410,7 @@ auto OrAnd = [](std::vector<int> a, std::vector<int> b) {
 // 计算集合 S 中所有数与 x 异或后的 MEX 值。
 class MEX {
 	// 具体数值要对应修改。
-	inline static const int B = 20;
+	static inline constexpr int B = 20;
 	std::array<std::map<int, int>, B> mp;
 	std::map<int, int> S;
 public:

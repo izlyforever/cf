@@ -221,7 +221,7 @@ std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt) {
 
 // Floyd 带路径 --- 未测试
 namespace Floyd {
-const int N = 1003;
+constexpr int N = 1003;
 LL dp[N][N], path[N][N];
 void Floyd(int n) {
 	memset(path, -1, sizeof(path));
@@ -645,7 +645,7 @@ public:
 
 // 最小费用最大流
 class Flow {
-	inline static const int INF = 1e9;
+	static inline constexpr int INF = 1e9;
 	int n;
 	// e[i] 表示第 i 条边的终点和容量，注意存边的时候 e[i ^ 1] 是 e[i] 的反向边。
 	// g[u] 存的是所有以 u 为起点的边，这就很像链式前向星的做法

@@ -229,7 +229,7 @@ std::vector<int> kmpZ(std::string s, std::string t) {
 }
 
 class Automaton {
-	inline static const int CHAR = 26;
+	static inline constexpr int CHAR = 26;
 	using Node = std::array<int, CHAR>;
 	std::vector<Node> nxt;
 	std::vector<int> cnt, fail, last;
