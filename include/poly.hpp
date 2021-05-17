@@ -196,38 +196,43 @@ void idft(std::vector<C> &a) {
 } // namespace FFT 
 // 模板例题：https://www.luogu.com.cn/problem/P3803
 
+
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
 protected:
-	static std::vector<T> mulCore(PolyBaseFFT A, PolyBaseFFT B, int sz) {
-		std::vector<std::complex<double>> C(sz);
-		for (int i = 0; i < A.size(); ++i) C[i].real(A[i]);
-		for (int i = 0; i < B.size(); ++i) C[i].imag(B[i]);
-		FFT::dft(C);
-		for (auto &x : C) x *= x;
-		FFT::idft(C);
-		std::vector<T> ans(A.size() + B.size() - 1);
-		for (int i = 0, na = ans.size(); i < na; ++i) ans[i] = T(C[i].imag() / 2 + 0.5);
-		return ans;
-	}
 	PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
-		int n = std::max(this->size(), rhs.size()), tot = std::max(1, n * 2 - 1);
+		int tot = std::max(1, this->size() + rhs.size() - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
-		// return mulCore(A, B, sz); // 为了保证精度必须拆分
+		// 为了保证精度必须拆分（否则直接用 三次变两次 技巧）
 		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
-		const static int bit = 15, msk = (1 << bit) - 1;
-		for (auto &x : A1.a) x >>= bit;
-		for (auto &x : A2.a) x &= msk;
-		for (auto &x : B1.a) x >>= bit;
-		for (auto &x : B2.a) x &= msk;
-		auto ans = mulCore(A1, B1, sz);
-		auto A1B2 = mulCore(A1, B2, sz);
-		auto A2B1 = mulCore(A2, B1, sz);
-		auto A2B2 = mulCore(A2, B2, sz);
+		static constexpr int bit = 15, msk = (1 << bit) - 1;
+		for (auto &x : A1.a) x &= msk;
+		for (auto &x : A2.a) x >>= bit;
+		for (auto &x : B1.a) x &= msk;
+		for (auto &x : B2.a) x >>= bit;
+		std::vector<std::complex<double>> A(sz), B(sz), C(sz);
+		for (int i = 0, tSize = this->size(); i < tSize; ++i) {
+			A[i] = std::complex((double)A1[i], (double)A2[i]);
+		}
+		for (int i = 0, rSize = rhs.size(); i < rSize; ++i) {
+			B[i] = std::complex((double)B1[i], (double)B2[i]);
+		}
+		FFT::dft(A); FFT::dft(B);
+		C[0] = conj(B[0]);
+		for (int i = 1; i < sz; ++i) C[i] = conj(B[sz - i]);
+		for (int i = 0; i < sz; ++i) B[i] *= A[i];
+		for (int i = 0; i < sz; ++i) C[i] *= A[i];
+		FFT::idft(B); FFT::idft(C);
+		std::vector<T> ans(tot), A1B2(tot), A1B1(tot);
+		for (int i = 0; i < tot; ++i) {
+			A1B2[i] = LL(B[i].imag() + 0.5);
+			A1B1[i] = LL(B[i].real() + C[i].real() + 0.5) / 2;
+			ans[i] = LL(C[i].real() - B[i].real() + 0.5) / 2;
+		}
 		for (auto &x : ans) x <<= bit;
-		for (int i = 0, na = ans.size(); i < na; ++i) ans[i] += A1B2[i] + A2B1[i];
+		for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
 		for (auto &x : ans) x <<= bit;
-		for (int i = 0, na = ans.size(); i < na; ++i) ans[i] += A2B2[i];
+		for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
 		return PolyBaseFFT(ans);
 	}
 public:
@@ -473,10 +478,12 @@ const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
 
+// 这个太慢了，但可以保证正确性
 using PolyMFT = Poly<PolyBaseMFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
 
 // 任意模素数 min25 求阶乘 $O(\sqrt{n} \log n)$
+// 学习资料：https://www.cnblogs.com/bztMinamoto/p/10661226.html
 int factorialS(int n, int p) {
 	ModInt::setMod(p);
 	int sn = std::sqrt(n);
@@ -489,5 +496,4 @@ int factorialS(int n, int p) {
 	for (int i = n / sn * sn + 1; i <= n; ++i) r *= ModInt(i);
 	return r;
 }
-
 // 例题：https://www.luogu.com.cn/problem/solution/P5282
