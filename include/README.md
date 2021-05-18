@@ -83,9 +83,10 @@
 - 多项式静态函数：$O(k \log k \log n)$ 求 $k$ 阶常系数递推公式的第 $n$ 项
 - 多项式静态函数：模自然数方幂和 $O(k \log k)$ 得到前 $k$ 个答案
 - 求阶乘 $n! \mod p$：基于多点求值 $O(\sqrt{n} \log^2 n)$ 求 $\sqrt{n}$ 个点之后暴力
+- 求阶乘 $n! \mod p$：min25 用点求点 $O(\sqrt{n} \log n)$ 求 $\sqrt{n}$ 个点之后暴力
+
 
 > 注意模板类中友元函数参数一定要至少包含一个模板变量（否则就会报函数重定义的错误），还有就是要区分友元函数和静态函数！
-> PolyFFT 已经优化到只用做 4 次 FFT。
 
 ####  4 次 FFT 原理
 
@@ -97,6 +98,69 @@ $$
 于是我们只需计算 $(A_1 + i A_2)(B_1 + i B_2)$ 和 $(A_1 + i A_2)(B_1 - i B_2)$ 即可，但是注意到 $dft((B_1 + i B_2))[j] = \overline{dft((B_1 + i B_2))[n - j]}$ 所以本来需要 5 次 FFT，现在只需要 4 次即可。
 
 > 其实本质上，我们可以只做 3.5 次 FFT，因为 2 次 dft 我们可以得到 $A_1, A_2, B_1, B_2$ 的 dft 值，然后我们最后只需 3 次实数版 idft 即可（算作 1.5 次）！所以总的来说是 3.5 次。但是实现的时候也没办法搞 0.5 次，可惜。
+
+
+#### min25 用点求点原理
+
+学习资料：[zzqsblog](https://www.cnblogs.com/zzqsblog/p/8408691.html), [bztMinamoto](https://www.cnblogs.com/bztMinamoto/p/10661226.html)
+
+我们令 $s = \sqrt{n}$ 然后 $\displaystyle g_{s}(x) = \sum_{i = 1}^{s}(x + i)$，我们想要得到 $g_s(0), g_s(s), \cdots g_s((s - 1)s)$ 的值。然后 $n! = \prod_{i = 0}^{s - 1} g_s(i s) \cdot \prod_{i = s^2 + 1}^n i$
+
+现在假设我们已经得到了
+
+$$
+g_d(0), g_d(s), \cdots g_d(d s)
+$$
+
+> 一个 $d$ 次多项式由它在 $d + 1$ 个不同点的取值唯一决定（多于 d + 1 个点也可以）
+
+1. 我们如何求
+
+$$
+g_{d + 1}(0), g_{d + 1}(s), \cdots g_{d + 1}((d + 1) s)
+$$
+
+注意到 $g_{d + 1}(x) = g_{d}(x) \cdot (x + d + 1)$ 即可 $O(d)$ 计算出 前 $d + 1$ 个，最后一个直接暴力计算即可。
+
+2. 我们如何求
+
+$$
+g_{2d}(0), g_{2d}(s), \cdots g_{2d}(2d s)
+$$
+
+同样我们注意到 $g_{2d}(x) = g_{d}(x) \cdot g_d(x + d)$ 如果我们设 $h(i) = g_d(i s)$，（那么很关键的一点 $g_d(is + d) = g((d / s + i) s = h(d / s + i)$，卧槽， $d / s$ 在模 p 意义下得到就可以了，而且肯定大于 d，否则矛盾！）那么问题就转化成如何根据
+一个 $d$ 次多项式的值！
+
+$$
+h(0), h(1), \cdots, h(d)
+$$
+求
+$$
+h(d + 0), \cdots h(d + d)
+$$
+以及
+$$
+h(d / s + 0), \cdots h(d / s + d)
+$$
+我们不妨对于任意的给定的 $k > d$，先求出
+$$
+h(k + 0), h(k + 1), \cdots h(k + d) 
+$$
+注意到根据 Lagrange 插值多项式
+$$
+\begin{aligned}
+h(x) &= \sum_{i = 0}^{d} h(i) \prod_{j = 0, j \neq i}^{d} \frac{x - j}{i - j} \\ 
+&= \sum_{i = 0}^d (-1)^{d - i} h(i) \binom{x}{i} \binom{x - i - 1}{d - i} \\
+&=  \left(\prod_{i = x - d}^x i \right) \sum_{i = 0}^d \frac{h(i)}{i!(d - i)!(-1)^{d - i}} \cdot \frac{1}{(x - i)}
+\end{aligned}
+$$
+
+注意到这里的卷积跟我们普通的卷积不一致，左边长度为 $d + 1$ 的多项式乘以右边长度为 $2d + 1$ 的多项式，然后次数为 $d, \cdots 2d$ 这 $d + 1$ 位是有效的。
+
+1. 不能写成除以阶乘的形式，因为 x 有可能很大。
+2. 为了保证 $d/s < 2 d$，我们需要使用 Wilson 定理即 $(p - 1)! = -1$
+
+
 
 ### 几何
 

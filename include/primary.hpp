@@ -67,6 +67,17 @@ public:
 	operator int() const {
 		return n;
 	}
+	MInt operator-() const {
+		return n == 0 ? *this : raw(M - n);
+	}
+	MInt& operator++() {
+		if (++n == M) n = 0;
+		return *this;
+	}
+	MInt& operator--() {
+		if (--n == -1) n += M;
+		return *this;
+	}
 	MInt& operator+=(const MInt &A) {
 		n += A.n;
 		if (n >= M) n -= M;
@@ -99,7 +110,7 @@ public:
 	MInt operator<<(int x) const {
 		LL r = n;
 		r <<= x;
-		return MInt(r % M);
+		return MInt(r);
 	}
 	MInt& operator<<=(int x) {
 		return (*this) = (*this) << x;
@@ -165,6 +176,17 @@ public:
 	ModInt(LL x = 0) : n(x % M) {
 		if (n < 0) n += M;
 	}
+	ModInt operator-() const {
+		return n == 0 ? *this : raw(M - n);
+	}
+	ModInt& operator++() {
+		if (++n == M) n = 0;
+		return *this;
+	}
+	ModInt& operator--() {
+		if (--n == -1) n += M;
+		return *this;
+	}
 	operator int() const {
 		return n;
 	}
@@ -200,7 +222,7 @@ public:
 	ModInt operator<<(int x) const {
 		LL r = n;
 		r <<= x;
-		return ModInt(r % M);
+		return ModInt(r);
 	}
 	ModInt& operator<<=(int x) {
 		return (*this) = (*this) << x;

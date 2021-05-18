@@ -482,9 +482,10 @@ using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
 using PolyMFT = Poly<PolyBaseMFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
 
-// 任意模素数 min25 求阶乘 $O(\sqrt{n} \log n)$
-// 学习资料：https://www.cnblogs.com/bztMinamoto/p/10661226.html
+
+// 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {
+	if (n >= p) return 0;
 	ModInt::setMod(p);
 	int sn = std::sqrt(n);
 	auto A = PolyMFTDynamic::prod(sn);
@@ -493,7 +494,71 @@ int factorialS(int n, int p) {
 	auto y = A.evals(x);
 	ModInt r(1);
 	for (auto t : y) r *= t;
-	for (int i = n / sn * sn + 1; i <= n; ++i) r *= ModInt(i);
+	for (int i = n / sn * sn + 1; i <= n; ++i) r *= ModInt::raw(i);
 	return r;
+}
+
+
+int factorial(int n, int p) {
+	if (n >= p) return 0;
+	if (n <= 1) return 1;
+	ModInt::setMod(p);
+	if (n > p - 1 - n) {
+		int ans = ModInt(factorial(p - 1 - n, p)).inv();
+		return (p - n) & 1 ? p - ans : ans; 
+	}
+	int s = std::sqrt(n);
+	std::vector<ModInt> fac(s + 1), ifac(s + 1), inv(s + 1);
+	fac[0] = inv[1] = 1;
+	for (int i = 1; i <= s; ++i) fac[i] = fac[i - 1] * ModInt::raw(i);
+	ifac[s] = fac[s].inv();
+	for (int i = s; i > 0; --i) ifac[i - 1] = ifac[i] * ModInt::raw(i);
+	for (int i = 2; i <= s; ++i) inv[i] = inv[p % i] * ModInt::raw(p - p / i);
+	// 根据 $h(0), h(1), \cdots, h(d)$ 的值 求 $h(m), \cdots, h(m + cnt - 1)$
+	auto solve = [&](std::vector<ModInt> h, ModInt m, int cnt) { // m > h.size()
+		int d = h.size() - 1;
+		for (int i = 0; i <= d; ++i) {
+			h[i] *= ifac[i] * ifac[d - i];
+			if ((d - i) & 1) h[i] = -h[i];
+		}
+		std::vector<ModInt> f(d + cnt);
+		auto now = m - ModInt(d);
+		for (int i = 0; i < d + cnt; ++i) {
+			f[i] = now.inv();
+			++now;
+		}
+		h = (PolyFFTDynamic(f) * PolyFFTDynamic(h)).a;
+		h.resize(d + cnt);
+		h = std::vector<ModInt>(h.begin() + d, h.end());
+		now = 1;
+		for (int i = 0; i <= d; ++i) now *= m - ModInt::raw(i);
+		h[0] *= now;
+		for (int i = 1; i < cnt; ++i) {
+			now *= m + ModInt::raw(i);
+			now *= (m + ModInt(i - d - 1)).inv();
+			h[i] *= now;
+		}
+		return h;
+	};
+	auto invS = ModInt(s).inv();
+	std::vector<ModInt> h{1, s + 1};
+	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
+		auto nh1 = solve(h, d + 1, d);
+		auto nh2 = solve(h, invS * ModInt(d), 2 * d + 1);
+		h.insert(h.end(), nh1.begin(), nh1.end());
+		d *= 2;
+		for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
+		if (s >> bit & 1) {
+			++d;
+			for (int i = 0, t = d; i < d; ++i, t += s) h[i] *= ModInt::raw(t);
+			ModInt tmp(1), tj = s * d;
+			for (int i = 0; i < d; ++i) ++tj, tmp *= tj;
+			h.emplace_back(tmp);
+		}
+	}
+	ModInt ans = 1;
+	for (int i = 0; i < s; ++i) ans *= h[i];
+	for (int i = s * s + 1; i <= n; ++i) ans *= ModInt::raw(i);
+	return ans;
 }
 // 例题：https://www.luogu.com.cn/problem/solution/P5282
