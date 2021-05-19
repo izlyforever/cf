@@ -53,6 +53,29 @@ int decInc(int n, int m) {
 	return ans;
 }
 
+// finds min x s.t. L <= (A * x) % M <= R (or -1 if it does not exist)
+int FirstInRange(int a, int m, int l, int r) { // 0 <= L <= R < M, 0 < a < M
+	if (l == 0) return 0;
+	std::function<std::pair<int, int>(int, int)> dfs = [&](int a, int m) -> std::pair<int, int> {
+		if (a == 0) return std::pair(-1, 0);
+		if (a > m - a) {
+			std::tie(l, r) = std::pair(m - r, m - l);
+			auto [x, y] = dfs(m - a, m);
+			return std::pair(x, x - y - 1);
+		}
+		int k = (l + a - 1) / a;
+		if (k * a <= r) return std::pair(k, 0);
+		--k;
+		l -= k * a;
+		r -= k * a;
+		int z = (m + a - 1) / a;
+		auto [x, y] = dfs(z * a - m, a);
+		return x == -1 ? std::pair(-1, -1) : std::pair(k + x * z - y, x);
+	};
+	return dfs(a, m).first;
+}
+
+
 class Matrix {
 public:
 	static constexpr int N = 1003;

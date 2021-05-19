@@ -173,6 +173,7 @@ $$
 
 ### 杂类
 
+- [博弈](https://dna049.com/nimSgFunction/#%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F)
 - floorSum：$\displaystyle \sum_{i = 0}^{n - 1} \lfloor \frac{a \cdot i + b}{m} \rfloor$
 - sumNum：$\displaystyle \sum_{\sum c_i x_i = m} \frac{(\sum x_i)!}{\prod (x_i !)}$
 - decInc: 每次可选择 n 减一 或 m 加一，使得 m 是 n 的倍数的最小次数
@@ -183,7 +184,10 @@ $$
 - - 任意模数多项式乘法 $O(n^{\log_2 3})$ 的 Karatsuba 算法（包括并行版）
 - 线性规划
 - 之前考虑 MFT 有点问题的写法放在杂类里（很快但使用范围小）
-- [博弈](https://dna049.com/nimSgFunction/#%E5%8F%96%E7%9F%B3%E5%AD%90%E6%B8%B8%E6%88%8F)
+- FirstInRange：求最小的 $x$ 使得 $l \leq a x \mod m \leq r$。类似 exgcd 的处理
+
+求最小非负整数 $x$ 使得 $l \leq ax - m y \leq r$ 等价于 $l \leq (az - m)y - a(yz - x) \leq r$，注意到我们要始终保持 $a < m$，因此当 $a * 2 > m$ 时需要特判一下。转化成 $m - r \leq (m - a) x - m(x - y - 1) \leq m - l$
+
 
 
 ## 图论
