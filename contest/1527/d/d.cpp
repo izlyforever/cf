@@ -29,25 +29,44 @@ int main() {
 		};
 		pdfs(0, n);
 		std::vector<LL> ans(n + 1);
-		for (auto v : e[0]) ans[0] += 1LL * sz[v] * (sz[v] - 1) / 2;
-		ans[1] = 1LL * n * (n - 1) / 2 - ans[0];
-		int now = 1;
-		while (now < n) {
+		std::vector<int> vis(n + 1);
+		vis[0] = 1;
+		int now = son[0], need = 1;
+		while (now < n && val[now] == need) {
+			while (val[now] != now) {
+				vis[now] = 1;
+				now = son[now];
+			}
 			// 哇，我为什么是 n - sz[1] 啊，明明应该是 n - sz[son[0]] 啊！
 			ans[now + 1] = 1LL * sz[now] * (n - sz[son[0]]);
-			if (son[now] != now + 1) break;
-			++now;
+			now = son[now];
+			vis[need++] = 1;
+			while (need < n && vis[need]) {
+				ans[need] = ans[need - 1];
+				++need;
+			}
+			// 这里应该是 val[now] 而非 now 啊
 		}
 		int tmp = now;
-		++now;
-		// watch(now);
-		while (now < n) {
-			// watch(now);
+		now = need;
+		while (now < n && val[now] == need) {
+			while (val[now] != now) {
+				vis[now] = 1;
+				now = son[now];
+			}
+			// 哇，我为什么是 n - sz[1] 啊，明明应该是 n - sz[son[0]] 啊！
 			ans[now + 1] = 1LL * sz[now] * sz[tmp];
-			if (son[now] != now + 1) break;
-			++now;
+			now = son[now];
+			vis[need++] = 1;
+			while (need < n && vis[need]) {
+				ans[need] = ans[need - 1];
+				++need;
+			}
+			// 这里应该是 val[now] 而非 now 啊
 		}
-		// for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
+		for (auto v : e[0]) ans[0] += 1LL * sz[v] * (sz[v] - 1) / 2;
+		ans[1] = 1LL * n * (n - 1) / 2 - ans[0];
+		for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
 		for (int i = 1; i < n; ++i) ans[i] -= ans[i + 1];
 		for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
 	}
