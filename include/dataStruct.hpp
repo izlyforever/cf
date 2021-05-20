@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+using LL = long long;
 
 // a 单调递增，且最大值小于 mx。a 变成下一个字典序大于自身的序列
 bool next(std::vector<int> &a, int mx) {
