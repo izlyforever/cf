@@ -3,7 +3,7 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
+	// freopen("in", "r", stdin);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int cas = 1;
 	std::cin >> cas;
@@ -17,56 +17,42 @@ int main() {
 			e[u].emplace_back(v);
 			e[v].emplace_back(u);
 		}
-		std::vector<int> sz(n + 1), son(n + 1, n), val(n + 1, n);
-		std::function<void(int, int)> pdfs = [&](int u, int fa) {
-			sz[u] = 1;
-			for (auto v : e[u]) if (v != fa) {
-				pdfs(v, u);
-				sz[u] += sz[v];
-				if (val[son[u]] > val[v]) son[u] = v;
-			}
-			val[u] = std::min(u, val[son[u]]);
+		// 采用 jiangly 的做法，通过时间戳来搞定
+		std::vector<int> sz(n), in(n), out(n);
+		int cnt = 0;
+		std::function<void(int, int)> dfs = [&](int u, int fa) {
+			in[u] = cnt++;
+			for (auto v : e[u]) if (v != fa) dfs(v, u);
+			out[u] = cnt;
+			sz[u] = out[u] - in[u]; 
 		};
-		pdfs(0, n);
+		dfs(0, -1);
 		std::vector<LL> ans(n + 1);
-		std::vector<int> vis(n + 1);
-		vis[0] = 1;
-		int now = son[0], need = 1;
-		while (now < n && val[now] == need) {
-			while (val[now] != now) {
-				vis[now] = 1;
-				now = son[now];
-			}
-			// 哇，我为什么是 n - sz[1] 啊，明明应该是 n - sz[son[0]] 啊！
-			ans[now + 1] = 1LL * sz[now] * (n - sz[son[0]]);
-			now = son[now];
-			vis[need++] = 1;
-			while (need < n && vis[need]) {
-				ans[need] = ans[need - 1];
-				++need;
-			}
-			// 这里应该是 val[now] 而非 now 啊
+		int l = -1;
+		for (auto v : e[0]) {
+			ans[0] += 1LL * sz[v] * (sz[v] - 1) / 2;
+			if (in[v] <= in[1] && in[1] < out[v]) l = v;
 		}
-		int tmp = now;
-		now = need;
-		while (now < n && val[now] == need) {
-			while (val[now] != now) {
-				vis[now] = 1;
-				now = son[now];
-			}
-			// 哇，我为什么是 n - sz[1] 啊，明明应该是 n - sz[son[0]] 啊！
-			ans[now + 1] = 1LL * sz[now] * sz[tmp];
-			now = son[now];
-			vis[need++] = 1;
-			while (need < n && vis[need]) {
-				ans[need] = ans[need - 1];
-				++need;
-			}
-			// 这里应该是 val[now] 而非 now 啊
-		}
-		for (auto v : e[0]) ans[0] += 1LL * sz[v] * (sz[v] - 1) / 2;
 		ans[1] = 1LL * n * (n - 1) / 2 - ans[0];
-		for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
+		int u = 1, v = -1;
+		for (int i = 1; i < n; ++i) {
+			bool ok = false;
+			if (in[i] <= in[u] && in[u] < out[i]) ok = true;
+			if (v != -1 && in[i] <= in[v] && in[v] < out[i]) ok = true;
+			if (!ok) {
+				if (in[u] <= in[i] && in[i] < out[u]) {
+					u = i;
+                } else if ((v == -1 && !(in[l] <= in[i] && in[i] < out[l])) || (in[v] <= in[i] && in[i] < out[v])) {
+					v = i;
+				} else break;
+			}
+			if (v == -1) {
+				ans[i + 1] = 1LL * sz[u] * (n - sz[l]);
+			} else {
+				ans[i + 1] = 1LL * sz[u] * sz[v];
+			}
+		}
+		// for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
 		for (int i = 1; i < n; ++i) ans[i] -= ans[i + 1];
 		for (int i = 0; i <= n; ++i) std::cout << ans[i] << " \n"[i == n];
 	}
