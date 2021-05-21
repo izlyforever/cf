@@ -11,7 +11,7 @@ int powMod(int x, int n, int p) {
 	return r;
 }
 
-namespace int128 {
+namespace int128 { // 请勿与 cin/cout 混用！
 __int128 read(){
 	__int128 x = 0;
 	bool negetive = false;
@@ -39,6 +39,32 @@ void print(__int128 x){
 	printS(x);
 }
 } // namespace int128
+
+// 考虑环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$
+class SqrtZn {
+	static inline int N;
+public:
+	LL a, b;
+	static void setMod(int x) { N = x;}
+	SqrtZn() {}
+	SqrtZn(LL x, LL y = 0) : a(x), b(y) {}
+	SqrtZn operator-() { return SqrtZn(-a, -b);}
+	SqrtZn operator+(const SqrtZn &rhs) const { return SqrtZn(a + rhs.a, b + rhs.b);}
+	SqrtZn operator-(const SqrtZn &rhs) const { return SqrtZn(a - rhs.a, b - rhs.b);}
+	SqrtZn operator*(const SqrtZn &rhs) const { return SqrtZn(a * rhs.a + b * rhs.b * N, a * rhs.b + b * rhs.a);}
+	SqrtZn& operator+=(const SqrtZn &rhs) {return *this = SqrtZn(*this) + rhs;}
+	SqrtZn& operator-=(const SqrtZn &rhs) {return *this = SqrtZn(*this) - rhs;}
+	SqrtZn& operator*=(const SqrtZn &rhs) {return *this = SqrtZn(*this) * rhs;}
+	friend SqrtZn pow(SqrtZn A, int n) { // 可能意义不大，因为是指数增加的
+		SqrtZn R(1, 0);
+		while (n) {
+			if (n & 1) R = R * A;
+			n >>= 1;   A = A * A;
+		}
+		return R;
+	}
+	bool operator<(const SqrtZn &rhs) const { return a < rhs.a;}
+};
 
 template<int N>
 class MInt {
