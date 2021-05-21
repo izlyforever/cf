@@ -1,12 +1,12 @@
 #pragma GCC optimize("Ofast")
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
-using LL = __int128;
+using LL = long long;
 int N;
 
 // 考虑环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$
 class SqrtZn {
-	static inline int N;
+	// static inline int N;
 public:
 	LL a, b;
 	static void setMod(int x) { N = x;}
@@ -30,56 +30,24 @@ public:
 	bool operator<(const SqrtZn &rhs) const { return a < rhs.a;}
 };
 
-
-namespace int128 {
-__int128 read(){
-	__int128 x = 0;
-	bool negetive = false;
-	char ch = getchar();
-	while (ch < '0' || ch > '9'){
-		if (ch == '-') negetive = true;
-		ch = getchar();
-	}
-	while (ch >= '0' && ch <= '9') {
-		x = x * 10 + ch - '0';
-		ch = getchar();
-	}
-	return negetive ?  -x : x;
-}
-void printS(__int128 x){
-	if (x > 9) printS(x / 10);
-	putchar(x % 10 + '0');
-}
-void print(__int128 x){ 
-	if (x < 0) {
-		putchar('-');
-		x = -x;
-	}
-	printS(x);
-}
-} // namespace int128
-
-
 int main() {
 	//freopen("in", "r", stdin);
 	// std::cin.tie(nullptr)->sync_with_stdio(false);
-	SqrtZn::setMod(3);
-	SqrtZn A(2, 1);
-	LL inf = 1;
-	inf <<= 102;
+	SqrtZn::setMod(48);
+	SqrtZn A(7, 1);
+	LL inf = 1e18;
 	std::vector<SqrtZn> R;
-	auto now = A;
+	auto now = SqrtZn(1, 0);
 	while (now < inf) {
-		R.emplace_back(now);
 		now *= A;
+		R.emplace_back(now);
 	}
-	int cas = 1;
-	scanf("%d", &cas);
-	while (cas--) {
-		LL n = int128::read();
-		auto ans = *std::lower_bound(R.begin(), R.end(), (n + 1) / 2) * 2;
-		int128::print(ans.a);
-		printf("\n");
+	LL n;
+	while (std::cin >> n && n) {
+		auto ans = *std::upper_bound(R.begin(), R.end(), SqrtZn(4 * n + 3));
+		ans *= SqrtZn(7, -1);
+		if (ans.a % 4 != 3) ans *= SqrtZn(7, -1);
+		std::cout << ans.a / 4 << ' ' << ans.b << '\n';
 	}
 	return 0;
 }

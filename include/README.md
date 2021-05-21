@@ -31,7 +31,7 @@
 
 - 模快速幂
 - int128 读写（快读，int, long long 也可以使用）
-- 环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$
+- 环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$ 用于递推公式求解或 Pell 方程求解
 - 静态模数 MInt（模板实现）
 - 动态模数 ModInt
 - 线性模预处理逆元

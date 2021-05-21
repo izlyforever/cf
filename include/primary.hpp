@@ -55,16 +55,9 @@ public:
 	SqrtZn& operator+=(const SqrtZn &rhs) {return *this = SqrtZn(*this) + rhs;}
 	SqrtZn& operator-=(const SqrtZn &rhs) {return *this = SqrtZn(*this) - rhs;}
 	SqrtZn& operator*=(const SqrtZn &rhs) {return *this = SqrtZn(*this) * rhs;}
-	friend SqrtZn pow(SqrtZn A, int n) { // 可能意义不大，因为是指数增加的
-		SqrtZn R(1, 0);
-		while (n) {
-			if (n & 1) R = R * A;
-			n >>= 1;   A = A * A;
-		}
-		return R;
-	}
 	bool operator<(const SqrtZn &rhs) const { return a < rhs.a;}
 };
+// 例题：HDU 6222, 2281（建议都使用 int128）
 
 template<int N>
 class MInt {
