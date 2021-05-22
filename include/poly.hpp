@@ -1,6 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "primary.hpp"
+#include "ring.cpp"
 using LL = long long;
 
 // 为了支持三模数，改成模板类的形式
@@ -74,6 +74,23 @@ public:
 	T at(int id) const {
 		if (id < 0 || id > (int)a.size()) return 0;
 		return a[id];
+	}
+};
+
+template<typename T>
+class PolyBaseOrigin : public PolyBase<T> {
+public:
+	using PolyBase<T>::PolyBase;
+	PolyBaseOrigin (const PolyBase<T> &x) : PolyBase<T>(x) {}
+protected:
+	PolyBaseOrigin mul(const PolyBaseOrigin &rhs) const {
+		std::vector<T> ans(this->size() + rhs.size() - 1);
+		for (int i = 0, sn = this->size(); i < sn; ++i) {
+			for (int j = 0, rsn = this->size(); j < rsn; ++j) {
+				ans[i + j] += this->a[i] * rhs.a[j];
+			}
+		}
+		return PolyBaseOrigin(ans);
 	}
 };
 
@@ -478,10 +495,13 @@ const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
 
-// 这个太慢了，但可以保证正确性
+// 这个较慢，不推荐，仅供参考
 using PolyMFT = Poly<PolyBaseMFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
 
+// 这个是原始的，可用于对拍
+using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
+using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
 
 // 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {

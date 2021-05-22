@@ -59,230 +59,6 @@ public:
 };
 // 例题：HDU 6222, 2281（建议都使用 int128）
 
-template<int N>
-class MInt {
-	static inline constexpr int M = N;
-	int n;
-public:
-	static int inv(int x) {
-		assert(std::gcd(x, M) == 1);
-		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
-	}
-	static void setMod(int m) {
-		M = m;
-	}
-	static constexpr int mod() {
-		return M;
-	}
-	// 请自行确保 0 <= x < M
-	static MInt raw(int x) {
-		MInt A;
-		A.n = x;
-		return A;
-	}
-	MInt(LL x = 0) : n(x % M) {
-		if (n < 0) n += M;
-	}
-	operator int() const {
-		return n;
-	}
-	MInt operator-() const {
-		return n == 0 ? *this : raw(M - n);
-	}
-	MInt& operator++() {
-		if (++n == M) n = 0;
-		return *this;
-	}
-	MInt& operator--() {
-		if (--n == -1) n += M;
-		return *this;
-	}
-	MInt& operator+=(const MInt &A) {
-		n += A.n;
-		if (n >= M) n -= M;
-		return (*this);
-	}
-	MInt& operator-=(const MInt &A) {
-		n -= A.n;
-		if (n < 0) n += M;
-		return (*this);
-	}
-	MInt& operator*=(const MInt &A) {
-		n = 1LL * n * A.n % M;
-		return (*this);
-	}
-	MInt& operator/=(const MInt &A) {
-		return (*this) *= A.inv();
-	}
-	MInt operator+(const MInt &A) const {
-		return MInt(*this) += A;
-	}
-	MInt operator-(const MInt &A) const {
-		return MInt(*this) -= A;
-	}
-	MInt operator*(const MInt &A) const {
-		return MInt(*this) *= A;
-	}
-	MInt operator/(const MInt &A) const {
-		return MInt(*this) /= A;
-	}
-	MInt operator<<(int x) const {
-		LL r = n;
-		r <<= x;
-		return MInt(r);
-	}
-	MInt& operator<<=(int x) {
-		return (*this) = (*this) << x;
-	}
-	MInt& operator>>=(int x) {
-		n >>= x;
-		return (*this);
-	}
-	MInt operator>>(int x) const {
-		return MInt(*this) >> x;
-	}
-	MInt operator&(int x) const {
-		return MInt(*this) & x;
-	}
-	MInt& operator&=(int x) {
-		n &= x;
-		return (*this);
-	}
-	MInt inv() const {
-		return inv(n);
-	}
-	friend MInt pow(MInt A, int n) {
-		MInt R(1);
-		while (n) {
-			if (n& 1) R *= A;
-			n >>= 1;  A *= A;
-		}
-		return R;
-	}
-	friend std::istream &operator>>(std::istream &in, MInt &A) {
-		LL x;
-		in >> x;
-		A = MInt(x);
-		return in;
-	}
-	friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
-		out << A.n;
-		return out;
-	}
-};
-
-
-class ModInt {
-	static inline int M = 998244353;
-	int n;
-	static int inv(int x) {
-		assert(std::gcd(x, M) == 1);
-		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
-	}
-public:
-	static void setMod(int m) {
-		M = m;
-	}
-	static int mod() {
-		return M;
-	}
-	// 自行确保 0 <= x < M
-	static ModInt raw(int x) {
-		ModInt A;
-		A.n = x;
-		return A;
-	}
-	ModInt(LL x = 0) : n(x % M) {
-		if (n < 0) n += M;
-	}
-	ModInt operator-() const {
-		return n == 0 ? *this : raw(M - n);
-	}
-	ModInt& operator++() {
-		if (++n == M) n = 0;
-		return *this;
-	}
-	ModInt& operator--() {
-		if (--n == -1) n += M;
-		return *this;
-	}
-	operator int() const {
-		return n;
-	}
-	ModInt& operator+=(const ModInt &A) {
-		n += A.n;
-		if (n >= M) n -= M;
-		return (*this);
-	}
-	ModInt& operator-=(const ModInt &A) {
-		n -= A.n;
-		if (n < 0) n += M;
-		return (*this);
-	}
-	ModInt& operator*=(const ModInt &A) {
-		n = 1LL * n * A.n % M;
-		return (*this);
-	}
-	ModInt& operator/=(const ModInt &A) {
-		return (*this) *= A.inv();
-	}
-	ModInt operator+(const ModInt &A) const {
-		return ModInt(*this) += A;
-	}
-	ModInt operator-(const ModInt &A) const {
-		return ModInt(*this) -= A;
-	}
-	ModInt operator*(const ModInt &A) const {
-		return ModInt(*this) *= A;
-	}
-	ModInt operator/(const ModInt &A) const {
-		return ModInt(*this) /= A;
-	}
-	ModInt operator<<(int x) const {
-		LL r = n;
-		r <<= x;
-		return ModInt(r);
-	}
-	ModInt& operator<<=(int x) {
-		return (*this) = (*this) << x;
-	}
-	ModInt& operator>>=(int x) {
-		n >>= x;
-		return (*this);
-	}
-	ModInt operator>>(int x) const {
-		return ModInt(*this) >> x;
-	}
-	ModInt operator&(int x) const {
-		return ModInt(*this) & x;
-	}
-	ModInt& operator&=(int x) {
-		n &= x;
-		return (*this);
-	}
-	ModInt inv() const {
-		return inv(n);
-	}
-	friend ModInt pow(ModInt A, int n) {
-		ModInt R(1);
-		while (n) {
-			if (n& 1) R *= A;
-			n >>= 1;  A *= A;
-		}
-		return R;
-	}
-	friend std::istream &operator>>(std::istream &in, ModInt &A) {
-		LL x;
-		in >> x;
-		A = ModInt(x);
-		return in;
-	}
-	friend std::ostream &operator<<(std::ostream &out, const ModInt &A) {
-		out << A.n;
-		return out;
-	}
-};
-
 // 求逆 0 < a < p and gcd(a,p) = 1，单次 p 为奇素数时，请使用 powMod(a, p - 2, p)
 // 猜想复杂度为 $O(\log^2 p)$，已知上界 O(\sqrt{N})
 int inv(int a, int p){
@@ -342,6 +118,16 @@ void GospersHackS(int n, int k) {
 
 // 一般情况下 N < 1e6, M 必须是一个小于 INT_MAX 的素数
 namespace Binom {
+const int CN = 65; // 再大就超 LL 了
+LL C[CN][CN];
+void initC() {
+	for (int i = 0; i < CN; ++i) C[i][0] = C[i][i] = 1;
+	for (int i = 1; i < CN; ++i) {
+		for (int j = 1; j < i; ++j) {
+			C[i][j] = C[i - 1][j] + C[i - 1][j - 1];
+		}
+	}
+}
 int N = 0, M = 1e9 + 7;
 std::vector<int> fac, ifac;
 void setMod(int m) {
@@ -357,6 +143,7 @@ void init(int n, int m = M) {
 	fac.resize(N);
 	ifac.resize(N);
 	setMod(m);
+	initC();
 }
 // 需要预处理小于 n 的所有值！
 int binom(int n, int k) {
