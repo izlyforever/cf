@@ -8,7 +8,7 @@ class MInt {
 	int n;
 public:
 	static int inv(int x) {
-		assert(std::gcd(x, M) == 1);
+		// assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
 	static void setMod(int m) {
@@ -118,7 +118,7 @@ class ModInt {
 	static inline int M = 998244353;
 	int n;
 	static int inv(int x) {
-		assert(std::gcd(x, M) == 1);
+		// assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
 public:
@@ -230,7 +230,7 @@ class ModLL {
 	static inline LL M = 998244353;
 	LL n;
 	static LL inv(LL x) {
-		assert(std::gcd(x, M) == 1);
+		// assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
 	}
 public:

@@ -229,10 +229,10 @@ protected:
 		for (auto &x : B2.a) x >>= bit;
 		std::vector<std::complex<double>> A(sz), B(sz), C(sz);
 		for (int i = 0, tSize = this->size(); i < tSize; ++i) {
-			A[i] = std::complex((double)A1[i], (double)A2[i]);
+			A[i] = std::complex<double>(A1[i], A2[i]);
 		}
 		for (int i = 0, rSize = rhs.size(); i < rSize; ++i) {
-			B[i] = std::complex((double)B1[i], (double)B2[i]);
+			B[i] = std::complex<double>(B1[i], B2[i]);
 		}
 		FFT::dft(A); FFT::dft(B);
 		C[0] = conj(B[0]);
@@ -502,6 +502,8 @@ using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
 // 这个是原始的，可用于对拍
 using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
+
+using PolyLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
 // 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {
