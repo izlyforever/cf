@@ -3,4 +3,4 @@
 #include "mixed.hpp"
 #include "poly.hpp"
 #include "geometry.hpp"
-#include "ring.cpp"
+#include "ring.hpp"

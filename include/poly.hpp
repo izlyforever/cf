@@ -1,6 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
-#include "ring.cpp"
+#include "ring.hpp"
 using LL = long long;
 
 // 为了支持三模数，改成模板类的形式
@@ -517,7 +517,6 @@ int factorialS(int n, int p) {
 	for (int i = n / sn * sn + 1; i <= n; ++i) r *= ModInt::raw(i);
 	return r;
 }
-
 
 int factorial(int n, int p) {
 	if (n >= p) return 0;
