@@ -72,7 +72,7 @@ public:
 	int size() const { return a.size();}
 	T &operator[](int id) { return a[id];}
 	T at(int id) const {
-		if (id < 0 || id > (int)a.size()) return 0;
+		if (id < 0 || id >= (int)a.size()) return 0;
 		return a[id];
 	}
 };
