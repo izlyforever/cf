@@ -213,7 +213,7 @@ void idft(std::vector<C> &a) {
 } // namespace FFT 
 // 模板例题：https://www.luogu.com.cn/problem/P3803
 
-
+// 当 N 特别大，或者数据处于 LL 就要慎重使用了
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
 protected:
@@ -222,17 +222,17 @@ protected:
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		// 为了保证精度必须拆分（否则直接用 三次变两次 技巧）
 		auto A1(*this), A2(*this), B1(rhs), B2(rhs);
-		static constexpr int bit = 15, msk = (1 << bit) - 1;
+		static constexpr int bit = 15, msk = (1LL << bit) - 1;
 		for (auto &x : A1.a) x &= msk;
 		for (auto &x : A2.a) x >>= bit;
 		for (auto &x : B1.a) x &= msk;
 		for (auto &x : B2.a) x >>= bit;
 		std::vector<std::complex<double>> A(sz), B(sz), C(sz);
 		for (int i = 0, tSize = this->size(); i < tSize; ++i) {
-			A[i] = std::complex<double>(A1[i], A2[i]);
+			A[i] = std::complex<double>((double)A1[i], (double)A2[i]);
 		}
 		for (int i = 0, rSize = rhs.size(); i < rSize; ++i) {
-			B[i] = std::complex<double>(B1[i], B2[i]);
+			B[i] = std::complex<double>((double)B1[i], (double)B2[i]);
 		}
 		FFT::dft(A); FFT::dft(B);
 		C[0] = conj(B[0]);
@@ -301,7 +301,7 @@ public:
 		return (*this) = (*this) * rhs;
 	}
 	Poly inv(int n) const {
-		assert(this->a[0] != 0);
+		// assert(this->a[0] != 0);
 		Poly x(this->a[0].inv());
 		int k = 1;
 		while (k < n) {
@@ -503,11 +503,18 @@ using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
 using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
 
+// 这个真心不建议使用，因为 FFT 精度容易爆炸！
 using PolyLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
 // 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {
 	if (n >= p) return 0;
+	if (n <= 1) return 1;
+	ModInt::setMod(p);
+	if (n > p - 1 - n) {
+		int ans = ModInt(factorial(p - 1 - n, p)).inv();
+		return (p - n) & 1 ? p - ans : ans; 
+	}
 	ModInt::setMod(p);
 	int sn = std::sqrt(n);
 	auto A = PolyMFTDynamic::prod(sn);
@@ -583,3 +590,67 @@ int factorial(int n, int p) {
 	return ans;
 }
 // 例题：https://www.luogu.com.cn/problem/solution/P5282
+
+LL factorial(LL n, LL p) {
+	if (n >= p) return 0;
+	if (n <= 1) return 1;
+	ModLL::setMod(p);
+	if (n > p - 1 - n) {
+		LL ans = ModLL(factorial(p - 1 - n, p)).inv();
+		return (p - n) & 1 ? p - ans : ans; 
+	}
+	int s = std::sqrt(n);
+	std::vector<ModLL> fac(s + 1), ifac(s + 1), inv(s + 1);
+	fac[0] = inv[1] = 1;
+	for (int i = 1; i <= s; ++i) fac[i] = fac[i - 1] * ModLL::raw(i);
+	ifac[s] = fac[s].inv();
+	for (int i = s; i > 0; --i) ifac[i - 1] = ifac[i] * ModLL::raw(i);
+	for (int i = 2; i <= s; ++i) inv[i] = inv[p % i] * ModLL::raw(p - p / i);
+	// 根据 $h(0), h(1), \cdots, h(d)$ 的值 求 $h(m), \cdots, h(m + cnt - 1)$
+	auto solve = [&](std::vector<ModLL> h, ModLL m, int cnt) { // m > h.size()
+		int d = h.size() - 1;
+		for (int i = 0; i <= d; ++i) {
+			h[i] *= ifac[i] * ifac[d - i];
+			if ((d - i) & 1) h[i] = -h[i];
+		}
+		std::vector<ModLL> f(d + cnt);
+		auto now = m - ModLL(d);
+		for (int i = 0; i < d + cnt; ++i) {
+			f[i] = now.inv();
+			++now;
+		}
+		h = (PolyLL(f) * PolyLL(h)).a;
+		h.resize(d + cnt);
+		h = std::vector<ModLL>(h.begin() + d, h.end());
+		now = 1;
+		for (int i = 0; i <= d; ++i) now *= m - ModLL::raw(i);
+		h[0] *= now;
+		for (int i = 1; i < cnt; ++i) {
+			now *= m + ModLL::raw(i);
+			now *= (m + ModLL(i - d - 1)).inv();
+			h[i] *= now;
+		}
+		return h;
+	};
+	auto invS = ModLL(s).inv();
+	std::vector<ModLL> h{1, s + 1};
+	for (int bit = std::__lg(s) - 1, d = 1; bit >= 0; --bit) {
+		auto nh1 = solve(h, d + 1, d);
+		auto nh2 = solve(h, invS * ModLL(d), 2 * d + 1);
+		h.insert(h.end(), nh1.begin(), nh1.end());
+		d *= 2;
+		for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
+		if (s >> bit & 1) {
+			++d;
+			for (int i = 0, t = d; i < d; ++i, t += s) h[i] *= ModLL::raw(t);
+			ModLL tmp(1), tj = s * d;
+			for (int i = 0; i < d; ++i) ++tj, tmp *= tj;
+			h.emplace_back(tmp);
+		}
+	}
+	ModLL ans = 1;
+	for (int i = 0; i < s; ++i) ans *= h[i];
+	for (int i = s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
+	return ans;
+}
+// 模板例题：https://vjudge.net/problem/SPOJ-FACTMODP 可惜未能 AC

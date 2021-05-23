@@ -274,7 +274,7 @@ public:
 		return (*this);
 	}
 	ModLL& operator*=(const ModLL &A) {
-		n = 1LL * n * A.n % M;
+		n = __int128(n) * A.n % M;
 		return (*this);
 	}
 	ModLL& operator/=(const ModLL &A) {
