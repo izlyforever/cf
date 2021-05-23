@@ -2,15 +2,34 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
+// 考虑环 $\mathbb{z}[sqrt{N}]: a + b sqrt{N}$
+class SqrtZn {
+	static inline int N;
+public:
+	LL a, b;
+	static void setMod(int x) { N = x;}
+	SqrtZn() {}
+	SqrtZn(LL x, LL y = 0) : a(x), b(y) {}
+	SqrtZn operator-() { return SqrtZn(-a, -b);}
+	SqrtZn operator+(const SqrtZn &rhs) const { return SqrtZn(a + rhs.a, b + rhs.b);}
+	SqrtZn operator-(const SqrtZn &rhs) const { return SqrtZn(a - rhs.a, b - rhs.b);}
+	SqrtZn operator*(const SqrtZn &rhs) const { return SqrtZn(a * rhs.a + b * rhs.b * N, a * rhs.b + b * rhs.a);}
+	SqrtZn& operator+=(const SqrtZn &rhs) {return *this = SqrtZn(*this) + rhs;}
+	SqrtZn& operator-=(const SqrtZn &rhs) {return *this = SqrtZn(*this) - rhs;}
+	SqrtZn& operator*=(const SqrtZn &rhs) {return *this = SqrtZn(*this) * rhs;}
+	bool operator<(const SqrtZn &rhs) const { return a < rhs.a;}
+};
+// 例题：HDU 6222, 2281（建议都使用 int128）
+
 template<int N>
 class MInt {
 	static inline constexpr int M = N;
 	int n;
-public:
 	static int inv(int x) {
 		// assert(std::gcd(x, M) == 1);
 		return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
 	}
+public:
 	static void setMod(int m) {
 		M = m;
 	}

@@ -116,19 +116,18 @@ public:
 };
 
 template<typename T>
-class PolyBaseMFT : public PolyBase<T> {
+class PolyBaseMFT3 : public PolyBase<T> {
 public:
 	static inline constexpr int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
 	static inline constexpr LL M01 = 1LL * M0 * M1;
+	static inline constexpr int t0 = 554580198, t1 = 395249030;
 	static inline NFT<M0> nft0;
 	static inline NFT<M1> nft1;
 	static inline NFT<M2> nft2;
 	using PolyBase<T>::PolyBase;
-	PolyBaseMFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
+	PolyBaseMFT3 (const PolyBase<T> &x) : PolyBase<T>(x) {}
 protected:
 	static T crt(int a0, int a1, int a2) {
-		static const int t0 = MInt<M1>::inv(M0);
-		static const int t1 = MInt<M2>::inv(M01 % M2);
 		static const T m01(M01);
 		LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
 		if (x < 0) x += M01;
@@ -138,7 +137,7 @@ protected:
 		if (y < 0) y += M01;
 		return T(x) + T(y) * m01;
 	}
-	PolyBaseMFT mul(const PolyBaseMFT &rhs) const {
+	PolyBaseMFT3 mul(const PolyBaseMFT3 &rhs) const {
 		int tot = std::max(1, this->size() + rhs.size() - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		std::vector<MInt<M0>> a0(sz), b0(sz);
@@ -161,7 +160,71 @@ protected:
 		nft0.idft(a0); nft1.idft(a1); nft2.idft(a2);
 		std::vector<T> ans(tot);
 		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i]);
-		return PolyBaseMFT(ans);
+		return PolyBaseMFT3(ans);
+	}
+};
+
+// 为什么用 4 模数 NFT 而不是两个 LL（int128 太耗时）
+class PolyBaseMFT4 : public PolyBase<ModLL> {
+public: // 都 4 模数了肯定是用 ModLL 啦
+	static inline constexpr int M0 = 167772161, M1 = 469762049, M2 = 998244353, M3 = 1004535809;
+	static inline constexpr LL M01 = 1LL * M0 * M1, M23 = 1LL * M2 * M3;
+	static inline constexpr int t01 = 104391568, t23 = 669690699;
+	static inline constexpr LL t0123 = 629197896392423379LL;
+	static inline NFT<M0> nft0;
+	static inline NFT<M1> nft1;
+	static inline NFT<M2> nft2;
+	static inline NFT<M3> nft3;
+	using PolyBase<ModLL>::PolyBase;
+	PolyBaseMFT4 (const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
+protected:
+// LL ans = (a1 + (a2 - a1) / d * t1 % m2 * m1) % m;
+	// static T crt(int a0, int a1, int a2) {
+	// 	static const T m01(M01);
+	// 	LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
+	// 	if (x < 0) x += M01;
+	// 	LL y = (a2 - x) % M2;
+	// 	if (y < 0) y += M2;
+	// 	y = y * t1 % M2;
+	// 	if (y < 0) y += M01;
+	// 	return T(x) + T(y) * m01;
+	// }
+	static ModLL crt(int a0, int a1, int a2, int a3) {
+		LL ans1 = (a0 + LL(a1 - a0) * t01 % M1 * M0) % M01;
+		if (ans1 < 0) ans1 += M01;
+		LL ans2 = (a2 + LL(a3 - a2) * t23 % M3 * M2) % M23;
+		if (ans2 < 0) ans2 += M23;
+		ans2 -= ans1;
+		if (ans2 < 0) ans2 += M23;
+		ModLL y = __int128(ans2) * t0123 % M23;
+		return ModLL(ans1) + y * ModLL(M01);
+	}
+	PolyBaseMFT4 mul(const PolyBaseMFT4 &rhs) const {
+		int tot = std::max(1, this->size() + rhs.size() - 1);
+		int sz = 1 << std::__lg(tot * 2 - 1);
+		std::vector<MInt<M0>> a0(sz), b0(sz);
+		std::vector<MInt<M1>> a1(sz), b1(sz);
+		std::vector<MInt<M2>> a2(sz), b2(sz);
+		std::vector<MInt<M3>> a3(sz), b3(sz);
+		for (int i = 0, ns = this->size(); i < ns; ++i) {
+			LL tmp = this->a[i];
+			a0[i] = tmp; a1[i] = tmp; a2[i] = tmp; a3[i] = tmp;
+		}
+		for (int i = 0, ns = rhs.size(); i < ns; ++i) {
+			LL tmp = rhs.a[i];
+			b0[i] = tmp; b1[i] = tmp; b2[i] = tmp; b3[i] = tmp;
+		}
+		nft0.dft(a0); nft0.dft(b0);
+		nft1.dft(a1); nft1.dft(b1);
+		nft2.dft(a2); nft2.dft(b2);
+		nft3.dft(a3); nft3.dft(b3);
+		for (int i = 0; i < sz; ++i) {
+			a0[i] *= b0[i]; a1[i] *= b1[i]; a2[i] *= b2[i]; a3[i] = b3[i];
+		}
+		nft0.idft(a0); nft1.idft(a1); nft2.idft(a2); nft3.idft(a3);
+		std::vector<ModLL> ans(tot);
+		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i], a3[i]);
+		return PolyBaseMFT4(ans);
 	}
 };
 
@@ -241,10 +304,11 @@ protected:
 		for (int i = 0; i < sz; ++i) C[i] *= A[i];
 		FFT::idft(B); FFT::idft(C);
 		std::vector<T> ans(tot), A1B2(tot), A1B1(tot);
+		// 这里会丢掉很多精度，怎么优化呢
 		for (int i = 0; i < tot; ++i) {
-			A1B2[i] = LL(B[i].imag() + 0.5);
-			A1B1[i] = LL(B[i].real() + C[i].real() + 0.5) / 2;
-			ans[i] = LL(C[i].real() - B[i].real() + 0.5) / 2;
+			A1B2[i] = llround(B[i].imag());
+			A1B1[i] = llround(B[i].real() * 0.5 + C[i].real() * 0.5);
+			ans[i] = llround(C[i].real() * 0.5 - B[i].real() * 0.5);
 		}
 		for (auto &x : ans) x <<= bit;
 		for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
@@ -494,17 +558,17 @@ using PolyNFT = Poly<PolyBaseNFT<NFTM>, MInt<NFTM>>;
 const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;
 using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
+// 请勿使用，精度直接爆炸！
+using PolyFFTLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
 // 这个较慢，不推荐，仅供参考
-using PolyMFT = Poly<PolyBaseMFT<MInt<FFTM>>, MInt<FFTM>>;
-using PolyMFTDynamic = Poly<PolyBaseMFT<ModInt>, ModInt>;
+using PolyMFT3 = Poly<PolyBaseMFT3<MInt<FFTM>>, MInt<FFTM>>;
+using PolyMFTDynamic = Poly<PolyBaseMFT3<ModInt>, ModInt>;
+using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 // 这个是原始的，可用于对拍
 using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
-
-// 这个真心不建议使用，因为 FFT 精度容易爆炸！
-using PolyLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
 // 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {
@@ -512,12 +576,12 @@ int factorialS(int n, int p) {
 	if (n <= 1) return 1;
 	ModInt::setMod(p);
 	if (n > p - 1 - n) {
-		int ans = ModInt(factorial(p - 1 - n, p)).inv();
+		int ans = ModInt(factorialS(p - 1 - n, p)).inv();
 		return (p - n) & 1 ? p - ans : ans; 
 	}
 	ModInt::setMod(p);
 	int sn = std::sqrt(n);
-	auto A = PolyMFTDynamic::prod(sn);
+	auto A = PolyFFTDynamic::prod(sn);
 	std::vector<ModInt> x;
 	for (int i = sn; i <= n; i += sn) x.emplace_back(i - sn + 1);
 	auto y = A.evals(x);
@@ -555,7 +619,7 @@ int factorial(int n, int p) {
 			f[i] = now.inv();
 			++now;
 		}
-		h = (PolyFFTDynamic(f) * PolyFFTDynamic(h)).a;
+		h = (PolyMFTDynamic(f) * PolyMFTDynamic(h)).a;
 		h.resize(d + cnt);
 		h = std::vector<ModInt>(h.begin() + d, h.end());
 		now = 1;
@@ -589,8 +653,8 @@ int factorial(int n, int p) {
 	for (int i = s * s + 1; i <= n; ++i) ans *= ModInt::raw(i);
 	return ans;
 }
-// 例题：https://www.luogu.com.cn/problem/solution/P5282
 
+// 例题：https://www.luogu.com.cn/problem/solution/P5282
 LL factorial(LL n, LL p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
@@ -619,7 +683,7 @@ LL factorial(LL n, LL p) {
 			f[i] = now.inv();
 			++now;
 		}
-		h = (PolyLL(f) * PolyLL(h)).a;
+		h = (PolyMFT(f) * PolyMFT(h)).a;
 		h.resize(d + cnt);
 		h = std::vector<ModLL>(h.begin() + d, h.end());
 		now = 1;
@@ -650,7 +714,7 @@ LL factorial(LL n, LL p) {
 	}
 	ModLL ans = 1;
 	for (int i = 0; i < s; ++i) ans *= h[i];
-	for (int i = s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
+	for (LL i = 1LL * s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
 	return ans;
 }
 // 模板例题：https://vjudge.net/problem/SPOJ-FACTMODP 可惜未能 AC
