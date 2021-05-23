@@ -166,11 +166,12 @@ protected:
 
 // 为什么用 4 模数 NFT 而不是两个 LL（int128 太耗时）
 class PolyBaseMFT4 : public PolyBase<ModLL> {
-public: // 都 4 模数了肯定是用 ModLL 啦
-	static inline constexpr int M0 = 167772161, M1 = 469762049, M2 = 998244353, M3 = 1004535809;
+public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限 4e6！
+	static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
 	static inline constexpr LL M01 = 1LL * M0 * M1, M23 = 1LL * M2 * M3;
-	static inline constexpr int t01 = 104391568, t23 = 669690699;
-	static inline constexpr LL t0123 = 629197896392423379LL;
+	static inline constexpr __int128 M0123 = __int128(M01) * M23;
+	static inline constexpr int t01 = 538269027, t23 = 415935157;
+	static inline constexpr LL t0123 = 341204425684314487LL;
 	static inline NFT<M0> nft0;
 	static inline NFT<M1> nft1;
 	static inline NFT<M2> nft2;
@@ -178,26 +179,16 @@ public: // 都 4 模数了肯定是用 ModLL 啦
 	using PolyBase<ModLL>::PolyBase;
 	PolyBaseMFT4 (const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
 protected:
-// LL ans = (a1 + (a2 - a1) / d * t1 % m2 * m1) % m;
-	// static T crt(int a0, int a1, int a2) {
-	// 	static const T m01(M01);
-	// 	LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
-	// 	if (x < 0) x += M01;
-	// 	LL y = (a2 - x) % M2;
-	// 	if (y < 0) y += M2;
-	// 	y = y * t1 % M2;
-	// 	if (y < 0) y += M01;
-	// 	return T(x) + T(y) * m01;
-	// }
 	static ModLL crt(int a0, int a1, int a2, int a3) {
-		LL ans1 = (a0 + LL(a1 - a0) * t01 % M1 * M0) % M01;
-		if (ans1 < 0) ans1 += M01;
-		LL ans2 = (a2 + LL(a3 - a2) * t23 % M3 * M2) % M23;
-		if (ans2 < 0) ans2 += M23;
-		ans2 -= ans1;
-		if (ans2 < 0) ans2 += M23;
-		ModLL y = __int128(ans2) * t0123 % M23;
-		return ModLL(ans1) + y * ModLL(M01);
+		LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
+		LL ans2 = a2 + LL(a3 - a2) * t23 % M3 * M2;
+		__int128 ans = ans1 + __int128(ans2 - ans1) * t0123 % M23 * M01;
+		if (ans < 0) ans += M0123;
+		assert(ans % M0 == a0);
+		assert(ans % M1 == a1);
+		assert(ans % M2 == a2);
+		assert(ans % M3 == a3);
+		return ModLL(ans);
 	}
 	PolyBaseMFT4 mul(const PolyBaseMFT4 &rhs) const {
 		int tot = std::max(1, this->size() + rhs.size() - 1);
@@ -219,7 +210,7 @@ protected:
 		nft2.dft(a2); nft2.dft(b2);
 		nft3.dft(a3); nft3.dft(b3);
 		for (int i = 0; i < sz; ++i) {
-			a0[i] *= b0[i]; a1[i] *= b1[i]; a2[i] *= b2[i]; a3[i] = b3[i];
+			a0[i] *= b0[i]; a1[i] *= b1[i]; a2[i] *= b2[i]; a3[i] *= b3[i];
 		}
 		nft0.idft(a0); nft1.idft(a1); nft2.idft(a2); nft3.idft(a3);
 		std::vector<ModLL> ans(tot);
@@ -561,9 +552,11 @@ using PolyFFTDynamic = Poly<PolyBaseFFT<ModInt>, ModInt>;
 // 请勿使用，精度直接爆炸！
 using PolyFFTLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 
-// 这个较慢，不推荐，仅供参考
+// 这个较慢，仅供参考
 using PolyMFT3 = Poly<PolyBaseMFT3<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT3<ModInt>, ModInt>;
+
+// 四模数 NFT，由于一般 N 最大为 1e6，所以 M 最大可到 1e14
 using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 // 这个是原始的，可用于对拍
@@ -653,8 +646,8 @@ int factorial(int n, int p) {
 	for (int i = s * s + 1; i <= n; ++i) ans *= ModInt::raw(i);
 	return ans;
 }
-
 // 例题：https://www.luogu.com.cn/problem/solution/P5282
+
 LL factorial(LL n, LL p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
@@ -706,10 +699,11 @@ LL factorial(LL n, LL p) {
 		for (int i = 0; i <= d; ++i) h[i] *= nh2[i];
 		if (s >> bit & 1) {
 			++d;
-			for (int i = 0, t = d; i < d; ++i, t += s) h[i] *= ModLL::raw(t);
-			ModLL tmp(1), tj = s * d;
-			for (int i = 0; i < d; ++i) ++tj, tmp *= tj;
-			h.emplace_back(tmp);
+			LL tmp = d;
+			for (int i = 0; i < d; ++i, tmp += s) h[i] *= ModLL::raw(tmp);
+			ModLL last(1), tj = 1LL * s * d;
+			for (int i = 0; i < d; ++i) ++tj, last *= tj;
+			h.emplace_back(last);
 		}
 	}
 	ModLL ans = 1;
@@ -717,4 +711,4 @@ LL factorial(LL n, LL p) {
 	for (LL i = 1LL * s * s + 1; i <= n; ++i) ans *= ModLL::raw(i);
 	return ans;
 }
-// 模板例题：https://vjudge.net/problem/SPOJ-FACTMODP 可惜未能 AC
+// 终极例题：https://vjudge.net/problem/SPOJ-FACTMODP
