@@ -246,8 +246,8 @@ std::vector<int> initMu(int N) {
 	return mu;
 }
 
-// min25 筛法 O(n^{\frac{2}{3}}) 求 Euler 函数前缀和 以及 Mobius 函数（绝对值）前缀和
-namespace min25 {
+// min_25 筛法 O(n^{\frac{2}{3}}) 求 Euler 函数前缀和 以及 Mobius 函数（绝对值）前缀和
+namespace min_25 {
 constexpr int N = 5e6 + 2;
 
 // Euler 函数前缀和
@@ -294,7 +294,7 @@ LL getAbsSum(LL n) { // Q(n) = Q(n-1) + |mu(n)|
 	}
 	return r;
 }
-} // namespace min25
+} // namespace min_25
 // 模板例题：https://www.luogu.com.cn/problem/P4213
 
 // O(N) 预处理所有数的最小素因子
