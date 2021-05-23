@@ -182,12 +182,8 @@ protected:
 	static ModLL crt(int a0, int a1, int a2, int a3) {
 		LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
 		LL ans2 = a2 + LL(a3 - a2) * t23 % M3 * M2;
-		__int128 ans = ans1 + __int128(ans2 - ans1) * t0123 % M23 * M01;
+		__int128 ans = ans1 + __int128(ans2 - ans1) * t0123 % M23 * M01; // ans 不可能大于 M0123
 		if (ans < 0) ans += M0123;
-		assert(ans % M0 == a0);
-		assert(ans % M1 == a1);
-		assert(ans % M2 == a2);
-		assert(ans % M3 == a3);
 		return ModLL(ans);
 	}
 	PolyBaseMFT4 mul(const PolyBaseMFT4 &rhs) const {
