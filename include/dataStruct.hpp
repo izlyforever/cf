@@ -111,17 +111,16 @@ std::vector<T> discrete(std::vector<T> &a) {
 // 并查集 Disjoint Set Union
 class DSU {
 	std::vector<int> p;
-
    public:
 	DSU(int n) : p(n) { iota(p.begin(), p.end(), 0); }
 	int find(int x) {
-		if (x != p[x]) x = find(p[x]);
-		return p[x];
+		return x == p[x] ? x : p[x] = find(p[x]);
 	}
-	void merge(int x, int y) {
+	bool merge(int x, int y) {
 		int px = find(x), py = find(y);
-		if (px == py) return;
+		if (px == py) return false;
 		// do something, small to big;
+		return true;
 	}
 };
 

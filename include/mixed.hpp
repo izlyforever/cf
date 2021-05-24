@@ -559,7 +559,7 @@ public:
 	PolyMFTStrictly inv(int n) const {
 		return PolyMFTStrictly(poly0.inv(n), poly1.inv(n), poly2.inv(n));
 	}
-	PolyMFTStrictly powModPoly(int n, const PolyMFTStrictly &p) const {
+	PolyMFTStrictly powModPoly(LL n, const PolyMFTStrictly &p) const {
 		return PolyMFTStrictly(poly0.powModPoly(n, p.poly0), poly1.powModPoly(n, p.poly1), poly2.powModPoly(n, p.poly2));
 	}
 	valT inner(const PolyMFTStrictly &rhs) const {

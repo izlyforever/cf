@@ -86,7 +86,7 @@ protected:
 	PolyBaseOrigin mul(const PolyBaseOrigin &rhs) const {
 		std::vector<T> ans(this->size() + rhs.size() - 1);
 		for (int i = 0, sn = this->size(); i < sn; ++i) {
-			for (int j = 0, rsn = this->size(); j < rsn; ++j) {
+			for (int j = 0, rsn = rhs.size(); j < rsn; ++j) {
 				ans[i + j] += this->a[i] * rhs.a[j];
 			}
 		}
@@ -380,7 +380,7 @@ public:
 	Poly operator%(const Poly &rhs) const {
 		return Poly(*this) %= rhs;
 	}
-	Poly powModPoly(int n, const Poly &p) const {
+	Poly powModPoly(LL n, const Poly &p) const {
 		Poly r(1), x(*this);
 		while (n) {
 			if (n&1) r = r * x % p;
