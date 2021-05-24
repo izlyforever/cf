@@ -2,6 +2,7 @@
 #include <bits/stdc++.h>
 #include "ring.hpp"
 using LL = long long;
+// 核弹流参考资料：https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
 
 // 为了支持三模数，改成模板类的形式
 template<int M>
@@ -580,6 +581,7 @@ int factorialS(int n, int p) {
 	return r;
 }
 
+// 求阶乘：多点求值 $O(\sqrt{n} \log n)$ 算法
 int factorial(int n, int p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
@@ -644,6 +646,7 @@ int factorial(int n, int p) {
 }
 // 例题：https://www.luogu.com.cn/problem/solution/P5282
 
+// 求阶乘：多点求值 $O(\sqrt{n} \log n)$ 算法，$N < 1e12$ 都能算
 LL factorial(LL n, LL p) {
 	if (n >= p) return 0;
 	if (n <= 1) return 1;
