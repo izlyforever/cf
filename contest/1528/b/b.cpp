@@ -5,21 +5,20 @@ using LL = long long;
 int main() {
 	//freopen("in", "r", stdin);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
-	const int M = 998244353;
+	constexpr int M = 998244353;
 	int n;
 	std::cin >> n;
 	std::vector<int> d(n + 1), a(n + 1);
 	for (int i = 1; i <= n; ++i) {
 		for (int j = i; j <= n; j += i) ++d[j];
 	}
+	int ans = 0, sm = 0;
 	for (int i = 1; i <= n; ++i) {
-		a[i] = a[i - 1] * 2;
-		if (a[i] >= M) a[i] -= M;
-		a[i] += d[i];
-		if (a[i] >= M) a[i] -= M;
-		a[i] -= d[i - 1];
-		if (a[i] < 0) a[i] += M;
+		ans = sm + d[i];
+		if (ans >= M) ans -= M;
+		sm += ans;
+		if (sm >= M) sm -= M;
 	}
-	std::cout << a[n] << '\n';
+	std::cout << ans << '\n';
 	return 0;
 }
