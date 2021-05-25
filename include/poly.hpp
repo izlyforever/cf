@@ -526,6 +526,7 @@ public:
 		valT cur = 1;
 		for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
 		auto Numerator = Poly(a), denominator = Poly(b);
+		
 		auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
 		auto ans = f.a;
 		ans.resize(k);
