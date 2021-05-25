@@ -3,6 +3,7 @@
 #include "ring.hpp"
 using LL = long long;
 // 核弹流参考资料：https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
+// 生成函数 离散微积分
 
 // 为了支持三模数，改成模板类的形式
 template<int M>
