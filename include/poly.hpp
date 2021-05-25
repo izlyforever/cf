@@ -515,8 +515,19 @@ public:
 	// ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
 	// 原理：https://dna049.com/fastPowSumOfNaturalNumber/
 	static std::vector<valT> prefixPowSum(int n, int k) {
-		Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
-		Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
+		// exp 常数好大啊！谨慎使用！这里建议修改，直接求。
+		// Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
+		// Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
+		std::vector<valT> fac(k + 1), ifac(k + 1), a(k), b(k);
+		fac[0] = fac[1] = 1;
+		for (int i = 2; i <= k; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[k] = fac[k].inv();
+		for (int i = k; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		for (int i = 0; i < k; ++i) a[i] = b[i] = ifac[i + 1];
+		valT cur = 1;
+		for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
+		auto Numerator = Poly(a), denominator = Poly(b);
+		
 		auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
 		auto ans = f.a;
 		ans.resize(k);
