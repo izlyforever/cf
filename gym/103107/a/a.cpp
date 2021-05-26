@@ -1,40 +1,19 @@
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
-#pragma GCC optimize("Ofast,no-stack-protector,unroll-loops")
-#pragma GCC target("sse,sse2,sse3,ssse3,sse4.1,sse4.2,abm,mmx,avx,avx2,popcnt,tune=native")
 
-// MoRanSky 的做法
 class SegTree {
 	int n;
-	std::vector<int> mx, And, Or, tag;
+	std::vector<int> mx, And;
 	void pushUp(int p) {
 		mx[p] = std::max(mx[p << 1], mx[p << 1 | 1]);
 		And[p] = And[p << 1] | And[p << 1 | 1];
-		Or[p] = Or[p << 1] & Or[p << 1 | 1];
-	}
-	void pushTag(int p, int val) {
-		mx[p] = And[p] = Or[p] = tag[p] = val;
-	}
-	void pushDown(int p) {
-		if (tag[p]) {
-			pushTag(p << 1, tag[p]);
-			pushTag(p << 1 | 1, tag[p]);
-			tag[p] = 0;
-		}
 	}
 	void modify(int L, int R, int val, int l, int r, int p) {
 		if (r - l == 1) {
-			mx[p] = And[p] = Or[p] = mx[p] & val;
+			mx[p] = And[p] = mx[p] & val;
 		} else {
-			if (L <= l && R >= r) {
-				if ((val & And[p]) == And[p]) return;
-				if ((val & Or[p]) == val) {
-					pushTag(p, val);
-					return;
-				}
-			}
-			pushDown(p);
+			if (L <= l && R >= r && (val & And[p]) == And[p]) return;
 			int m = (l + r) / 2;
 			if (L < m) modify(L, R, val, l, m, p << 1);
 			if (R > m) modify(L, R, val, m, r, p << 1 | 1);
@@ -43,9 +22,8 @@ class SegTree {
 	}
 	void update(int x, int val, int l, int r, int p) {
 		if (r - l == 1) {
-			mx[p] = And[p] = Or[p] = val;
+			mx[p] = And[p] = val;
 		} else {
-			pushDown(p);
 			int m = (l + r) / 2;
 			if (x < m) update(x, val, l, m, p << 1);
 			else update(x, val, m, r, p << 1 | 1);
@@ -54,17 +32,16 @@ class SegTree {
 	}
 	int query(int L, int R, int l, int r, int p) {
 		if (L <= l && R >= r) return mx[p];
-		pushDown(p);
 		int m = (l + r) / 2, ans = INT_MIN;
 		if (L < m) ans = std::max(ans, query(L, R, l, m, p << 1));
 		if (R > m) ans = std::max(ans, query(L, R, m, r, p << 1 | 1));
 		return ans;
 	}
 public:
-	SegTree(std::vector<int> a) : n(a.size()), mx(4 * n), And(4 * n), Or(4 * n), tag(4 * n) {
+	SegTree(std::vector<int> a) : n(a.size()), mx(4 * n), And(4 * n) {
 		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
 			if (r - l == 1) {
-				mx[p] = And[p] = Or[p] = a[l];
+				mx[p] = And[p] = a[l];
 			} else {
 				int m = (l + r) / 2;
 				build(l, m, p << 1);
