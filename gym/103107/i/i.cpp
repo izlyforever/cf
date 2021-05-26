@@ -10,20 +10,19 @@ int main() {
 	while (cas--) {
 		int t;
 		std::cin >> t;
-		LL ans = 0;
+		int sg = 0;
 		for (int i = 0; i < t; ++i) {
 			int n, m;
 			std::cin >> n >> m;
-			std::set<int> S;			
+			std::map<int, int> mp;
 			for (int i = 0, x; i < n; ++i) {
 				std::cin >> x;
-				S.insert(m - x - n + i + 1);
+				x = m - x - n + i + 1;
+				if (x & 1) ++mp[x];
 			}
-			int cur = 0;
-			for (auto x : S) cur += x & 1; 
-			ans ^= cur & 1;
+			for (auto [x, c] : mp) sg ^= c;
 		}
-		std::cout << (ans ? "Alice" : "Bob") << '\n';
+		std::cout << (sg ? "Alice" : "Bob") << '\n';
 	}
 	return 0;
 }
