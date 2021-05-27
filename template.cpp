@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 int main() {

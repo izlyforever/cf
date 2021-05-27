@@ -8,6 +8,7 @@ using namespace __gnu_pbds;
 
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 #include "include/izlyforever.hpp"
 
@@ -18,7 +19,8 @@ void debug(std::vector<T> a){
 }
 
 int main() {
-	// freopen("C:\\Users\\dna049\\cf\\in", "r", stdin);
+	//freopen("in", "r", stdin);
+	//freopen("out", "w", stdout);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	auto start = std::clock();
 	
