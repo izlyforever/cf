@@ -574,3 +574,108 @@ std::vector<int> cdq(std::vector<cdqNode> &a, int k) {
 	return ans;
 }
 // 模板例题：https://www.luogu.com.cn/problem/P3810
+
+// 第二分块绝对值版（在线算法）
+class BlockAbs {
+	int l, r; // l, r 表示当前值域 fa, sz 的区间 [l, r]
+	int f, d; // x \in [l, r] 它真实的值是 f x - d, f = 1, -1
+	std::vector<int> fa;
+	int find(int x) {
+		return x == fa[x] ? x : fa[x] = find(fa[x]);
+	}
+	void merge(int x, int y) { // merge x to y
+		fa[find(x)] = find(y);
+	}
+public:
+	BlockAbs(int mx) : l(0), r(mx), f(1), d(0), fa(mx + 1) {
+		std::iota(fa.begin(), fa.end(), 0);
+	}
+	void add(int x) { // |fi - d - x| = | i - (x + d) f|
+		x = (x + d) * f;
+		if ((l + r) < 2 * x) {
+			f = -1;
+			d = -x;
+			if (x < r) {
+				for (int i = r; i > x; --i) merge(i, 2 * x - i);
+				r = x;
+			}
+		} else {
+			f = 1;
+			d = x;
+			if (x > l) {
+				for (int i = l; i < x; ++i) merge(i, 2 * x - i);
+				l = x;
+			}
+		}
+	}
+	int query(int x) {
+		return find(x) * f - d;
+	}
+};
+// 模板例题：https://codeforces.com/gym/103104/problem/K
+
+// 第二分块差值版（在线算法，离线可优化空间）
+class BlockMinus {
+	std::vector<int> fa, sz, a;
+	int l, delta, mx; // 真实值为 x - delta
+	int find(int x) {
+		return x == fa[x] ? x : fa[x] = find(fa[x]);
+	}
+	void merge(int x, int y) { // merge x to y
+		x = find(x); y = find(y);
+		if (x == y) return;
+		fa[x] = y;
+		sz[y] += sz[x];
+		sz[x] = 0;
+	}
+	void modifyPart(int ql, int qr, int x) {
+		for (int i = ql; i < qr; ++i) {
+			a[i] = find(a[i]);
+			if (a[i] - delta > x) {
+				--sz[a[i]];
+				a[i] = find(a[i] - x);
+				++sz[a[i]];
+			}
+		}
+	}
+	void modifyAll(int x) {
+		if (x < mx - delta - x) {
+			for (int i = delta + 1; i <= x + delta; ++i) merge(i, i + x);
+			delta += x;
+		} else {
+			for (int i = mx; i > x + delta; --i) merge(i, i - x);
+			mx = x + delta;
+		}
+	}
+	int queryPart(int ql, int qr, int x) {
+		int ans = 0;
+		for (int i = ql; i < qr; ++i) {
+			if (find(a[i]) - delta == x) ++ans;
+		}
+		return ans;
+	}
+	int queryAll(int x) {
+		x += delta;
+		if (x > mx || find(x) != x) return 0;
+		return sz[x];
+	}
+public:
+	// 这里不写构造函数比较好
+	void init(const std::vector<int> &_a, int _l, int _r) {
+		l = _l, delta = 0;
+		a = {_a.begin() + _l, _a.begin() + _r};
+		mx = *std::max_element(a.begin(), a.end());
+		fa.resize(mx + 1); std::iota(fa.begin(), fa.end(), 0);
+		sz.resize(mx + 1); for (auto x : a) ++sz[x];
+	}
+	void modify(int ql, int qr, int x) {
+		if (x >= mx - delta) return;
+		if (qr - ql == (int)a.size()) modifyAll(x);
+		else modifyPart(ql - l, qr - l, x); 
+	}
+	int query(int ql, int qr, int x) {
+		if (qr - ql == (int)a.size()) return queryAll(x);
+		return queryPart(ql - l, qr - l, x);
+	}
+};
+// 模板例题：https://codeforces.com/contest/896/problem/E
