@@ -8,7 +8,9 @@ int main() {
 	int n;
 	std::cin >> n;
 	int ans = 0;
-	std::multiset<int> S;
+	// std::multiset<int> S{0}; // 确保 S 非空，保证安全
+	std::priority_queue<int> Q; // 优先队列比 set 快
+	Q.push(0);
 	LL now = 0;
 	for (int i = 0, x; i < n; ++i) {
 		std::cin >> x;
@@ -16,16 +18,16 @@ int main() {
 			++ans;
 			now += x;
 		} else {
-			if (now + x >= 0) {
+			x = -x;
+			if (now >= x) {
 				++ans;
-				now += x;
-				S.insert(x);
+				now -= x;
+				Q.push(x);
 			} else {
-				auto it = S.begin();
-				if (*it < x) {
-					now += x - *it;
-					S.erase(it);
-					S.insert(x);
+				if (Q.top() > x) {
+					now += Q.top() - x;
+					Q.pop();
+					Q.push(x);
 				}
 			}
 		}

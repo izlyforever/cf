@@ -2,66 +2,45 @@
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-struct Bitree {
-	std::vector<LL> s;
-	Bitree() {}
-	Bitree(int n) : s(n + 1) {}
-	int lowbit(int n) { return n & (-n); }
-	void add(int id, int p) {
-		int ns = s.size();
-		while (id < ns) {
-			s[id] += p;
-			id += lowbit(id);
-		}
-	}
-	LL sum(int id) {
-		LL r = 0;
-		while (id) {
-			r += s[id];
-			id -= lowbit(id);
-		}
-		return r;
-	}
-};
-
 int main() {
 	//freopen("in", "r", stdin);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
-	std::map<char, int> mp{{'A', 0}, {'N', 1}, {'O', 2}, {'T', 3}};
-	std::string s("ANOT");
 	int cas = 1;
 	std::cin >> cas;
 	while (cas--) {
-		std::string a;
-		std::cin >> a;
-		int n = a.size();
-		Bitree A(n);
-		for (int i = 0; i < n; ++i) A.add(i + 1, 1);
+		std::string s;
+		std::cin >> s;
+		int n = s.size();
+		std::vector<int> a(n);
+		for (int i = 0; i < n; ++i) a[i] = std::string("ANOT").find(s[i]);
 		std::vector<int> p{0, 1, 2, 3}, cnt(4);
-		for (auto x : a) ++cnt[mp[x]];
-		auto getAns = [&]() {
-			LL ans = 0;
-			auto B = A;
-			for (auto x : p) {
-				for (int i = 0; i < n; ++i) {
-					int t = mp[a[i]];
-					if (t == x) {
-						ans += A.sum(i);
-						A.add(i + 1, -1);
-					}
-				}
+		for (auto x : a) ++cnt[x];
+		std::vector<std::vector<int>> sum(4, std::vector<int>(n));
+		for (int i = 0; i < 4; ++i) {
+			int now = 0;
+			for (int j = 0; j < n; ++j) {
+				if (a[j] == i) ++now;
+				sum[i][j] = now;
 			}
-			return ans;
-		};
+		}
 		LL mx = -1;
 		std::string ans;
 		do {
-			if (LL t = getAns(); t > mx) {
+			LL t = 0;
+			std::vector<int> rp(4);
+			for (int i = 0; i < 4; ++i) rp[p[i]] = i;
+			for (int j = 0; j < n; ++j) {
+				for (int i = rp[a[j]] + 1; i < 4; ++i) {
+					t += sum[p[i]][j];
+				}
+			}
+			if (t > mx) {
 				mx = t;
 				ans.clear();
-				for (int i = 0; i < 4; ++i) ans += std::string(cnt[i], s[i]);
-			} 
+				for (auto x : p) ans += std::string(cnt[x], "ANOT"[x]);
+			}
 		} while (std::next_permutation(p.begin(), p.end()));
+		clog(mx);
 		std::cout << ans << '\n';
 	}
 	return 0;
