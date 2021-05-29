@@ -42,7 +42,10 @@ public:
 		A.n = x;
 		return A;
 	}
-	MInt(LL x = 0) : n(x % M) {
+	MInt(int x = 0) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	MInt(LL x) : n(x % M) {
 		if (n < 0) n += M;
 	}
 	operator int() const {
@@ -153,7 +156,10 @@ public:
 		A.n = x;
 		return A;
 	}
-	ModInt(LL x = 0) : n(x % M) {
+	ModInt(int x = 0) : n(x % M) {
+		if (n < 0) n += M;
+	}
+	ModInt(LL x) : n(x % M) {
 		if (n < 0) n += M;
 	}
 	ModInt operator-() const {
@@ -353,5 +359,105 @@ public:
 	friend std::ostream &operator<<(std::ostream &out, const ModLL &A) {
 		out << A.n;
 		return out;
+	}
+};
+
+
+namespace FFT {
+const double PI = std::acos(-1);
+using C = std::complex<double>;
+std::vector<int> rev;
+std::vector<C> roots{C(0, 0), C(1, 0)};
+void dft(std::vector<C> &a) {
+	int n = a.size();
+	if ((int)rev.size() != n) {
+		int k = __builtin_ctz(n) - 1;
+		rev.resize(n);
+		for (int i = 0; i < n; ++i) {
+			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+		}
+	}
+	if ((int)roots.size() < n) {
+		int k = __builtin_ctz(roots.size());
+		roots.resize(n);
+		while ((1 << k) < n) {
+			C e = std::polar(1.0, PI / (1 << k));
+			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+				roots[2 * i] = roots[i];
+				roots[2 * i + 1] = roots[i] * e;
+			}
+			++k;
+		}
+	}
+	for (int i = 0; i < n; ++i) if (rev[i] < i) {
+		std::swap(a[i], a[rev[i]]);
+	}
+	for (int k = 1; k < n; k *= 2) {
+		for (int i = 0; i < n; i += 2 * k) {
+			for (int j = 0; j < k; ++j) {
+				auto u = a[i + j], v = a[i + j + k] * roots[k + j];
+				a[i + j] = u + v;
+				a[i + j + k] = u - v;
+			}
+		}
+	}
+}
+void idft(std::vector<C> &a) {
+	int n = a.size();
+	std::reverse(a.begin() + 1, a.end());
+	dft(a);
+	for (auto &x : a) x /= n;
+}
+} // namespace FFT 
+// 模板例题：https://www.luogu.com.cn/problem/P3803
+
+
+// 为了支持三模数，改成模板类的形式
+template<int M>
+class NFT { // 请自行保证输入的 N 为 原根 3 的 NFT-friendly 素数
+	std::vector<int> rev;
+	std::vector<MInt<M>> roots{0, 1};
+public:
+	static inline const MInt<M> g = 3;
+	void dft(std::vector<MInt<M>> &a) {
+		int n = a.size();
+		if ((int)rev.size() != n) {
+			int k = __builtin_ctz(n) - 1;
+			rev.resize(n);
+			for (int i = 0; i < n; ++i) {
+				rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
+			}
+		}
+		if ((int)roots.size() < n) {
+			int k = __builtin_ctz(roots.size());
+			roots.resize(n);
+			while ((1 << k) < n) {
+				auto e = pow(g, (M - 1) >> (k + 1));
+				for (int i = 1 << (k - 1); i < (1 << k); ++i) {
+					roots[2 * i] = roots[i];
+					roots[2 * i + 1] = roots[i] * e;
+				}
+				++k;
+			}
+		}
+		for (int i = 0; i < n; ++i) if (rev[i] < i) {
+			std::swap(a[i], a[rev[i]]);
+		}
+		for (int k = 1; k < n; k *= 2) {
+			for (int i = 0; i < n; i += 2 * k) {
+				for (int j = 0; j < k; ++j) {
+					auto u = a[i + j], v = a[i + j + k] * roots[k + j];
+					a[i + j] = u + v;
+					a[i + j + k] = u - v;
+				}
+			}
+		}
+	}
+	void idft(std::vector<MInt<M>> &a) {
+		int n = a.size();
+		std::reverse(a.begin() + 1, a.end());
+		dft(a);
+		auto inv = pow(MInt<M>(n), M - 2);
+		for (auto &x : a) x *= inv;
 	}
 };

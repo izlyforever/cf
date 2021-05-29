@@ -5,55 +5,446 @@ using LL = long long;
 // 核弹流参考资料：https://www.luogu.com.cn/blog/command-block/sheng-cheng-han-shuo-za-tan
 // 生成函数 离散微积分
 
-// 为了支持三模数，改成模板类的形式
-template<int M>
-class NFT { // 请自行保证输入的 N 为 原根 3 的 NFT-friendly 素数
-	std::vector<int> rev;
-	std::vector<MInt<M>> roots{0, 1};
+// using valT = decltype(T::a)::value_type;
+template<typename T, typename valT>
+class Poly : public T {
+	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
+	static inline const valT inv2 = (valT::mod() + 1) / 2;
 public:
-	static inline const MInt<M> g = 3;
-	void dft(std::vector<MInt<M>> &a) {
-		int n = a.size();
-		if ((int)rev.size() != n) {
-			int k = __builtin_ctz(n) - 1;
-			rev.resize(n);
-			for (int i = 0; i < n; ++i) {
-				rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
-			}
-		}
-		if ((int)roots.size() < n) {
-			int k = __builtin_ctz(roots.size());
-			roots.resize(n);
-			while ((1 << k) < n) {
-				auto e = pow(g, (M - 1) >> (k + 1));
-				for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-					roots[2 * i] = roots[i];
-					roots[2 * i + 1] = roots[i] * e;
-				}
-				++k;
-			}
-		}
-		for (int i = 0; i < n; ++i) if (rev[i] < i) {
-			std::swap(a[i], a[rev[i]]);
-		}
-		for (int k = 1; k < n; k *= 2) {
-			for (int i = 0; i < n; i += 2 * k) {
-				for (int j = 0; j < k; ++j) {
-					auto u = a[i + j], v = a[i + j + k] * roots[k + j];
-					a[i + j] = u + v;
-					a[i + j + k] = u - v;
-				}
-			}
-		}
+	using T::T;
+	Poly (const T &x) : T(x) {}
+	Poly mulXn(int n) const {
+		auto b = this->a;
+		b.insert(b.begin(), n, 0);
+		return Poly(b);
 	}
-	void idft(std::vector<MInt<M>> &a) {
-		int n = a.size();
-		std::reverse(a.begin() + 1, a.end());
-		dft(a);
-		auto inv = pow(MInt<M>(n), M - 2);
-		for (auto &x : a) x *= inv;
+	Poly modXn(int n) const {
+		if (n > this->size()) return *this;
+		return Poly({this->a.begin(), this->a.begin() + n});
 	}
-};
+	Poly divXn(int n) const {
+		if (this->size() <= n) return Poly();
+		return Poly({this->a.begin() + n, this->a.end()});
+	}
+	Poly operator-() const {
+		auto A = *this;
+		for (auto &x : A.a) x = -x;
+		return A;
+	}
+	Poly &operator+=(const Poly &rhs) {
+		if (this->size() < rhs.size()) this->a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
+		this->standard();
+		return *this;
+	}
+	Poly &operator-=(const Poly &rhs) {
+		if (this->size() < rhs.size()) this->a.resize(rhs.size());
+		for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
+		this->standard();
+		return *this;
+	}
+	Poly operator+(const Poly &rhs) const {
+		return Poly(*this) += rhs;
+	}
+	Poly operator-(const Poly &rhs) const {
+		return Poly(*this) -= rhs;
+	}
+	Poly operator*(const Poly &rhs) const {
+		return this->mul(rhs);
+	}
+	Poly &operator*=(const Poly &rhs) {
+		return (*this) = (*this) * rhs;
+	}
+	Poly inv(int n) const {
+		// assert(this->a[0] != 0);
+		Poly x(this->a[0].inv());
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x *= (Poly(2) - this->modXn(k) * x).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	Poly &operator/=(Poly rhs) {
+		int n = this->size(), m = rhs.size();
+		if (n < m) return (*this) = Poly();
+		this->reverse();
+		rhs.reverse();
+		(*this) *= rhs.inv(n - m + 1);
+		this->a.resize(n - m + 1);
+		this->reverse();
+		return *this;
+	}
+	Poly operator/(const Poly &rhs) const {
+		return Poly(*this) /= rhs;
+	}
+	Poly &operator%=(const Poly &rhs) {
+		return *this -= (*this) / rhs * rhs; 
+	}
+	Poly operator%(const Poly &rhs) const {
+		return Poly(*this) %= rhs;
+	}
+	Poly powModPoly(LL n, const Poly &p) const {
+		Poly r(1), x(*this);
+		while (n) {
+			if (n&1) r = r * x % p;
+			n >>= 1; x = x * x % p;
+		}
+		return r;
+	}
+	valT inner(const Poly &rhs) const {
+		valT r(0);
+		int n = std::min(this->size(), rhs.size());
+		for (int i = 0; i < n; ++i) r += this->a[i] * rhs.a[i];
+		return r;
+	}
+	Poly derivation() const {
+		if (this->a.empty()) return Poly();
+		int n = this->size();
+		std::vector<valT> r(n - 1);
+		for (int i = 1; i < n; ++i) r[i - 1] = this->a[i] * valT(i);
+		return Poly(r);
+	}
+	Poly integral() const {
+		if (this->a.empty()) return Poly();
+		int n = this->size();
+		std::vector<valT> r(n + 1), inv(n + 1, 1);
+		for (int i = 2; i <= n; ++i) inv[i] = valT(valT::mod() - valT::mod() / i) * inv[valT::mod() % i];
+		for (int i = 0; i < n; ++i) r[i + 1] = this->a[i] * inv[i + 1];
+		return Poly(r);
+	}
+	// 需要保证首项为 1
+	Poly log(int n) const {
+		return (derivation() * inv(n)).integral().modXn(n);
+	}
+	// 需要保证首项为 0
+	Poly exp(int n) const {
+		Poly x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x = (x * (Poly(1) - x.log(k) + this->modXn(k))).modXn(k);
+		}
+		return x.modXn(n);
+	}
+	Poly sin(int n) const {
+		auto A = *this;
+		for (auto &x : A.a) x *= j;
+		A = A.exp(n);
+		A -= A.inv(n);
+		auto m = -j * inv2;
+		for (auto &x : A.a) x *= m;
+		return A;
+	}
+	Poly cos(int n) const {
+		auto A = *this;
+		for (auto &x : A.a) x *= j;
+		A = A.exp(n);
+		A += A.inv(n);
+		for (auto &x : A.a) x *= inv2;
+		return A;
+	}
+	// 自行确保首项 为 0
+	Poly asin(int n) const { // cos 貌似搞不了
+		auto D = this -> derivation();
+		auto A = (Poly(1) - (*this) * (*this)).modXn(n - 1);
+		D = D * A.sqrt(n - 1).inv(n - 1);
+		D = D.modXn(n - 1);
+		return D.integral();
+	}
+	// 自行确保首项 为 0
+	Poly atan(int n) const {
+		auto D = this -> derivation();
+		auto A = (Poly(1) + (*this) * (*this)).modXn(n - 1);
+		D = D * A.inv(n - 1);
+		D = D.modXn(n - 1);
+		return D.integral();
+	}
+	// 需要保证首项为 1，开任意次方可以先 ln 再 exp 实现。
+	Poly sqrt(int n) const {
+		Poly x(1);
+		int k = 1;
+		while (k < n) {
+			k *= 2;
+			x += this->modXn(k) * x.inv(k);
+			x = x.modXn(k) * inv2;
+		}
+		return x.modXn(n);
+	}
+	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
+	Poly mulT(Poly rhs) const {
+		if (rhs.size() == 0) return Poly();
+		int n = rhs.size();
+		std::reverse(rhs.a.begin(), rhs.a.end());
+		return ((*this) * rhs).divXn(n - 1);
+	}
+	// 复合函数 F(A(x)) 普通算法（Brent-Kung 算法复杂度 $(n \log n)^{1.5}$ 实际很慢）
+	Poly compose(Poly A, int n) const {
+		A = A.modXn(n);
+		int sn = std::sqrt(n);
+		std::vector<Poly> G(sn);
+		G[0] = {1};
+		for (int i = 1; i < sn; ++i) G[i] = (G[i - 1] * A).modXn(n);
+		auto B = (G.back() * A).modXn(n);
+		Poly now{1}, ans;
+		for (int i = 0; i < n; i += sn) {
+			Poly sm;
+			for (int j = 0; j < sn && i + j < n; ++j) {
+				auto m = this->at(i + j);
+				auto tmp = G[j];
+				for (auto &x : tmp.a) x *= m;
+				sm += tmp;
+			}
+			ans += (now * sm).modXn(n);
+			now = (now * B).modXn(n);
+		}
+		return ans;
+	}
+	// 复合函数逆，需要首项为 0，一次项非 0
+	// 理论依据：Langrange 反演 $[x^n]G(x) = \frac{1}{n}[x^{n - 1}](\frac{x}{F(x)})^n$
+	Poly composeInv(int n) const {
+		auto A = this->divXn(1).inv(n - 1);
+		int sn = std::sqrt(n);
+		std::vector<Poly> G(sn + 1);
+		G[0] = {1};
+		for (int i = 1; i <= sn; ++i) G[i] = (G[i - 1] * A).modXn(n - 1);
+		std::vector<valT> ans(n), inv(n);
+		auto M = valT::mod();
+		inv[1] = 1;
+		for (int i = 2; i < n; ++i) inv[i] = inv[M % i] * valT(M - M / i);
+		Poly now{1};
+		for (int i = 0; i < n; i += sn) {
+			for (int j = 1; j <= sn && i + j < n; ++j) {
+				valT tmp;
+				auto &sg = G[j];
+				for (int k = 0, sk = i + j - 1; k <= sk; ++k) {
+					tmp += now.at(k) * sg.at(sk - k);
+				}
+				ans[i + j] = tmp * inv[i + j];
+			}
+			now = (now * G.back()).modXn(n - 1);
+		}
+		return Poly(ans);
+	}
+	Poly toFallingFactorial() {
+		int n = this->size();
+		std::vector<valT> x(n);
+		for (int i = 0; i < n; ++i) x[i] = i;
+		auto y = this->evals(x);
+		std::vector<valT> fac(n), ifac(n), inv(n);
+		fac[0] = inv[1] = 1;
+		for (int i = 1; i < n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[n - 1] = fac[n - 1].inv();
+		for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		for (int i = 0; i < n; ++i) y[i] *= ifac[i];
+		auto tmp = ifac;
+		for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
+		Poly A = Poly(y) * Poly(tmp);
+		return A.modXn(n);
+	}
+	Poly fromFallingFactorial() {
+		int n = this->size();
+		std::vector<valT> fac(n + 1), ifac(n + 1), inv(n + 1);
+		fac[0] = inv[1] = 1;
+		for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[n] = fac[n].inv();
+		for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		Poly A = ((*this) * Poly(ifac)).modXn(n);
+		std::vector<valT> x(n), y = A.a;
+		for (int i = 0; i < n; ++i) x[i] = i;
+		y.resize(n);
+		for (int i = 0; i < n; ++i) y[i] *= fac[i];
+		return Lagrange(x, y);
+	}
+	valT eval(valT x) const {
+		valT r(0), t(1);
+		for (int i = 0, n = this->size(); i < n; ++i) {
+			r += this->a[i] * t;
+			t *= x;
+		}
+		return r;
+	}
+	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
+	std::vector<valT> evals(std::vector<valT> x) const {
+		if (this->size() == 0) return std::vector<valT>(x.size());
+		int n = x.size();
+		std::vector<valT> ans(n);
+		std::vector<Poly> g(4 * n);
+		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
+			if (r - l == 1) {
+				g[p] = Poly({1, -x[l]});
+			} else {
+				int m = (l + r) / 2;
+				build(l, m, 2 * p);
+				build(m, r, 2 * p + 1);
+				g[p] = g[2 * p] * g[2 * p + 1];
+			}
+		};
+		build(0, n, 1);
+		std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+			if (r - l == 1) {
+				ans[l] = f.at(0);
+			} else {
+				int m = (l + r) / 2;
+				solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
+				solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
+			}
+		};
+		solve(0, n, 1, mulT(g[1].inv(this->size())).modXn(n));
+		return ans;
+	} // 模板例题：https://www.luogu.com.cn/problem/P5050
+
+	// 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
+	static std::vector<valT> sumFraction(std::vector<valT> a, std::vector<valT> b, int N) {
+		std::function<std::pair<Poly, Poly>(int, int)> solve = [&](int l, int r) -> std::pair<Poly, Poly> {
+			if (r - l == 1) return {Poly(a[l]), Poly({1, - b[l]})};
+			int m = (l + r) / 2;
+			auto [pl, ql] = solve(l, m);
+			auto [pr, qr] = solve(m, r);
+			return {pl * qr + pr * ql, ql * qr};
+		};
+		auto [p, q] = solve(0, a.size());
+		p *= q.inv(N);
+		auto ans = p.a;
+		ans.resize(N);
+		return ans;
+	} // 模板例题：https://codeforces.com/gym/102978/problem/D
+	
+	// 根据 $h(0), h(1), \cdots, h(d)$ 的值 求 $h(m), \cdots, h(m + cnt - 1)$
+	static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) { // m > h.size()
+		int d = h.size() - 1;
+		std::vector<valT> fac(d + 1), ifac(d + 1), inv(d + 1);
+		fac[0] = inv[1] = 1;
+		for (int i = 1; i <= d; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[d] = fac[d].inv();
+		for (int i = d; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		const int M = valT::mod();
+		for (int i = 2; i <= d; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
+		// 以上内容一般会先预处理掉
+		for (int i = 0; i <= d; ++i) {
+			h[i] *= ifac[i] * ifac[d - i];
+			if ((d - i) & 1) h[i] = -h[i];
+		}
+		std::vector<valT> f(d + cnt);
+		auto now = m - valT(d);
+		for (int i = 0; i < d + cnt; ++i) {
+			f[i] = now.inv();
+			++now;
+		}
+		h = (Poly(f) * Poly(h)).a;
+		h.resize(d + cnt);
+		h = std::vector<valT>(h.begin() + d, h.end());
+		now = 1;
+		for (int i = 0; i <= d; ++i) now *= m - valT::raw(i);
+		h[0] *= now;
+		for (int i = 1; i < cnt; ++i) {
+			now *= m + valT::raw(i);
+			now *= (m + valT(i - d - 1)).inv();
+			h[i] *= now;
+		}
+		return h;
+	}; // 模板例题：https://www.luogu.com.cn/problem/P5667
+	static Poly Lagrange(std::vector<valT> x, std::vector<valT> y) {
+		std::function<Poly(int l, int r)> mulP = [&](int l, int r) -> Poly {
+			if (r - l == 1) return Poly({-x[l], 1});
+			int m = (l + r) / 2;
+			return mulP(l, m) * mulP(m, r);
+		};
+		int n = x.size();
+		auto A = mulP(0, n).derivation();
+		auto z = A.evals(x);
+		for (int i = 0; i < n; ++i) y[i] /= z[i];
+		std::function<std::pair<Poly, Poly>(int, int)> solve = [&](int l, int r) -> std::pair<Poly, Poly> {
+			if (r - l == 1) {
+				return {Poly(y[l]), Poly({-x[l], 1})};
+			}
+			int m = (l + r) / 2;
+			auto [pl, ql] = solve(l, m);
+			auto [pr, qr] = solve(m, r);
+			return {pl * qr + pr * ql, ql * qr};
+		};
+		auto [p, q] = solve(0, x.size());
+		return p;
+	}
+	
+	// $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
+	// $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
+	static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, int n) {
+		if (n < a.size()) return a[n];
+		int m = f.size();
+		std::reverse(f.begin(), f.end());
+		std::vector<valT> g(m);
+		g.emplace_back(1);
+		Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
+		Poly R = A.powModPoly(n, p);
+		return R.inner(a);
+	} // 模板: https://www.luogu.com.cn/problem/P4723
+
+	// ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
+	// 原理：https://dna049.com/fastPowSumOfNaturalNumber/
+	static std::vector<valT> prefixPowSum(int n, int k) {
+		// exp 常数好大啊！谨慎使用！这里建议修改，直接求。
+		// Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
+		// Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
+		std::vector<valT> fac(k + 1), ifac(k + 1), a(k), b(k);
+		fac[0] = 1;
+		for (int i = 1; i <= k; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[k] = fac[k].inv();
+		for (int i = k; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		for (int i = 0; i < k; ++i) a[i] = b[i] = ifac[i + 1];
+		valT cur = 1;
+		for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
+		auto Numerator = Poly(a), denominator = Poly(b);
+		
+		auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
+		auto ans = f.a;
+		ans.resize(k);
+		valT now(1);
+		for (int i = 2; i < k; ++i) {
+			now *= valT(i);
+			ans[i] *= now;
+		}
+		return ans;
+	}
+	// 计算 $\prod_{i = 0}^{n - 1} (x + i)$ 上升幂($O(n \log n)$)
+	static Poly prod(int n) {
+		// $O(n \log^2 n)$ 朴素做法
+		// std::function<Poly(int l, int r)> solve = [&](int l, int r) -> Poly {
+		// 	if (r - l == 1) return Poly({l, 1});
+		// 	int m = (l + r) / 2;
+		// 	return solve(l, m) * solve(m, r);
+		// };
+		// return solve(0, n);
+		std::vector<valT> fac(n + 1), ifac(n + 1);
+		fac[0] = 1;
+		for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
+		ifac[n] = fac[n].inv();
+		for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
+		std::function<Poly(int)> solve = [&](int n) -> Poly {
+			if (n == 1) return Poly({0, 1});
+			int k = n / 2;
+			auto A = solve(k);
+			std::vector<valT> tmp(k + 1);
+			valT now{1};
+			for (int i = 0; i <= k; ++i) {
+				tmp[i] = now * ifac[i];
+				now *= k;
+			}
+			auto B = A;
+			for (int i = 0; i < B.size(); ++i) B[i] *= fac[i];
+			B = B.mulT(tmp).modXn(k + 1);
+			for (int i = 0; i < B.size(); ++i) B[i] *= ifac[i];
+			A *= B;
+			if (2 * k != n) {
+				B = A;
+				for (auto &x : B.a) x *= valT::raw(n - 1);
+				A = A.mulXn(1) + B;
+			}
+			return A;
+		};
+		return solve(n);
+	}
+}; // 多项式全家桶测试：https://www.luogu.com.cn/training/3015#information
 
 // 多项式底层基类（不能放带 PolyBase 返回值的，不然很麻烦）
 template<typename T>
@@ -78,6 +469,13 @@ public:
 		return a[id];
 	}
 };
+// 以上内容是必须要的，以下内容必须根据需要选择一个
+
+
+
+
+
+
 
 template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {
@@ -217,54 +615,6 @@ protected:
 	}
 };
 
-namespace FFT {
-const double PI = std::acos(-1);
-using C = std::complex<double>;
-std::vector<int> rev;
-std::vector<C> roots{C(0, 0), C(1, 0)};
-void dft(std::vector<C> &a) {
-	int n = a.size();
-	if ((int)rev.size() != n) {
-		int k = __builtin_ctz(n) - 1;
-		rev.resize(n);
-		for (int i = 0; i < n; ++i) {
-			rev[i] = rev[i >> 1] >> 1 | (i & 1) << k;
-		}
-	}
-	if ((int)roots.size() < n) {
-		int k = __builtin_ctz(roots.size());
-		roots.resize(n);
-		while ((1 << k) < n) {
-			C e = std::polar(1.0, PI / (1 << k));
-			for (int i = 1 << (k - 1); i < (1 << k); ++i) {
-				roots[2 * i] = roots[i];
-				roots[2 * i + 1] = roots[i] * e;
-			}
-			++k;
-		}
-	}
-	for (int i = 0; i < n; ++i) if (rev[i] < i) {
-		std::swap(a[i], a[rev[i]]);
-	}
-	for (int k = 1; k < n; k *= 2) {
-		for (int i = 0; i < n; i += 2 * k) {
-			for (int j = 0; j < k; ++j) {
-				auto u = a[i + j], v = a[i + j + k] * roots[k + j];
-				a[i + j] = u + v;
-				a[i + j + k] = u - v;
-			}
-		}
-	}
-}
-void idft(std::vector<C> &a) {
-	int n = a.size();
-	std::reverse(a.begin() + 1, a.end());
-	dft(a);
-	for (auto &x : a) x /= n;
-}
-} // namespace FFT 
-// 模板例题：https://www.luogu.com.cn/problem/P3803
-
 // 当 N 特别大，或者数据处于 LL 就要慎重使用了
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
@@ -310,247 +660,6 @@ public:
 	PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
 };
 
-// using valT = decltype(T::a)::value_type;
-template<typename T, typename valT>
-class Poly : public T {
-public:
-	using T::T;
-	Poly (const T &x) : T(x) {}
-	Poly mulXn(int n) const {
-		auto b = this->a;
-		b.insert(b.begin(), n, 0);
-		return Poly(b);
-	}
-	Poly modXn(int n) const {
-		if (n > this->size()) return *this;
-		return Poly({this->a.begin(), this->a.begin() + n});
-	}
-	Poly divXn(int n) const {
-		if (this->size() <= n) return Poly();
-		return Poly({this->a.begin() + n, this->a.end()});
-	}
-	Poly &operator+=(const Poly &rhs) {
-		if (this->size() < rhs.size()) this->a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
-		this->standard();
-		return *this;
-	}
-	Poly &operator-=(const Poly &rhs) {
-		if (this->size() < rhs.size()) this->a.resize(rhs.size());
-		for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
-		this->standard();
-		return *this;
-	}
-	Poly operator+(const Poly &rhs) const {
-		return Poly(*this) += rhs;
-	}
-	Poly operator-(const Poly &rhs) const {
-		return Poly(*this) -= rhs;
-	}
-	Poly operator*(const Poly &rhs) const {
-		return this->mul(rhs);
-	}
-	Poly &operator*=(const Poly &rhs) {
-		return (*this) = (*this) * rhs;
-	}
-	Poly inv(int n) const {
-		// assert(this->a[0] != 0);
-		Poly x(this->a[0].inv());
-		int k = 1;
-		while (k < n) {
-			k *= 2;
-			x *= (Poly(2) - this->modXn(k) * x).modXn(k);
-		}
-		return x.modXn(n);
-	}
-	Poly &operator/=(Poly rhs) {
-		int n = this->size(), m = rhs.size();
-		if (n < m) return (*this) = Poly();
-		this->reverse();
-		rhs.reverse();
-		(*this) *= rhs.inv(n - m + 1);
-		this->a.resize(n - m + 1);
-		this->reverse();
-		return *this;
-	}
-	Poly operator/(const Poly &rhs) const {
-		return Poly(*this) /= rhs;
-	}
-	Poly &operator%=(const Poly &rhs) {
-		return *this -= (*this) / rhs * rhs; 
-	}
-	Poly operator%(const Poly &rhs) const {
-		return Poly(*this) %= rhs;
-	}
-	Poly powModPoly(LL n, const Poly &p) const {
-		Poly r(1), x(*this);
-		while (n) {
-			if (n&1) r = r * x % p;
-			n >>= 1; x = x * x % p;
-		}
-		return r;
-	}
-	valT inner(const Poly &rhs) const {
-		valT r(0);
-		int n = std::min(this->size(), rhs.size());
-		for (int i = 0; i < n; ++i) r += this->a[i] * rhs.a[i];
-		return r;
-	}
-	Poly derivation() const {
-		if (this->a.empty()) return Poly();
-		int n = this->size();
-		std::vector<valT> r(n - 1);
-		for (int i = 1; i < n; ++i) r[i - 1] = this->a[i] * valT(i);
-		return Poly(r);
-	}
-	Poly integral() const {
-		if (this->a.empty()) return Poly();
-		int n = this->size();
-		std::vector<valT> r(n + 1), inv(n + 1, 1);
-		for (int i = 2; i <= n; ++i) inv[i] = valT(valT::mod() - valT::mod() / i) * inv[valT::mod() % i];
-		for (int i = 0; i < n; ++i) r[i + 1] = this->a[i] * inv[i + 1];
-		return Poly(r);
-	}
-	// 需要保证首项为 1
-	Poly log(int n) const {
-		return (derivation() * inv(n)).integral().modXn(n);
-	}
-	// 需要保证首项为 0
-	Poly exp(int n) const {
-		Poly x(1);
-		int k = 1;
-		while (k < n) {
-			k *= 2;
-			x = (x * (Poly(1) - x.log(k) + this->modXn(k))).modXn(k);
-		}
-		return x.modXn(n);
-	}
-	// 需要保证首项为 1，开任意次方可以先 ln 再 exp 实现。
-	Poly sqrt(int n) const {
-		Poly x(1), inv2 = valT(2).inv();
-		int k = 1;
-		while (k < n) {
-			k *= 2;
-			x += this->modXn(k) * x.inv(k);
-			x = x.modXn(k) * inv2;
-		}
-		return x.modXn(n);
-	}
-	// 减法卷积，也称转置卷积 {\rm MULT}(F(x),G(x))=\sum_{i\ge0}(\sum_{j\ge 0}f_{i+j}g_j)x^i
-	Poly mulT(Poly rhs) const {
-		if (rhs.size() == 0) return Poly();
-		int n = rhs.size();
-		std::reverse(rhs.a.begin(), rhs.a.end());
-		return ((*this) * rhs).divXn(n - 1);
-	}
-	valT eval(valT x) const {
-		valT r(0), t(1);
-		for (int i = 0, n = this->size(); i < n; ++i) {
-			r += this->a[i] * t;
-			t *= x;
-		}
-		return r;
-	}
-	// 多点求值新科技：https://jkloverdcoi.github.io/2020/08/04/转置原理及其应用/
-	std::vector<valT> evals(std::vector<valT> x) const {
-		if (this->size() == 0) return std::vector<valT>(x.size());
-		int n = x.size();
-		std::vector<valT> ans(n);
-		std::vector<Poly> g(4 * n);
-		std::function<void(int, int, int)> build = [&](int l, int r, int p) {
-			if (r - l == 1) {
-				g[p] = Poly({1, -x[l]});
-			} else {
-				int m = (l + r) / 2;
-				build(l, m, 2 * p);
-				build(m, r, 2 * p + 1);
-				g[p] = g[2 * p] * g[2 * p + 1];
-			}
-		};
-		build(0, n, 1);
-		std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
-			if (r - l == 1) {
-				ans[l] = f.at(0);
-			} else {
-				int m = (l + r) / 2;
-				solve(l, m, 2 * p, f.mulT(g[2 * p + 1]).modXn(m - l));
-				solve(m, r, 2 * p + 1, f.mulT(g[2 * p]).modXn(r - m));
-			}
-		};
-		solve(0, n, 1, mulT(g[1].inv(this->size())).modXn(n));
-		return ans;
-	} // 模板例题：https://www.luogu.com.cn/problem/P5050
-
-	// 计算 \sum_{i = 0}^{n - 1} a_i / (1 - b_i x)
-	static std::vector<valT> sumFraction(std::vector<valT> a, std::vector<valT> b, int N) {
-		std::function<std::pair<Poly, Poly>(int, int)> solve = [&](int l, int r) -> std::pair<Poly, Poly> {
-			if (r - l == 1) {
-				return {Poly(a[l]), Poly({1, - b[l]})};
-			}
-			int m = (l + r) / 2;
-			auto [pl, ql] = solve(l, m);
-			auto [pr, qr] = solve(m, r);
-			return {pl * qr + pr * ql, ql * qr};
-		};
-		auto [p, q] = solve(0, a.size());
-		p *= q.inv(N);
-		auto ans = p.a;
-		ans.resize(N);
-		return ans;
-	} // 模板例题：https://codeforces.com/gym/102978/problem/D
-
-	// $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
-	// $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
-	static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, int n) {
-		if (n < a.size()) return a[n];
-		int m = f.size();
-		std::reverse(f.begin(), f.end());
-		std::vector<valT> g(m);
-		g.emplace_back(1);
-		Poly A = Poly({0, 1}), p = Poly(g) - Poly(f);
-		Poly R = A.powModPoly(n, p);
-		return R.inner(a);
-	} // 模板: https://www.luogu.com.cn/problem/P4723
-
-	// ans[i] = 1^i + 2^i + ... + (n - 1)^i, 0 < i < k
-	// 原理：https://dna049.com/fastPowSumOfNaturalNumber/
-	static std::vector<valT> prefixPowSum(int n, int k) {
-		// exp 常数好大啊！谨慎使用！这里建议修改，直接求。
-		// Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
-		// Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
-		std::vector<valT> fac(k + 1), ifac(k + 1), a(k), b(k);
-		fac[0] = fac[1] = 1;
-		for (int i = 2; i <= k; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[k] = fac[k].inv();
-		for (int i = k; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-		for (int i = 0; i < k; ++i) a[i] = b[i] = ifac[i + 1];
-		valT cur = 1;
-		for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
-		auto Numerator = Poly(a), denominator = Poly(b);
-		
-		auto f = (Numerator * denominator.inv(k)).modXn(k) - Poly(1);
-		auto ans = f.a;
-		ans.resize(k);
-		valT now(1);
-		for (int i = 2; i < k; ++i) {
-			now *= valT(i);
-			ans[i] *= now;
-		}
-		return ans;
-	}
-	// 计算 $\prod_{i = 0}^{n - 1} (x + i)$
-	static Poly prod(int n) {
-		std::function<Poly(int l, int r)> solve = [&](int l, int r) -> Poly {
-			if (r - l == 1) {
-				return Poly({l, 1});
-			} else {
-				int m = (l + r) / 2;
-				return solve(l, m) * solve(m, r);
-			}
-		};
-		return solve(0, n);
-	}
-}; // 多项式全家桶测试：https://www.luogu.com.cn/training/3015#information
 
 const constexpr int NFTM = 998244353;
 using PolyNFT = Poly<PolyBaseNFT<NFTM>, MInt<NFTM>>;
@@ -571,6 +680,7 @@ using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 // 这个是原始的，可用于对拍
 using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
+
 
 // 求阶乘：多点求值 $O(\sqrt{n} \log^2 n)$ 算法
 int factorialS(int n, int p) {
@@ -723,3 +833,58 @@ LL factorial(LL n, LL p) {
 	return ans;
 }
 // 终极例题：https://vjudge.net/problem/SPOJ-FACTMODP
+
+
+const int M = 998244353;
+using mod = MInt<M>;
+
+std::vector<mod> stirling1row(int n) {
+	auto B = PolyNFT::prod(n).a;
+	B.resize(n + 1);
+	return B;
+}
+std::vector<mod> stirling1col(int n, int k) {
+	if (k > n)  return std::vector<mod>(n + 1);
+	auto B = PolyNFT({1, -1}).log(n + 2 - k).divXn(1);
+	B = (-B).log(n + 1 - k);
+	for (auto &x : B.a) x *= mod::raw(k);
+	auto ans = B.exp(n + 1 - k).mulXn(k).a;
+	std::vector<mod> fac(n + 1);
+	fac[0] = 1;
+	for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * mod::raw(i);
+	mod ifacK = fac[k].inv();
+	ans.resize(n + 1);
+	for (int i = 0; i <= n; ++i) ans[i] *= fac[i] * ifacK;
+	return ans;
+}
+std::vector<mod> stirling2row(int n) {
+	std::vector<mod> fac(n + 1), ifac(n + 1);
+	fac[0] = 1;
+	for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * mod::raw(i);
+	ifac[n] = fac[n].inv();
+	for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * mod::raw(i);
+	auto tmp = ifac, a = ifac;
+	for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
+	for (int i = 0; i <= n; ++i) a[i] *= pow(mod::raw(i), n);
+	auto ans = (PolyNFT(a) * PolyNFT(tmp)).a;
+	ans.resize(n + 1);
+	return ans;
+}
+std::vector<mod> stirling2col(int n, int k) {
+	if (k > n)  return std::vector<mod>(n + 1);
+	std::vector<mod> fac(n + 1), ifac(n + 1);
+	fac[0] = 1;
+	for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * mod::raw(i);
+	ifac[n] = fac[n].inv();
+	for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * mod::raw(i);
+	PolyNFT A(ifac);
+	A = A.divXn(1).modXn(n + 1 - k);
+	A = A.log(n + 1 - k);
+	for (auto &x : A.a) x *= mod::raw(k);
+	A = A.exp(n + 1 - k).mulXn(k);
+	auto ans = A.a;
+	ans.resize(n + 1);
+	auto ifacK = ifac[k];
+	for (int i = 0; i <= n; ++i) ans[i] *= fac[i] * ifacK;
+	return ans;
+}
