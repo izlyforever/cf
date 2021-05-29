@@ -2,5 +2,6 @@
 #include "numberTheory.hpp"
 #include "mixed.hpp"
 #include "poly.hpp"
+#include "polyS.hpp"
 #include "geometry.hpp"
 #include "ring.hpp"
