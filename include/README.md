@@ -209,6 +209,8 @@ $$
 
 因此 $EGF(f) = b e^x$，反过来也一样  $b = EGF(f) e^{-x}$（注意这里可以简单的多点求值，可以求更多的点）
 
+> 下降幂与连续点值有 $O(n \log n)$ 的转化。而普通多项式跟连续点值却没有，可以认为普通多项式要的连续其实是类似 FFT 那样的连续。但是注意到以连续点求连续点有 $O(n \log n)$ 的做法
+
 
 #### [Lagrange 反演](https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf)
 
