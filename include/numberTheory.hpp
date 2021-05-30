@@ -252,7 +252,7 @@ constexpr int N = 5e6 + 2;
 
 // Euler 函数前缀和
 std::vector<LL> sumPhi(N);
-std::unordered_map<LL, LL> mpPhi;
+std::unordered_map<LL, LL> mpPhi; // 可选 unordered_map 是因为这些都是确定的数不会被 hack
 void initSumPhi() {
 	auto phi = initPhi(N);
 	for (int i = 1; i < N; ++i) sumPhi[i] = sumPhi[i - 1] + phi[i];
@@ -270,7 +270,7 @@ LL getSumPhi(LL n) {
 
 // Mobius 函数（绝对值）前缀和
 std::vector<int> mu(N), sumMu(N);
-std::unordered_map<LL, int> mpMu;
+std::unordered_map<LL, int> mpMu; // 可选 unordered_map 是因为这些都是确定的数不会被 hack
 void initSumMu() {
 	mu = initMu(N);
 	for (int i = 1; i < N; ++i) sumMu[i] = sumMu[i - 1] + mu[i];

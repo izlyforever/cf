@@ -24,6 +24,6 @@ int main() {
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	auto start = std::clock();
 	
-	std::cout << "Time used: " << (std::clock() - start) << "ms" << std::endl;
+	std::clog << "Time used: " << (std::clock() - start) << "ms" << std::endl;
 	return 0;
 }
