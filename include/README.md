@@ -210,6 +210,20 @@ $$
 因此 $EGF(f) = b e^x$，反过来也一样  $b = EGF(f) e^{-x}$（注意这里可以简单的多点求值，可以求更多的点）
 
 
+#### [Lagrange 反演](https://users.math.msu.edu/users/magyarp/Math880/Lagrange.pdf)
+
+若 $f(x), g(x) \in F[[x]]$ 且 $f(g(x) = x$，则
+
+$$
+[x^n] g(x) = \frac{1}{n} [x^{-1}] \frac{1}{f(x)^n}
+$$
+
+特别地，若 $f(x) = \frac{x}{\phi(x)}$，则
+
+$$
+[x^n] g(x) = \frac{1}{n} [x^{n-1}] \phi(x)^n
+$$
+
 ### 几何
 
 - 二维凸包
