@@ -22,6 +22,11 @@ int main() {
 	//freopen("in", "r", stdin);
 	//freopen("out", "w", stdout);
 	std::cin.tie(nullptr)->sync_with_stdio(false);
+	// 概率问题永不 TLE 的技巧
+	auto begin = std::chrono::steady_clock::now();
+	while ((std::chrono::steady_clock::now() - begin).count() < 5e8) {
+		// do something
+	}
 	auto start = std::clock();
 	
 	std::clog << "Time used: " << (std::clock() - start) << "ms" << std::endl;
