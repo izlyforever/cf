@@ -247,7 +247,7 @@ std::vector<int> initMu(int N) {
 }
 
 // min_25 筛法 O(n^{\frac{2}{3}}) 求 Euler 函数前缀和 以及 Mobius 函数（绝对值）前缀和
-namespace min_25 {
+namespace min_25 { //  请勿使用二维记忆化搜索的 map
 constexpr int N = 5e6 + 2;
 
 // Euler 函数前缀和
