@@ -51,7 +51,7 @@
 - 动态模 int ModInt
 - 动态模 LL ModLL (静态模 LL 几乎不会见到)
 - FFT 快速 Fourier 快速
-- NFT 快速数论变换（注意 FFT 和 NFT 的形式高度一致，其实可以写成类的，可以统一写，但是更麻烦就算了）
+- NTT 快速数论变换（注意 FFT 和 NTT 的形式高度一致，其实可以写成类的，可以统一写，但是更麻烦就算了）
 
 ### 初等数论：numberTheory.hpp
 
@@ -78,10 +78,10 @@
 ### 多项式（[多项式全家桶](https://www.luogu.com.cn/training/3015#problems) 已全部 AC）
 
 - 无运算的多项式底层基类：PolyBase
-- 仅包含乘法的四大多项式底层基类分别为：PolyBaseNFT, PolyBaseMFT3, PolyBaseMFT4, PolyBaseFFT
-- PolyBaseNFT：基于固定的 NFT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）
-- PolyBaseMFT3：基于三个固定的 NFT-friendly 且原根为 3 的三模数（469762049, 998244353, 1004535809），利用 crt 求解任意模数多项式乘法（已被淘汰，请勿使用）
-- PolyBaseMFT4：基于四个固定的 NFT-friendly 且原根为 3 的四模数（595591169, 645922817, 897581057, 998244353），利用 crt 求解任意模数多项式乘法
+- 仅包含乘法的四大多项式底层基类分别为：PolyBaseNTT, PolyBaseMFT3, PolyBaseMFT4, PolyBaseFFT
+- PolyBaseNTT：基于固定的 NTT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）
+- PolyBaseMFT3：基于三个固定的 NTT-friendly 且原根为 3 的三模数（469762049, 998244353, 1004535809），利用 crt 求解任意模数多项式乘法（已被淘汰，请勿使用）
+- PolyBaseMFT4：基于四个固定的 NTT-friendly 且原根为 3 的四模数（595591169, 645922817, 897581057, 998244353），利用 crt 求解任意模数多项式乘法
 - PolyBaseFFT：基于 FFT 求解任意模数多项式乘法（需要注意精度）
 - 通过模板继承拓展得到全面的多项式类 Poly (加减乘除余，转置乘法，求导，积分，指数，对数，求逆，开方，一点求值，多点求值，快速幂模，内积，一个首一多项式的次方模 $x^n$ 先取对数乘以次数再取指数得到，三角函数，反三角函数)，这个过程学到了很多东西
 - 多项式静态函数：$O(n \log^2 n)$ 计算 $\sum_{i = 1}^n \frac{a_i}{1 - b_i}$
@@ -100,7 +100,7 @@
 #### 使用准则
 
 - 多项式项数 $N < 10^6$
-- 当 $M$ 为固定的 NFT-friendly 素数时，使用 NFT 版 Poly
+- 当 $M$ 为固定的 NTT-friendly 素数时，使用 NTT 版 Poly
 - 否则，仅 $M$ 为固定的时，使用 MInt 的 FFT 版 Poly
 - 否则，且 $M$ 不超过 Int 时，使用 ModInt 的 FFT 版 Poly
 - 最后，我们使用 ModLL 版本 4 模数 Poly
@@ -118,9 +118,9 @@ $$
 
 > 其实本质上，我们可以只做 3.5 次 FFT，因为 2 次 dft 我们可以得到 $A_1, A_2, B_1, B_2$ 的 dft 值，然后我们最后只需 3 次实数版 idft 即可（算作 1.5 次）！所以总的来说是 3.5 次。但是实现的时候也没办法搞 0.5 次，可惜。
 
-#### 4 模数 NFT，模数选择
+#### 4 模数 NTT，模数选择
 
-根据我的[博客](https://dna049.com/nft) 中的 SageMath 代码可以得到如下原根都为 3 的 NFT-friendly 数
+根据我的[博客](https://dna049.com/ntt) 中的 SageMath 代码可以得到如下原根都为 3 的 NTT-friendly 数
 
 ``` Python
 167772161        = 1 +  2^25 * 5

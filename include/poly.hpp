@@ -495,24 +495,24 @@ protected:
 };
 
 template<int N>
-class PolyBaseNFT : public PolyBase<MInt<N>> {
+class PolyBaseNTT : public PolyBase<MInt<N>> {
 protected:
-	PolyBaseNFT mul(const PolyBaseNFT &rhs) const {
+	PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
 		int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		auto A = this->a, B = rhs.a;
 		A.resize(sz); B.resize(sz);
-		nft.dft(A); nft.dft(B);
+		ntt.dft(A); ntt.dft(B);
 		for (int i = 0; i < sz; ++i) A[i] *= B[i];
-		nft.idft(A);
+		ntt.idft(A);
 		A.resize(n + m - 1);
-		return PolyBaseNFT(A);
+		return PolyBaseNTT(A);
 	}
 public:
 	static inline const int M = N;
-	static inline NFT<N> nft;
+	static inline NTT<N> ntt;
 	using PolyBase<MInt<N>>::PolyBase;
-	PolyBaseNFT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
+	PolyBaseNTT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
 };
 
 template<typename T>
@@ -521,9 +521,9 @@ public:
 	static inline constexpr int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
 	static inline constexpr LL M01 = 1LL * M0 * M1;
 	static inline constexpr int t0 = 554580198, t1 = 395249030;
-	static inline NFT<M0> nft0;
-	static inline NFT<M1> nft1;
-	static inline NFT<M2> nft2;
+	static inline NTT<M0> ntt0;
+	static inline NTT<M1> ntt1;
+	static inline NTT<M2> ntt2;
 	using PolyBase<T>::PolyBase;
 	PolyBaseMFT3 (const PolyBase<T> &x) : PolyBase<T>(x) {}
 protected:
@@ -551,20 +551,20 @@ protected:
 			int t = rhs.a[i];
 			b0[i] = t; b1[i] = t; b2[i] = t;
 		}
-		nft0.dft(a0); nft0.dft(b0);
-		nft1.dft(a1); nft1.dft(b1);
-		nft2.dft(a2); nft2.dft(b2);
+		ntt0.dft(a0); ntt0.dft(b0);
+		ntt1.dft(a1); ntt1.dft(b1);
+		ntt2.dft(a2); ntt2.dft(b2);
 		for (int i = 0; i < sz; ++i) {
 			a0[i] *= b0[i]; a1[i] *= b1[i]; a2[i] *= b2[i];
 		}
-		nft0.idft(a0); nft1.idft(a1); nft2.idft(a2);
+		ntt0.idft(a0); ntt1.idft(a1); ntt2.idft(a2);
 		std::vector<T> ans(tot);
 		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i]);
 		return PolyBaseMFT3(ans);
 	}
 };
 
-// 为什么用 4 模数 NFT 而不是两个 LL（int128 太耗时）
+// 为什么用 4 模数 NTT 而不是两个 LL（int128 太耗时）
 class PolyBaseMFT4 : public PolyBase<ModLL> {
 public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限 4e6！
 	static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
@@ -572,10 +572,10 @@ public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限
 	static inline constexpr __int128 M0123 = __int128(M01) * M23;
 	static inline constexpr int t01 = 538269027, t23 = 415935157;
 	static inline constexpr LL t0123 = 341204425684314487LL;
-	static inline NFT<M0> nft0;
-	static inline NFT<M1> nft1;
-	static inline NFT<M2> nft2;
-	static inline NFT<M3> nft3;
+	static inline NTT<M0> ntt0;
+	static inline NTT<M1> ntt1;
+	static inline NTT<M2> ntt2;
+	static inline NTT<M3> ntt3;
 	using PolyBase<ModLL>::PolyBase;
 	PolyBaseMFT4 (const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
 protected:
@@ -601,14 +601,14 @@ protected:
 			LL tmp = rhs.a[i];
 			b0[i] = tmp; b1[i] = tmp; b2[i] = tmp; b3[i] = tmp;
 		}
-		nft0.dft(a0); nft0.dft(b0);
-		nft1.dft(a1); nft1.dft(b1);
-		nft2.dft(a2); nft2.dft(b2);
-		nft3.dft(a3); nft3.dft(b3);
+		ntt0.dft(a0); ntt0.dft(b0);
+		ntt1.dft(a1); ntt1.dft(b1);
+		ntt2.dft(a2); ntt2.dft(b2);
+		ntt3.dft(a3); ntt3.dft(b3);
 		for (int i = 0; i < sz; ++i) {
 			a0[i] *= b0[i]; a1[i] *= b1[i]; a2[i] *= b2[i]; a3[i] *= b3[i];
 		}
-		nft0.idft(a0); nft1.idft(a1); nft2.idft(a2); nft3.idft(a3);
+		ntt0.idft(a0); ntt1.idft(a1); ntt2.idft(a2); ntt3.idft(a3);
 		std::vector<ModLL> ans(tot);
 		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i], a3[i]);
 		return PolyBaseMFT4(ans);
@@ -661,8 +661,8 @@ public:
 };
 
 
-const constexpr int NFTM = 998244353;
-using PolyNFT = Poly<PolyBaseNFT<NFTM>, MInt<NFTM>>;
+const constexpr int NTTM = 998244353;
+using PolyNTT = Poly<PolyBaseNTT<NTTM>, MInt<NTTM>>;
 
 const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;
@@ -674,7 +674,7 @@ using PolyFFTLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 using PolyMFT3 = Poly<PolyBaseMFT3<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT3<ModInt>, ModInt>;
 
-// 四模数 NFT，由于一般 N 最大为 1e6，所以 M 最大可到 1e14
+// 四模数 NTT，由于一般 N 最大为 1e6，所以 M 最大可到 1e14
 using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 // 这个是原始的，可用于对拍
@@ -839,13 +839,13 @@ const int M = 998244353;
 using mod = MInt<M>;
 
 std::vector<mod> stirling1row(int n) {
-	auto B = PolyNFT::prod(n).a;
+	auto B = PolyNTT::prod(n).a;
 	B.resize(n + 1);
 	return B;
 }
 std::vector<mod> stirling1col(int n, int k) {
 	if (k > n)  return std::vector<mod>(n + 1);
-	auto B = PolyNFT({1, -1}).log(n + 2 - k).divXn(1);
+	auto B = PolyNTT({1, -1}).log(n + 2 - k).divXn(1);
 	B = (-B).log(n + 1 - k);
 	for (auto &x : B.a) x *= mod::raw(k);
 	auto ans = B.exp(n + 1 - k).mulXn(k).a;
@@ -866,7 +866,7 @@ std::vector<mod> stirling2row(int n) {
 	auto tmp = ifac, a = ifac;
 	for (int i = 1; i <= n; i += 2) tmp[i] = -tmp[i];
 	for (int i = 0; i <= n; ++i) a[i] *= pow(mod::raw(i), n);
-	auto ans = (PolyNFT(a) * PolyNFT(tmp)).a;
+	auto ans = (PolyNTT(a) * PolyNTT(tmp)).a;
 	ans.resize(n + 1);
 	return ans;
 }
@@ -877,7 +877,7 @@ std::vector<mod> stirling2col(int n, int k) {
 	for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * mod::raw(i);
 	ifac[n] = fac[n].inv();
 	for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * mod::raw(i);
-	PolyNFT A(ifac);
+	PolyNTT A(ifac);
 	A = A.divXn(1).modXn(n + 1 - k);
 	A = A.log(n + 1 - k);
 	for (auto &x : A.a) x *= mod::raw(k);

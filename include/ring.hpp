@@ -414,7 +414,7 @@ void idft(std::vector<C> &a) {
 
 // 为了支持三模数，改成模板类的形式
 template<int M>
-class NFT { // 请自行保证输入的 N 为 原根 3 的 NFT-friendly 素数
+class NTT { // 请自行保证输入的 N 为 原根 3 的 NTT-friendly 素数
 	std::vector<int> rev;
 	std::vector<MInt<M>> roots{0, 1};
 public:

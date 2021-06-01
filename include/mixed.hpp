@@ -497,9 +497,9 @@ public:
 	static inline constexpr int M0 = 469762049;
 	static inline constexpr int M1 = 998244353;
 	static inline constexpr int M2 = 1004535809;
-	using P0 = Poly<PolyBaseNFT<M0>, MInt<M0>>;
-	using P1 = Poly<PolyBaseNFT<M1>, MInt<M1>>;
-	using P2 = Poly<PolyBaseNFT<M2>, MInt<M2>>;
+	using P0 = Poly<PolyBaseNTT<M0>, MInt<M0>>;
+	using P1 = Poly<PolyBaseNTT<M1>, MInt<M1>>;
+	using P2 = Poly<PolyBaseNTT<M2>, MInt<M2>>;
 	P0 poly0; P1 poly1; P2 poly2;
 	PolyMFTStrictly(const P0 &A, const P1 &B, const P2 &C) : poly0(A), poly1(B), poly2(C) {}
 	PolyMFTStrictly() {}

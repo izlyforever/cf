@@ -20,7 +20,7 @@ void bitreverse(std::vector<LL> &a) {
 	}
 }
 
-void nft(std::vector<LL> &a, bool isInverse = false) {
+void ntt(std::vector<LL> &a, bool isInverse = false) {
 	LL g = powMod(ROOT, (M - 1) / a.size());
 	if (isInverse) {
 		g = powMod(g, M - 2);
@@ -48,10 +48,10 @@ void mul(std::vector<LL>& a, std::vector<LL> b) {
 	while (sz < tot) sz *= 2;
 	a.resize(sz);
 	b.resize(sz);
-	nft(a);
-	nft(b);
+	ntt(a);
+	ntt(b);
 	for (int i = 0; i != sz; ++i) a[i] = a[i] * b[i] % M;
-	nft(a, 1);
+	ntt(a, 1);
 	a.resize(tot);
 }
 

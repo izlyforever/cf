@@ -3,7 +3,7 @@
 using LL = long long;
 
 // 借鉴了 jiangly 的模板
-namespace NFT {
+namespace NTT {
 const LL M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
 LL powMod(LL x, LL n) {
@@ -61,14 +61,14 @@ void idft(std::vector<LL> &a) {
 		a[i] = a[i] * inv % M;
 	}
 }
-} //namespace NFT
+} //namespace NTT
 
 class Poly {
 	void standard() {
 		while (!a.empty() && !a.back()) a.pop_back();
 	}
 public:
-	inline const static LL M = NFT::M, inv2 = (M + 1) / 2;
+	inline const static LL M = NTT::M, inv2 = (M + 1) / 2;
 	std::vector<LL> a;
 	Poly() {}
 	Poly(LL x) { if (x) a = {x};}
@@ -112,12 +112,12 @@ public:
 		while (sz < tot) sz *= 2;
 		a.resize(sz);
 		rhs.a.resize(sz);
-		NFT::dft(a);
-		NFT::dft(rhs.a);
+		NTT::dft(a);
+		NTT::dft(rhs.a);
 		for (int i = 0; i < sz; ++i) {
 			a[i] = a[i] * rhs.a[i] % M;
 		}
-		NFT::idft(a);
+		NTT::idft(a);
 		standard();
 		return *this;
 	}
@@ -147,7 +147,7 @@ public:
 		return Poly(r);
 	}
 	Poly inv(int n) const {
-		Poly x(NFT::powMod(a[0], M - 2));
+		Poly x(NTT::powMod(a[0], M - 2));
 		int k = 1;
 		while (k < n) {
 			k *= 2;

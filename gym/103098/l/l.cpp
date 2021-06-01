@@ -266,7 +266,7 @@ class ModLL {
 
 // 为了支持三模数，改成模板类的形式
 template <int M>
-class NFT {	 // 请自行保证输入的 N 为 原根 3 的 NFT-friendly 素数
+class NTT {	 // 请自行保证输入的 N 为 原根 3 的 NTT-friendly 素数
 	std::vector<int> rev;
 	std::vector<MInt<M>> roots{0, 1};
 
@@ -362,27 +362,27 @@ class PolyBaseOrigin : public PolyBase<T> {
 };
 
 template <int N>
-class PolyBaseNFT : public PolyBase<MInt<N>> {
+class PolyBaseNTT : public PolyBase<MInt<N>> {
    protected:
-	PolyBaseNFT mul(const PolyBaseNFT &rhs) const {
+	PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
 		int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		auto A = this->a, B = rhs.a;
 		A.resize(sz);
 		B.resize(sz);
-		nft.dft(A);
-		nft.dft(B);
+		ntt.dft(A);
+		ntt.dft(B);
 		for (int i = 0; i < sz; ++i) A[i] *= B[i];
-		nft.idft(A);
+		ntt.idft(A);
 		A.resize(n + m - 1);
-		return PolyBaseNFT(A);
+		return PolyBaseNTT(A);
 	}
 
    public:
 	static inline const int M = N;
-	static inline NFT<N> nft;
+	static inline NTT<N> ntt;
 	using PolyBase<MInt<N>>::PolyBase;
-	PolyBaseNFT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
+	PolyBaseNTT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
 };
 
 template <typename T>
@@ -391,9 +391,9 @@ class PolyBaseMFT3 : public PolyBase<T> {
 	static inline constexpr int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
 	static inline constexpr LL M01 = 1LL * M0 * M1;
 	static inline constexpr int t0 = 554580198, t1 = 395249030;
-	static inline NFT<M0> nft0;
-	static inline NFT<M1> nft1;
-	static inline NFT<M2> nft2;
+	static inline NTT<M0> ntt0;
+	static inline NTT<M1> ntt1;
+	static inline NTT<M2> ntt2;
 	using PolyBase<T>::PolyBase;
 	PolyBaseMFT3(const PolyBase<T> &x) : PolyBase<T>(x) {}
 
@@ -426,27 +426,27 @@ class PolyBaseMFT3 : public PolyBase<T> {
 			b1[i] = t;
 			b2[i] = t;
 		}
-		nft0.dft(a0);
-		nft0.dft(b0);
-		nft1.dft(a1);
-		nft1.dft(b1);
-		nft2.dft(a2);
-		nft2.dft(b2);
+		ntt0.dft(a0);
+		ntt0.dft(b0);
+		ntt1.dft(a1);
+		ntt1.dft(b1);
+		ntt2.dft(a2);
+		ntt2.dft(b2);
 		for (int i = 0; i < sz; ++i) {
 			a0[i] *= b0[i];
 			a1[i] *= b1[i];
 			a2[i] *= b2[i];
 		}
-		nft0.idft(a0);
-		nft1.idft(a1);
-		nft2.idft(a2);
+		ntt0.idft(a0);
+		ntt1.idft(a1);
+		ntt2.idft(a2);
 		std::vector<T> ans(tot);
 		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i]);
 		return PolyBaseMFT3(ans);
 	}
 };
 
-// 为什么用 4 模数 NFT 而不是两个 LL（int128 太耗时）
+// 为什么用 4 模数 NTT 而不是两个 LL（int128 太耗时）
 class PolyBaseMFT4 : public PolyBase<ModLL> {
    public:	// 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限 4e6！
 	static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057,
@@ -455,10 +455,10 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
 	static inline constexpr __int128 M0123 = __int128(M01) * M23;
 	static inline constexpr int t01 = 538269027, t23 = 415935157;
 	static inline constexpr LL t0123 = 341204425684314487LL;
-	static inline NFT<M0> nft0;
-	static inline NFT<M1> nft1;
-	static inline NFT<M2> nft2;
-	static inline NFT<M3> nft3;
+	static inline NTT<M0> ntt0;
+	static inline NTT<M1> ntt1;
+	static inline NTT<M2> ntt2;
+	static inline NTT<M3> ntt3;
 	using PolyBase<ModLL>::PolyBase;
 	PolyBaseMFT4(const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
 
@@ -492,24 +492,24 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
 			b2[i] = tmp;
 			b3[i] = tmp;
 		}
-		nft0.dft(a0);
-		nft0.dft(b0);
-		nft1.dft(a1);
-		nft1.dft(b1);
-		nft2.dft(a2);
-		nft2.dft(b2);
-		nft3.dft(a3);
-		nft3.dft(b3);
+		ntt0.dft(a0);
+		ntt0.dft(b0);
+		ntt1.dft(a1);
+		ntt1.dft(b1);
+		ntt2.dft(a2);
+		ntt2.dft(b2);
+		ntt3.dft(a3);
+		ntt3.dft(b3);
 		for (int i = 0; i < sz; ++i) {
 			a0[i] *= b0[i];
 			a1[i] *= b1[i];
 			a2[i] *= b2[i];
 			a3[i] *= b3[i];
 		}
-		nft0.idft(a0);
-		nft1.idft(a1);
-		nft2.idft(a2);
-		nft3.idft(a3);
+		ntt0.idft(a0);
+		ntt1.idft(a1);
+		ntt2.idft(a2);
+		ntt3.idft(a3);
 		std::vector<ModLL> ans(tot);
 		for (int i = 0; i < tot; ++i) ans[i] = crt(a0[i], a1[i], a2[i], a3[i]);
 		return PolyBaseMFT4(ans);
@@ -838,8 +838,8 @@ class Poly : public T {
 	}
 };	// 多项式全家桶测试：https://www.luogu.com.cn/training/3015#information
 
-const constexpr int NFTM = 998244353;
-using PolyNFT = Poly<PolyBaseNFT<NFTM>, MInt<NFTM>>;
+const constexpr int NTTM = 998244353;
+using PolyNTT = Poly<PolyBaseNTT<NTTM>, MInt<NTTM>>;
 
 const constexpr int FFTM = 1e9 + 7;
 using PolyFFT = Poly<PolyBaseFFT<MInt<FFTM>>, MInt<FFTM>>;
@@ -851,7 +851,7 @@ using PolyFFTLL = Poly<PolyBaseFFT<ModLL>, ModLL>;
 using PolyMFT3 = Poly<PolyBaseMFT3<MInt<FFTM>>, MInt<FFTM>>;
 using PolyMFTDynamic = Poly<PolyBaseMFT3<ModInt>, ModInt>;
 
-// 四模数 NFT，由于一般 N 最大为 1e6，所以 M 最大可到 1e14
+// 四模数 NTT，由于一般 N 最大为 1e6，所以 M 最大可到 1e14
 using PolyMFT = Poly<PolyBaseMFT4, ModLL>;
 
 // 这个是原始的，可用于对拍

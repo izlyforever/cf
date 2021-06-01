@@ -2,7 +2,7 @@
 #include <bits/stdc++.h>
 using LL = long long;
 
-namespace NFTS {
+namespace NTTS {
 int M = 998244353, g = 3;
 std::vector<int> rev, roots{0, 1};
 int powMod(int x, int n) {
@@ -60,16 +60,16 @@ void idft(std::vector<int> &a) {
 		a[i] = 1LL * a[i] * inv % M;
 	}
 }
-} //namespace NFTS
+} //namespace NTTS
 
-// 如果需要换模 M，那么就把 M 当做全局变量提出来，NFT 中 g, rev, root 需要重新初始化。
+// 如果需要换模 M，那么就把 M 当做全局变量提出来，NTT 中 g, rev, root 需要重新初始化。
 // 如果只需要换模几个常数 M，可使用 template<LL M>（但是不是特别推荐）
 class PolyS {
 	void reverse() {
 		std::reverse(a.begin(), a.end());
 	}
 public:
-	static inline const int M = NFTS::M;
+	static inline const int M = NTTS::M;
 	static inline const int inv2 = (M + 1) / 2;
 	std::vector<int> a;
 	PolyS() {}
@@ -118,12 +118,12 @@ public:
 		int sz = 1 << std::__lg(tot * 2 - 1);
 		a.resize(sz);
 		rhs.a.resize(sz);
-		NFTS::dft(a);
-		NFTS::dft(rhs.a);
+		NTTS::dft(a);
+		NTTS::dft(rhs.a);
 		for (int i = 0; i < sz; ++i) {
 			a[i] = 1LL * a[i] * rhs.a[i] % M;
 		}
-		NFTS::idft(a);
+		NTTS::idft(a);
 		return *this;
 	}
 	PolyS &operator/=(PolyS rhs) {
@@ -186,7 +186,7 @@ public:
 	}
 	PolyS inv(int n) const {
 		assert(a[0] != 0);
-		PolyS x(NFTS::powMod(a[0], M - 2));
+		PolyS x(NTTS::powMod(a[0], M - 2));
 		int k = 1;
 		while (k < n) {
 			k *= 2;
