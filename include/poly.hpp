@@ -10,7 +10,7 @@ template<typename T, typename valT>
 class Poly : public T {
 	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
 	static inline const valT inv2 = (valT::mod() + 1) / 2;
-	static inline const int maxN = 1e6 + 2;
+	static inline const int maxN = 1e6 + 2;  // a 的 size 请勿超过 maxN
 	static inline const auto Binom = BinomInPoly<valT>(maxN);
 	// static inline constexpr Binom
 public:
