@@ -8,6 +8,7 @@
 - 要求：请参考注明 github 地址：https://github.com/izlyforever/cf/
 - 感想：开始写个人库之后，感觉自己的编程实力突飞猛进。
 - 更新：所有非必要 LL 换成 int （2020/4/27）
+- 更新：Poly 类大更新
 
 
 ## 思想

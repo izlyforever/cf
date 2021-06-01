@@ -1,6 +1,6 @@
 ## Code by izlyforever
 
-Source Code In Codeforces
+Source Code In Codeforces and other OJ
 
 文档：https://dna049.com/codeforces/
 

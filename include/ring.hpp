@@ -461,3 +461,18 @@ public:
 		for (auto &x : a) x *= inv;
 	}
 };
+
+template<typename T> // 仅用于 ModInt 和 MInt
+class BinomInPoly {
+public:
+	std::vector<T> fac, ifac, inv;
+	BinomInPoly(int n) : fac(n), ifac(n), inv(n) {
+		int M = T::mod();
+		ifac[0] = fac[0] = inv[1] = 1;
+		for (int i = 2; i < n; ++i) inv[i] = inv[M % i] * T::raw(M - M / i);
+		for (int i = 1; i < n; ++i) fac[i] = fac[i - 1] * T::raw(i);
+		for (int i = 1; i < n; ++i) ifac[i] = ifac[i - 1] * inv[i];
+		// ifac[n - 1] = fac[n - 1].inv();
+		// for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * T(i);
+	}
+};

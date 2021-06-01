@@ -10,6 +10,9 @@ template<typename T, typename valT>
 class Poly : public T {
 	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
 	static inline const valT inv2 = (valT::mod() + 1) / 2;
+	static inline const int maxN = 1e6 + 2;
+	static inline const auto Binom = BinomInPoly<valT>(maxN);
+	// static inline constexpr Binom
 public:
 	using T::T;
 	Poly (const T &x) : T(x) {}
@@ -34,13 +37,11 @@ public:
 	Poly &operator+=(const Poly &rhs) {
 		if (this->size() < rhs.size()) this->a.resize(rhs.size());
 		for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
-		this->standard();
 		return *this;
 	}
 	Poly &operator-=(const Poly &rhs) {
 		if (this->size() < rhs.size()) this->a.resize(rhs.size());
 		for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
-		this->standard();
 		return *this;
 	}
 	Poly operator+(const Poly &rhs) const {
@@ -231,29 +232,18 @@ public:
 		std::vector<valT> x(n);
 		for (int i = 0; i < n; ++i) x[i] = i;
 		auto y = this->evals(x);
-		std::vector<valT> fac(n), ifac(n), inv(n);
-		fac[0] = inv[1] = 1;
-		for (int i = 1; i < n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[n - 1] = fac[n - 1].inv();
-		for (int i = n - 1; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-		for (int i = 0; i < n; ++i) y[i] *= ifac[i];
-		auto tmp = ifac;
+		auto tmp = Binom.ifac;
 		for (int i = 1; i < n; i += 2) tmp[i] = -tmp[i];
 		Poly A = Poly(y) * Poly(tmp);
 		return A.modXn(n);
 	}
 	Poly fromFallingFactorial() {
 		int n = this->size();
-		std::vector<valT> fac(n + 1), ifac(n + 1), inv(n + 1);
-		fac[0] = inv[1] = 1;
-		for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[n] = fac[n].inv();
-		for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-		Poly A = ((*this) * Poly(ifac)).modXn(n);
+		Poly A = ((*this) * Poly(Binom.ifac)).modXn(n);
 		std::vector<valT> x(n), y = A.a;
 		for (int i = 0; i < n; ++i) x[i] = i;
 		y.resize(n);
-		for (int i = 0; i < n; ++i) y[i] *= fac[i];
+		for (int i = 0; i < n; ++i) y[i] *= Binom.fac[i];
 		return Lagrange(x, y);
 	}
 	valT eval(valT x) const {
@@ -313,16 +303,8 @@ public:
 	// 根据 $h(0), h(1), \cdots, h(d)$ 的值 求 $h(m), \cdots, h(m + cnt - 1)$
 	static std::vector<valT> valToVal(std::vector<valT> h, valT m, int cnt) { // m > h.size()
 		int d = h.size() - 1;
-		std::vector<valT> fac(d + 1), ifac(d + 1), inv(d + 1);
-		fac[0] = inv[1] = 1;
-		for (int i = 1; i <= d; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[d] = fac[d].inv();
-		for (int i = d; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-		const int M = valT::mod();
-		for (int i = 2; i <= d; ++i) inv[i] = inv[M % i] * valT::raw(M - M / i);
-		// 以上内容一般会先预处理掉
 		for (int i = 0; i <= d; ++i) {
-			h[i] *= ifac[i] * ifac[d - i];
+			h[i] *= Binom.ifac[i] * Binom.ifac[d - i];
 			if ((d - i) & 1) h[i] = -h[i];
 		}
 		std::vector<valT> f(d + cnt);
@@ -386,12 +368,8 @@ public:
 		// exp 常数好大啊！谨慎使用！这里建议修改，直接求。
 		// Poly Numerator = Poly({0, n}).exp(k + 1).divXn(1);
 		// Poly denominator  = Poly({0, 1}).exp(k + 1).divXn(1);
-		std::vector<valT> fac(k + 1), ifac(k + 1), a(k), b(k);
-		fac[0] = 1;
-		for (int i = 1; i <= k; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[k] = fac[k].inv();
-		for (int i = k; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
-		for (int i = 0; i < k; ++i) a[i] = b[i] = ifac[i + 1];
+		std::vector<valT> a(k), b(k);
+		for (int i = 0; i < k; ++i) a[i] = b[i] = Binom.ifac[i + 1];
 		valT cur = 1;
 		for (int i = 0; i < k; ++i) a[i] *= (cur *= valT::raw(n));
 		auto Numerator = Poly(a), denominator = Poly(b);
@@ -415,11 +393,6 @@ public:
 		// 	return solve(l, m) * solve(m, r);
 		// };
 		// return solve(0, n);
-		std::vector<valT> fac(n + 1), ifac(n + 1);
-		fac[0] = 1;
-		for (int i = 1; i <= n; ++i) fac[i] = fac[i - 1] * valT::raw(i);
-		ifac[n] = fac[n].inv();
-		for (int i = n; i > 0; --i) ifac[i - 1] = ifac[i] * valT::raw(i);
 		std::function<Poly(int)> solve = [&](int n) -> Poly {
 			if (n == 1) return Poly({0, 1});
 			int k = n / 2;
@@ -427,13 +400,13 @@ public:
 			std::vector<valT> tmp(k + 1);
 			valT now{1};
 			for (int i = 0; i <= k; ++i) {
-				tmp[i] = now * ifac[i];
+				tmp[i] = now * Binom.ifac[i];
 				now *= k;
 			}
 			auto B = A;
-			for (int i = 0; i < B.size(); ++i) B[i] *= fac[i];
+			for (int i = 0; i < B.size(); ++i) B[i] *= Binom.fac[i];
 			B = B.mulT(tmp).modXn(k + 1);
-			for (int i = 0; i < B.size(); ++i) B[i] *= ifac[i];
+			for (int i = 0; i < B.size(); ++i) B[i] *= Binom.ifac[i];
 			A *= B;
 			if (2 * k != n) {
 				B = A;
@@ -450,18 +423,14 @@ public:
 template<typename T>
 class PolyBase {
 protected:
-	void standard() {
-		while (!a.empty() && a.back() == 0) a.pop_back();
-	}
 	void reverse() {
 		std::reverse(a.begin(), a.end());
-		standard();
 	}
 public:
 	std::vector<T> a;
 	PolyBase() {}
 	PolyBase(T x) { if (x != 0) a = {x};}
-	PolyBase(const std::vector<T> &_a) : a(_a) { standard();}
+	PolyBase(const std::vector<T> &_a) : a(_a) {}
 	int size() const { return a.size();}
 	T &operator[](int id) { return a[id];}
 	T at(int id) const {
