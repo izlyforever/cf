@@ -32,3 +32,13 @@ int main() {
 	std::clog << "Time used: " << (std::clock() - start) << "ms" << std::endl;
 	return 0;
 }
+
+// ## 准备
+
+// - 闹钟
+// - 草稿纸
+// - 创建比赛文件夹和 md 文件（记录当前场次可能的 hack 点，以及题解）
+// - cd path（根据题号提前写好）
+// - cf race ***
+// - cf test and cf submit
+// - ./*.exe

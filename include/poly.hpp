@@ -8,6 +8,7 @@ using LL = long long;
 // using valT = decltype(T::a)::value_type;
 template<typename T, typename valT>
 class Poly : public T {
+	// 请特别注意 $n > mod$ 的情况！此时很多功能无法保证正确性
 	static inline const valT j = pow(valT(3), (valT::mod() - 1) / 4);
 	static inline const valT inv2 = (valT::mod() + 1) / 2;
 	static inline const int maxN = 1e6 + 2;  // a 的 size 请勿超过 maxN
