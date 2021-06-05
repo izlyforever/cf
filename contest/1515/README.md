@@ -1,7 +1,7 @@
 
-### [Codeforces Global Round 14](https://codeforces.com/contest/1515)
+## [Codeforces Global Round 14](https://codeforces.com/contest/1515)
 
-#### E: 起初想的 dp 是 $n^4$ 方的，后面想到了 $O(n^3)$ 的做法以为也是 $O(n^4)$ 的就没写
+### E: 起初想的 dp 是 $n^4$ 方的，后面想到了 $O(n^3)$ 的做法以为也是 $O(n^4)$ 的就没写
 
 设 `dp[i][j]` 表示长度为 i，有 j 个位置没有主动开启的方案数，首先 $dp[i][0] = 2^{i - 1}$ 这是因为我们考虑第一个位置，后面的只能在两边选，然后就是一个二进制的和正好是 $2^{i - 1}$，然后我们可以枚举第一个没有主动开启的位置。所以
 
