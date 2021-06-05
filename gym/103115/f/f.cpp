@@ -7,19 +7,18 @@ int main() {
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n, k;
 	std::cin >> n >> k;
-	std::vector<int> a(n), v(n), p(n), id(n);
-	for (int i = 0; i < n; ++i) std::cin >> a[i] >> v[i];
-	std::iota(p.begin(), p.end(), 0);
-	std::sort(p.begin(), p.end(), [&](int i, int j) {
-		return a[i] < a[j];
-	});
-	// 还有不动的点，也太恶心了吧
-	// std::deque<int> Q;
-	// for (int i = 0; i < n; ++i) {
-	// 	int x = p[i];
-	// 	if (v[x] == 1) {
-
-	// 	}
-	// }
+	std::vector<std::pair<int, int>> a(n);
+	std::vector<int> b(n);
+	for (int i = 0; i < n; ++i) {
+		int p, v;
+		std::cin >> p >> v;
+		a[i] = {p, i};
+		b[i] = p + v * k;
+	}
+	std::sort(a.begin(), a.end());
+	std::sort(b.begin(), b.end());
+	for (int i = 0; i < n; ++i) a[i].first = b[i];
+	for (int i = 0; i < n; ++i) b[a[i].second] = a[i].first;
+	for (int i = 0; i < n; ++i) std::cout << b[i] << " \n"[i == n - 1];
 	return 0;
 }
