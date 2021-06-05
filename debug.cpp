@@ -36,9 +36,10 @@ int main() {
 // ## 准备
 
 // - 闹钟
-// - 草稿纸
+// - 草稿纸 和 SageMath
 // - 创建比赛文件夹和 md 文件（记录当前场次可能的 hack 点，以及题解）
 // - cd path（根据题号提前写好）
 // - cf race ***
 // - cf test and cf submit
 // - ./*.exe
+// 通用 hack 点：答案超了 long long，用 ceil 向上取整。注意有些狗喜欢 `#define int long long`）
