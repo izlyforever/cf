@@ -13,6 +13,11 @@
 
 经过严格论证之后发现 $f(t) = t + \lfloor \frac{a}{t} \rfloor, t > 0$ 的最小值 $\min f = f(\lfloor \sqrt{a} \rfloor + 1) = f(\lceil \sqrt{a} \rceil)$
 
+### F：
+
+这题就很像 [2020-2021 Winter Petrozavodsk Camp, UPC contest L 题](https://codeforces.com/gym/103098/problem/L)，[Motsu_xe 的代码](https://atcoder.jp/contests/ABC204/submissions/23257095) 特别值得借鉴
+
+这题的 $H \leq 6$，可以改成 $H \leq 10$
 
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
 
