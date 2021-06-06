@@ -1,5 +1,3 @@
-2021.6.6 后开始在此保存 AtCoder 代码
-
 
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
 
@@ -54,3 +52,90 @@ $$
 
 所以可以先把 `dist[1][i]` 求出来，再按位处理就很快了。
 
+
+## [Atcoder arc117C](https://atcoder.jp/contests/arc117/tasks/arc117_c)
+
+很有趣的一个堆积问题，关键在于转化成简单的四则运算，而当时没有想到这样的运算，可惜
+
+
+## [Atcode abc196F](https://atcoder.jp/contests/abc196/tasks/abc196_f)
+
+题意：给定一个 0-1 主串 S 和模式串 T，$|T| \leq |S|$ 问 $S$ 的长度为 $|T|$ 的子串和 $T$ 互异的位置数的最小值。
+
+显然 $f[j] = \sum_{i = 0}^{|T| - 1} s_{i+j} \wedge t_i$，这是一个减法卷积，OK 结束。
+
+> 如果字符串是小写字母组成，那么这个问题就可以枚举每一个字符，看相同的位置！然后累加 $O(26 \cdot |S| \log |S|)$
+
+
+
+## [AtCoder ABC189F](https://atcoder.jp/contests/abc189/tasks/abc189_f)
+
+从 0 位置出发，走到大于等于 n 的位置结束，每次平均概率在 [1, m] 步中选择步长来走，有 k 个坑，走到坑就回到起点 0。问结束前步数的期望是多少，如果无法结束就输出 -1。
+
+做法：首先如果有连续 m 个坑（很好判断），必然无法结束，否则可以结束，我们设 `dp[i]` 表示从 i 出发的答案。显然 $dp[i] = 0, i \geq n$，我们从后往前跑，显然有状态转移，如果 i 位置有坑，那么 $dp[i] = dp[0]$, 否则 $dp[i] = (dp[i + 1] + \cdots dp[i + m]) / m  + 1$。这个后缀和，我们可以用个变量记录下来。因此 所有的 dp[i] 都是一个 $a + b dp[0]$ 的形式，然后到最后有 $dp[0] = a + b dp[0]$ 从而就求得了结果。
+
+
+## [AtCoder arc111B](https://atcoder.jp/contests/arc111/tasks/arc111_b)：经典 2 选 1
+
+大致 有 $n$ 个盒子，每个盒子有两个数，从中取去一个数，问最多可以取多少个不同的数。
+
+数字为节点，盒子中的两个数连边（注意可能有重边），那个连通分支是树，那么答案就是连通分支节点数减 1，否则就是连通分支节点数。（树的情况容易证明，非树的情况总可以删边，删成只有树再多一条边的情况，然后也容易证明）
+
+
+## [AtCoder arc111E](https://atcoder.jp/contests/arc111/tasks/arc111_e) 
+
+[教程](https://atcoder.jp/contests/arc111/editorial/546)
+
+
+## [AtCoder abc184F](https://atcoder.jp/contests/abc184/tasks/abc184_f)：假 0-1 背包，Meet in Middle
+
+题意：给定序列，求选择其中部分，使得它们和最大且不超过 t，这不就是 0-1 背包吗？但是数据范围 $0 \leq n \leq 40, 0 \leq a_i, t \leq 10^9$，此题即使是多重背包，也可以用下面各种方法来做
+
+1. Meet in Middle，但是实现的时候可以有以下几种实现细节：
+   - 用是 set 或 unordered set 存和更新，然后用双指针，整体复杂度 $O(n 2 ^{\frac{n}{2}})$
+   - 用 Vector 存，之后排序（只需排序一个），然后用 `lower_bounded` 查找，复杂度同理
+   - 用 Vector 存，保持有序，最后用双指针，复杂度 $O(2 ^{\frac{n}{2}})$
+2. 先 dfs 找到一个较好的解，然后每次更新解，用来剪枝。
+
+
+## [AtCoder ABC 183f](https://atcoder.jp/contests/abc183/tasks/abc183_f)：并查集 + map
+
+题意：N 个节点，每个节点有一个值，然后 Q 次操作：`1 a b` 是将 a, b 所在的群合并，`2 x y` 求 $x$ 所在的群中，值为 $y$ 的个数。细节优化
+
+- 尽量小的向大的合并，合并完小的记得清空
+- `std::map` 优于 `std::multiset`
+- `std::vector<std::map<int, int>>` 优于 `std::map<std::map<int, int>>`
+
+
+## [AtCoder ABC 183e](https://atcoder.jp/contests/abc183/tasks/abc183_e)：经典 DP
+
+题意：在 $n \times m$ 的格点中，有些点可以走有些不行，每次能往右，下或右下中的一个方向走任意步（但是中间不能有非法点），问有多少种从左上角到右下角的走法。
+> 显然 DP，然后用类和优化
+
+## [Atcoder ABC182F](https://atcoder.jp/contests/abc182/tasks/abc182_f)：找钱问题
+
+给定 $n$ 种纸币，$1 = a_1 < a_2 < \cdots a_n$，且 $a_i | a_{i + 1}$，要买商品 $x$，那么可以给 $y \geq x$，找零 $y - x$，要求 $y$ 和 $y - x$ 的最少纸币表达中没有公共纸币。问所有的 $y$ 有没有种。
+> 注意到 $y$ 和 $(y_1, \cdots, y_n)$，(其中 $y_i * a_i < a_{i + 1}$，且 $y = \sum a_i y_i$ 有一个一一对应。然后我们可以考虑 $x$ 的向量表达，然后再看 $y + x$ 和 $y$ 没公共非零项的做法。
+
+
+## [Atcoder arc107C](https://atcoder.jp/contests/arc107/tasks/arc107_c)：并查集
+
+首先，如果某两列和交换，那么给它们连边，那么只要任意两列可达，那么它们的位置最后就可以交换，也就是求每个连通分支的大小，直接广搜标记也可以做，当然了用并查集会更简单。
+
+
+## [Atcoder arc107D](https://atcoder.jp/contests/arc107/tasks/arc107_d)：经典计算，DP 优化
+
+将 $K$ 写成 $N$ 个形如 $2^{-i}, i \geq 0$ 之和（不计顺序），问有多少中写法。我们不妨将答案记作 `dp[n][k]`
+那么显然 `dp[n][k] = dp[n][2k] + dp[n - 1][2k - 2] + \cdots dp[n - k][0]`（考虑取多少个 `1`，那么剩下的最少要以 $\frac{1}{2}$ 为最大值，那么就等价于剩下的数乘以 `2`)，所以令 `s[a] = dp[a][0] + dp[a + 1][2] + \cdots dp[n][2(n - a)]`，这样我们就能迅速求出 `dp[n][k]`
+
+
+## [AtCoder arc106d](https://atcoder.jp/contests/arc106/tasks/arc106_d)：经典求和计算
+
+对任意 $1 \leq x \leq K$ 求 $\sum_{1 \leq i < j \leq n} (a_i + a_j)^x$
+
+注意到 
+$$
+2 \sum_{1 \leq i < j \leq n} (a_i + a_j)^x = \sum_{i = 1}^n \sum_{j = 1}^n (a_i + a_j)^x - \sum_{i = 1}^n (2a_i)^x
+$$ 
+然后二项式展开即可。
+> 若此题 $n$ 比较小，$k$ 比较大（$n$ 特别小时直接 $n^2 \log k$ 就没啥意思了），注意到二项式展开之后是个卷积形式，所以用 NTT 有 $O(nk + k \log k)$ 的做法。例如 $n < 3 \cdot 10^4, k < 10^5$ （时限 5s)

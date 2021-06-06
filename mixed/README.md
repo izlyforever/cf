@@ -13,3 +13,32 @@
 $$
 \sum_{i = 1}^n \sum_{j = 1, gcd(i, j) = 1}^m f \left( \min(\lfloor \frac{n}{i} \rfloor, \lfloor \frac{m}{j} \rfloor) \right) = \sum_{i = 1}^n \sum_{j = 1}^m f(\gcd(i, j)) - f(\gcd(i, j) - 1)
 $$
+
+
+### [牛客 11189C](https://ac.nowcoder.com/acm/contest/11189/C)：贪心 + 并查集
+
+我一开始搞成树上问题 TLE。有点可惜。并查集常数确实小很多。
+
+
+
+
+
+
+
+
+## vjudge
+
+### [凸优化借助凸包解决](https://vjudge.net/problem/Kattis-mobilization)
+
+> 详细解释放在 [izlyforever](https://izlyforever.com/spookywooky/)
+
+
+## HDU
+
+### [hdu 4747](http://acm.hdu.edu.cn/showproblem.php?pid=4747): MEX
+
+求 $\sum_{1 \leq L \leq R \leq n} MEX(L, R)$)，其中 $MEX(L, R)$ 为使得 $a_L, a_{L + 1} \cdots, a_{R}$ 中没出现的最小自然数
+
+> 同理与上面做法，代码不写了，懒得写线段树。
+
+> 有的 MEX 定义包含 0, 有的不包含，无所谓啦。

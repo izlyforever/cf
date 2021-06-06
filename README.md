@@ -3,6 +3,9 @@
 Source Code In Codeforces and other OJ
 
 - 2021-6-3 开始为 include 个人库建立 wiki 系统，为每场比赛加一个 `README.md` 文件
+- CF 有代码有题解
+- AtCoder，LuoGu 无代码，有题解
+- 其它平台有代码有题解（题量极少）
 
 ### 版本 v0 (2021-04-27 18:47:17)
 
