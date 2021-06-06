@@ -1,16 +1,32 @@
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
- 
+
+class Diagram {
+public:
+	std::vector<int> head, nxt, to;
+	Diagram(int n) {
+		nxt.clear();
+		to.clear();
+		head = std::vector<int>(n + 1, -1);
+	}
+	void addedge(int u, int v) {
+		nxt.push_back(head[u]);
+		head[u] = to.size();
+		to.push_back(v);
+	}
+};
+
 const int N = 2e5 + 2;
 int d[N];
 LL a[N];
 std::vector<int> ans1;
 std::vector<int> ans2;
- 
+
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
+	//freopen("in","r",stdin);
+	std::ios::sync_with_stdio(false);
+	std::cin.tie(nullptr);
 	int n;
 	std::cin >> n;
 	for (int i = 1; i <= n; ++i) std::cin >> a[i];

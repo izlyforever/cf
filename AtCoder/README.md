@@ -139,3 +139,42 @@ $$
 $$ 
 然后二项式展开即可。
 > 若此题 $n$ 比较小，$k$ 比较大（$n$ 特别小时直接 $n^2 \log k$ 就没啥意思了），注意到二项式展开之后是个卷积形式，所以用 NTT 有 $O(nk + k \log k)$ 的做法。例如 $n < 3 \cdot 10^4, k < 10^5$ （时限 5s)
+
+## [Atcoder ARC 104D](https://atcoder.jp/contests/arc104/tasks/arc104_d)
+
+> E, F 题也是好题，不过不懂。
+
+问题描述：对每一个 $m \in [1, n]$ 求满足 $\sum_{x \in S} (x - m) = 0$ 的集合 $S$ 的个数，其中 "集合" $S$ 是由 `1~n` 中元素构成，元素可重，重数不超过 k。这等价于说 $\sum_{x \in S} x = \sum_{x \in T} x$ 的个数乘以 $k + 1$，其中 $S$ 是由 `1 ~ m - 1` 构成，$T$ 由 `1 ~ n - m` 构成。
+
+做法：我们设 `dp[i][j] 表示仅用 1 ~ i 中的数构成和为 j 的个数`，那么显然
+$$ 
+dp[i][j] = \sum_{t = 0}^k dp[i - 1][j - t * i] 
+$$
+于是我们保存一下前缀和，那么就可以优化计算了。
+
+## [AtCoder ACL2f](https://atcoder.jp/contests/abl/tasks/abl_f): 包容排斥原理 + NTT
+
+## [AtCoder ACL2e](https://atcoder.jp/contests/abl/tasks/abl_e)：线段树模板题
+
+
+## [AtCoder ABC178e](https://atcoder.jp/contests/abc178/tasks/abc178_e)：Manhattan 距离
+
+给定一堆点，求它们的 Manhattan 距离中最大值
+
+> 注意到其实任意两点的距离等于，它们到最左上角和到最下角的距离的距离差的最大值。
+
+
+## [Atcode](https://atcoder.jp/contests/aising2020/tasks/aising2020_f)：经典生成函数题
+
+题目很容易转化成，满足所有$(a_1+\cdots+a_5)+2(b_1+\cdots+b_5) \leq N$的$a_1 \cdots a_5$之和，其中$a_i,b_i$ 均为非负整数
+
+我一开始把 5 看作变量，从 `1,2,3` 一直推出 5 的公式，贼麻烦。后来  [querty20002](https://codeforces.com/profile/querty20002) 给出了生成函数做法的 [题解](https://codeforces.com/blog/entry/79978#comment-659438)。答案唯一的依赖于 $N$，即可认为答案是关于 $N$ 的数列，那么它的生成函数即为：
+$$
+\begin{array}{cl}
+\sum a_1a_2a_3a_4a_5(N) x^N &= (x+2x^2+\cdots)^5 (1+x^2+x^4+\cdots)^5 (1+x+x^2) \\
+&= (\frac{x}{(1-x)^2})^5 (\frac{1}{1-x^2})^5 \frac{1}{1-x} \\
+&=  \frac{x^5(1+x)^{11}}{(1-x^2)^{16}}\\
+&= x^5(1+x)^{11} \sum_{n} \binom{n+15}{15} x^{2n}
+\end{array}
+$$
+所以答案就是 $\sum_{i=N\%2}^{11} \binom{11}{i} \binom{\frac{N-i-5}{2}+15}{15}$，所以我们选择 Python 交题 0.0
