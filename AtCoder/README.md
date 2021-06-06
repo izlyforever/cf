@@ -1,4 +1,19 @@
 
+## [AtCoder Beginner Contest 204](https://atcoder.jp/contests/ABC204/tasks)
+
+### C：求邻接图的闭包
+
+忘了用 bitset 贡献了一次 TLE
+
+### D：背包
+
+### E：最短路 Dijkstra
+
+注意到，无论如何我们能走多快走多快，然后大不了取某个节点等待。注意到最小值，只需考虑不取整的情况，即考虑 $c + t + \frac{d}{t + 1}$ 的最小值，求导可知 $t = \sqrt{d} - 1$ 时，取得最小值 $x$，然后注意要取整，然后要看这个能否取到	
+
+经过严格论证之后发现 $f(t) = t + \lfloor \frac{a}{t} \rfloor, t > 0$ 的最小值 $\min f = f(\lfloor \sqrt{a} \rfloor + 1) = f(\lceil \sqrt{a} \rceil)$
+
+
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
 
 ### A：签到题
