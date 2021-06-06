@@ -6,6 +6,7 @@ Source Code In Codeforces and other OJ
 - CF 有代码有题解
 - AtCoder，LuoGu 无代码，有题解
 - 其它平台有代码有题解（题量极少）
+- 2021-6-6 完成代码迁移，然后把题解做成比赛编号内的 README 文件
 
 ### 版本 v0 (2021-04-27 18:47:17)
 
