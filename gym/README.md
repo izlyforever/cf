@@ -1,3 +1,5 @@
+2021-6-8 不再做普通的 gym
+
 这里记录一点零散 gym 中的杂题，可取 codeforce gym 查看打过的比赛
 
 ## [102586F](https://codeforces.com/gym/102986/problem/F)：经典一维多点距离总和最短问题
