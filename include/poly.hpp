@@ -864,3 +864,4 @@ std::vector<mod> stirling2col(int n, int k) {
 	for (int i = 0; i <= n; ++i) ans[i] *= fac[i] * ifacK;
 	return ans;
 }
+
