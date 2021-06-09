@@ -113,6 +113,9 @@ public:
 		n &= x;
 		return (*this);
 	}
+	bool operator==(const MInt &A) const {
+		return n == A.n;
+	}
 	MInt inv() const {
 		return inv(n);
 	}
@@ -227,6 +230,9 @@ public:
 		n &= x;
 		return (*this);
 	}
+	bool operator==(const ModInt &A) const {
+		return n == A.n;
+	}
 	ModInt inv() const {
 		return inv(n);
 	}
@@ -338,6 +344,9 @@ public:
 	ModLL& operator&=(LL x) {
 		n &= x;
 		return (*this);
+	}
+	bool operator==(const ModLL &A) const {
+		return n == A.n;
 	}
 	ModLL inv() const {
 		return inv(n);

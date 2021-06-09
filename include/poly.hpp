@@ -16,7 +16,7 @@ class Poly : public T {
 	// static inline constexpr Binom
 public:
 	using T::T;
-	Poly (const T &x) : T(x) {}
+	Poly (const T &x) : T(x) { this->standard();}
 	Poly mulXn(int n) const {
 		auto b = this->a;
 		b.insert(b.begin(), n, 0);
@@ -38,11 +38,13 @@ public:
 	Poly &operator+=(const Poly &rhs) {
 		if (this->size() < rhs.size()) this->a.resize(rhs.size());
 		for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
+		this->standard();
 		return *this;
 	}
 	Poly &operator-=(const Poly &rhs) {
 		if (this->size() < rhs.size()) this->a.resize(rhs.size());
 		for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
+		this->standard();
 		return *this;
 	}
 	Poly operator+(const Poly &rhs) const {
@@ -353,7 +355,7 @@ public:
 	// $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
 	// $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
 	static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, int n) {
-		if (n < a.size()) return a[n];
+		if (n < (int)a.size()) return a[n];
 		int m = f.size();
 		std::reverse(f.begin(), f.end());
 		std::vector<valT> g(m);
@@ -424,8 +426,12 @@ public:
 template<typename T>
 class PolyBase {
 protected:
+	void standard() {
+		while (!a.empty() && !a.back()) a.pop_back();
+	}
 	void reverse() {
 		std::reverse(a.begin(), a.end());
+		standard();
 	}
 public:
 	std::vector<T> a;

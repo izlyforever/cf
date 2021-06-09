@@ -5,6 +5,7 @@ using LL = long long;
 
 // 注意这里的 nthPrime 以 1 开始编号（其它地方以 0 开始）！即 p[1] = 2
 namespace Prime {
+
 // O(\sqrt{N}) 最基本的单次素数判断
 bool isPrime(LL n) {
 	if (n == 2) return true;
@@ -527,7 +528,7 @@ int babyStepGiantStep(int a, int b, int p) {
 }
 // 模板例题：https://www.luogu.com.cn/problem/P3846
 
-// 模开方：返回 x 使得 x^2 = a mod p, 无解输出 -1。复杂度 $O(\log^2 p)$
+// 模素数开方：返回 x 使得 x^2 = a mod p, 无解输出 -1。复杂度 $O(\log^2 p)$
 int sqrtModp(int a, int p) { // p 为素数，0 <= a < p < INT_MAX。
 	if (a == 0 || p == 2) return a;
 	auto pow = [p](int x, int n) {
@@ -557,7 +558,7 @@ int sqrtModp(int a, int p) { // p 为素数，0 <= a < p < INT_MAX。
 			return r;
 		}(t);
 		int d = pow(b, 1LL << (c - cc - 1)); // d^{2^{cc + 1}} = -1
-		// (xd)^2 = a t d^2, (t d^2)^{2^{cc}} = 1, (d^2)^{2^cc} = -1
+		// 更新原理 (xd)^2 = a t d^2, (t d^2)^{2^{cc}} = 1, (d^2)^{2^cc} = -1
 		x = 1LL * x * d % p;
 		b = 1LL * d * d % p;
 		t = 1LL * t * b % p;
