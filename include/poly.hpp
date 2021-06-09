@@ -865,3 +865,32 @@ std::vector<mod> stirling2col(int n, int k) {
 	return ans;
 }
 
+// 求一个数列的最短递推关系
+// 参考：https://cmwqf.github.io/2020/07/18/%E6%B5%85%E8%B0%88Berlekamp-Massey%E7%AE%97%E6%B3%95/
+std::vector<mod> BerlekampMassey(const std::vector<mod> &a) {
+	std::vector<mod> ans, lst;
+	mod delta = 0;
+	for (int i = 0, w = -1, n = a.size(); i < n; ++i) {
+		mod t = 0;
+		for (int j = 0, na = ans.size(); j < na; ++j) {
+			t += ans[j] * a[i - 1 - j];
+		}
+		if (t == a[i]) continue;
+		// ans 开始了它的第一次失效
+		if (w == -1) { // 此时不可能有成功的
+			w = i; delta = a[i];
+			ans.emplace_back(0);
+			continue;
+		}
+		auto now = ans;
+		auto mul = (a[i] - t) / delta;
+		if (i - w + lst.size() > ans.size()) ans.resize(i - w + lst.size());
+		ans[i - w - 1] += mul;
+		for (int j = 0, lj = lst.size(); j < lj; ++j) ans[i - w + j] -= mul * lst[j];
+		if ((int)now.size() - i < (int)lst.size() - w) {
+			w = i; delta = a[i] - t; std::swap(now, lst);
+		}
+	}
+	return ans;
+}
+// 模板例题：https://www.luogu.com.cn/problem/P5487

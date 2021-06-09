@@ -79,7 +79,7 @@
 
 ### 多项式（[多项式全家桶](https://www.luogu.com.cn/training/3015#problems) 已全部 AC）
 
-- 无运算的多项式底层基类：PolyBase
+- 无运算的多项式底层基类：PolyBase（standard 在取余时，特别重要不可省略）
 - 仅包含乘法的四大多项式底层基类分别为：PolyBaseNTT, PolyBaseMFT3, PolyBaseMFT4, PolyBaseFFT
 - PolyBaseNTT：基于固定的 NTT-friendly（原根一般为 3）模数快速数论变化（看具体题目，一般为 998244353）
 - PolyBaseMFT3：基于三个固定的 NTT-friendly 且原根为 3 的三模数（469762049, 998244353, 1004535809），利用 crt 求解任意模数多项式乘法（已被淘汰，请勿使用）
