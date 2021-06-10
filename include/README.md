@@ -92,7 +92,7 @@
 - 多项式静态函数：Lagrange 插值：先分治求 $g(x) = \prod(x - x_i)$，再求 $g'(x)$ 在 $x$ 处的多点求值，再分治即可。
 - 求阶乘 $n! \mod p$：基于多点求值 $O(\sqrt{n} \log^2 n)$ 求 $\sqrt{n}$ 个点之后暴力
 - 求阶乘 $n! \mod p$：min_25 用点求点 $O(\sqrt{n} \log n)$ 求 $\sqrt{n}$ 个点之后暴力
-- Berlekamp-Massey 算法求最短递推关系，[更多应用](https://taodaling.github.io/blog/2020/06/24/Berlekamp-Massey%E7%AE%97%E6%B3%95/)，听说还能成为打表黑科技
+- Berlekamp-Massey 算法求最短递推关系，[更多应用](https://taodaling.github.io/blog/2020/06/24/Berlekamp-Massey%E7%AE%97%E6%B3%95/)：注意求 det 一般不对，听说还能成为打表黑科技
 
 > 注意模板类中友元函数参数一定要至少包含一个模板变量（否则就会报函数重定义的错误），还有就是要区分友元函数和静态函数！
 

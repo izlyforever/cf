@@ -354,7 +354,7 @@ public:
 	
 	// $a_n = \sum_{i = 1}^{k} f_i a_{n - i}$，理论：https://oi-wiki.org/math/linear-recurrence/
 	// $O(k \log k \log n)$ 求 k 阶常系数递推公式的第 n 项
-	static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, int n) {
+	static valT linearRecursion(std::vector<valT> a, std::vector<valT> f, LL n) {
 		if (n < (int)a.size()) return a[n];
 		int m = f.size();
 		std::reverse(f.begin(), f.end());

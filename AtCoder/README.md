@@ -15,9 +15,15 @@
 
 ### F：
 
-这题就很像 [2020-2021 Winter Petrozavodsk Camp, UPC contest L 题](https://codeforces.com/gym/103098/problem/L)，[Motsu_xe 的代码](https://atcoder.jp/contests/ABC204/submissions/23257095) 特别值得借鉴
+这题就很像 [2020-2021 Winter Petrozavodsk Camp, UPC contest L 题](https://codeforces.com/gym/103098/problem/L)，[Motsu_xe 的代码](https://atcoder.jp/contests/ABC204/submissions/23257095) 特别值得借鉴。
 
-这题的 $H \leq 6$，可以改成 $H \leq 10$
+[官方题解](https://atcoder.jp/contests/ABC204/editorial/2026) 给了好几个做法：最终确定为 $O(8^H \log W)$ 的矩阵幂做法。。那么如果我们写成矩阵形式，就可以知道递推公式的长度不会超过 $2^H$。从而 Berlekamp-Massey 就可以发挥作用了。
+
+也就是说，我们只要求到 $W = 2^{H + 1}$，然后用 Berlekamp-Massey 算法即可。
+
+我们设 $dp[i][mask][mask2]$ 先贴最左边，从上往下贴。然后需要用 dfs 式的 dp！
+
+
 
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
 
