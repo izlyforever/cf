@@ -354,3 +354,24 @@ public:
 		return r;
 	}
 };
+
+// 基础版快速排序
+template<typename T>
+void quickSort(std::vector<T> &a) {
+	std::function<void(int, int)> qSort = [&](int l, int r) {
+		int i = l, j = r;
+		auto mid = a[(l + r) / 2]; // 基础版快速排序
+		while (i <= j) {
+			while (i <= j && a[i] < mid) ++i;
+			while (j >= i && a[j] > mid) --j;
+			if (i <= j) {
+				std::swap(a[i], a[j]);
+				++i;
+				--j;
+			}
+		}
+		if (i < r) qSort(i, r);
+		if (l < j) qSort(l, j);
+	};
+	qSort(0, a.size() - 1);
+}

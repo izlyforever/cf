@@ -21,8 +21,7 @@
 
 也就是说，我们只要求到 $W = 2^{H + 1}$，然后用 Berlekamp-Massey 算法即可。
 
-我们设 $dp[i][mask][mask2]$ 先贴最左边，从上往下贴。然后需要用 dfs 式的 dp！
-
+我们设 $dp[i][mask][mask2]$ 先贴最左边，从上往下贴。然后需要用 dfs 式的 dp！终于[解决了](https://atcoder.jp/contests/ABC204/submissions/23325995)，舒服！
 
 
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
