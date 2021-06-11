@@ -375,3 +375,21 @@ void quickSort(std::vector<T> &a) {
 	};
 	qSort(0, a.size() - 1);
 }
+
+// 快速版 Fibonacci
+int Fib(int n, int M) {
+	int a = 0, b = 1, c = 1, d = 0;
+	while (n) {
+		if (n & 1) {
+			int x = 1LL * a * c % M;
+			a = (1LL * a * d + 1LL * b * c + x) % M;
+			b = (1LL * b * d + x) % M;
+		}
+		n >>= 1;
+		int x = 1LL * c * c % M;
+		c = (2LL * c * d + x) % M;
+		d = (1LL * d * d + x) % M;
+	}
+	return a;
+}
+// 5 不是 998244353, 1e9 +7 的二次剩余，是 1e9 + 9 的(616991993^2 = 5)

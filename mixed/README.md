@@ -1,5 +1,58 @@
 ## 牛客
 
+### [牛客练习赛84](https://ac.nowcoder.com/acm/contest/11174)：质量很好的一场
+
+> 好气啊，比赛结束过了 6 分钟才把 D 调试出来
+
+一开始 D 题理解错了题意，以为当前如果有的话，不仅优先级最高，而且时间也会跟着更新，可惜并没有。
+
+#### A：直接 map 即可
+
+#### B：把 $4 \times 4$ 对应到一个非负整数 然后 BFS
+
+#### C：4 阶容斥
+
+即前两个遍历，后面两个就是简单的两个人的容斥。
+
+> 即使是真三阶容斥，当时写的时候还是算错，是因为没有乘以系数：[可参考](https://ac.nowcoder.com/acm/contest/view-submission?submissionId=47969478)
+
+#### D：好题
+
+理解错了题意：
+
+如果时间也跟着更新，那么做法应该是：[这里](https://ac.nowcoder.com/acm/contest/view-submission?submissionId=47969181)
+
+但是由于不更新时间，但是优先度又是跟着真实时间走的。我们这样搞：
+
+首先用队列 Q 记录以下在不考虑容量下，当前被缓存下来的 a 的下标，用 mp 和 cnt 这个表示互逆操作。即 $cnt[id] = timer, mp[timer] = id$，相当于 mp 存了优先度，而如果 mp 的容量大于 $m$，那么就要删除节点，而这也要被记录下面，比如说用 `S[id]` 记录节点 id 被删除的次数。好了，现在队列 Q 中的时间是单调的，如果 Q 中有东西过期了，我们自然要删除的，但是有可能这个点在之前因为容量的原因已经被删除了，此时就不用真的再删除一次，而是把 `s[id]` 减 1。
+
+
+#### F：Fibonacci 数列的最大公约数
+
+利用 $F_{n + m} = F_{n - 1}F_{m} + F_n F_{m + 1}$，我们不难得到 $\gcd(F_{n}, F_{m}) = F_{\gcd(n, m)}$。所以原式可以转化成
+
+$$
+\sum_{d = 1}^n F_d \sum_{i_1 = 1}^{\lfloor \frac{n}{d} \rfloor} \cdots \sum_{i_k = 1}^{\lfloor \frac{n}{d} \rfloor} [gcd(i_1, \cdots, i_k) == 1]
+$$
+
+注意到，由于 $k$ 为常数，我们记
+
+$$
+g(n) = 
+\sum_{i_1 = 1}^n \cdots \sum_{i_k = 1}^n [gcd(i_1, \cdots, i_k) == 1] = \sum_{d = 1}^n \mu(d) \lfloor \frac{n}{d} \rfloor^k
+$$
+
+所以最终答案为：$\sum_{d = 1}^n F_d g(\lfloor \frac{n}{d} \rfloor) = \sum (F \star \mu)(d) \lfloor \frac{n}{d} \rfloor^k$
+
+注意到，我们记 $h(d) = \sum_{i = 1}^d (F \star \mu)(i)$，则 $h(\lfloor \frac{n}{d} \rfloor) = \sum_{d = 1}^n F(d) = F_{n + 2} - 1$
+
+> 最优复杂度为 O(n^{\frac{3}{4}})$
+
+$$
+\sqrt{\frac{n}{1}} + \sqrt{\frac{n}{2}} + \sqrt{\frac{n}{\sqrt{n}}} + O(\sqrt{n}) = O(\sqrt{n} \int_0^{\sqrt{n}} x^{-\frac{1}{2}} dx) = O(n^{\frac{3}{4}})
+$$
+
+
 ### [武汉理工 2021 同步赛 F](https://ac.nowcoder.com/acm/contest/16786/F)
 
 [官方题解](https://blog.nowcoder.net/n/7574bf87891a481b81082878149f6006) 和[我的提交](https://ac.nowcoder.com/acm/contest/view-submission?submissionId=47912933)
