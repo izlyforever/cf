@@ -55,6 +55,12 @@ $$
 \sqrt{\frac{n}{1}} + \sqrt{\frac{n}{2}} + \sqrt{\frac{n}{\sqrt{n}}} + O(\sqrt{n}) = O(\sqrt{n} \int_0^{\sqrt{n}} x^{-\frac{1}{2}} dx) = O(n^{\frac{3}{4}})
 $$
 
+其实按照上面的这个思路，假设用 `unordered_map` 每次均摊 $O(1)$，那么预处理 $O(n^{\frac{2}{3}})$，我们有
+
+$$
+\sqrt{\frac{n}{1}} + \sqrt{\frac{n}{2}} + \sqrt{\frac{n}{n^{\frac{1}{3}}}} + O(n^{\frac{2}{3}}) = O(\sqrt{n} \int_0^{n^{\frac{1}{3}}} x^{-\frac{1}{2}} dx) = O(n^{\frac{2}{3}})
+$$
+
 
 ### [武汉理工 2021 同步赛 F](https://ac.nowcoder.com/acm/contest/16786/F)
 
