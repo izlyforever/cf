@@ -393,3 +393,14 @@ int Fib(int n, int M) {
 	return a;
 }
 // 5 不是 998244353, 1e9 +7 的二次剩余，是 1e9 + 9 的(616991993^2 = 5)
+
+
+// 模正数向下取整 和 向上取整
+template<typename T>
+T floor(T a, T n) { // n > 0
+	return a < 0 ? (a - n + 1) / n : a / n;
+}
+template<typename T>
+T ceil(T a, T n) { // n > 0
+	return a < 0 ? a / n : (a + n - 1) / n;
+}
