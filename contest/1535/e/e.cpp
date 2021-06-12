@@ -7,8 +7,9 @@ int main() {
 	std::cin.tie(nullptr)->sync_with_stdio(false);
 	int n;
 	std::cin >> n;
-	std::vector<int> a(n + 1), c(n + 1), dep(n + 1);
+	std::vector<int> a(n + 1), c(n + 1);
 	std::vector<std::vector<int>> p(n + 1);
+	// p[0].emplace_back(0);
 	std::cin >> a[0] >> c[0];
 	for (int i = 1; i <= n; ++i) {
 		int op;
@@ -16,14 +17,13 @@ int main() {
 		if (op == 1) {
 			int x;
 			std::cin >> x >> a[i] >> c[i];
-			dep[i] = dep[x] + 1;
 			p[i].emplace_back(x);
 			int j = 0;
-			while (x) {
-				++j;
-				if (j < p[x].size()) x = p[x][j];
+			while (x && a[x]) {
+				if (j < (int)p[x].size()) x = p[x][j];
 				else x = 0;
-				p.emplace_back(x);
+				if (a[x]) p[i].emplace_back(x);
+				++j;
 			}
 		} else {
 			int x, w;
@@ -42,7 +42,7 @@ int main() {
 				sm += wt;
 				ans += 1LL * wt * c[t];
 			}
-			std::cout << sm << ' ' << ans << '\n';
+			std::cout << sm << ' ' << ans << std::endl;
 		}
 	}
 	return 0;
