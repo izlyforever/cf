@@ -1,3 +1,38 @@
+## [AtCoder Regular Contest 122](https://atcoder.jp/contests/arc122)
+
+### A：理解错了题意被卡
+
+所有不能有两个连续减号出现的表达式的和。我们直接 DP 即可，记录上一步是加号还是减号的答案数，并且要记录分别有多少种。
+
+### B：直接列出式子
+
+考虑：
+$$
+\frac{x}{2} + A_i - \min(A_i, x)
+$$
+然后通过平移就会发现 $x$ 取中位数答案是最小的
+
+### C：
+
+我知道肯定跟 Fibonacci 数列有关，但是具体不知道怎么搞
+
+[官方题解](https://atcoder.jp/contests/arc122/editorial/2071) 的观察利用了线性递推数列的线性性质！
+
+我们一直操作 3 4 就会得到这样的序列：$x, y + x, x + y + x, \cdots$（假设总长度为 $S$）注意到奇数位置是 $x$，而且注意到 $i$ 位置会让最终答案 $F_{S-i}$。所以如果 $S$ 长度为奇数，哪就先 3 后 4，否则先 4 后 3。
+
+
+### D：没想到 C 不会做，这题却能很快的独立完成
+
+> 如果没有 C 题卡我时间，这题为必能做掉
+
+首先我们注意到，最高位有主导作用，如果最高位为 1 的个数有奇数个，那么不然是这一类和为最高位为 0 的某一个贡献了答案，我们记作 solve2，否则，只需分别看这两类分别求答案的最大值即可。而 solve2 又可以由 solve2 自身递归解决。
+
+
+### E：注意到 N 很小
+
+[官方题解](https://atcoder.jp/contests/arc122/editorial/2073) 精髓啊，一个数可以放在最后面当且仅当 $LCM_{j \neq i}(\gcd(A_i, A_j)) < A_i$
+
+
 
 ## [AtCoder Beginner Contest 204](https://atcoder.jp/contests/ABC204/tasks)
 
