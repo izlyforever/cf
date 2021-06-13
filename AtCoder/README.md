@@ -1,3 +1,20 @@
+## [AtCoder Beginner Contest 205](https://atcoder.jp/contests/abc205)
+
+提前 20 分钟 AK 了（且全部 1A），开心，最后一题本来想放弃了，但是在整理模板的时候。
+
+### A：$a \cdot b / 100.0$
+
+### B：看是否有点被访问过了
+
+### C：看 $c$ 是否是 偶数
+
+### D：看每个数前面有多少个数，然后二分查找即可
+
+### E：建立网络流
+
+建立源点 $0$ 和 汇点 $sz = 1 + h + w + 2 \cdot n$。然后 $h$ 行用节点 $1, \cdot, h$ 标记，$w$ 列分别用 $h + 1, \cdots, h + w$ 表示，然后每一个框框用两个节点  $h + w + 2i - 1, h + w + 2i$ 表示。源点向行建立流量为 1 的边，列向汇点建立流量为 1 的边，根据框框容量建立，行向  $h + w + 2i - 1$ 连边， $h + w + 2i - 1$ 和 $h + w + 2i$ 连边， $h + w + 2i$ 和列连边即可。最后跑一下 Dinic 即可。
+
+
 ## [AtCoder Regular Contest 122](https://atcoder.jp/contests/arc122)
 
 ### A：理解错了题意被卡
