@@ -1,0 +1,6 @@
+5 1
+set 1 10
+set 2 15
+if 2
+set 1 7
+end

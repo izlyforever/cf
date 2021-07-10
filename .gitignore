@@ -1,0 +1,8 @@
+cpplibforCP/
+.vscode/
+.DS_Store
+*.exe
+main*
+test*
+in
+*.out
