@@ -2,7 +2,8 @@ cpplibforCP/
 .vscode/
 .DS_Store
 *.exe
+*.out
 main*
 test*
 in
-*.out
+out
