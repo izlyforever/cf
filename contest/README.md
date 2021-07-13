@@ -55,7 +55,8 @@
 - [Educational Codeforces Round 105 (Rated for Div. 2)](https://codeforces.com/contest/1494) EDU 场最好成绩: Rk 311
 - [Codeforces Round #720 (Div. 2)](https://codeforces.com/contest/1521)：达到历史最高分 2078
 - [hack 了 jiangly](https://codeforces.com/contest/1523/hacks/738685)：代码中应该使用 `**builtin_popcountll`
-- [Codeforces Round #727 (Div. 2)](https://codeforces.com/contest/1539/)：达到历史最高分 2105（完成第一个目标）
+- [Codeforces Round #727 (Div. 2)](https://codeforces.com/contest/1539/)：达到历史最高分 2103（完成第一个目标）
+- [Codeforces Round #728 (Div. 1)](https://codeforces.com/contest/1540)：达到历史最高分 2131
 
 ## 明显进步
 
