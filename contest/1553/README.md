@@ -31,11 +31,21 @@ t_k = \sum_{1 \le i, j \le k, i < j} (a_i \bmod a_j)
 \end{aligned}
 $$
 
-因此 $s_k = s_{k - 1} + \sum_{i = 1}^{k - 1} (a_k - \lfloor \frac{a_k}{a_i} \rfloor a_i) = s_{k - 1} + a_i (k - 1) - \sum_{i = 1}^{k - 1} a_i \lfloor \frac{a_k}{a_i} \rfloor$
+因此 
+
+$$
+s_k = s_{k - 1} + \sum_{i = 1}^{k - 1} (a_k - \lfloor \frac{a_k}{a_i} \rfloor a_i) = s_{k - 1} + a_k (k - 1) - \sum_{i = 1}^{k - 1} a_i \lfloor \frac{a_k}{a_i} \rfloor
+$$
 
 依然不好算，因此我们对每个 $i$，看它对 $s_k$ 的贡献
 
 若 $a_k \in [d a_i, (d + 1) a_i)$, 则它的贡献就是 $-d_i$
 
-因此我们只需要在每个 $a_i$ 倍数上的点加值即可，
+因此我们只需要在每个 $a_i$ 倍数上的点加值即可
+
+我们再考虑 $t_k$:
+
+$$
+t_k = t_{k-1} + \sum_{i=1}^{k-1}a_i - \sum_{i=1}^{k-1} (a_k \cdot \lfloor \frac{a_i}{a_k} \rfloor)
+$$
 
