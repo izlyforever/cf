@@ -9,15 +9,16 @@ bool solve() {
   std::cin >> n;
   std::vector<int> a(n);
   for (auto &x : a) std::cin >> x;
-  if (n == 1) return a[0] == 0;
-  std::sort(a.begin(), a.end());
-  std::map<int, int> mp;
-  for (int i = 0; i < n; ++i) {
-    for (int j = i + 1; j < n; ++j) {
-      if (mp[(a[j] - a[i])]++) return true;
-    }
-  }
-  return false;
+  bool ok = false;
+  std::function<void(int, int, bool)> dfs = [&](int i, int s, bool flag) {
+    if (s == 0 && flag) ok = true;
+    if (ok || i == n) return;
+    if (!ok) dfs(i + 1, s, flag);
+    if (!ok) dfs(i + 1, s + a[i], true);
+    if (!ok) dfs(i + 1, s - a[i], true);
+  };
+  dfs(0, 0, false);
+  return ok;
 }
 
 int main() {
