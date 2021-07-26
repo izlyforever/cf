@@ -9,16 +9,12 @@ bool solve() {
   std::cin >> n;
   std::vector<int> a(n);
   for (auto &x : a) std::cin >> x;
-  bool ok = false;
-  std::function<void(int, int, bool)> dfs = [&](int i, int s, bool flag) {
-    if (s == 0 && flag) ok = true;
-    if (ok || i == n) return;
-    if (!ok) dfs(i + 1, s, flag);
-    if (!ok) dfs(i + 1, s + a[i], true);
-    if (!ok) dfs(i + 1, s - a[i], true);
+  std::function<bool(int, int, bool)> dfs = [&](int i, int s, bool flag) -> bool {
+    if (s == 0 && flag) return true;
+    if (i == n) return false;
+    return dfs(i + 1, s, flag) | dfs(i + 1, s + a[i], true) | dfs(i + 1, s - a[i], true);
   };
-  dfs(0, 0, false);
-  return ok;
+  return dfs(0, 0, false);
 }
 
 int main() {
