@@ -3,6 +3,11 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
+class segTree {
+  
+};
+
+
 // 根据情况换成 bool
 void solve() {
 
