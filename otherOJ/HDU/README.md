@@ -1,3 +1,67 @@
+## [百度之星 2021 初赛](http://bestcoder.hdu.edu.cn/contests/contest_show.php?cid=998)
+
+### 1003
+
+我们可以直接 DP，答案，注意到每次操作仅仅会影响两个地方的答案
+
+### 1004
+
+不妨假设 $a \geq b$，$c = a - b$，然后一个是 $c$ 的最小大于 1 的因子，一个是 $c$，但是为了合理性，必须要 $a \geq 2$，且 $c = 0$ 或者 $c > 1$
+
+
+### 1005
+
+这是一个公式推导题：
+
+$$
+E_i = \left\{ \begin{array}{ll} \frac{\sum_{j = 1}^{i - 1} E_j}{i - 1} + 1 & i > y \\
+\frac{\sum_{j = i + 1}^n E_j}{n - i} + 1 & i < y\end{array} \right.
+$$
+
+注意到 $E_y = 0$
+
+若 $i > y$, 则 $E_1 + \cdots E_{i - 1} = (i - 1) (E_i - 1)$，所以
+$$
+(i - 1)(E_i - 1) + E_i = i (E_{i + 1} - 1)
+$$
+即 $E_{i + 1} = E_i + \frac{1}{i}$
+
+若 $i < y$, 则 $E_{i + 1} + \cdots E_n = (n - i) (E_i - 1)$，所以 
+$$
+E_i + (n - i) (E_i - 1) = (n - i + 1)(E_{i - 1} - 1)
+$$
+
+即 $E_{i - 1} = E_i + \frac{1}{n - i + 1}$
+
+又
+
+$$
+y (E_{y + 1} - 1) = E_1 + \cdots E_y = (y - 1) E_{y - 1} + \sum_{i = 1}^{y - 2} \frac{i}{n - i}
+$$
+
+且
+
+$$
+(n - y + 1)(E_{y - 1} - 1) = E_y + \cdots E_n = (n - y) E_{y + 1} + \sum_{i = 1}^{n - y - 1} \frac{i}{n - i}
+$$
+
+
+> 直接手推要推的想吐，还不如设变量直接解，再也要考虑 $y$ 在边界的情况
+
+设 $A_i = \sum_{j = 1}^i \frac{j}{n - j}$，解二元一次方程即可得到 $E_{y - 1}$ 和 $E_{y + 1}$ 即可
+
+### 1006
+
+没想到这个题 $O(n \log n)$ 用 set 拼接都不行，一定要 $O(n)$ 算法
+
+首先用一个 vis 标记是否为 1，然后再看左边可延伸的地方和右边可延伸的地方，然后注意处理下细节即可
+
+
+> 同样的代码 BestCoder AC，HDU TLE
+> 
+### 1008
+
+这 TMD 叫猎人杀？狼人就杀一次人？我完尼玛
 
 ## [hdu 4747](http://acm.hdu.edu.cn/showproblem.php?pid=4747): MEX
 
