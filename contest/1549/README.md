@@ -18,6 +18,8 @@
 
 $m | (a_{i + 1} - a_i), \cdots, m | (a_j - a_{j - 1})$，因此我们可以先做差，然后找到最大的区间 $[i, j]$ 使得差值的 gcd 不为 1 即可。然后显然可以二分分治来做
 
+> 根据这篇 [gcd](https://codeforces.com/blog/entry/63771)，我的复杂度为 $O(n \log n) + \log(n) \max(a_i)$
+
 ### E
 
 显然答案是

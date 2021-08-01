@@ -57,6 +57,7 @@
 - [hack 了 jiangly](https://codeforces.com/contest/1523/hacks/738685)：代码中应该使用 `**builtin_popcountll`
 - [Codeforces Round #727 (Div. 2)](https://codeforces.com/contest/1539/)：达到历史最高分 2103（完成第一个目标）
 - [Codeforces Round #728 (Div. 1)](https://codeforces.com/contest/1540)：达到历史最高分 2131
+- [Codeforces Round #736 (Div. 2)](https://codeforces.com/contest/1549)：最佳历史排名 
 
 ## 明显进步
 
