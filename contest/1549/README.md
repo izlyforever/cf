@@ -40,7 +40,7 @@ $$
 
 $$
 \begin{aligned}
-f(x) &= \sum_{i = 1}^n \binom{i + 3}{x + 3} - \binom{i}{x + 3}  - 3 \binom{i}{x + 1} - 3 \binom{i}{x + 2} \\
+f(x) &= \sum_{i = 1}^n \binom{3i + 3}{x + 3} - \binom{3i}{x + 3}  - 3 \binom{3i}{x + 1} - 3 \binom{3i}{x + 2} \\
 &= \binom{3n + 3}{x + 3} - 3 f(x + 1) - 3 f(x + 2)\end{aligned}
 $$
 
