@@ -36,9 +36,9 @@ $$
 
 然后我通过分解素因子的方式，可以做到 $O(\sqrt{n})$ 的复杂度
 
-### H
+### H：超级经典
 
-FWT 变换
+FWT 变换 + Nim
 
 
 ## [AtCoder Grand Contest 054](https://atcoder.jp/contests/agc054)
