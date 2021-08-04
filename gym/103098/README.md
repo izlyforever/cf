@@ -53,7 +53,7 @@ A[0, 5] = A[1, 0] = A[3, 0] = 0
 b = matrix(6, 1)
 b[0] = 1
 for i in range(6):
-	print((A^i * b)[0])
+  print((A^i * b)[0])
 A.characteristic_polynomial()
 # charPoly(A) = x^6 - x^5 - 2*x^4 - 6*x^3 - x^2 + 1
 # b[0], (Ab)[0],..., (A^5 b)[0] = (1, 1, 3, 10, 23, 62)

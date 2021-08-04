@@ -4,15 +4,15 @@
 
 ``` C++
 bool solve() {
-	int n;
-	std::cin >> n;
-	LL r = 0;
-	for (int i = 0, x; i < n; ++i) {
-		std::cin >> x;
-		r += (x - i);
-		if (r < 0) return 0;
-	}
-	return 1;
+  int n;
+  std::cin >> n;
+  LL r = 0;
+  for (int i = 0, x; i < n; ++i) {
+    std::cin >> x;
+    r += (x - i);
+    if (r < 0) return 0;
+  }
+  return 1;
 }
 ```
 > 这什么水平？数据还没读完你给我结束了？

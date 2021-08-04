@@ -17,26 +17,26 @@ using LL = long long;
 // 4k    , ..., 2k + 2, 0, 2k - 1,..., 3,      1,      2k + 1,      2,...,     2k, 2k + 3,..., 4k - 1
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int n;
-	std::cin >> n;
-	if (n % 4 > 1) {
-		std::cout << "NO\n";
-		return 0;
-	}
-	int k = n / 4, now = n;
-	std::vector<int> a;
-	for (int i = 0; i < k; ++i) a.emplace_back(--now);
-	if (k) a.emplace_back(k);
-	for (int i = 1; i < k; ++i) a.emplace_back(--now);
-	if (n & 1) a.emplace_back(--now);
-	if (k) a.emplace_back(0);
-	for (int i = 0; i < k; ++i) a.emplace_back(--now);
-	--now;
-	for (int i = 1; i < k; ++i) a.emplace_back(--now);
-	std::cout << "YES\n";
-	for (auto x : a) std::cout << x << ' ';
-	std::cout << '\n';
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int n;
+  std::cin >> n;
+  if (n % 4 > 1) {
+    std::cout << "NO\n";
+    return 0;
+  }
+  int k = n / 4, now = n;
+  std::vector<int> a;
+  for (int i = 0; i < k; ++i) a.emplace_back(--now);
+  if (k) a.emplace_back(k);
+  for (int i = 1; i < k; ++i) a.emplace_back(--now);
+  if (n & 1) a.emplace_back(--now);
+  if (k) a.emplace_back(0);
+  for (int i = 0; i < k; ++i) a.emplace_back(--now);
+  --now;
+  for (int i = 1; i < k; ++i) a.emplace_back(--now);
+  std::cout << "YES\n";
+  for (auto x : a) std::cout << x << ' ';
+  std::cout << '\n';
+  return 0;
 }

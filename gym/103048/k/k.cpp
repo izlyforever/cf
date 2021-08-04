@@ -3,10 +3,10 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int l, k;
-	std::cin >> l >> k;
-	std::cout << (l == 2 && k < 4 ? "Yes" : "No") << '\n';
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int l, k;
+  std::cin >> l >> k;
+  std::cout << (l == 2 && k < 4 ? "Yes" : "No") << '\n';
+  return 0;
 }
