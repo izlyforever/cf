@@ -85,30 +85,30 @@ struct FWT {
 } fwt;
 
 int main() {
-	//freopen("in","r",stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int n, m;
-	std::cin >> n >> m;
-	std::vector<std::string> a(n);
-	for (auto &x : a) std::cin >> x;
-	std::vector<int> c(1 << n), g(1 << n);
-	for (int i = 0; i < m; ++i) {
-		int r = 0;
-		for (int j = 0; j < n; ++j) {
-			r |= (a[j][i] - '0') << j;
-		}
-		++c[r];
-	}
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < (1 << n); ++j) {
-			if (j & (1 << i)) ++g[j];
-		}
-	}
-	for (int i = 0; i < (1 << n); ++i) {
-		g[i] = std::min(g[i], n - g[i]);
-	}
-	auto f = fwt.Xor(c, g);
-	print(*std::min_element(f.begin(), f.end()));
-	return 0;
+  //freopen("in","r",stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int n, m;
+  std::cin >> n >> m;
+  std::vector<std::string> a(n);
+  for (auto &x : a) std::cin >> x;
+  std::vector<int> c(1 << n), g(1 << n);
+  for (int i = 0; i < m; ++i) {
+    int r = 0;
+    for (int j = 0; j < n; ++j) {
+      r |= (a[j][i] - '0') << j;
+    }
+    ++c[r];
+  }
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < (1 << n); ++j) {
+      if (j & (1 << i)) ++g[j];
+    }
+  }
+  for (int i = 0; i < (1 << n); ++i) {
+    g[i] = std::min(g[i], n - g[i]);
+  }
+  auto f = fwt.Xor(c, g);
+  print(*std::min_element(f.begin(), f.end()));
+  return 0;
 }

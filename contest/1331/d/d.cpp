@@ -3,10 +3,10 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	std::string s;
-	std::cin >> s;
-	std::cout << (s.back() - '0') % 2 << '\n';
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  std::string s;
+  std::cin >> s;
+  std::cout << (s.back() - '0') % 2 << '\n';
+  return 0;
 }

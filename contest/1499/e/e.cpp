@@ -3,15 +3,15 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	std::string a, b;
-	std::cin >> a >> b;
-	int n = a.size(), m = b.size();
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0; j < n; ++j) {
-			
-		}
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  std::string a, b;
+  std::cin >> a >> b;
+  int n = a.size(), m = b.size();
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0; j < n; ++j) {
+
+    }
+  }
+  return 0;
 }

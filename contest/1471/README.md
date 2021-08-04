@@ -8,10 +8,10 @@
 
 ``` C++
 void init() {
-	for (int i = 1; i * i < N; ++i) {
-		int ii = i * i, cur = 0;
-		for (int j = ii; j < N; j += ii) f[j] = ++cur;
-	}
+  for (int i = 1; i * i < N; ++i) {
+    int ii = i * i, cur = 0;
+    for (int j = ii; j < N; j += ii) f[j] = ++cur;
+  }
 }
 ```
 

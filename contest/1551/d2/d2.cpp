@@ -65,13 +65,13 @@ void solve() {
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas; // 根据情况注释掉
-	while (cas--) {
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas; // 根据情况注释掉
+  while (cas--) {
     memset(a, -1, sizeof(a));
     solve();
-	}
-	return 0;
+  }
+  return 0;
 }

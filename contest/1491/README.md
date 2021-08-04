@@ -13,28 +13,28 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int n;
-		std::cin >> n;
-		std::vector<LL> a(n), b(n + 1);
-		for (auto &x : a) std::cin >> x;
-		LL r = 0;
-		for (int i = 0; i < n; ++i) {
-			for (int j = 2; j <= a[i] && i + j < n; ++j) ++b[i + j];
-			if (b[i] >= a[i]) {
-				b[i + 1] += b[i] - a[i] + 1;
-			} else {
-				r += a[i] - b[i] - 1;
-			}
-		}
-		std::cout << r << "\n";
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    int n;
+    std::cin >> n;
+    std::vector<LL> a(n), b(n + 1);
+    for (auto &x : a) std::cin >> x;
+    LL r = 0;
+    for (int i = 0; i < n; ++i) {
+      for (int j = 2; j <= a[i] && i + j < n; ++j) ++b[i + j];
+      if (b[i] >= a[i]) {
+        b[i + 1] += b[i] - a[i] + 1;
+      } else {
+        r += a[i] - b[i] - 1;
+      }
+    }
+    std::cout << r << "\n";
+  }
+  return 0;
 }
 ```
 
@@ -46,33 +46,33 @@ int main() {
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int n;
-		std::cin >> n;
-		std::vector<LL> a(n + 1), c(n + 1);
-		for (int i = 1; i <= n; ++i) std::cin >> a[i];
-		LL r = 0, b = 0;
-		for (int i = 1; i <= n; ++i) {
-			b += c[i];
-			if (b >= a[i]) {
-				if (i + 1 <= n) {
-					c[i + 1] += b - a[i] + 1;
-					if (i + 2 <= n) c[i + 2] -= b - a[i] + 1;
-				}
-			} else {
-				r += a[i] - b - 1;
-			}
-			if (i + 2 <= n) ++c[i + 2];
-			if (i + a[i] < n) --c[i + a[i] + 1];
-		}
-		std::cout << r << "\n";
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    int n;
+    std::cin >> n;
+    std::vector<LL> a(n + 1), c(n + 1);
+    for (int i = 1; i <= n; ++i) std::cin >> a[i];
+    LL r = 0, b = 0;
+    for (int i = 1; i <= n; ++i) {
+      b += c[i];
+      if (b >= a[i]) {
+        if (i + 1 <= n) {
+          c[i + 1] += b - a[i] + 1;
+          if (i + 2 <= n) c[i + 2] -= b - a[i] + 1;
+        }
+      } else {
+        r += a[i] - b - 1;
+      }
+      if (i + 2 <= n) ++c[i + 2];
+      if (i + a[i] < n) --c[i + a[i] + 1];
+    }
+    std::cout << r << "\n";
+  }
+  return 0;
 }
 ```
 
@@ -99,61 +99,61 @@ int main() {
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int n;
-	std::cin >> n;
-	std::vector<std::set<int>> e(n);
-	for (int i = 1; i < n; ++i) {
-		int u, v;
-		std::cin >> u >> v;
-		--u;
-		--v;
-		e[u].insert(v);
-		e[v].insert(u);
-	}
-	std::vector<int> fib{1, 1};
-	while (fib.back() < n) fib.emplace_back(fib[fib.size() - 2] + fib[fib.size() - 1]);
-	if (fib.back() != n) {
-		std::cout << "NO\n";
-		return 0;
-	}
-	std::vector<int> sz(n), fa(n);
-	bool flag = true;
-	std::function<void(int, int)> solve = [&](int u, int i) {
-		if (i <= 3 || !flag) return;
-		int r = -1;
-		std::function<void(int)> dfs = [&](int u) {
-			sz[u] = 1;
-			for (auto v : e[u]) if (v != fa[u]) {
-				fa[v] = u;
-				dfs(v);
-				sz[u] += sz[v];
-			}
-			if (sz[u] == fib[i - 1] || sz[u] == fib[i - 2]) {
-				r = u;
-			}
-		};
-		fa[u] = -1;
-		dfs(u);
-		if (r == -1) {
-			flag = false;
-			return;
-		}
-		e[r].erase(fa[r]);
-		e[fa[r]].erase(r);
-		if (sz[r] == fib[i - 1]) {
-			solve(fa[r], i - 2);
-			solve(r, i - 1);
-		} else {
-			solve(fa[r], i - 1);
-			solve(r, i - 2);
-		}
-	};
-	solve(0, fib.size() - 1);
-	std::cout << (flag ? "YES\n" : "NO\n");
-	return 0;
+  //freopen("in", "r", stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int n;
+  std::cin >> n;
+  std::vector<std::set<int>> e(n);
+  for (int i = 1; i < n; ++i) {
+    int u, v;
+    std::cin >> u >> v;
+    --u;
+    --v;
+    e[u].insert(v);
+    e[v].insert(u);
+  }
+  std::vector<int> fib{1, 1};
+  while (fib.back() < n) fib.emplace_back(fib[fib.size() - 2] + fib[fib.size() - 1]);
+  if (fib.back() != n) {
+    std::cout << "NO\n";
+    return 0;
+  }
+  std::vector<int> sz(n), fa(n);
+  bool flag = true;
+  std::function<void(int, int)> solve = [&](int u, int i) {
+    if (i <= 3 || !flag) return;
+    int r = -1;
+    std::function<void(int)> dfs = [&](int u) {
+      sz[u] = 1;
+      for (auto v : e[u]) if (v != fa[u]) {
+        fa[v] = u;
+        dfs(v);
+        sz[u] += sz[v];
+      }
+      if (sz[u] == fib[i - 1] || sz[u] == fib[i - 2]) {
+        r = u;
+      }
+    };
+    fa[u] = -1;
+    dfs(u);
+    if (r == -1) {
+      flag = false;
+      return;
+    }
+    e[r].erase(fa[r]);
+    e[fa[r]].erase(r);
+    if (sz[r] == fib[i - 1]) {
+      solve(fa[r], i - 2);
+      solve(r, i - 1);
+    } else {
+      solve(fa[r], i - 1);
+      solve(r, i - 2);
+    }
+  };
+  solve(0, fib.size() - 1);
+  std::cout << (flag ? "YES\n" : "NO\n");
+  return 0;
 }
 ```
 

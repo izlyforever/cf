@@ -3,18 +3,18 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int n, m;
-	std::cin >> n >> m;
-	const int lcm = 720720;
-	for (int i = 0; i < n; ++i) {
-		for (int j = 0, x; j < m; ++j) {
-			std::cin >> x;
-			if ((i + j) & 1) {
-				std::cout << lcm + x * x * x * x << "\n";
-			} else std::cout << lcm << "\n";
-		}
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int n, m;
+  std::cin >> n >> m;
+  const int lcm = 720720;
+  for (int i = 0; i < n; ++i) {
+    for (int j = 0, x; j < m; ++j) {
+      std::cin >> x;
+      if ((i + j) & 1) {
+        std::cout << lcm + x * x * x * x << "\n";
+      } else std::cout << lcm << "\n";
+    }
+  }
+  return 0;
 }

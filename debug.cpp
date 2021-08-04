@@ -14,21 +14,21 @@ std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count(
 #include "cpplibforCP/cpplib/all.hpp"
 
 int main() {
-	//freopen("in", "r", stdin);
-	//freopen("out", "w", stdout);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	
-	// you will never TLE
-	// auto begin = std::chrono::steady_clock::now();
-	// while ((std::chrono::steady_clock::now() - begin).count() < 5e8) { 
-	// 	// do something
-	// }
-	
-	Timer A;
+  //freopen("in", "r", stdin);
+  //freopen("out", "w", stdout);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+
+  // you will never TLE
+  // auto begin = std::chrono::steady_clock::now();
+  // while ((std::chrono::steady_clock::now() - begin).count() < 5e8) {
+  //   // do something
+  // }
+
+  Timer A;
 
 
-	A.show();
-	return 0;
+  A.show();
+  return 0;
 }
 
 

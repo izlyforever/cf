@@ -17,29 +17,29 @@ using pii = std::pair<int, int>;
 using pll = std::pair<LL, LL>;
 
 int main() {
-	//freopen("in","r",stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int n, m;
-		std::cin >> n >> m;
-		n *= m;
-		std::vector<int> a, b;
-		int r = 0;
-		for (int i = 0, x; i < n; ++i) {
-			std::cin >> x;
-			r += abs(x);
-			if (x <= 0) a.emplace_back(-x);
-			else b.emplace_back(x);
-		}
-		if (a.size() & 1) {
-			r -= std::min(*std::min_element(a.begin(), a.end()), *std::min_element(b.begin(), b.end())) * 2;
-		}
-		std::cout << r << std::endl;
-	}
-	return 0;
+  //freopen("in","r",stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    int n, m;
+    std::cin >> n >> m;
+    n *= m;
+    std::vector<int> a, b;
+    int r = 0;
+    for (int i = 0, x; i < n; ++i) {
+      std::cin >> x;
+      r += abs(x);
+      if (x <= 0) a.emplace_back(-x);
+      else b.emplace_back(x);
+    }
+    if (a.size() & 1) {
+      r -= std::min(*std::min_element(a.begin(), a.end()), *std::min_element(b.begin(), b.end())) * 2;
+    }
+    std::cout << r << std::endl;
+  }
+  return 0;
 }
 ```
 

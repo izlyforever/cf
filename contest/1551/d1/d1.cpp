@@ -18,12 +18,12 @@ bool solve() {
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas; // 根据情况注释掉
-	while (cas--) {
-		std::cout << (solve() ? "YES" : "NO") << '\n';
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas; // 根据情况注释掉
+  while (cas--) {
+    std::cout << (solve() ? "YES" : "NO") << '\n';
+  }
+  return 0;
 }

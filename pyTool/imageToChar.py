@@ -7,27 +7,27 @@ from PIL import Image
 chars = ['y', 'l', 'z', '#', '?', '*', '+', ';', ':', ',', '.']
 
 def resize(image, newW):
-	(w, h) = image.size
-	# 0.58 大致是单个字符在DOS界面的宽高比
-	newDim = (newW, int(0.58*h*newW/w))
-	newImg = image.resize(newDim)
-	return newImg
+  (w, h) = image.size
+  # 0.58 大致是单个字符在DOS界面的宽高比
+  newDim = (newW, int(0.58*h*newW/w))
+  newImg = image.resize(newDim)
+  return newImg
 
 def garytochar(grayImg,newW):
-	newPix = [];step=256//len(chars) + 1
-	for i,data in enumerate(grayImg.getdata()):
-		if(i%newW == 0): newPix.append('\n')
-		newPix.append(chars[data//step])  #也可以用 data%len(chars)
-	return ''.join(newPix)
+  newPix = [];step=256//len(chars) + 1
+  for i,data in enumerate(grayImg.getdata()):
+    if(i%newW == 0): newPix.append('\n')
+    newPix.append(chars[data//step])  #也可以用 data%len(chars)
+  return ''.join(newPix)
 
 def imagetochar(imgPath, newW = 78):
-	img = Image.open(imgPath)
-	newImg = resize(img,newW)
-	grayImg = newImg.convert('L')
-	return garytochar(grayImg,newW)
+  img = Image.open(imgPath)
+  newImg = resize(img,newW)
+  grayImg = newImg.convert('L')
+  return garytochar(grayImg,newW)
 
 if __name__ == '__main__':
-	import sys
-	imgPath, newW, *tmp = sys.argv[1:3]+ [78]
-	charPix = imagetochar(imgPath,int(newW))
-	print(charPix)
+  import sys
+  imgPath, newW, *tmp = sys.argv[1:3]+ [78]
+  charPix = imagetochar(imgPath,int(newW))
+  print(charPix)

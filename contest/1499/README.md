@@ -11,29 +11,29 @@
 using LL = long long;
 
 bool solve() {
-	std::string s;
-	std::cin >> s;
-	int n = s.size(), i = 0;
-	while (n > 0 && s[n - 1] == '1') --n;
-	while (i < n && s[i] == '0') ++i;
-	if (i == n) return 1;
-	int cnt[2] {};
-	for (int j = i + 1; j < n; ++j) if (s[j] == s[j - 1]) {
-		++cnt[s[j] - '0'];
-	}
-	return cnt[0] == 0 || cnt[1] == 0;
+  std::string s;
+  std::cin >> s;
+  int n = s.size(), i = 0;
+  while (n > 0 && s[n - 1] == '1') --n;
+  while (i < n && s[i] == '0') ++i;
+  if (i == n) return 1;
+  int cnt[2] {};
+  for (int j = i + 1; j < n; ++j) if (s[j] == s[j - 1]) {
+    ++cnt[s[j] - '0'];
+  }
+  return cnt[0] == 0 || cnt[1] == 0;
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::ios::sync_with_stdio(false);
-	std::cin.tie(nullptr);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		std::cout << (solve() ? "YES\n" : "NO\n");
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::ios::sync_with_stdio(false);
+  std::cin.tie(nullptr);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    std::cout << (solve() ? "YES\n" : "NO\n");
+  }
+  return 0;
 }
 ```
 

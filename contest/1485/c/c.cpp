@@ -10,25 +10,25 @@ using LL = long long;
 
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		LL x, y;
-		std::cin >> x >> y;
-		LL r = 0, b = 3;
-		++y;
-		while (b <= y && b * (b - 2) <= x) {
-			r += b - 2;
-			++b;
-		}
-		y = std::min(x, y);
-		for (LL j; b <= y; b = j + 1) {
-			j = std::min(y, x / (x / b));
-			r += (x / b) * (j - b + 1);
-		}
-		std::cout << r << "\n";
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    LL x, y;
+    std::cin >> x >> y;
+    LL r = 0, b = 3;
+    ++y;
+    while (b <= y && b * (b - 2) <= x) {
+      r += b - 2;
+      ++b;
+    }
+    y = std::min(x, y);
+    for (LL j; b <= y; b = j + 1) {
+      j = std::min(y, x / (x / b));
+      r += (x / b) * (j - b + 1);
+    }
+    std::cout << r << "\n";
+  }
+  return 0;
 }

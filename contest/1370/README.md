@@ -10,34 +10,34 @@
 using namespace std;
 using LL = long long;
 int main(){
-	std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
-	int n,k;
-	cin>>n>>k;
-	int a[n],r=0,l=1e9+2;
-	for(int i=0;i<n;++i){
-		cin>>a[i];
-		r = max(r,a[i]);
-		l = min(l,a[i]);
-	}
-	auto f = [&](int m){
-		int now = -2,s=0;
-		for(int i=k%2;i<n;++i){
-			if(a[i]<=m){
-				if(i>now+1){
-					++s;
-					now = i;
-				}
-			}
-		}
-		return s>=k/2;
-	};
-	while(l<=r){
-		int m = (l+r)/2;
-		if(f(m)) r=m-1;
-		else l=m+1;
-	}
-	cout<<l<<endl;
-	return 0;
+  std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
+  int n,k;
+  cin>>n>>k;
+  int a[n],r=0,l=1e9+2;
+  for(int i=0;i<n;++i){
+    cin>>a[i];
+    r = max(r,a[i]);
+    l = min(l,a[i]);
+  }
+  auto f = [&](int m){
+    int now = -2,s=0;
+    for(int i=k%2;i<n;++i){
+      if(a[i]<=m){
+        if(i>now+1){
+          ++s;
+          now = i;
+        }
+      }
+    }
+    return s>=k/2;
+  };
+  while(l<=r){
+    int m = (l+r)/2;
+    if(f(m)) r=m-1;
+    else l=m+1;
+  }
+  cout<<l<<endl;
+  return 0;
 }
 ```
 
@@ -52,29 +52,29 @@ int main(){
 using namespace std;
 using LL = long long;
 int main(){
-	std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
-	int n;
-	string a,b;
-	cin>>n>>a>>b;
-	int ab=0;
-	for(auto &x:a) if(x=='1') ++ab;
-	for(auto &x:b) if(x=='1') --ab;
-	if(ab){
-		cout<<-1<<endl;return 0;
-	}
-	string s;
-	for(int i=0;i<n;++i){
-		if(a[i]!=b[i]) s.push_back(a[i]);
-	}
-	s+=s;
-	//cout<<s<<endl;
-	int ans = 0;
-	for(int i=0,t;i<s.size();++i){
-		if((i == 0)||(s[i]!=s[i-1])) t=0;
-		ans = max(ans,++t);
-	}
-	cout<<ans<<endl;
-	return 0;
+  std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
+  int n;
+  string a,b;
+  cin>>n>>a>>b;
+  int ab=0;
+  for(auto &x:a) if(x=='1') ++ab;
+  for(auto &x:b) if(x=='1') --ab;
+  if(ab){
+    cout<<-1<<endl;return 0;
+  }
+  string s;
+  for(int i=0;i<n;++i){
+    if(a[i]!=b[i]) s.push_back(a[i]);
+  }
+  s+=s;
+  //cout<<s<<endl;
+  int ans = 0;
+  for(int i=0,t;i<s.size();++i){
+    if((i == 0)||(s[i]!=s[i-1])) t=0;
+    ans = max(ans,++t);
+  }
+  cout<<ans<<endl;
+  return 0;
 }
 ```
 
