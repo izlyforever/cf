@@ -15,7 +15,7 @@ void solve() {
     std::cin >> x >> p;
     ans += mp[x] * p;
   }
-  std::cout << std::fixed << ans * std::min(k, n) - 23 * k << '\n';
+  std::cout << std::fixed << (ans - 23) * k << '\n';
 }
 
 int main() {
