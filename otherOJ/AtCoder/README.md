@@ -1,3 +1,19 @@
+## [AtCoder Beginner Contest 214](https://atcoder.jp/contests/abc214)
+
+### D
+
+> 经典树上任意两点路径最大值
+
+将边从小到大排序，那么贡献就是 $u, v$ 所在联通块的乘积乘以边权
+
+### E
+
+我们贪心来做。首先按照 pair 排序，当前可取为最小值，用一个 multiset 记录若 $[x, y]$ 中 $x \leq now$ 则将 $y$ 丢进 multiset 中，否则 $x > now$(后面的也必然这样) 我们可以泄洪了。
+
+> 这样必然是不亏的。充分利用了左边的资源，multiset 中元素只关心 $y$ 这是因为他们的横坐标小于 now 因此是对等的。
+
+一开始没想清楚就写，想清楚了之后，以前的小于写成大于号一直没发现，气完了
+
 ## [AtCoder Beginner Contest 212](https://atcoder.jp/contests/abc212)：经典
 
 ### A：签到
@@ -49,7 +65,7 @@ FWT 变换 + Nim
 
 ### B：用 map 做背包
 
-统计和为 s 且个数为 i 的数列有多少个。然后答案就是 
+统计和为 s 且个数为 i 的数列有多少个。然后答案就是
 
 $$
 \sum_{s = \frac{\sum a_i}{2}} fac[i] fac[n - i] mp[\{s, i\}]
@@ -151,7 +167,7 @@ $$
 
 ### E：最短路 Dijkstra
 
-注意到，无论如何我们能走多快走多快，然后大不了取某个节点等待。注意到最小值，只需考虑不取整的情况，即考虑 $c + t + \frac{d}{t + 1}$ 的最小值，求导可知 $t = \sqrt{d} - 1$ 时，取得最小值 $x$，然后注意要取整，然后要看这个能否取到	
+注意到，无论如何我们能走多快走多快，然后大不了取某个节点等待。注意到最小值，只需考虑不取整的情况，即考虑 $c + t + \frac{d}{t + 1}$ 的最小值，求导可知 $t = \sqrt{d} - 1$ 时，取得最小值 $x$，然后注意要取整，然后要看这个能否取到
 
 经过严格论证之后发现 $f(t) = t + \lfloor \frac{a}{t} \rfloor, t > 0$ 的最小值 $\min f = f(\lfloor \sqrt{a} \rfloor + 1) = f(\lceil \sqrt{a} \rceil)$
 
@@ -249,7 +265,7 @@ $$
 数字为节点，盒子中的两个数连边（注意可能有重边），那个连通分支是树，那么答案就是连通分支节点数减 1，否则就是连通分支节点数。（树的情况容易证明，非树的情况总可以删边，删成只有树再多一条边的情况，然后也容易证明）
 
 
-## [AtCoder arc111E](https://atcoder.jp/contests/arc111/tasks/arc111_e) 
+## [AtCoder arc111E](https://atcoder.jp/contests/arc111/tasks/arc111_e)
 
 [教程](https://atcoder.jp/contests/arc111/editorial/546)
 
@@ -300,10 +316,10 @@ $$
 
 对任意 $1 \leq x \leq K$ 求 $\sum_{1 \leq i < j \leq n} (a_i + a_j)^x$
 
-注意到 
+注意到
 $$
 2 \sum_{1 \leq i < j \leq n} (a_i + a_j)^x = \sum_{i = 1}^n \sum_{j = 1}^n (a_i + a_j)^x - \sum_{i = 1}^n (2a_i)^x
-$$ 
+$$
 然后二项式展开即可。
 > 若此题 $n$ 比较小，$k$ 比较大（$n$ 特别小时直接 $n^2 \log k$ 就没啥意思了），注意到二项式展开之后是个卷积形式，所以用 NTT 有 $O(nk + k \log k)$ 的做法。例如 $n < 3 \cdot 10^4, k < 10^5$ （时限 5s)
 
@@ -314,8 +330,8 @@ $$
 问题描述：对每一个 $m \in [1, n]$ 求满足 $\sum_{x \in S} (x - m) = 0$ 的集合 $S$ 的个数，其中 "集合" $S$ 是由 `1~n` 中元素构成，元素可重，重数不超过 k。这等价于说 $\sum_{x \in S} x = \sum_{x \in T} x$ 的个数乘以 $k + 1$，其中 $S$ 是由 `1 ~ m - 1` 构成，$T$ 由 `1 ~ n - m` 构成。
 
 做法：我们设 `dp[i][j] 表示仅用 1 ~ i 中的数构成和为 j 的个数`，那么显然
-$$ 
-dp[i][j] = \sum_{t = 0}^k dp[i - 1][j - t * i] 
+$$
+dp[i][j] = \sum_{t = 0}^k dp[i - 1][j - t * i]
 $$
 于是我们保存一下前缀和，那么就可以优化计算了。
 
