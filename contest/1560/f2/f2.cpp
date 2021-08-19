@@ -12,7 +12,7 @@ std::string dfs(const std::string &s, int k) {
       if (S.size() == k) {
         auto it = S.lower_bound(s[i]);
         if (it == S.end()) {
-          std::string cur = s.substr(0, i - 1) + char(s[i - 1] + 1) + std::string(n - i, *S.begin());
+          std::string cur = s.substr(0, i - 1) + char(s[i - 1] + 1) + std::string(n - i, '0');
           return dfs(cur, k);
         } else {
           return s.substr(0, i) + (*it) + std::string(n - i - 1, *S.begin());
