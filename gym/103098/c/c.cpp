@@ -7,7 +7,7 @@ using LL = long long;
 class DSU {
   int sz;
   std::vector<int> p;
-   public:
+ public:
   DSU(int n) : sz(n), p(n) { iota(p.begin(), p.end(), 0); }
   int find(int x) {
     return x == p[x] ? x : p[x] = find(p[x]);
