@@ -46,7 +46,7 @@ class Dinic {
     }
     return f - r;
   }
-public:
+ public:
   Dinic(int _n) : n(_n), g(_n) {}
   void addEdge(int u, int v, int c) {
     g[u].emplace_back(e.size());

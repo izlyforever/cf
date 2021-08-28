@@ -3,7 +3,7 @@
 #define print(x) std::cout << (x) << std::endl
 using LL = long long;
 class LinkStar {
-public:
+ public:
   std::vector<int> head, nxt, to;
   LinkStar(int n) {
     nxt.clear();

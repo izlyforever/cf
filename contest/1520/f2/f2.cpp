@@ -12,7 +12,7 @@ void out(int x) {
   std::cout << "! " << x << std::endl;
 }
 class SegTree {
-public:
+ public:
   int n;
   std::vector<int> cnt;
   SegTree(int _n) : n(_n), cnt(4 * n, -1) {}

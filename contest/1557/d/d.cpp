@@ -56,7 +56,7 @@ class SegTree {
     if (R > m) ans = std::max(ans, query(L, R, m, r, p << 1 | 1));
     return ans;
   }
-public:
+ public:
   static inline const Node pt{0, -1};
   SegTree(int _n) : n(_n), mx(4 * _n, pt), tag(4 * _n, pt) {}
   Node query(int L, int R) {

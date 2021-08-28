@@ -13,7 +13,7 @@ LL cmpVal(const pii &A) {
   return val(A.first, A.second) - val(A.first, A.second + 1);
 }
 class cmp {
-public:
+ public:
   bool operator() (const pii &lhs, const pii &rhs) const {
     return cmpVal(lhs) < cmpVal(rhs);
   }

@@ -11,7 +11,7 @@ class MInt {
     // assert(std::gcd(x, M) == 1);
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
   }
-public:
+ public:
   static void setMod(int m) {
     M = m;
   }

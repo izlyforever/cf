@@ -13,7 +13,7 @@ class BlockAbs {
   void merge(int x, int y) { // merge x to y
     fa[find(x)] = find(y);
   }
-public:
+ public:
   BlockAbs(int mx) : l(0), r(mx), f(1), d(0), fa(mx + 1) {
     std::iota(fa.begin(), fa.end(), 0);
   }

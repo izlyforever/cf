@@ -6,7 +6,7 @@ class MEX {
   inline static const int B = 20;
   std::array<std::map<int, int>, B> mp;
   std::set<int> S;
-public:
+ public:
   void insert(int x) {
     if (S.count(x)) return;
     S.insert(x);

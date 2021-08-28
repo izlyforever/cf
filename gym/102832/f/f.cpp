@@ -3,7 +3,7 @@
 using LL = long long;
 
 class Node {
-public:
+ public:
   inline static const int N = 18;
   int a[N]{};
   Node() {}

@@ -67,7 +67,7 @@ class Poly {
   void standard() {
     while (!a.empty() && !a.back()) a.pop_back();
   }
-public:
+ public:
   inline const static LL M = NTT::M, inv2 = (M + 1) / 2;
   std::vector<LL> a;
   Poly() {}

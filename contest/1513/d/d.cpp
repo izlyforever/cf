@@ -25,7 +25,7 @@ class SegmentTree {
     if (lmn <= rmn) return queryIndex(L, R, l, m, p << 1);
     return queryIndex(L, R, m, r, p << 1 | 1);
   }
-public:
+ public:
   SegmentTree(const std::vector<int> &a) : n(a.size()), mn(4 * n) {
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {

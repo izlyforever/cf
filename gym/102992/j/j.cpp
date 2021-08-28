@@ -53,7 +53,7 @@ class SegmentTree {
       tag[p] = 0;
     }
   }
-public:
+ public:
   SegmentTree(int _n) : n(_n) {
     resize();
   }

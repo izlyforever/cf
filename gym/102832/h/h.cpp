@@ -45,7 +45,7 @@ class Dinic {
     }
     return f - r;
   }
-public:
+ public:
   Dinic(int _n) : n(_n), g(n) {}
   void addEdge(int u, int v, int c) {
     if (u == v) return;

@@ -37,7 +37,7 @@ class SegTree {
     if (R > m) ans = std::max(ans, query(L, R, m, r, p << 1 | 1));
     return ans;
   }
-public:
+ public:
   SegTree(std::vector<int> a) : n(a.size()), mx(4 * n), And(4 * n) {
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {

@@ -19,7 +19,7 @@ class Poly {
     std::reverse(a.begin(), a.end());
     standard();
   }
-public:
+ public:
   std::vector<LL> a;
   Poly() {}
   Poly(LL x) { if (x) a = {x};}

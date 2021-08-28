@@ -61,7 +61,7 @@ class ECC {
     } while (next(f, bd.size()));
     return false;
   }
-public:
+ public:
   std::vector<int> r; // m 维向量，表示当前答案
   ECC(std::vector<std::vector<int>> _a) : a(_a), r(a[0]) {
     n = a.size(); m = r.size();

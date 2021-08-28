@@ -33,7 +33,7 @@ class BitreePlus {
     C.add(id, p);
     B.add(id, (id - 1) * p);
   }
-public:
+ public:
   BitreePlus() {}
   BitreePlus(int _n) : n(_n), B(n), C(n) {}
   void add(int l, int r, int p) {

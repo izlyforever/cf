@@ -36,7 +36,7 @@ class PstSegTree {
     if (m > k + 1 && tree[p].l != 0) ans += query(k, l, m, tree[p].l);
     return ans;
   }
-public:
+ public:
   PstSegTree() {
     newNode();
   }

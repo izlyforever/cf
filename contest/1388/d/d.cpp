@@ -3,7 +3,7 @@
 using LL = long long;
 
 class Diagram {
-public:
+ public:
   std::vector<int> head, nxt, to;
   Diagram(int n) {
     nxt.clear();

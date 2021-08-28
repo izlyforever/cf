@@ -5,7 +5,7 @@ using LL = long long;
 const LL M = 1e9 + 7;
 
 class LinkStar {
-public:
+ public:
   std::vector<int> head, nxt, to;
   LinkStar(int n) {
     nxt.clear();

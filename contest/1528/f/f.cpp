@@ -11,7 +11,7 @@ class MInt {
     // assert(std::gcd(x, M) == 1);
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
   }
-public:
+ public:
   static void setMod(int m) {
     M = m;
   }
@@ -122,7 +122,7 @@ class ModInt {
     // assert(std::gcd(x, M) == 1);
     return x == 1 ? x : 1LL * (M - M / x) * inv(M % x) % M;
   }
-public:
+ public:
   static void setMod(int m) {
     M = m;
   }
@@ -234,7 +234,7 @@ class ModLL {
     // assert(std::gcd(x, M) == 1);
     return x == 1 ? x : __int128(M - M / x) * inv(M % x) % M;
   }
-public:
+ public:
   static void setMod(LL m) {
     M = m;
   }
@@ -344,7 +344,7 @@ template<int M>
 class NTT { // 请自行保证输入的 N 为 原根 3 的 NTT-friendly 素数
   std::vector<int> rev;
   std::vector<MInt<M>> roots{0, 1};
-public:
+ public:
   static inline const MInt<M> g = 3;
   void dft(std::vector<MInt<M>> &a) {
     int n = a.size();
@@ -392,7 +392,7 @@ public:
 // 多项式底层基类（不能放带 PolyBase 返回值的，不然很麻烦）
 template<typename T>
 class PolyBase {
-protected:
+ protected:
   void standard() {
     while (!a.empty() && a.back() == 0) a.pop_back();
   }
@@ -400,7 +400,7 @@ protected:
     std::reverse(a.begin(), a.end());
     standard();
   }
-public:
+ public:
   std::vector<T> a;
   PolyBase() {}
   PolyBase(T x) { if (x != 0) a = {x};}
@@ -415,10 +415,10 @@ public:
 
 template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {
-public:
+ public:
   using PolyBase<T>::PolyBase;
   PolyBaseOrigin (const PolyBase<T> &x) : PolyBase<T>(x) {}
-protected:
+ protected:
   PolyBaseOrigin mul(const PolyBaseOrigin &rhs) const {
     std::vector<T> ans(this->size() + rhs.size() - 1);
     for (int i = 0, sn = this->size(); i < sn; ++i) {
@@ -432,7 +432,7 @@ protected:
 
 template<int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
-protected:
+ protected:
   PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
     int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
@@ -444,7 +444,7 @@ protected:
     A.resize(n + m - 1);
     return PolyBaseNTT(A);
   }
-public:
+ public:
   static inline const int M = N;
   static inline NTT<N> ntt;
   using PolyBase<MInt<N>>::PolyBase;
@@ -453,7 +453,7 @@ public:
 
 template<typename T>
 class PolyBaseMFT3 : public PolyBase<T> {
-public:
+ public:
   static inline constexpr int M0 = 469762049, M1 = 998244353, M2 = 1004535809;
   static inline constexpr LL M01 = 1LL * M0 * M1;
   static inline constexpr int t0 = 554580198, t1 = 395249030;
@@ -462,7 +462,7 @@ public:
   static inline NTT<M2> ntt2;
   using PolyBase<T>::PolyBase;
   PolyBaseMFT3 (const PolyBase<T> &x) : PolyBase<T>(x) {}
-protected:
+ protected:
   static T crt(int a0, int a1, int a2) {
     static const T m01(M01);
     LL x = (a0 + 1LL * (a1 - a0) * t0 % M1 * M0) % M01;
@@ -502,7 +502,7 @@ protected:
 
 // 为什么用 4 模数 NTT 而不是两个 LL（int128 太耗时）
 class PolyBaseMFT4 : public PolyBase<ModLL> {
-public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限 4e6！
+ public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限 4e6！
   static inline constexpr int M0 = 595591169, M1 = 645922817, M2 = 897581057, M3 = 998244353;
   static inline constexpr LL M01 = 1LL * M0 * M1, M23 = 1LL * M2 * M3;
   static inline constexpr __int128 M0123 = __int128(M01) * M23;
@@ -514,7 +514,7 @@ public: // 都 4 模数了肯定是用 ModLL 啦，ctz(Mi) = 23, 所以 N 上限
   static inline NTT<M3> ntt3;
   using PolyBase<ModLL>::PolyBase;
   PolyBaseMFT4 (const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
-protected:
+ protected:
   static ModLL crt(int a0, int a1, int a2, int a3) {
     LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
     LL ans2 = a2 + LL(a3 - a2) * t23 % M3 * M2;
@@ -602,7 +602,7 @@ void idft(std::vector<C> &a) {
 // 当 N 特别大，或者数据处于 LL 就要慎重使用了
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
-protected:
+ protected:
   PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
     int tot = std::max(1, this->size() + rhs.size() - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
@@ -639,7 +639,7 @@ protected:
     for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
     return PolyBaseFFT(ans);
   }
-public:
+ public:
   using PolyBase<T>::PolyBase;
   PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
 };
@@ -647,7 +647,7 @@ public:
 // using valT = decltype(T::a)::value_type;
 template<typename T, typename valT>
 class Poly : public T {
-public:
+ public:
   using T::T;
   Poly (const T &x) : T(x) {}
   Poly mulXn(int n) const {
