@@ -122,18 +122,14 @@ void solve() {
       ht[rk[i]] = k;
     }
   }
-  std::vector<std::vector<int>> lcp(n, std::vector<int>(n, INT_MAX));
-  for (int i = 0; i < n; ++i) {
-    for (int j = i + 1; j < n; ++j) {
-      lcp[i][j] = std::min(lcp[i][j - 1], ht[j]);
-    }
-  }
   std::vector<int> dp(n);
-  dp[0] = n;
+  dp[0] = n - sa[0];
   for (int i = 1; i < n; ++i) {
-    dp[i] = n - i;
-    for (int j = 0; j < i; ++j) if (rk[j] < rk[i]) {
-      dp[i] = std::max(dp[i], dp[j] + n - i - lcp[rk[j]][rk[i]]);
+    int len = n, mx = n - sa[i];
+    dp[i] = mx;
+    for (int j = i - 1; j >= 0; --j) {
+      len = std::min(len, ht[j + 1]);
+      if (sa[j] < sa[i]) dp[i] = std::max(dp[i], dp[j] + mx - len);
     }
   }
   std::cout << *std::max_element(dp.begin(), dp.end()) << '\n';
