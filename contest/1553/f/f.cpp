@@ -5,25 +5,25 @@ using LL = long long;
 
 template<typename T>
 struct Bitree {
-	std::vector<T> s;
-	Bitree() {}
-	Bitree(int n) : s(n + 1) {}
-	int lowbit(int n) { return n & (-n); }
-	void add(int id, T p) {
-		int ns = s.size();
-		while (id < ns) {
-			s[id] += p;
-			id += lowbit(id);
-		}
-	}
-	T sum(int id) {
-		T r = 0;
-		while (id) {
-			r += s[id];
-			id -= lowbit(id);
-		}
-		return r;
-	}
+  std::vector<T> s;
+  Bitree() {}
+  Bitree(int n) : s(n + 1) {}
+  int lowbit(int n) { return n & (-n); }
+  void add(int id, T p) {
+    int ns = s.size();
+    while (id < ns) {
+      s[id] += p;
+      id += lowbit(id);
+    }
+  }
+  T sum(int id) {
+    T r = 0;
+    while (id) {
+      r += s[id];
+      id -= lowbit(id);
+    }
+    return r;
+  }
 };
 const int N = 3e5 + 2;
 // 根据情况换成 bool
@@ -51,12 +51,12 @@ void solve() {
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	// std::cin >> cas; // 根据情况注释掉
-	while (cas--) {
-		solve();
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  // std::cin >> cas; // 根据情况注释掉
+  while (cas--) {
+    solve();
+  }
+  return 0;
 }

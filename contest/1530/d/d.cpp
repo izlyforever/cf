@@ -17,7 +17,7 @@ void solve() {
     int x = i, y = a[i];
     while (y != 0) {
       b[x] = y;
-      for (auto t : s[y]) a[t] = 0; 
+      for (auto t : s[y]) a[t] = 0;
       x = y;
       y = a[y];
     }
@@ -42,14 +42,14 @@ void solve() {
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas; // 根据情况注释掉
-	while (cas--) {
-		solve();
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas; // 根据情况注释掉
+  while (cas--) {
+    solve();
+  }
+  return 0;
 }
 
 // #include <bits/stdc++.h>
@@ -71,7 +71,7 @@ int main() {
 //     int x = i, y = a[i];
 //     while (y != 0) {
 //       b[x] = y;
-//       for (auto t : s[y]) a[t] = 0; 
+//       for (auto t : s[y]) a[t] = 0;
 //       x = y;
 //       y = a[y];
 //     }
@@ -100,14 +100,14 @@ int main() {
 // }
 
 // int main() {
-// 	//freopen("in", "r", stdin);
-// 	std::cin.tie(nullptr)->sync_with_stdio(false);
-// 	int cas = 1;
-// 	std::cin >> cas; // 根据情况注释掉
-// 	while (cas--) {
-// 		solve();
-// 	}
-// 	return 0;
+//   //freopen("in", "r", stdin);
+//   std::cin.tie(nullptr)->sync_with_stdio(false);
+//   int cas = 1;
+//   std::cin >> cas; // 根据情况注释掉
+//   while (cas--) {
+//     solve();
+//   }
+//   return 0;
 // }
 // // 6
 // // 3 3 4 3 6 5

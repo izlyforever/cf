@@ -3,16 +3,16 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int n, k;
-		std::cin >> n >> k;
-		std::string s;
-		for (int i = 0; i < n; ++i) s += 'a' + (i % 3);
-		std::cout << s << std::endl;
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    int n, k;
+    std::cin >> n >> k;
+    std::string s;
+    for (int i = 0; i < n; ++i) s += 'a' + (i % 3);
+    std::cout << s << std::endl;
+  }
+  return 0;
 }

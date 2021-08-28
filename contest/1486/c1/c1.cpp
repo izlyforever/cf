@@ -26,21 +26,21 @@ int main() {
       int qq = query(m, r);
       if (qq == q) {
         l = m;
-  			mp[{l, r}] = q;
-			} else {
-				r = m - 1;
-			}
-		} else {
-			int qq = query(l, m);
-			if (qq == q) {
-				r = m;
-				mp[{l, r}] = q;
-			} else {
-				l = m + 1;
-			}
-		}
-	}
-	if (r - l == 1) r = l + r - query(l, r);
-	std::cout << "! " << r << std::endl;
-	return 0;
+        mp[{l, r}] = q;
+      } else {
+        r = m - 1;
+      }
+    } else {
+      int qq = query(l, m);
+      if (qq == q) {
+        r = m;
+        mp[{l, r}] = q;
+      } else {
+        l = m + 1;
+      }
+    }
+  }
+  if (r - l == 1) r = l + r - query(l, r);
+  std::cout << "! " << r << std::endl;
+  return 0;
 }

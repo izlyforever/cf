@@ -3,8 +3,8 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	// std::cin.tie(nullptr)->sync_with_stdio(false);
+  //freopen("in", "r", stdin);
+  // std::cin.tie(nullptr)->sync_with_stdio(false);
     int n = 1e8 + 2;
     // std::vector<int> a(n);
     std::vector<int> a;
@@ -13,5 +13,5 @@ int main() {
     int x;
     std::cin >> x;
     std::cout << a[x] << '\n';
-	return 0;
+  return 0;
 }

@@ -9,6 +9,6 @@
 $$
 dp[mask] = \min_{j \in mask} dp[mask\wedge2^{j}] + \sum_{k \in mask\wedge2^{j}} cnt(j,k)
 $$
-其中 `cnt(j,k)` 表示把	所有的 `j` 移动到 `k` 前面需要的次数。
+其中 `cnt(j,k)` 表示把  所有的 `j` 移动到 `k` 前面需要的次数。
 
 > 代码基本 copy [WZYYN](https://codeforces.com/profile/WZYYN) 的[代码](https://codeforces.com/contest/1215/submission/60614830)

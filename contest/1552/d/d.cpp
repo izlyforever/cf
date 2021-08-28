@@ -39,7 +39,7 @@ bool solve2() {
   std::vector<int> a(n);
   for (auto &x : a) std::cin >> x;
   if (std::count(a.begin(), a.end(), 0)) return true;
-  
+
   std::map<int, int> mp1{{0, 0}};
   int n2 = n / 2;
   for (int i = 0; i < n2; ++i) {
@@ -63,12 +63,12 @@ bool solve2() {
 }
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas; // 根据情况注释掉
-	while (cas--) {
-		std::cout << (solve2() ? "YES" : "NO") << '\n';
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas; // 根据情况注释掉
+  while (cas--) {
+    std::cout << (solve2() ? "YES" : "NO") << '\n';
+  }
+  return 0;
 }

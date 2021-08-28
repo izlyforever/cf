@@ -35,18 +35,18 @@
 
 ``` C++
 bool solve() {
-	int n;
-	std::cin >> n;
-	std::vector<int> b(n);
-	for (auto &x : b) std::cin >> x;
-	std::set<int> S{b[0]};
-	for (int i = 1; i < n; ++i) {
-		auto [x, y] = std::minmax(b[i - 1], b[i]);
-		auto it = S.upper_bound(x);
-		if (it != S.end() && *it < y) return false;
-		S.insert(b[i]);
-	}
-	return true;
+  int n;
+  std::cin >> n;
+  std::vector<int> b(n);
+  for (auto &x : b) std::cin >> x;
+  std::set<int> S{b[0]};
+  for (int i = 1; i < n; ++i) {
+    auto [x, y] = std::minmax(b[i - 1], b[i]);
+    auto it = S.upper_bound(x);
+    if (it != S.end() && *it < y) return false;
+    S.insert(b[i]);
+  }
+  return true;
 }
 ```
 
@@ -54,23 +54,23 @@ bool solve() {
 
 ```
 bool solve() {
-	int n;
-	std::cin >> n;
-	std::vector<int> b(n);
-	for (auto &x : b) std::cin >> x;
-	std::stack<int> l, r;
-	for (int i = 1; i < n; ++i) if (b[i] != b[i - 1]) {
-		if (b[i] > b[i - 1]) {
-			if (!r.empty() && b[i] > r.top()) return false;
-			if (!r.empty() && b[i] == r.top()) r.pop();
-			if (l.empty() || l.top() != b[i - 1]) l.push(b[i - 1]);
-		} else {
-			if (!l.empty() && b[i] < l.top()) return false;
-			if (!l.empty() && b[i] == l.top()) l.pop();
-			if (r.empty() || r.top() != b[i - 1]) r.push(b[i - 1]);
-		}
-	}
-	return true;
+  int n;
+  std::cin >> n;
+  std::vector<int> b(n);
+  for (auto &x : b) std::cin >> x;
+  std::stack<int> l, r;
+  for (int i = 1; i < n; ++i) if (b[i] != b[i - 1]) {
+    if (b[i] > b[i - 1]) {
+      if (!r.empty() && b[i] > r.top()) return false;
+      if (!r.empty() && b[i] == r.top()) r.pop();
+      if (l.empty() || l.top() != b[i - 1]) l.push(b[i - 1]);
+    } else {
+      if (!l.empty() && b[i] < l.top()) return false;
+      if (!l.empty() && b[i] == l.top()) l.pop();
+      if (r.empty() || r.top() != b[i - 1]) r.push(b[i - 1]);
+    }
+  }
+  return true;
 }
 ```
 
@@ -79,40 +79,40 @@ bool solve() {
 ``` C++
 
 bool solve() {
-	int n;
-	std::cin >> n;
-	std::vector<int> b(n), a(2 * n - 1);
-	for (auto &x : b) std::cin >> x;
-	a[0] = b[0];
-	std::stack<int> l, r;
-	for (int i = 1; i < n; ++i) {
-		if (b[i] == b[i - 1]) {
-			a[i * 2 - 1] = INT_MIN;
-			a[i * 2] = INT_MAX;
-		} else if (b[i] > b[i - 1]) {
-			if (!r.empty() && b[i] > r.top()) return false;
-			a[i * 2 - 1] = INT_MAX;
-			if (!r.empty() && b[i] == r.top()) {
-				r.pop();
-				a[i * 2] = INT_MAX;
-			} else {
-				a[i * 2] = b[i];
-			}
-			if (l.empty() || l.top() != b[i - 1]) l.push(b[i - 1]);
-		} else {
-			if (!l.empty() && b[i] < l.top()) return false;
-			a[i * 2 - 1] = INT_MIN;
-			if (!l.empty() && b[i] == l.top()) {
-				l.pop();
-				a[i * 2] = INT_MIN;
-			} else {
-				a[i * 2] = b[i];
-			}
-			if (r.empty() || r.top() != b[i - 1]) r.push(b[i - 1]);
-		}
-	}
-	for (auto x : a) std::clog << x << ' ';
-	std::clog << '\n';
-	return true;
+  int n;
+  std::cin >> n;
+  std::vector<int> b(n), a(2 * n - 1);
+  for (auto &x : b) std::cin >> x;
+  a[0] = b[0];
+  std::stack<int> l, r;
+  for (int i = 1; i < n; ++i) {
+    if (b[i] == b[i - 1]) {
+      a[i * 2 - 1] = INT_MIN;
+      a[i * 2] = INT_MAX;
+    } else if (b[i] > b[i - 1]) {
+      if (!r.empty() && b[i] > r.top()) return false;
+      a[i * 2 - 1] = INT_MAX;
+      if (!r.empty() && b[i] == r.top()) {
+        r.pop();
+        a[i * 2] = INT_MAX;
+      } else {
+        a[i * 2] = b[i];
+      }
+      if (l.empty() || l.top() != b[i - 1]) l.push(b[i - 1]);
+    } else {
+      if (!l.empty() && b[i] < l.top()) return false;
+      a[i * 2 - 1] = INT_MIN;
+      if (!l.empty() && b[i] == l.top()) {
+        l.pop();
+        a[i * 2] = INT_MIN;
+      } else {
+        a[i * 2] = b[i];
+      }
+      if (r.empty() || r.top() != b[i - 1]) r.push(b[i - 1]);
+    }
+  }
+  for (auto x : a) std::clog << x << ' ';
+  std::clog << '\n';
+  return true;
 }
 ```

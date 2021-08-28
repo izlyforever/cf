@@ -3,14 +3,14 @@
 using LL = long long;
 
 int main() {
-	//freopen("in", "r", stdin);
-	std::cin.tie(nullptr)->sync_with_stdio(false);
-	int cas = 1;
-	std::cin >> cas;
-	while (cas--) {
-		int k;
-		std::cin >> k;
-		std::cout << 100 / std::gcd(k, 100 - k) << '\n';
-	}
-	return 0;
+  //freopen("in", "r", stdin);
+  std::cin.tie(nullptr)->sync_with_stdio(false);
+  int cas = 1;
+  std::cin >> cas;
+  while (cas--) {
+    int k;
+    std::cin >> k;
+    std::cout << 100 / std::gcd(k, 100 - k) << '\n';
+  }
+  return 0;
 }
