@@ -1,3 +1,41 @@
+# Atcoder 做题记录
+
+## [AtCoder Beginner Contest 216](https://atcoder.jp/contests/abc216)
+
+### D
+
+我们可以把当前已经在考虑的东西用 map mp 记录，$mp[x] = i$ 表示当前第 $i$ 行的末尾位 $x$。然后还没加入的行号放在 set $S$ 中。
+
+初始时 $mp$ 为空的，$S$ 包含所有的行，然后每次把 $S$ 的某行信息放入 $mp$ 中，然后 $S$ 中删掉它，并且该行末尾被弹出。如果加入的时候 $mp$ 中有这个数，那么我们把两个都删了。
+
+> vector 反向，然后从后往前删除（一开始以为本来就是从后删的，就没反向）
+
+### E
+
+直接排序之后二分即可。一开始理解错了题意。以为两次选择不能是同一个，哎，导致算法复杂了，而且更难了，不过[我的做法](https://atcoder.jp/contests/abc216/submissions/25449399) 应该没问题
+
+二分的值为：大于 $x$ 的总和不小于 $k$ 的最小的 $x$ 值，后面就简单了
+
+### F
+
+注意到我们可以先排序。假设当前选择最大的数 $a[i]$，那么 $i$ 之前的数任意，然后只用管 $b$ 的和小于等于 $a[i] - b[i]$ 的总数即可
+
+### G
+
+贪心，按照右端点贪心
+
+### H
+
+直搞一次：
+
+注意到：如果 $x_i + 1 < x_{i + 1}$，那么 $x_i$ 就不会影响到 $x_{i + 1}$
+
+假设有连续 $n$ 个位置，那么不发生碰撞的概率为 $\frac{n + 1}{2^n}$
+
+原问题：
+
+注意到 $k \leq 10$，所以每次最多也就 1024 种选择嘛，但是状态越来越多，不知道怎么搞了
+
 ## [AtCoder Beginner Contest 215](https://atcoder.jp/contests/abc215)
 
 ### D
@@ -11,7 +49,6 @@
 ### F
 
 我们可以先排序，然后一个单调递减 dn，一个单调递增 up。每次新来一个，那么必然是可以二分搞定的。具体说就是如果当前点为 (x, y)，那么我们可以看 y 的值来判断是否加入其中一个，并且计算当前值的时候，可以二分找到纵坐标大于或者小于它的位置，然后再二分找到横坐标占优和纵坐标占优的位置即可
-
 
 ## [AtCoder Beginner Contest 214](https://atcoder.jp/contests/abc214)
 
@@ -71,7 +108,6 @@ $$
 
 FWT 变换 + Nim
 
-
 ## [AtCoder Grand Contest 054](https://atcoder.jp/contests/agc054)
 
 ### A：答案只有三种
@@ -85,7 +121,6 @@ FWT 变换 + Nim
 $$
 \sum_{s = \frac{\sum a_i}{2}} fac[i] fac[n - i] mp[\{s, i\}]
 $$
-
 
 ## [AtCoder Beginner Contest 207](https://atcoder.jp/contests/abc207)
 
@@ -101,7 +136,6 @@ $$
 
 > 实际应该考虑重心和任意一个不在重心上的点，然后确定变换
 
-
 ### E：DP 优化
 
 首先设 `dp[i][j]` 为 将 $A_1, \cdots, A_i$ 分成 $j$ 段的答案数，则显然
@@ -113,7 +147,6 @@ $$
 其中 $s[i] = \sum_{j = 1}^i A_i$
 
 设 $b[i][j] = \sum_{k < i, s[k] \equiv i \mod j} dp[k][j - 1]$，则 $dp[i][j] = b[s[k] \mod j][j - 1]$
-
 
 ## [AtCoder Beginner Contest 205](https://atcoder.jp/contests/abc205)
 
@@ -135,7 +168,6 @@ $$
 
 建立源点 $0$ 和 汇点 $sz = 1 + h + w + 2 \cdot n$。然后 $h$ 行用节点 $1, \cdot, h$ 标记，$w$ 列分别用 $h + 1, \cdots, h + w$ 表示，然后每一个框框用两个节点  $h + w + 2i - 1, h + w + 2i$ 表示。源点向行建立流量为 1 的边，列向汇点建立流量为 1 的边，根据框框容量建立，行向  $h + w + 2i - 1$ 连边， $h + w + 2i - 1$ 和 $h + w + 2i$ 连边， $h + w + 2i$ 和列连边即可。最后跑一下 Dinic 即可。
 
-
 ## [AtCoder Regular Contest 122](https://atcoder.jp/contests/arc122)
 
 ### A：理解错了题意被卡
@@ -150,7 +182,7 @@ $$
 $$
 然后通过平移就会发现 $x$ 取中位数答案是最小的
 
-### C：
+### C
 
 我知道肯定跟 Fibonacci 数列有关，但是具体不知道怎么搞
 
@@ -158,19 +190,15 @@ $$
 
 我们一直操作 3 4 就会得到这样的序列：$x, y + x, x + y + x, \cdots$（假设总长度为 $S$）注意到奇数位置是 $x$，而且注意到 $i$ 位置会让最终答案 $F_{S-i}$。所以如果 $S$ 长度为奇数，哪就先 3 后 4，否则先 4 后 3。
 
-
 ### D：没想到 C 不会做，这题却能很快的独立完成
 
 > 如果没有 C 题卡我时间，这题为必能做掉
 
 首先我们注意到，最高位有主导作用，如果最高位为 1 的个数有奇数个，那么不然是这一类和为最高位为 0 的某一个贡献了答案，我们记作 solve2，否则，只需分别看这两类分别求答案的最大值即可。而 solve2 又可以由 solve2 自身递归解决。
 
-
 ### E：注意到 N 很小
 
 [官方题解](https://atcoder.jp/contests/arc122/editorial/2073) 精髓啊，一个数可以放在最后面当且仅当 $LCM_{j \neq i}(\gcd(A_i, A_j)) < A_i$
-
-
 
 ## [AtCoder Beginner Contest 204](https://atcoder.jp/contests/ABC204/tasks)
 
@@ -186,7 +214,7 @@ $$
 
 经过严格论证之后发现 $f(t) = t + \lfloor \frac{a}{t} \rfloor, t > 0$ 的最小值 $\min f = f(\lfloor \sqrt{a} \rfloor + 1) = f(\lceil \sqrt{a} \rceil)$
 
-### F：
+### F
 
 这题就很像 [2020-2021 Winter Petrozavodsk Camp, UPC contest L 题](https://codeforces.com/gym/103098/problem/L)，[Motsu_xe 的代码](https://atcoder.jp/contests/ABC204/submissions/23257095) 特别值得借鉴。
 
@@ -195,7 +223,6 @@ $$
 也就是说，我们只要求到 $W = 2^{H + 1}$，然后用 Berlekamp-Massey 算法即可。
 
 我们设 $dp[i][mask][mask2]$ 先贴最左边，从上往下贴。然后需要用 dfs 式的 dp！终于[解决了](https://atcoder.jp/contests/ABC204/submissions/23325995)，舒服！
-
 
 ## [AtCoder Beginner Contest 202](https://atcoder.jp/contests/abc202/tasks)
 
@@ -221,8 +248,6 @@ $a$ 个 'a'，$b$ 个 'b'，注意到，如果第一个位置填 'a'，那么最
 
 > 再次发现 dfs 序的重要性！！！
 
-
-
 ## [AtCoder Regular Contest 119](https://atcoder.jp/contests/arc119/tasks)
 
 ### A：NTT-friendly 数：枚举 b 即可
@@ -237,7 +262,6 @@ $a$ 个 'a'，$b$ 个 'b'，注意到，如果第一个位置填 'a'，那么最
 
 > 注意交错和有 n + 1 个值。
 
-
 ## [AtCoder abc201E](https://atcoder.jp/contests/abc201/tasks/abc201_e)
 
 题意：树上任意两点的距离定义它们最短路上的边权异或和，求任意两点距离的距离之和。
@@ -250,11 +274,9 @@ $$
 
 所以可以先把 `dist[1][i]` 求出来，再按位处理就很快了。
 
-
 ## [Atcoder arc117C](https://atcoder.jp/contests/arc117/tasks/arc117_c)
 
 很有趣的一个堆积问题，关键在于转化成简单的四则运算，而当时没有想到这样的运算，可惜
-
 
 ## [Atcode abc196F](https://atcoder.jp/contests/abc196/tasks/abc196_f)
 
@@ -264,14 +286,11 @@ $$
 
 > 如果字符串是小写字母组成，那么这个问题就可以枚举每一个字符，看相同的位置！然后累加 $O(26 \cdot |S| \log |S|)$
 
-
-
 ## [AtCoder ABC189F](https://atcoder.jp/contests/abc189/tasks/abc189_f)
 
 从 0 位置出发，走到大于等于 n 的位置结束，每次平均概率在 [1, m] 步中选择步长来走，有 k 个坑，走到坑就回到起点 0。问结束前步数的期望是多少，如果无法结束就输出 -1。
 
 做法：首先如果有连续 m 个坑（很好判断），必然无法结束，否则可以结束，我们设 `dp[i]` 表示从 i 出发的答案。显然 $dp[i] = 0, i \geq n$，我们从后往前跑，显然有状态转移，如果 i 位置有坑，那么 $dp[i] = dp[0]$, 否则 $dp[i] = (dp[i + 1] + \cdots dp[i + m]) / m  + 1$。这个后缀和，我们可以用个变量记录下来。因此 所有的 dp[i] 都是一个 $a + b dp[0]$ 的形式，然后到最后有 $dp[0] = a + b dp[0]$ 从而就求得了结果。
-
 
 ## [AtCoder arc111B](https://atcoder.jp/contests/arc111/tasks/arc111_b)：经典 2 选 1
 
@@ -279,11 +298,9 @@ $$
 
 数字为节点，盒子中的两个数连边（注意可能有重边），那个连通分支是树，那么答案就是连通分支节点数减 1，否则就是连通分支节点数。（树的情况容易证明，非树的情况总可以删边，删成只有树再多一条边的情况，然后也容易证明）
 
-
 ## [AtCoder arc111E](https://atcoder.jp/contests/arc111/tasks/arc111_e)
 
 [教程](https://atcoder.jp/contests/arc111/editorial/546)
-
 
 ## [AtCoder abc184F](https://atcoder.jp/contests/abc184/tasks/abc184_f)：假 0-1 背包，Meet in Middle
 
@@ -295,7 +312,6 @@ $$
    - 用 Vector 存，保持有序，最后用双指针，复杂度 $O(2 ^{\frac{n}{2}})$
 2. 先 dfs 找到一个较好的解，然后每次更新解，用来剪枝。
 
-
 ## [AtCoder ABC 183f](https://atcoder.jp/contests/abc183/tasks/abc183_f)：并查集 + map
 
 题意：N 个节点，每个节点有一个值，然后 Q 次操作：`1 a b` 是将 a, b 所在的群合并，`2 x y` 求 $x$ 所在的群中，值为 $y$ 的个数。细节优化
@@ -303,7 +319,6 @@ $$
 - 尽量小的向大的合并，合并完小的记得清空
 - `std::map` 优于 `std::multiset`
 - `std::vector<std::map<int, int>>` 优于 `std::map<std::map<int, int>>`
-
 
 ## [AtCoder ABC 183e](https://atcoder.jp/contests/abc183/tasks/abc183_e)：经典 DP
 
@@ -315,17 +330,14 @@ $$
 给定 $n$ 种纸币，$1 = a_1 < a_2 < \cdots a_n$，且 $a_i | a_{i + 1}$，要买商品 $x$，那么可以给 $y \geq x$，找零 $y - x$，要求 $y$ 和 $y - x$ 的最少纸币表达中没有公共纸币。问所有的 $y$ 有没有种。
 > 注意到 $y$ 和 $(y_1, \cdots, y_n)$，(其中 $y_i * a_i < a_{i + 1}$，且 $y = \sum a_i y_i$ 有一个一一对应。然后我们可以考虑 $x$ 的向量表达，然后再看 $y + x$ 和 $y$ 没公共非零项的做法。
 
-
 ## [Atcoder arc107C](https://atcoder.jp/contests/arc107/tasks/arc107_c)：并查集
 
 首先，如果某两列和交换，那么给它们连边，那么只要任意两列可达，那么它们的位置最后就可以交换，也就是求每个连通分支的大小，直接广搜标记也可以做，当然了用并查集会更简单。
-
 
 ## [Atcoder arc107D](https://atcoder.jp/contests/arc107/tasks/arc107_d)：经典计算，DP 优化
 
 将 $K$ 写成 $N$ 个形如 $2^{-i}, i \geq 0$ 之和（不计顺序），问有多少中写法。我们不妨将答案记作 `dp[n][k]`
 那么显然 `dp[n][k] = dp[n][2k] + dp[n - 1][2k - 2] + \cdots dp[n - k][0]`（考虑取多少个 `1`，那么剩下的最少要以 $\frac{1}{2}$ 为最大值，那么就等价于剩下的数乘以 `2`)，所以令 `s[a] = dp[a][0] + dp[a + 1][2] + \cdots dp[n][2(n - a)]`，这样我们就能迅速求出 `dp[n][k]`
-
 
 ## [AtCoder arc106d](https://atcoder.jp/contests/arc106/tasks/arc106_d)：经典求和计算
 
@@ -354,13 +366,11 @@ $$
 
 ## [AtCoder ACL2e](https://atcoder.jp/contests/abl/tasks/abl_e)：线段树模板题
 
-
 ## [AtCoder ABC178e](https://atcoder.jp/contests/abc178/tasks/abc178_e)：Manhattan 距离
 
 给定一堆点，求它们的 Manhattan 距离中最大值
 
 > 注意到其实任意两点的距离等于，它们到最左上角和到最下角的距离的距离差的最大值。
-
 
 ## [Atcode](https://atcoder.jp/contests/aising2020/tasks/aising2020_f)：经典生成函数题
 
