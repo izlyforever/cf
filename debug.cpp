@@ -14,6 +14,12 @@ std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 #include "cpplibforCP/cpplib/all.hpp"
 
+template<typename T>
+void debug(std::vector<T> a){
+  for (auto &i : a) std::cout << i << ' ';
+  std::cout << std::endl;
+}
+
 int main() {
   //freopen("in", "r", stdin);
   //freopen("out", "w", stdout);
