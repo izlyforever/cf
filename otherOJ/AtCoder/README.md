@@ -1,5 +1,23 @@
 # Atcoder 做题记录
 
+## [AtCoder Beginner Contest 218](https://atcoder.jp/contests/abc218)
+
+### C
+
+相当于 4 种状态，然后平移看是否能吻合，但是写的时候还是觉得挺恶心，害
+
+### D
+
+考虑对角状态，然后就可以确定其他两个点了，当然了一个矩形有两个对角，所以最后答案要除以 2
+
+### E
+
+这个就是最小生成树变种，贪心加树进去，然后用 并查集 维护一下
+
+### F
+
+注意到从 如果 $d[i][j] != dp[i][x] + 1 + dp[y][j]$, 那么 从 $i$ 到 $j$ 的最短路必然不经过 $x \to y$ 这条有向边
+
 ## [AtCoder Beginner Contest 216](https://atcoder.jp/contests/abc216)
 
 ### D
