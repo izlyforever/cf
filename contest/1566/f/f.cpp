@@ -33,7 +33,12 @@ void solve() {
   }
   m = b.size();
   // 预处理完成
-
+  std::reverse(b.begin(), b.end());
+  std::vector<std::vector<int>> dp(n);
+  dp[0].emplace_back(std::max(0, a[0] - b[0].second));
+  for (int i = 0; i < n; ++i) {
+    
+  }
 }
 
 int main() {
