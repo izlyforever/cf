@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x :a) std::cin >> x;
+    for (auto& x :a) std::cin >> x;
     std::vector<int> sz;
     sz.push_back(1);
     for (int i = 2, now = 1, nxt = 0; i < n; ++i) {

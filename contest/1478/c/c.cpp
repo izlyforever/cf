@@ -5,7 +5,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<LL> d(2 * n);
-  for (auto &x : d) std::cin >> x;
+  for (auto& x : d) std::cin >> x;
   std::sort(d.begin(), d.end());
   for (int i = 0; i < n; ++i) if (d[i * 2] != d[i * 2 + 1]) return 0;
   std::vector<LL> a(n + 1);

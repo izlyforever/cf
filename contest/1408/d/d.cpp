@@ -10,8 +10,8 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::pair<int, int>> a(n), b(m), t;
-  for (auto &[x, y] : a) std::cin >> x >> y;
-  for (auto &[x, y] : b) std::cin >> x >> y;
+  for (auto& [x, y] : a) std::cin >> x >> y;
+  for (auto& [x, y] : b) std::cin >> x >> y;
   std::vector<int> r(n);
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < m; ++j) {

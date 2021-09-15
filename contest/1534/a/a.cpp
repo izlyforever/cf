@@ -7,7 +7,7 @@ void solve() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::string> a(n), b(n), c(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::string x, y;
   for (int i = 0; i < m; ++i) {
     if (i & 1) {
@@ -27,7 +27,7 @@ void solve() {
       c[i] = x;
     }
   }
-  auto check = [&](const std::vector<std::string> &d) -> bool {
+  auto check = [&](const std::vector<std::string>& d) -> bool {
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < m; ++j) if (a[i][j] != '.' && a[i][j] != d[i][j]) {
         return false;
@@ -37,10 +37,10 @@ void solve() {
   };
   if (check(b)) {
     std::cout << "YES\n";
-    for (auto &x : b) std::cout << x << '\n';
+    for (auto& x : b) std::cout << x << '\n';
   } else if (check(c)) {
     std::cout << "YES\n";
-    for (auto &x : c) std::cout << x << '\n';
+    for (auto& x : c) std::cout << x << '\n';
   } else {
     std::cout << "NO\n";
   }

@@ -16,11 +16,11 @@ int main(){
   if(a.size()<b.size()){
     cout<<b.size()<<endl;
     sort(b.begin(),b.end());
-    for(auto &[x,y,id]:b) cout<<id<<" ";
+    for(auto& [x,y,id]:b) cout<<id<<" ";
   }else{
     sort(a.begin(),a.end(),greater<tuple<int,int,int>>());
     cout<<a.size()<<endl;
-    for(auto &[x,y,id]:a) cout<<id<<" ";
+    for(auto& [x,y,id]:a) cout<<id<<" ";
   }
   return 0;
 }

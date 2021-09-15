@@ -33,7 +33,7 @@ class Dinic {
   int dfs(int u, int t, int f) {
     if (u == t) return f;
     int r = f;
-    for (int &i = cur[u]; i < g[u].size(); ++i) {
+    for (int& i = cur[u]; i < g[u].size(); ++i) {
       int j = g[u][i];
       auto [v, c] = e[j];
       if (c > 0 && h[v] == h[u] + 1) {
@@ -69,8 +69,8 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::vector<int> last(101, -1);
   Dinic g(n + 2);
   int r = 0;

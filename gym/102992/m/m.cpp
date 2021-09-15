@@ -18,7 +18,7 @@ int main() {
       e[i].emplace_back(p[i]);
       e[p[i]].emplace_back(i);
     }
-    for (auto &x : hp) std::cin >> x;
+    for (auto& x : hp) std::cin >> x;
     // f[i][j] 表示以 i 为根（不包含节点 i）选取 j 个节点的最小代价（相当于已经删除了 sz[i] - j 个节点)。
     // g[i][j] 表示以 i 为根（包含节点 i）选取 j 个节点的最小代价。
     std::vector<std::vector<LL>> f(n, std::vector<LL>(n + 1, INT64_MAX >> 2));

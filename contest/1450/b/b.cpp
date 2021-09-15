@@ -12,7 +12,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<pii> a(n);
-    for (auto &[x, y] : a) std::cin >> x >> y;
+    for (auto& [x, y] : a) std::cin >> x >> y;
     auto check = [&](int i) {
       for (int j = 0; j < n; ++j) {
         if (abs(a[i].first - a[j].first) + abs(a[i].second - a[j].second) > k) return false;

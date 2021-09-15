@@ -29,7 +29,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(2 * n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     LL r = 0;
     for (int i = 0; i < n; ++i) r += a[i + n] - a[i];

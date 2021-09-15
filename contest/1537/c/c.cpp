@@ -7,7 +7,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> h(n);
-  for (auto &x : h) std::cin >> x;
+  for (auto& x : h) std::cin >> x;
   std::sort(h.begin(), h.end());
   int mx = INT_MAX, x = 0;
   for (int i = 1; i < n; ++i) if (mx > h[i] - h[i - 1]) {

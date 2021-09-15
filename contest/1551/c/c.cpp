@@ -8,7 +8,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<std::string> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   auto f = [&](char c) -> int {
     auto len = [&](const std::string& s) -> int {
       return 2 * (int)std::count(s.begin(), s.end(), c) - (int)s.size();

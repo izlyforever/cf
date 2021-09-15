@@ -11,7 +11,7 @@ int main() {
   while (cas--) {
     int n = 4;
     std::vector<pll> a(n);
-    for (auto &[x, y] : a) std::cin >> x >> y;
+    for (auto& [x, y] : a) std::cin >> x >> y;
     LL ans = INT64_MAX;
     std::sort(a.begin(), a.end());
     do {

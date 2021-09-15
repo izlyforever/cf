@@ -29,7 +29,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.rbegin(), a.rend());
     int l = k - 1;
     while (l >= 0 && a[l] == a[k - 1]) --l;

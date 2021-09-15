@@ -9,7 +9,7 @@ int main() {
   std::cin >> n;
   std::vector<int> a(n + 1);
   for (int i = 1; i <= n; ++i) std::cin >> a[i];
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   // 保存当前除了前一个位置外，还能取的元素
   std::set<int> S;
   int r = 0;

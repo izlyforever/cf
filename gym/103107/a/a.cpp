@@ -62,7 +62,7 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   SegTree A(a);
   while (m--) {
     std::string s;

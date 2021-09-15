@@ -6,7 +6,7 @@ void solve() {
   int n, x;
   std::cin >> n >> x;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end());
   int now = 0;
   for (int i = 0; i < n; ++i) {
@@ -22,7 +22,7 @@ void solve() {
     }
   }
   std::cout << "YES\n";
-  for (auto &x : a) std::cout << x << ' ';
+  for (auto& x : a) std::cout << x << ' ';
   std::cout << '\n';
 }
 int main() {

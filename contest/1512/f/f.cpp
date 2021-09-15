@@ -11,8 +11,8 @@ int main() {
     int n, c;
     std::cin >> n >> c;
     std::vector<int> a(n), b(n - 1);
-    for (auto &x : a) std::cin >> x;
-    for (auto &x : b) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
+    for (auto& x : b) std::cin >> x;
     b.push_back(0);
     LL ans = INT64_MAX, cur = 0, s = 0;
     for (int i = 0; i < n; ++i) {

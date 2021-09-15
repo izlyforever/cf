@@ -19,7 +19,7 @@ int main() {
       return r;
     };
     std::vector<int> a(n), c(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int i = 0; i < n; ++i) c[i] = f(a[i]);
     std::vector<LL> b(n);
     b[0] = a[0];

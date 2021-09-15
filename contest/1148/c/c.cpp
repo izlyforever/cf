@@ -36,7 +36,7 @@ int main(){
     a[p[i]] = a[i];
   }
   cout<<q.size()<<endl;
-  for(auto &[x,y]:q) cout<<x<<" "<<y<<endl;
+  for(auto& [x,y]:q) cout<<x<<" "<<y<<endl;
   cout<<endl;
   return 0;
 }

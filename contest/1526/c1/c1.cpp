@@ -9,7 +9,7 @@ int main() {
   std::cin >> n;
   std::vector<LL> a(n), f;
   f = {0};
-  for (auto &x : a) {
+  for (auto& x : a) {
     std::cin >> x;
     std::vector<LL> g;
     g.emplace_back(f[0]);

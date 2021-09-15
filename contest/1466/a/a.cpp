@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::set<int> s;
     for (int i = 0; i < n; ++i) {
       for (int j = i + 1; j < n; ++j) s.insert(a[j] - a[i]);

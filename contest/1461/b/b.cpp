@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::string> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::vector<std::vector<int>> b(n, std::vector<int>(m)), c(n, std::vector<int>(m));
     for (int i = 0; i < n; ++i) if (a[i][0] == '*') b[i][0] = 1;
     for (int i = 0; i < n; ++i) if (a[i][m - 1] == '*') c[i][m - 1] = 1;

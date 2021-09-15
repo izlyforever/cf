@@ -8,7 +8,7 @@ int main() {
   int n, q, k;
   std::cin >> n >> q >> k;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   while (q--) {
     int l, r;
     std::cin >> l >> r;

@@ -9,8 +9,8 @@ void solve() {
   std::cin >> n >> k;
   // std::cerr << n << ' ' << k << '\n';
   std::vector<std::pair<int, int>> a(k);
-  for (auto &[x, y] : a) std::cin >> x;
-  for (auto &[x, y] : a) std::cin >> y;
+  for (auto& [x, y] : a) std::cin >> x;
+  for (auto& [x, y] : a) std::cin >> y;
   std::sort(a.begin(), a.end());
   std::stack<int> Q;
   for (int i = 0; i < k; ++i) {

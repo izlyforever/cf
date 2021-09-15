@@ -3,7 +3,7 @@
 using LL = long long;
 
 using edge = std::vector<std::vector<std::pair<int, int>>>;
-std::vector<LL> Dijkstra(int s, const edge &e) {
+std::vector<LL> Dijkstra(int s, const edge& e) {
   std::priority_queue<std::pair<LL, int>> h;
   std::vector<LL> dist(e.size());
   std::vector<int> vis(e.size());

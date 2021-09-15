@@ -11,13 +11,13 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::memset(dp, -0x3f, sizeof(dp));
-  auto upmax = [](LL &a, LL b) {
+  auto upmax = [](LL& a, LL b) {
     if (a < b) a = b;
   };
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   if (n == 1) {
     print(a[0]);
     return 0;

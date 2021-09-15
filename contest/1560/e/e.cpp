@@ -3,9 +3,9 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-std::string check(const std::string &a, char c) {
+std::string check(const std::string& a, char c) {
   std::string b;
-  for (auto &x : a) if (x != c) b += x;
+  for (auto& x : a) if (x != c) b += x;
   return b;
 }
 // 根据情况换成 bool

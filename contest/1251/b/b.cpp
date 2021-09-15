@@ -14,7 +14,7 @@ int main(){
     for(int i=0;i<n;++i) cin>>a[i];
     int cnt=0,odd=0;
     for(int i=0;i<n;++i){
-      for(auto &x:a[i]){
+      for(auto& x:a[i]){
         if(x=='1') ++cnt;
       }
       if(a[i].size()&1) ++odd;

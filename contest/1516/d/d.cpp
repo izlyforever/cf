@@ -28,7 +28,7 @@ int main() {
   int n, q;
   std::cin >> n >> q;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<std::vector<int>> pa(n);
   for (int i = 0; i < n; ++i) pa[i] = pp[a[i]];
   std::vector<int> dp(n, n), last(N, n);

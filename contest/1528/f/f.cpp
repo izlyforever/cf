@@ -41,33 +41,33 @@ class MInt {
     if (--n == -1) n += M;
     return *this;
   }
-  MInt& operator+=(const MInt &A) {
+  MInt& operator+=(const MInt& A) {
     n += A.n;
     if (n >= M) n -= M;
     return (*this);
   }
-  MInt& operator-=(const MInt &A) {
+  MInt& operator-=(const MInt& A) {
     n -= A.n;
     if (n < 0) n += M;
     return (*this);
   }
-  MInt& operator*=(const MInt &A) {
+  MInt& operator*=(const MInt& A) {
     n = 1LL * n * A.n % M;
     return (*this);
   }
-  MInt& operator/=(const MInt &A) {
+  MInt& operator/=(const MInt& A) {
     return (*this) *= A.inv();
   }
-  MInt operator+(const MInt &A) const {
+  MInt operator+(const MInt& A) const {
     return MInt(*this) += A;
   }
-  MInt operator-(const MInt &A) const {
+  MInt operator-(const MInt& A) const {
     return MInt(*this) -= A;
   }
-  MInt operator*(const MInt &A) const {
+  MInt operator*(const MInt& A) const {
     return MInt(*this) *= A;
   }
-  MInt operator/(const MInt &A) const {
+  MInt operator/(const MInt& A) const {
     return MInt(*this) /= A;
   }
   MInt operator<<(int x) const {
@@ -88,7 +88,7 @@ class MInt {
   MInt operator&(int x) const {
     return MInt(*this) & x;
   }
-  MInt& operator&=(int x) {
+  MInt& operator &=(int x) {
     n &= x;
     return (*this);
   }
@@ -103,13 +103,13 @@ class MInt {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, MInt &A) {
+  friend std::istream& operator>>(std::istream& in, MInt& A) {
     LL x;
     in >> x;
     A = MInt(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
+  friend std::ostream& operator<<(std::ostream& out, const MInt& A) {
     out << A.n;
     return out;
   }
@@ -152,33 +152,33 @@ class ModInt {
   operator int() const {
     return n;
   }
-  ModInt& operator+=(const ModInt &A) {
+  ModInt& operator+=(const ModInt& A) {
     n += A.n;
     if (n >= M) n -= M;
     return (*this);
   }
-  ModInt& operator-=(const ModInt &A) {
+  ModInt& operator-=(const ModInt& A) {
     n -= A.n;
     if (n < 0) n += M;
     return (*this);
   }
-  ModInt& operator*=(const ModInt &A) {
+  ModInt& operator*=(const ModInt& A) {
     n = 1LL * n * A.n % M;
     return (*this);
   }
-  ModInt& operator/=(const ModInt &A) {
+  ModInt& operator/=(const ModInt& A) {
     return (*this) *= A.inv();
   }
-  ModInt operator+(const ModInt &A) const {
+  ModInt operator+(const ModInt& A) const {
     return ModInt(*this) += A;
   }
-  ModInt operator-(const ModInt &A) const {
+  ModInt operator-(const ModInt& A) const {
     return ModInt(*this) -= A;
   }
-  ModInt operator*(const ModInt &A) const {
+  ModInt operator*(const ModInt& A) const {
     return ModInt(*this) *= A;
   }
-  ModInt operator/(const ModInt &A) const {
+  ModInt operator/(const ModInt& A) const {
     return ModInt(*this) /= A;
   }
   ModInt operator<<(int x) const {
@@ -199,7 +199,7 @@ class ModInt {
   ModInt operator&(int x) const {
     return ModInt(*this) & x;
   }
-  ModInt& operator&=(int x) {
+  ModInt& operator &=(int x) {
     n &= x;
     return (*this);
   }
@@ -214,13 +214,13 @@ class ModInt {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, ModInt &A) {
+  friend std::istream& operator>>(std::istream& in, ModInt& A) {
     LL x;
     in >> x;
     A = ModInt(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const ModInt &A) {
+  friend std::ostream& operator<<(std::ostream& out, const ModInt& A) {
     out << A.n;
     return out;
   }
@@ -264,33 +264,33 @@ class ModLL {
   operator LL() const {
     return n;
   }
-  ModLL& operator+=(const ModLL &A) {
+  ModLL& operator+=(const ModLL& A) {
     n += A.n;
     if (n >= M) n -= M;
     return (*this);
   }
-  ModLL& operator-=(const ModLL &A) {
+  ModLL& operator-=(const ModLL& A) {
     n -= A.n;
     if (n < 0) n += M;
     return (*this);
   }
-  ModLL& operator*=(const ModLL &A) {
+  ModLL& operator*=(const ModLL& A) {
     n = __int128(n) * A.n % M;
     return (*this);
   }
-  ModLL& operator/=(const ModLL &A) {
+  ModLL& operator/=(const ModLL& A) {
     return (*this) *= A.inv();
   }
-  ModLL operator+(const ModLL &A) const {
+  ModLL operator+(const ModLL& A) const {
     return ModLL(*this) += A;
   }
-  ModLL operator-(const ModLL &A) const {
+  ModLL operator-(const ModLL& A) const {
     return ModLL(*this) -= A;
   }
-  ModLL operator*(const ModLL &A) const {
+  ModLL operator*(const ModLL& A) const {
     return ModLL(*this) *= A;
   }
-  ModLL operator/(const ModLL &A) const {
+  ModLL operator/(const ModLL& A) const {
     return ModLL(*this) /= A;
   }
   ModLL operator<<(int x) const {
@@ -311,7 +311,7 @@ class ModLL {
   ModLL operator&(int x) const {
     return ModLL(*this) & x;
   }
-  ModLL& operator&=(LL x) {
+  ModLL& operator &=(LL x) {
     n &= x;
     return (*this);
   }
@@ -326,13 +326,13 @@ class ModLL {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, ModLL &A) {
+  friend std::istream& operator>>(std::istream& in, ModLL& A) {
     LL x;
     in >> x;
     A = ModLL(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const ModLL &A) {
+  friend std::ostream& operator<<(std::ostream& out, const ModLL& A) {
     out << A.n;
     return out;
   }
@@ -346,7 +346,7 @@ class NTT { // 请自行保证输入的 N 为 原根 3 的 NTT-friendly 素数
   std::vector<MInt<M>> roots{0, 1};
  public:
   static inline const MInt<M> g = 3;
-  void dft(std::vector<MInt<M>> &a) {
+  void dft(std::vector<MInt<M>>& a) {
     int n = a.size();
     if ((int)rev.size() != n) {
       int k = __builtin_ctz(n) - 1;
@@ -380,12 +380,12 @@ class NTT { // 请自行保证输入的 N 为 原根 3 的 NTT-friendly 素数
       }
     }
   }
-  void idft(std::vector<MInt<M>> &a) {
+  void idft(std::vector<MInt<M>>& a) {
     int n = a.size();
     std::reverse(a.begin() + 1, a.end());
     dft(a);
     auto inv = pow(MInt<M>(n), M - 2);
-    for (auto &x : a) x *= inv;
+    for (auto& x : a) x *= inv;
   }
 };
 
@@ -404,9 +404,9 @@ class PolyBase {
   std::vector<T> a;
   PolyBase() {}
   PolyBase(T x) { if (x != 0) a = {x};}
-  PolyBase(const std::vector<T> &_a) : a(_a) { standard();}
+  PolyBase(const std::vector<T>& _a) : a(_a) { standard();}
   int size() const { return a.size();}
-  T &operator[](int id) { return a[id];}
+  T& operator[](int id) { return a[id];}
   T at(int id) const {
     if (id < 0 || id >= (int)a.size()) return 0;
     return a[id];
@@ -417,9 +417,9 @@ template<typename T>
 class PolyBaseOrigin : public PolyBase<T> {
  public:
   using PolyBase<T>::PolyBase;
-  PolyBaseOrigin (const PolyBase<T> &x) : PolyBase<T>(x) {}
+  PolyBaseOrigin (const PolyBase<T>& x) : PolyBase<T>(x) {}
  protected:
-  PolyBaseOrigin mul(const PolyBaseOrigin &rhs) const {
+  PolyBaseOrigin mul(const PolyBaseOrigin& rhs) const {
     std::vector<T> ans(this->size() + rhs.size() - 1);
     for (int i = 0, sn = this->size(); i < sn; ++i) {
       for (int j = 0, rsn = rhs.size(); j < rsn; ++j) {
@@ -433,7 +433,7 @@ class PolyBaseOrigin : public PolyBase<T> {
 template<int N>
 class PolyBaseNTT : public PolyBase<MInt<N>> {
  protected:
-  PolyBaseNTT mul(const PolyBaseNTT &rhs) const {
+  PolyBaseNTT mul(const PolyBaseNTT& rhs) const {
     int n = this->size(), m = rhs.size(), tot = std::max(1, n + m - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     auto A = this->a, B = rhs.a;
@@ -448,7 +448,7 @@ class PolyBaseNTT : public PolyBase<MInt<N>> {
   static inline const int M = N;
   static inline NTT<N> ntt;
   using PolyBase<MInt<N>>::PolyBase;
-  PolyBaseNTT(const PolyBase<MInt<N>> &A) : PolyBase<MInt<N>>(A) {}
+  PolyBaseNTT(const PolyBase<MInt<N>>& A) : PolyBase<MInt<N>>(A) {}
 };
 
 template<typename T>
@@ -461,7 +461,7 @@ class PolyBaseMFT3 : public PolyBase<T> {
   static inline NTT<M1> ntt1;
   static inline NTT<M2> ntt2;
   using PolyBase<T>::PolyBase;
-  PolyBaseMFT3 (const PolyBase<T> &x) : PolyBase<T>(x) {}
+  PolyBaseMFT3 (const PolyBase<T>& x) : PolyBase<T>(x) {}
  protected:
   static T crt(int a0, int a1, int a2) {
     static const T m01(M01);
@@ -473,7 +473,7 @@ class PolyBaseMFT3 : public PolyBase<T> {
     if (y < 0) y += M01;
     return T(x) + T(y) * m01;
   }
-  PolyBaseMFT3 mul(const PolyBaseMFT3 &rhs) const {
+  PolyBaseMFT3 mul(const PolyBaseMFT3& rhs) const {
     int tot = std::max(1, this->size() + rhs.size() - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     std::vector<MInt<M0>> a0(sz), b0(sz);
@@ -513,7 +513,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
   static inline NTT<M2> ntt2;
   static inline NTT<M3> ntt3;
   using PolyBase<ModLL>::PolyBase;
-  PolyBaseMFT4 (const PolyBase<ModLL> &x) : PolyBase<ModLL>(x) {}
+  PolyBaseMFT4 (const PolyBase<ModLL>& x) : PolyBase<ModLL>(x) {}
  protected:
   static ModLL crt(int a0, int a1, int a2, int a3) {
     LL ans1 = a0 + LL(a1 - a0) * t01 % M1 * M0;
@@ -522,7 +522,7 @@ class PolyBaseMFT4 : public PolyBase<ModLL> {
     if (ans < 0) ans += M0123;
     return ModLL(ans);
   }
-  PolyBaseMFT4 mul(const PolyBaseMFT4 &rhs) const {
+  PolyBaseMFT4 mul(const PolyBaseMFT4& rhs) const {
     int tot = std::max(1, this->size() + rhs.size() - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     std::vector<MInt<M0>> a0(sz), b0(sz);
@@ -556,7 +556,7 @@ const double PI = std::acos(-1);
 using C = std::complex<double>;
 std::vector<int> rev;
 std::vector<C> roots{C(0, 0), C(1, 0)};
-void dft(std::vector<C> &a) {
+void dft(std::vector<C>& a) {
   int n = a.size();
   if ((int)rev.size() != n) {
     int k = __builtin_ctz(n) - 1;
@@ -590,11 +590,11 @@ void dft(std::vector<C> &a) {
     }
   }
 }
-void idft(std::vector<C> &a) {
+void idft(std::vector<C>& a) {
   int n = a.size();
   std::reverse(a.begin() + 1, a.end());
   dft(a);
-  for (auto &x : a) x /= n;
+  for (auto& x : a) x /= n;
 }
 } // namespace FFT
 // 模板例题：https://www.luogu.com.cn/problem/P3803
@@ -603,16 +603,16 @@ void idft(std::vector<C> &a) {
 template<typename T>
 class PolyBaseFFT : public PolyBase<T> {
  protected:
-  PolyBaseFFT mul(const PolyBaseFFT &rhs) const {
+  PolyBaseFFT mul(const PolyBaseFFT& rhs) const {
     int tot = std::max(1, this->size() + rhs.size() - 1);
     int sz = 1 << std::__lg(tot * 2 - 1);
     // 为了保证精度必须拆分（否则直接用 三次变两次 技巧）
     auto A1(*this), A2(*this), B1(rhs), B2(rhs);
     static constexpr int bit = 15, msk = (1LL << bit) - 1;
-    for (auto &x : A1.a) x &= msk;
-    for (auto &x : A2.a) x >>= bit;
-    for (auto &x : B1.a) x &= msk;
-    for (auto &x : B2.a) x >>= bit;
+    for (auto& x : A1.a) x &= msk;
+    for (auto& x : A2.a) x >>= bit;
+    for (auto& x : B1.a) x &= msk;
+    for (auto& x : B2.a) x >>= bit;
     std::vector<std::complex<double>> A(sz), B(sz), C(sz);
     for (int i = 0, tSize = this->size(); i < tSize; ++i) {
       A[i] = std::complex<double>((double)A1[i], (double)A2[i]);
@@ -633,15 +633,15 @@ class PolyBaseFFT : public PolyBase<T> {
       A1B1[i] = llround(B[i].real() * 0.5 + C[i].real() * 0.5);
       ans[i] = llround(C[i].real() * 0.5 - B[i].real() * 0.5);
     }
-    for (auto &x : ans) x <<= bit;
+    for (auto& x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B2[i];
-    for (auto &x : ans) x <<= bit;
+    for (auto& x : ans) x <<= bit;
     for (int i = 0; i < tot; ++i) ans[i] += A1B1[i];
     return PolyBaseFFT(ans);
   }
  public:
   using PolyBase<T>::PolyBase;
-  PolyBaseFFT (const PolyBase<T> &x) : PolyBase<T>(x) {}
+  PolyBaseFFT (const PolyBase<T>& x) : PolyBase<T>(x) {}
 };
 
 // using valT = decltype(T::a)::value_type;
@@ -649,7 +649,7 @@ template<typename T, typename valT>
 class Poly : public T {
  public:
   using T::T;
-  Poly (const T &x) : T(x) {}
+  Poly (const T& x) : T(x) {}
   Poly mulXn(int n) const {
     auto b = this->a;
     b.insert(b.begin(), n, 0);
@@ -663,28 +663,28 @@ class Poly : public T {
     if (this->size() <= n) return Poly();
     return Poly({this->a.begin() + n, this->a.end()});
   }
-  Poly &operator+=(const Poly &rhs) {
+  Poly& operator+=(const Poly& rhs) {
     if (this->size() < rhs.size()) this->a.resize(rhs.size());
     for (int i = 0; i < rhs.size(); ++i) this->a[i] += rhs.a[i];
     this->standard();
     return *this;
   }
-  Poly &operator-=(const Poly &rhs) {
+  Poly& operator-=(const Poly& rhs) {
     if (this->size() < rhs.size()) this->a.resize(rhs.size());
     for (int i = 0; i < rhs.size(); ++i) this->a[i] -= rhs.a[i];
     this->standard();
     return *this;
   }
-  Poly operator+(const Poly &rhs) const {
+  Poly operator+(const Poly& rhs) const {
     return Poly(*this) += rhs;
   }
-  Poly operator-(const Poly &rhs) const {
+  Poly operator-(const Poly& rhs) const {
     return Poly(*this) -= rhs;
   }
-  Poly operator*(const Poly &rhs) const {
+  Poly operator*(const Poly& rhs) const {
     return this->mul(rhs);
   }
-  Poly &operator*=(const Poly &rhs) {
+  Poly& operator*=(const Poly& rhs) {
     return (*this) = (*this) * rhs;
   }
   Poly inv(int n) const {
@@ -697,7 +697,7 @@ class Poly : public T {
     }
     return x.modXn(n);
   }
-  Poly &operator/=(Poly rhs) {
+  Poly& operator/=(Poly rhs) {
     int n = this->size(), m = rhs.size();
     if (n < m) return (*this) = Poly();
     this->reverse();
@@ -707,16 +707,16 @@ class Poly : public T {
     this->reverse();
     return *this;
   }
-  Poly operator/(const Poly &rhs) const {
+  Poly operator/(const Poly& rhs) const {
     return Poly(*this) /= rhs;
   }
-  Poly &operator%=(const Poly &rhs) {
+  Poly& operator%=(const Poly& rhs) {
     return *this -= (*this) / rhs * rhs;
   }
-  Poly operator%(const Poly &rhs) const {
+  Poly operator%(const Poly& rhs) const {
     return Poly(*this) %= rhs;
   }
-  Poly powModPoly(LL n, const Poly &p) const {
+  Poly powModPoly(LL n, const Poly& p) const {
     Poly r(1), x(*this);
     while (n) {
       if (n&1) r = r * x % p;
@@ -724,7 +724,7 @@ class Poly : public T {
     }
     return r;
   }
-  valT inner(const Poly &rhs) const {
+  valT inner(const Poly& rhs) const {
     valT r(0);
     int n = std::min(this->size(), rhs.size());
     for (int i = 0; i < n; ++i) r += this->a[i] * rhs.a[i];
@@ -802,7 +802,7 @@ class Poly : public T {
       }
     };
     build(0, n, 1);
-    std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+    std::function<void(int, int, int, const Poly& )> solve = [&](int l, int r, int p, const Poly& f) {
       if (r - l == 1) {
         ans[l] = f.at(0);
       } else {

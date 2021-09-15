@@ -8,7 +8,7 @@ int main() {
   int n, q;
   std::cin >> n >> q;
   std::vector<LL> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   auto getans = [&](int x, LL y) -> LL {
     LL small = 0, ans = 0;
     for (int i = 0; i <= x; ++i) {

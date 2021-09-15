@@ -17,7 +17,7 @@ int main() {
       if (i - x >= 0) a[i - x] = 0;
       if (i + x < a.size()) a[i + x] = 0;
     }
-    for (auto &t : a) if (t == -1) t = 1;
+    for (auto& t : a) if (t == -1) t = 1;
     bool flag = true;
     for (int i = 0; i != s.size(); ++i) if (s[i] == '1') {
       bool t = 0;
@@ -29,7 +29,7 @@ int main() {
       }
     }
     if (flag) {
-      for(auto &t : a) std::cout << t;
+      for(auto& t : a) std::cout << t;
       std::cout << std::endl;
     } else std::cout << "-1\n";
   }

@@ -15,7 +15,7 @@ int main() {
     e[x - 1].emplace_back(i);
   }
   std::vector<LL> a(n), d(n), ans(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::function<LL(int)> dfs = [&](int u) -> LL {
     d[u] = e[u].empty();
     for (auto v : e[u]) {

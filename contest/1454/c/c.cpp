@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::vector<int> b(n + 1, n);
     b[a[0]] = 0;
     for (int i = 1; i < n; ++i) if (a[i] != a[i - 1]) {

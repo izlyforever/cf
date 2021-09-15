@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<LL> a(n), ans(m);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto check = [&](int i, int j, int k) {
       return a[k] * (j - i) > a[j] * (k - i) - a[i] * (k - j);
     };
@@ -21,7 +21,7 @@ int main() {
       Q.emplace_back(i);
     }
     std::vector<std::pair<LL, LL>> b(m);
-    for (auto &[x, d] : b) std::cin >> x >> d;
+    for (auto& [x, d] : b) std::cin >> x >> d;
     std::vector<int> p(m);
     std::iota(p.begin(), p.end(), 0);
     std::sort(p.begin(), p.end(), [&](int i, int j) {

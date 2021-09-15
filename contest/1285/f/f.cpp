@@ -29,16 +29,16 @@ int main(){
     for(int i=mx;i;--i){
       if(a[i]){
         int cop = 0;
-        for(auto &x:p[i]) cop+=mu[x]*c[x];
+        for(auto& x:p[i]) cop+=mu[x]*c[x];
         while(cop){
-          for(auto &x:p[s.top()]){
+          for(auto& x:p[s.top()]){
             --c[x];
             if(i%x==0) cop-=mu[x];
           }
           ans = max(ans,LL(i)*s.top());
           s.pop();
         }
-        for(auto &x:p[i]) ++c[x];
+        for(auto& x:p[i]) ++c[x];
         s.push(i);
       }
     }

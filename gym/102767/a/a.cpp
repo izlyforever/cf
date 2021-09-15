@@ -11,7 +11,7 @@ int main() {
     int n, x;
     std::cin >> n >> x;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     int id = std::upper_bound(a.begin(), a.end(), x) - a.begin();
     LL r = LL(x + 1) * x / 2;

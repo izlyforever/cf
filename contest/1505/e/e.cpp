@@ -8,7 +8,7 @@ int main() {
   int h, w;
   std::cin >> h >> w;
   std::vector<std::string> s(h);
-  for (auto &x : s) std::cin >> x;
+  for (auto& x : s) std::cin >> x;
   int r = 0, a = 0, b = 0;
   while (a < h && b < w) {
     if (s[a][b] == '*') ++r;

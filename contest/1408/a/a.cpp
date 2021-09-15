@@ -13,9 +13,9 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), b(n), c(n), p(n);
-    for (auto &x : a) std::cin >> x;
-    for (auto &x : b) std::cin >> x;
-    for (auto &x : c) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
+    for (auto& x : b) std::cin >> x;
+    for (auto& x : c) std::cin >> x;
     p[0] = a[0];
     for (int i = 1; i < n - 1; ++i) {
       if (a[i] == p[i - 1]) p[i] = b[i];
@@ -28,7 +28,7 @@ int main() {
     } else {
       p[n - 1] = c[n - 1];
     }
-    for (auto &x : p) std::cout << x << " ";
+    for (auto& x : p) std::cout << x << " ";
     println;
   }
   return 0;

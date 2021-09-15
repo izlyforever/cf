@@ -23,11 +23,11 @@ int main() {
   std::vector<int> ans;
   if (x < y) {
     ans = f(n, y, x);
-    for (auto &x : ans) if (x != -1) x = n + 1 - x;
+    for (auto& x : ans) if (x != -1) x = n + 1 - x;
   } else {
     ans = f(n, x, y);
   }
-  for (auto &x : ans) std::cout << x << ' ';
+  for (auto& x : ans) std::cout << x << ' ';
   std::cout << '\n';
   return 0;
 }

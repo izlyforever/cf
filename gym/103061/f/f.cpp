@@ -9,7 +9,7 @@ int main() {
   std::cin >> n >> m;
   std::vector<std::pair<double, double>> a(n);
   const double eps = 1e-6;
-  for (auto &[l, r] : a) std::cin >> l >> r, r += eps;
+  for (auto& [l, r] : a) std::cin >> l >> r, r += eps;
   auto check = [&](double mid) {
     double p = 0;
     for (auto [L, R] : a) if (L < mid) {

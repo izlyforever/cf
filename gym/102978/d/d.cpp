@@ -14,7 +14,7 @@ LL powMod(LL x, LL n) {
   }
   return r;
 }
-void dft(std::vector<LL> &a) {
+void dft(std::vector<LL>& a) {
   int n = a.size();
   if (rev.size() != n) {
     int k = __builtin_ctz(n) - 1;
@@ -52,7 +52,7 @@ void dft(std::vector<LL> &a) {
     }
   }
 }
-void idft(std::vector<LL> &a) {
+void idft(std::vector<LL>& a) {
   int n = a.size();
   std::reverse(a.begin() + 1, a.end());
   dft(a);
@@ -91,7 +91,7 @@ class Poly {
     if (size() <= n) return Poly();
     return Poly(std::vector<LL>(a.begin() + n, a.end()));
   }
-  Poly &operator+=(const Poly &A) {
+  Poly& operator+=(const Poly& A) {
     if (size() < A.size()) a.resize(A.size());
     for (int i = 0; i < A.size(); ++i) {
       if ((a[i] += A.a[i]) >= M) a[i] -= M;
@@ -99,7 +99,7 @@ class Poly {
     standard();
     return *this;
   }
-  Poly &operator-=(const Poly &rhs) {
+  Poly& operator-=(const Poly& rhs) {
     if (size() < rhs.size()) a.resize(rhs.size());
     for (int i = 0; i < rhs.size(); ++i) {
       if ((a[i] -= rhs.a[i]) < 0) a[i] += M;
@@ -107,7 +107,7 @@ class Poly {
     standard();
     return *this;
   }
-  Poly &operator*=(Poly rhs) {
+  Poly& operator*=(Poly rhs) {
     int n = size(), m = rhs.size(), tot = n + m - 1, sz = 1;
     while (sz < tot) sz *= 2;
     a.resize(sz);
@@ -121,10 +121,10 @@ class Poly {
     standard();
     return *this;
   }
-  Poly operator+(const Poly &rhs) const {
+  Poly operator+(const Poly& rhs) const {
     return Poly(*this) += rhs;
   }
-  Poly operator-(const Poly &rhs) const {
+  Poly operator-(const Poly& rhs) const {
     return Poly(*this) -= rhs;
   }
   Poly operator*(Poly rhs) const {
@@ -200,7 +200,7 @@ class Poly {
       }
     };
     build(0, n, 1);
-    std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+    std::function<void(int, int, int, const Poly& )> solve = [&](int l, int r, int p, const Poly& f) {
       if (r - l == 1) {
         ans[l] = f[0];
       } else {
@@ -238,9 +238,9 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n), b(n), c(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
-  for (auto &x : c) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
+  for (auto& x : c) std::cin >> x;
   std::vector<Poly> g(4 * n);
   std::function<void(int, int, int)> build = [&](int l, int r, int p) {
     if (r - l == 1) {
@@ -253,7 +253,7 @@ int main() {
     }
   };
   build(0, n, 1);
-  std::function<void(int, int, int, const Poly)> solve = [&](int l, int r, int p, const Poly &f) {
+  std::function<void(int, int, int, const Poly)> solve = [&](int l, int r, int p, const Poly& f) {
     if (r - l == 1) {
       std::cout << (f[0] * b[l] + f[1]) % Poly::M << " \n"[r == n];
     } else {

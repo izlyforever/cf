@@ -16,7 +16,7 @@ int main() {
   std::cin >> cas;
   while (cas--) {
     std::vector<std::tuple<int, int, int>> a(8);
-    for (auto &[x, y, z] : a) std::cin >> x >> y >> z;
+    for (auto& [x, y, z] : a) std::cin >> x >> y >> z;
     std::vector<std::vector<int>> dist(8, std::vector<int>(8));
     for (int i = 0; i < 8; ++i) {
       for (int j = 0; j < 8; ++j) {

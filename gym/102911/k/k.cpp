@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   auto it = std::max_element(a.begin(), a.end()) - a.begin();
   bool flag = true;
   for (int i = 0; i < n; ++i) if (a[it] % a[i]) {

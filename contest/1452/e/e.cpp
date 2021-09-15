@@ -9,8 +9,8 @@ int main() {
   int n, m, k;
   std::cin >> n >> m >> k;
   std::vector<pii> a(m);
-  for (auto &[l, r] : a) std::cin >> l >> r;
-  std::sort(a.begin(), a.end(), [](const pii &A, const pii &B) {
+  for (auto& [l, r] : a) std::cin >> l >> r;
+  std::sort(a.begin(), a.end(), [](const pii& A, const pii& B) {
     return A.first + A.second < B.first + B.second;
   });
   std::vector<int> sm(m + 1);

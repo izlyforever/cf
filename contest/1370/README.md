@@ -57,8 +57,8 @@ int main(){
   string a,b;
   cin>>n>>a>>b;
   int ab=0;
-  for(auto &x:a) if(x=='1') ++ab;
-  for(auto &x:b) if(x=='1') --ab;
+  for(auto& x:a) if(x=='1') ++ab;
+  for(auto& x:b) if(x=='1') --ab;
   if(ab){
     cout<<-1<<endl;return 0;
   }

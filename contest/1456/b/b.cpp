@@ -6,7 +6,7 @@ int solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   for (int i = 0; i + 2 < n; ++i) {
     if ((a[i] ^ a[i + 1]) > a[i + 2]) return 1;
     if (a[i] > (a[i + 1] ^ a[i + 2])) return 1;

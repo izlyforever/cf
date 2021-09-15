@@ -10,7 +10,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::set<LL> s;
   int r = 0;
   LL sa = 0;

@@ -10,7 +10,7 @@ void solve() {
   auto Q = [&](int u) -> std::vector<int> {
     std::cout << "? " << u + 1 << std::endl;
     std::vector<int> d(n);
-    for (auto &x : d) std::cin >> x;
+    for (auto& x : d) std::cin >> x;
     return d;
   };
   auto d = Q(0);

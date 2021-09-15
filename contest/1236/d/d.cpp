@@ -20,10 +20,10 @@ int main(){
     sort(c.begin(),c.end());
     sort(r.begin(),r.end());
     vector<int> a[2][max(n,m)+1];
-    for(auto &[x,y]:c){
+    for(auto& [x,y]:c){
       a[1][x].emplace_back(y);
     }
-    for(auto &[y,x]:r){
+    for(auto& [y,x]:r){
       a[0][y].emplace_back(x);
     }
     int d = 1,cur[2] = {1,1};

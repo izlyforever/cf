@@ -11,7 +11,7 @@ int main() {
     int n, u, v, r = INT_MAX;
     std::cin >> n >> u >> v;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto solve = [&](int i) {
       if (abs(a[i] - a[i - 1]) > 1) return 0;
       if (a[i] == a[i - 1]) return std::min(u + v, v * 2);

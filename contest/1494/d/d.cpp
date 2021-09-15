@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<std::vector<int>> a(n, std::vector<int>(n));
-  for (auto &x : a) for (auto &i : x) std::cin >> i;
+  for (auto& x : a) for (auto& i : x) std::cin >> i;
   std::vector<int> p(n), c(n);
   std::iota(p.begin(), p.end(), 0);
   std::vector<std::tuple<int, int, int>> b;
@@ -36,7 +36,7 @@ int main() {
     }
   }
   std::cout << n << "\n";
-  for (auto &x : c) std::cout << x << " ";
+  for (auto& x : c) std::cout << x << " ";
   std::cout << "\n" << n << "\n";
   for (int i = 0; i + 1 < n; ++i) {
     std::cout << i + 1 << " " << p[i] + 1 << "\n";

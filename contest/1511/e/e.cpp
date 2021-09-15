@@ -12,7 +12,7 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::string> s(n);
-  for (auto &x : s) std::cin >> x;
+  for (auto& x : s) std::cin >> x;
   const int N = std::max(n, m);
   std::vector<LL> p(N);
   p[1] = inv4;
@@ -22,7 +22,7 @@ int main() {
     if (p[i] >= M) p[i] -= M;
   }
   LL w = 1;
-  for (auto &x : s) {
+  for (auto& x : s) {
     for (auto c : x) if (c == 'o') {
       w *= 2;
       if (w >= M) w -= M;

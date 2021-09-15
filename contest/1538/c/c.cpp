@@ -11,7 +11,7 @@ int main() {
     int n, l, r;
     std::cin >> n >> l >> r;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     auto f = [&](int x) {
       return std::upper_bound(a.begin(), a.end(), x) - a.begin();

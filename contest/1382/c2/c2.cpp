@@ -19,7 +19,7 @@ int main() {
     }
     qa.insert(qa.end(), qb.rbegin(), qb.rend());
     std::cout << qa.size();
-    for (auto &x : qa) std::cout << " " << x;
+    for (auto& x : qa) std::cout << " " << x;
     std::cout << std::endl;
   }
   return 0;

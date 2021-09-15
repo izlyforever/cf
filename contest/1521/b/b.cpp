@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int mi = std::min_element(a.begin(), a.end()) - a.begin();
     std::cout << n - 1 << '\n';
     for (int i = mi - 1, j = a[mi] + 1; i >= 0; --i, ++j) {

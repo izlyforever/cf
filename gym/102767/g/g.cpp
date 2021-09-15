@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto f = [](std::vector<int> a, int M) {
       std::vector<int> b{1};
       for (auto x : a) b.emplace_back(LL(b.back()) * x % M);

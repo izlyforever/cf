@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> q(n), mn(n), mx(n);
-    for (auto &x : q) std::cin >> x;
+    for (auto& x : q) std::cin >> x;
     std::set<int> Smx, Smn;
     for (int i = 1; i < q[0]; ++i) Smn.insert(i), Smx.insert(-i);
     mx[0] = mn[0] = q[0];

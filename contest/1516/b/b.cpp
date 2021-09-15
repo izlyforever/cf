@@ -6,12 +6,12 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int r = 0;
-  for (auto &x : a) r ^= x;
+  for (auto& x : a) r ^= x;
   if (r == 0) return 1;
   int now = 0, cnt = 0;;
-  for (auto &x : a) {
+  for (auto& x : a) {
     now ^= x;
     if (now == r) {
       now = 0;

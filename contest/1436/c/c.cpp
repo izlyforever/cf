@@ -25,7 +25,7 @@ int main() {
   }
   int mx = x - 1, px = n - x;
   LL ret = 1;
-  for (auto &x : ans) {
+  for (auto& x : ans) {
     if (x == 1) {
       ret = ret * px % M;
       --px;

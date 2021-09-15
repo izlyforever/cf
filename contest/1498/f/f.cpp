@@ -16,7 +16,7 @@ int main() {
     e[y].emplace_back(x);
   }
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<std::vector<int>> b(n, std::vector<int>(2 * k)); // 以 u 为节点的子树的答案
   auto c = b; // c 表示父节点当作儿子节点时，这个分支上的答案
   std::function<void(int, int)> preDfs = [&](int u, int fa) {

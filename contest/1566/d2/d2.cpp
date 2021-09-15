@@ -4,11 +4,11 @@
 using LL = long long;
 
 template <typename T>
-std::vector<T> discrete(std::vector<T> &a) {
+std::vector<T> discrete(std::vector<T>& a) {
   auto r = a;
   std::sort(r.begin(), r.end());
   r.erase(std::unique(r.begin(), r.end()), r.end());
-  for (auto &x : a) {
+  for (auto& x : a) {
     x = std::lower_bound(r.begin(), r.end(), x) - r.begin();
   }
   return r;

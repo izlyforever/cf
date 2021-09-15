@@ -13,7 +13,7 @@ int main() {
     S.insert(x);
   }
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end(), std::greater<>());
   int ans = 0;
   for (auto x : a) {

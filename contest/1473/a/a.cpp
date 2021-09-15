@@ -11,7 +11,7 @@ int main() {
     int n, d;
     std::cin >> n >> d;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto ai = std::min_element(a.begin(), a.end());
     int r = INT_MAX;
     for (auto it = a.begin(); it != a.end(); ++it) if (it != ai) {

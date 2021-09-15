@@ -14,7 +14,7 @@ int main() {
     for (int i = n; i > k; --i) a.emplace_back(i);
     for (int i = k - 1; i * 2 >= k; --i) a.emplace_back(i);
     std::cout << a.size() << "\n";
-    for (auto &x : a) std::cout << x << " ";
+    for (auto& x : a) std::cout << x << " ";
     std::cout << "\n";
   }
   return 0;

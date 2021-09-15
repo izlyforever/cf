@@ -8,7 +8,7 @@ int main(){
     string s;
     cin>>s;
     int l=0,r=0;
-    for(auto &c:s){
+    for(auto& c:s){
       if(c=='L'){
         --l;
       }else{

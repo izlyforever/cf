@@ -6,8 +6,8 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   auto f = [&](int i) -> std::pair<int, int> {
     int x = b[i] - a[i], y = a[i] - 2 * x;
     return {x, y}; // 只要 x >= 0， y 就不会越界

@@ -4,13 +4,13 @@
 class A{
   std::string s;
  public:
-  A(std::string &&x) : s(std::move(x)) {}
-  A(const A &x) = default;
-  A& operator=(const A &x) = default;
-  A(A &&x) : s(std::move(x.s)) {
+  A(std::string&& x) : s(std::move(x)) {}
+  A(const A& x) = default;
+  A& operator=(const A& x) = default;
+  A(A&& x) : s(std::move(x.s)) {
     std::cout << "Construct" << std::endl;
   }
-  A& operator=(A &&x) {
+  A& operator=(A&& x) {
     std::cout << "=" << std::endl;
     s = std::move(x.s);
     return *this;
@@ -30,7 +30,7 @@ class B {
     std::cout << a << '\n';
   }
   B(){}
-  B(B &&x) = default;
+  B(B&& x) = default;
 };
 
 
@@ -42,7 +42,7 @@ class C {
     std::cout << a << ": " << b << '\n';
   }
   C(){}
-  C(C &&x) = default;
+  C(C&& x) = default;
 };
 
 class D {
@@ -64,7 +64,7 @@ int main () {
     x.a = 2;
     f(x);
     f(D());
-    auto &&y = x;
+    auto&& y = x;
     f(y);
   }
   {

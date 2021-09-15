@@ -11,13 +11,13 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<int> a(n);
-    for (auto &x : a) {
+    for (auto& x : a) {
       std::cin >> x;
       --x;
     }
     std::sort(a.rbegin(), a.rend());
     std::vector<int> c(m);
-    for (auto &x : c) std::cin >> x;
+    for (auto& x : c) std::cin >> x;
     LL r = 0;
     int now = 0;
     for (int i = 0; i < n; ++i) {

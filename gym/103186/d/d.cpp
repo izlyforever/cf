@@ -12,7 +12,7 @@ void solve() {
   fac[0] = 1;
   for (int i = 1; i <= n; ++i) fac[i] = 1LL * fac[i - 1] * i % M;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end());
   std::vector<int> b{1};
   for (int i = 1; i < n; ++i) {

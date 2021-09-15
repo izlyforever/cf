@@ -14,7 +14,7 @@ LL powMod(LL x, LL n) {
 const LL g = powMod(3, (M - 1) / 7);
 const int N = 823543; // pow(7, 7)
 LL w[7];
-void dft(std::vector<LL> &a) {
+void dft(std::vector<LL>& a) {
   int n = a.size();
   std::vector<LL> b(n);
   for (int i = 0; i < n; ++i) {
@@ -24,7 +24,7 @@ void dft(std::vector<LL> &a) {
   }
   std::swap(a, b);
 }
-void idft(std::vector<LL> &a) {
+void idft(std::vector<LL>& a) {
   int n = a.size();
   std::vector<LL> b(n);
   for (int i = 0; i < n; ++i) {
@@ -35,7 +35,7 @@ void idft(std::vector<LL> &a) {
   std::swap(a, b);
   LL invN = powMod(n, M - 2);
   // 这一步可以最后一起做
-  for (auto &x : a) x = x * invN % M;
+  for (auto& x : a) x = x * invN % M;
 }
 
 int main() {

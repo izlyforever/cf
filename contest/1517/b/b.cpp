@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::vector<int>> a(n, std::vector<int>(m)), b(m, std::vector<int>(n));
-    for (auto &x : a) for (auto &i : x) std::cin >> i;
+    for (auto& x : a) for (auto& i : x) std::cin >> i;
     for (int i = 0; i < n; ++i) std::sort(a[i].begin(), a[i].end(), std::greater<>());
     std::set<std::pair<int, int>> S;
     for (int i = 0; i < n; ++i) S.insert({a[i].back(), i});

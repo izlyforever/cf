@@ -9,7 +9,7 @@ int main() {
   std::cin >> n;
   std::vector<std::pair<int, int>> a(n);
   int now = -1;
-  for (auto &[x, id] : a) std::cin >> x, id = ++now;
+  for (auto& [x, id] : a) std::cin >> x, id = ++now;
   std::sort(a.begin(), a.end());
   int sm = 0, p = 0, A = 0, B = 0, ans = -1;
   for (int i = 0; i < n; ++i) {

@@ -8,7 +8,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int x = std::accumulate(a.begin(), a.end(), 0LL) % n;
   std::cout << 1LL * x * (n - x) << '\n';
 }

@@ -8,7 +8,7 @@ struct Node {
     id = _id, val = _val, par = _par, ch[0] = ch[1] = 0;
   }
 };
-int cartesian_build(std::vector<Node> &tree, int n) {
+int cartesian_build(std::vector<Node>& tree, int n) {
   for (int i = 1; i <= n; ++i) {
     int k = i - 1;
     while (tree[k].val < tree[i].val) k = tree[k].par;

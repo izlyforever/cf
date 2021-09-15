@@ -11,9 +11,9 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::vector<std::pair<int, double>> b(m);
-    for (auto &[x, y] : b) std::cin >> x >> y;
+    for (auto& [x, y] : b) std::cin >> x >> y;
     std::cout.precision(6);
     int now = n - 1;
     while (now >= 0 && a[now] == now + 1) --now;

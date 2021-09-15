@@ -12,7 +12,7 @@ int main() {
     std::cin >> n;
     std::vector<int> w(n);
     LL r = 0;
-    for (auto &x : w) {
+    for (auto& x : w) {
       std::cin >> x;
       r += x;
     }

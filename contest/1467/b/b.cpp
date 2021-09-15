@@ -6,7 +6,7 @@ int solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<int> b(n), c(n);
   auto f = [&](int i) {
     return i > 0 && i + 1 < n && (a[i] > std::max(a[i - 1], a[i + 1]) || a[i] < std::min(a[i - 1], a[i + 1]));

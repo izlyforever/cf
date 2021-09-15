@@ -8,7 +8,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n), b(n - 1);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   if (n == 1) {
     std::cout << 1 << '\n';
     return;

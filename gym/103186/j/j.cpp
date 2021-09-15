@@ -8,9 +8,9 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   LL s = std::accumulate(a.begin(), a.end(), 0LL);
-  if (s < 0) for (auto &x : a) x = -x;
+  if (s < 0) for (auto& x : a) x = -x;
   std::sort(a.begin(), a.end(), std::greater<>());
   LL s1 = 0, s2 = 0;
   for (int i = 0; i < n; i += 2) s1 += a[i];

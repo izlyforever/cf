@@ -11,7 +11,7 @@ int main() {
   std::cin >> n >> m;
   std::vector<int> vis(n);
   std::vector<int> a(m);
-  for (auto &x : a) {
+  for (auto& x : a) {
     std::cin >> x;
     vis[--x] = 1;
   }

@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::string> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int i = 0; i < n; i += 3) {
       a[i] = std::string(m, 'X');
       if (i + 3 < n) {
@@ -24,7 +24,7 @@ int main() {
         for (int j = 0; j < m; ++j) if (a[i + 2][j] == 'X') a[i + 1][j] = 'X';
       }
     }
-    for (auto &x : a) std::cout << x << "\n";
+    for (auto& x : a) std::cout << x << "\n";
   }
   return 0;
 }

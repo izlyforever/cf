@@ -9,12 +9,12 @@ void solve() {
   std::cin >> n >> a >> b >> c;
   struct Node {
     int x, y, z;
-    bool operator<(const Node &A) const {
+    bool operator<(const Node& A) const {
       return y - x < A.y - A.x;
     }
   };
   std::vector<Node> A(n);
-  for (auto &[x, y, z] : A) std::cin >> x >> y >> z;
+  for (auto& [x, y, z] : A) std::cin >> x >> y >> z;
   std::sort(A.begin(), A.end());
   std::vector<LL> ans(n + 1, INT64_MIN);
   ans[0] = 0;

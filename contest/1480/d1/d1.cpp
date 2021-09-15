@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   auto check = [&](int l, int r, int val) {
     for (int i = l + 2; i < r; i += 2) {
       if (a[i] != val) return false;

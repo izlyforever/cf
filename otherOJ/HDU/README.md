@@ -138,8 +138,8 @@ $$
 $$
 \begin{array}{lc}
 ans_N &= \sum_{d=1} ^N d \sum_{x d \leq N}  [\gcd(x,d) == 1] \\
-&=  \sum_{d=1} ^N d \sum_{x d \leq N}  \sum_{l|gcd(x,d)} \mu(l) \\
-&= \sum_{l=1} ^{\sqrt{N}} \mu(l) l \sum_{d = 1} ^{\lfloor \frac{N}{l} \rfloor}  d \cdot \lfloor \frac{N}{l^2 d} \rfloor\\
-&= \sum_{l=1} ^{\sqrt{N}} \mu(l) l \sum_{d = 1} ^{\lfloor \frac{N}{l^2} \rfloor} d \cdot \lfloor \frac{ \lfloor\frac{N}{l^2} \rfloor}{d} \rfloor \\
+ &=  \sum_{d=1} ^N d \sum_{x d \leq N}  \sum_{l|gcd(x,d)} \mu(l) \\
+ &= \sum_{l=1} ^{\sqrt{N}} \mu(l) l \sum_{d = 1} ^{\lfloor \frac{N}{l} \rfloor}  d \cdot \lfloor \frac{N}{l^2 d} \rfloor\\
+ &= \sum_{l=1} ^{\sqrt{N}} \mu(l) l \sum_{d = 1} ^{\lfloor \frac{N}{l^2} \rfloor} d \cdot \lfloor \frac{ \lfloor\frac{N}{l^2} \rfloor}{d} \rfloor \\
 \end{array}
 $$

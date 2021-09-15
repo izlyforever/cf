@@ -15,7 +15,7 @@ int main() {
       if (v[x]) p.emplace_back(x);
       else v[x] = true;
     }
-    for (auto &x : p) std::cout << x << " ";
+    for (auto& x : p) std::cout << x << " ";
     std::cout << std::endl;
   }
   return 0;

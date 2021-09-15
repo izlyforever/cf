@@ -55,7 +55,7 @@ int main() {
     r += a[u];
   }
   std::cout << r << std::endl;
-  for (auto &x : ans1) {
+  for (auto& x : ans1) {
     std::cout << x << " ";
   }
   for (int i = ans2.size() - 1; ~i; --i) {

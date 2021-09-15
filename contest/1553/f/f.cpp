@@ -31,7 +31,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   Bitree<LL> A(N), B(N);
   LL ans = 0, sumA = 0;
   for (int i = 0; i < n; ++i) {

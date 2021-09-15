@@ -11,9 +11,9 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::string> s(n);
-    for (auto &x : s) std::cin >> x;
+    for (auto& x : s) std::cin >> x;
     std::vector<std::pair<int, int>> r;
-    auto f = [](char &x) {x = (x == '0' ? '1' : '0');};
+    auto f = [](char& x) {x = (x == '0' ? '1' : '0');};
     for (int i = n - 1; i > 1; --i) {
       for (int j = m - 1; j >= 0; --j) if (s[i][j] == '1') {
         r.emplace_back(i, j);

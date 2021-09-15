@@ -32,8 +32,8 @@ int main() {
   std::cin >> n;
   std::vector<int> h(n), w(n);
   std::vector<std::tuple<int, int, int>> a(n);
-  for (auto &x : h) std::cin >> x;
-  for (auto &x : w) std::cin >> x;
+  for (auto& x : h) std::cin >> x;
+  for (auto& x : w) std::cin >> x;
   for (int i = 0; i < n; ++i) {
     a[i] = {h[i], i + 1, w[i]};
   }

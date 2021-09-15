@@ -26,7 +26,7 @@ class SegmentTree {
     return queryIndex(L, R, m, r, p << 1 | 1);
   }
  public:
-  SegmentTree(const std::vector<int> &a) : n(a.size()), mn(4 * n) {
+  SegmentTree(const std::vector<int>& a) : n(a.size()), mn(4 * n) {
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
       if (r - l == 1) {
         mn[p] = a[l];
@@ -48,7 +48,7 @@ LL solve() {
   int n, c;
   std::cin >> n >> c;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   SegmentTree A(a);
   LL ans = 0;
   std::function<void(int, int)> dfs = [&](int L, int R) {

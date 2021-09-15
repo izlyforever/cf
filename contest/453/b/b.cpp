@@ -11,7 +11,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int ma = *std::max_element(a.begin(), a.end()) * 2;
   std::vector<int> p;
   for (int i = 2; i < ma; ++i) {

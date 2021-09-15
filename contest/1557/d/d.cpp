@@ -4,7 +4,7 @@
 using LL = long long;
 
 // make sure that a[i].first <= a[i].second
-void disjointInterval(std::vector<std::pair<int, int>> &a) {
+void disjointInterval(std::vector<std::pair<int, int>>& a) {
   if (a.size() <= 1) return;
   std::vector<std::pair<int, int>> b;
   std::sort(a.begin(), a.end());
@@ -34,7 +34,7 @@ class SegTree {
   void pushUp(int p) {
     mx[p] = std::max(mx[p << 1], mx[p << 1 | 1]);
   }
-  void modify(int L, int R, const Node &x, int l, int r, int p) {
+  void modify(int L, int R, const Node& x, int l, int r, int p) {
     if (L <= l && r <= R) {
       tag[p] = mx[p] = x;
       return;
@@ -62,7 +62,7 @@ class SegTree {
   Node query(int L, int R) {
     return query(L, ++R, 0, n, 1);
   }
-  void modify(int L, int R, const Node &x) {
+  void modify(int L, int R, const Node& x) {
     modify(L, ++R, x, 0, n, 1);
   }
 };
@@ -79,7 +79,7 @@ void solve() {
   }
   for (int i = 0; i < n; ++i) disjointInterval(a[i]);
   std::vector<int> tmp;
-  for (auto &x : a) {
+  for (auto& x : a) {
     for (auto [l, r] : x) {
       tmp.emplace_back(l);
       tmp.emplace_back(r);
@@ -87,8 +87,8 @@ void solve() {
   }
   std::sort(tmp.begin(), tmp.end());
   tmp.erase(std::unique(tmp.begin(), tmp.end()), tmp.end());
-  for (auto &x : a) {
-    for (auto &[l, r] : x) {
+  for (auto& x : a) {
+    for (auto& [l, r] : x) {
       l = std::lower_bound(tmp.begin(), tmp.end(), l) - tmp.begin();
       r = std::lower_bound(tmp.begin(), tmp.end(), r) - tmp.begin();
     }

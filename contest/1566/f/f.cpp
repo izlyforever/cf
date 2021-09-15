@@ -15,12 +15,12 @@ void solve() {
   a[n + 1] = INF;
   std::sort(a.begin(), a.end());
   std::vector<std::pair<LL, LL>> b(m);
-  for (auto &[x, y] : b) {
+  for (auto& [x, y] : b) {
     std::cin >> x >> y;
     y = -y;
   }
   std::sort(b.begin(), b.end(), std::greater<>());
-  for (auto &[_, y] : b) y = -y;
+  for (auto& [_, y] : b) y = -y;
   std::vector<std::pair<LL, LL>> c;
   c.emplace_back(b[0].first, b[0].second);
   for (int i = 1; i < m; ++i) {
@@ -29,7 +29,7 @@ void solve() {
     }
   }
   b.clear();
-  for (auto &[x, y] : c) {
+  for (auto& [x, y] : c) {
     auto it = std::lower_bound(a.begin(), a.end(), x);
     if (it == a.end() || *it > y) {
       b.emplace_back(x, y);

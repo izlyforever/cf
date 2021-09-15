@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int mn = std::min_element(a.begin(), a.end()) - a.begin();
     int mx = std::max_element(a.begin(), a.end()) - a.begin();
     if (mn > mx) std::swap(mn, mx);

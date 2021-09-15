@@ -12,7 +12,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int s = INT_MAX;
     for (auto x : a) s &= x;
     int x = std::count(a.begin(), a.end(), s);

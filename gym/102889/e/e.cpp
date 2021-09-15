@@ -11,7 +11,7 @@ int main() {
   vt a(n);
   std::vector<double> ans(n);
   int now = 0;
-  for (auto &[id, atk, hp] : a) {
+  for (auto& [id, atk, hp] : a) {
     std::cin >> atk >> hp;
     id = now++;
   }

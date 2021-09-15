@@ -9,7 +9,7 @@ bool solve1() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::function<bool(int, int, bool)> dfs = [&](int i, int s, bool flag) -> bool {
     if (s == 0 && flag) return true;
     if (i == n) return false;
@@ -22,7 +22,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::function<bool(int, int, bool)> dfs = [&](int i, int s, bool flag) -> bool {
     if (s == 0 && flag) return true;
     if (i == n) return false;
@@ -37,7 +37,7 @@ bool solve2() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   if (std::count(a.begin(), a.end(), 0)) return true;
 
   std::map<int, int> mp1{{0, 0}};

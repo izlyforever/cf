@@ -9,8 +9,8 @@ int solve() {
   int n;
   std::cin >> n;
   std::vector<Node> a(n);
-  for (auto &x : a) for (auto &i : x) std::cin >> i;
-  auto cmp = [](const Node &A, const Node &B) -> bool {
+  for (auto& x : a) for (auto& i : x) std::cin >> i;
+  auto cmp = [](const Node& A, const Node& B) -> bool {
     int ans = 0;
     for (int x = 0; x < 5; ++x) if (A[x] < B[x]) ++ans;
     return ans < 3;

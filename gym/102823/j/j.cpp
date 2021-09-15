@@ -6,7 +6,7 @@ int solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), vis(n), r(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   for (int i = 0; i < n; ++i) {
     if ((i == 0 || a[i] < a[i - 1]) && (i == n - 1 || a[i] < a[i + 1])) vis[i] = 1;
   }

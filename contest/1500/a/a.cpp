@@ -8,7 +8,7 @@ std::optional<std::tuple<int, int, int, int>> solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<std::array<int, 2>> p(N);
   int x = -1;
   for (int i = 0; i < n; ++i) {

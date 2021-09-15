@@ -7,7 +7,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int s = std::accumulate(a.begin(), a.end(), 0);
   if (s == n) std::cout << 0 << '\n';
   else if (s < n) std::cout << 1 << '\n';

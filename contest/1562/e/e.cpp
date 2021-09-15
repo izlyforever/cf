@@ -93,7 +93,7 @@ std::vector<int> SAIS(std::vector<int> a) {
 }
 
 // the lexicographical smallest suffix is s[ans[0],...]
-std::vector<int> SAIS(const std::string &s) {
+std::vector<int> SAIS(const std::string& s) {
   // If charset of s is lowercase letter, using th following f
   // auto f = [](char x) -> int { return int(x - 'a') + 1;};
   auto f = [](char x) -> int { return int(x) + 1;};

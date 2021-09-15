@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::vector<int> dp(n + 1, 1e9);
     std::sort(a.begin(), a.end());
     dp[0] = 0;

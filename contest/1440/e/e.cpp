@@ -16,7 +16,7 @@ struct SegmentTree {
   SegmentTree(int _n) : n(_n) {
     resize();
   }
-  SegmentTree(const std::vector<int> &a) {
+  SegmentTree(const std::vector<int>& a) {
     n = a.size();
     resize();
     std::function<void(int, int, int)> build = [&](int l, int r, int p) {
@@ -94,7 +94,7 @@ int main() {
   int n, q;
   std::cin >> n >> q;
   std::vector<int> a(n);
-  for (auto &x: a) std::cin >> x;
+  for (auto& x: a) std::cin >> x;
   SegmentTree A(a);
   while (q--) {
     int op, x, y;

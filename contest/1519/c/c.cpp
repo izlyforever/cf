@@ -11,8 +11,8 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), b(n);
-    for (auto &x : a) std::cin >> x;
-    for (auto &x : b) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
+    for (auto& x : b) std::cin >> x;
     LL s = std::accumulate(b.begin(), b.end(), 0LL);
     std::vector<std::vector<LL>> e(n + 1), c(n + 1);
     for (int i = 0; i < n; ++i) e[a[i]].emplace_back(b[i]);

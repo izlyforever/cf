@@ -7,7 +7,7 @@ int solve() {
   std::cin >> n >> k;
   std::vector<int> a(n);
   std::set<int> S;
-  for (auto &x : a) {
+  for (auto& x : a) {
     std::cin >> x;
     S.insert(x);
   }

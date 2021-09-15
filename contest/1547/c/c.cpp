@@ -8,8 +8,8 @@ std::vector<int> solve() {
   int k, n, m;
   std::cin >> k >> n >> m;
   std::vector<int> a(n), b(m);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   int i = 0, j = 0;
   std::vector<int> ans;
   while (i < n || j < m) {

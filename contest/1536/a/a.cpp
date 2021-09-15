@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int mn = *std::min_element(a.begin(), a.end());
     if (mn < 0) {
       std::cout << "NO\n";

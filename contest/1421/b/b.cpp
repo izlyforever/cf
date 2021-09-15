@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<std::string> s(n);
-    for (auto &x : s) std::cin >> x;
+    for (auto& x : s) std::cin >> x;
     auto f = [](char c) {return c - '0';};
     int t = f(s[0][1]) + f(s[1][0]) + f(s[n - 1][n - 2]) + f(s[n - 2][n - 1]);
     std::vector<std::pair<int, int>> r;

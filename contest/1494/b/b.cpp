@@ -6,7 +6,7 @@ bool solve() {
   int n;
   std::vector<int> a(4), b(6);
   std::cin >> n;
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   for (int i = 0; i < 4; ++i) if (a[i] == n) {
     ++b[(i + 3) % 4];
     ++b[(i + 1) % 4];

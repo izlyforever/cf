@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), b;
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     LL r = 0;
     for (int i = 1; i < n; ++i) {
       r += abs(a[i] - a[i - 1]);

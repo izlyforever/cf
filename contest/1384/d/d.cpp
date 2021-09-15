@@ -11,15 +11,15 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int sum = 0;
-    for (auto &x : a) sum ^= x;
+    for (auto& x : a) sum ^= x;
     if (sum == 0) {
       std::cout << "DRAW\n";
     } else {
       int k = std::__lg(sum);
       int cnt = 0;
-      for (auto &x : a) if((x >> k) & 1) ++cnt;
+      for (auto& x : a) if((x >> k) & 1) ++cnt;
       if (cnt % 4 == 1 || (n - cnt) % 2 == 1) {
         std::cout << "WIN\n";
       } else {

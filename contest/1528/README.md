@@ -25,9 +25,9 @@
 $$
 \begin{aligned}
 \sum_{i = 0}^n \binom{n}{i} n^{n - i} i^k 
-&= \sum_{i = 0}^n \binom{n}{i} n^{n - i} \sum_{j = 0}^i S(k, j) j! \binom{i}{j} \\
-&= \sum_{j = 1}^n S(k, j) j! \binom{n}{j} \sum_{i = j}^{n} \binom{n - j}{i - j} n^{n - i} \\
-&= \sum_{j = 1}^n S(k, j) j! \binom{n}{j} (n + 1)^{n - j}
+ &= \sum_{i = 0}^n \binom{n}{i} n^{n - i} \sum_{j = 0}^i S(k, j) j! \binom{i}{j} \\
+ &= \sum_{j = 1}^n S(k, j) j! \binom{n}{j} \sum_{i = j}^{n} \binom{n - j}{i - j} n^{n - i} \\
+ &= \sum_{j = 1}^n S(k, j) j! \binom{n}{j} (n + 1)^{n - j}
 \end{aligned}
 $$
 

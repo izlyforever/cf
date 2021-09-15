@@ -10,7 +10,7 @@ int main() {
   while (cas--) {
     int n;
     std::cin >> n;
-    auto f = [&](std::vector<LL> &a) -> std::vector<LL> {
+    auto f = [&](std::vector<LL>& a) -> std::vector<LL> {
       int sz = a.size();
       std::vector<LL> b(sz);
       LL sm = 0, mn = INT64_MAX;

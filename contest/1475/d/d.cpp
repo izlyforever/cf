@@ -11,8 +11,8 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<int> sa(n), sb(n);
-    for (auto &x : sa) std::cin >> x;
-    for (auto &x : sb) std::cin >> x;
+    for (auto& x : sa) std::cin >> x;
+    for (auto& x : sb) std::cin >> x;
     std::vector<LL> a, b;
     for (int i = 0; i < n; ++i) {
       if (sb[i] == 1) a.emplace_back(sa[i]);

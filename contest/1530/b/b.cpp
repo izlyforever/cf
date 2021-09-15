@@ -17,7 +17,7 @@ void solve() {
   } else if (n % 2 == 0) {
     a[n - 2].back() = '0';
   }
-  for (auto &x : a) std::cout << x << '\n';
+  for (auto& x : a) std::cout << x << '\n';
   std::cout << '\n';
 }
 

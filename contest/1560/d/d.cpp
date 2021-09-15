@@ -11,7 +11,7 @@ void solve() {
   std::vector<std::string> s(60);
   for (int i = 0; i < 60; ++i) s[i] = std::to_string(1LL << i);
   int ans = INT_MAX;
-  for (const auto &y : s) {
+  for (const auto& y : s) {
     int n = x.size(), m = y.size(), i = 0, j = 0;
     while (j < m) {
       while (i < n && x[i] != y[j]) ++i;

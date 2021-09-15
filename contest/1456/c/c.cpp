@@ -8,7 +8,7 @@ int main() {
   int n, k;
   std::cin >> n >> k;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end());
   LL r = 0, cur = 0;
   int id = n - 1;

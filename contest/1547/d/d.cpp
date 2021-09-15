@@ -8,7 +8,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b{0};
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int cur = a[0];
   for (int i = 1; i < n; ++i) {
     cur |= a[i];

@@ -6,7 +6,7 @@ int solve() {
   int n;
   std::cin >> n;
   std::vector<int> l(n), r(n), a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   for (int i = 1; i < n; ++i) if (a[i] > a[i - 1]) {
     l[i] = l[i - 1] + 1;
   }

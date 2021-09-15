@@ -10,7 +10,7 @@ void solve() {
   for (int i = 0; i < m; ++i) {
     std::cin >> sz[i];
     k[i].resize(sz[i]);
-    for (auto &x : k[i]) {
+    for (auto& x : k[i]) {
       std::cin >> x;
       ++cnt[x];
     }

@@ -8,7 +8,7 @@ int main() {
   int n, k;
   std::cin >> n >> k;
   std::vector<std::string> s(n);
-  for (auto &x : s) std::cin >> x;
+  for (auto& x : s) std::cin >> x;
   if (n >= 2 * k) {
     std::cout << "YES\n";
     for (int i = 0; i < n; ++i) std::cout << s[(i + n - k) % n] << " \n"[i == n - 1];

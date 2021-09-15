@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), nxt(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int i = 0; i < n; ++i) nxt[i] = i + 1;
     nxt.back() = 0;
     std::set<int> S;

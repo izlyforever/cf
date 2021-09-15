@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::string> c(n);
-    for (auto &x : c) std::cin >> x;
+    for (auto& x : c) std::cin >> x;
     auto a = c, b = c;
     for (int i = 0; i < n; ++i) {
       if (i & 1) {
@@ -21,8 +21,8 @@ int main() {
       }
       a[i][0] = b[i][m - 1] = '1';
     }
-    for (auto &x : a) std::cout << x << '\n';
-    for (auto &x : b) std::cout << x << '\n';
+    for (auto& x : a) std::cout << x << '\n';
+    for (auto& x : b) std::cout << x << '\n';
   }
   return 0;
 }

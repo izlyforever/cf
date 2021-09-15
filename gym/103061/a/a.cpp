@@ -28,7 +28,7 @@ int main() {
       int k;
       std::cin >> k;
       std::vector<int> a(k);
-      for (auto &x : a) std::cin >> x;
+      for (auto& x : a) std::cin >> x;
       int ans = 0, now = 0;
       while (now < k) {
         auto it = S.upper_bound({a[now], INT_MAX});

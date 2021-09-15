@@ -12,7 +12,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto mi = std::min_element(a.begin(), a.end());
     int r = 0;
     for (auto it = a.begin(); it != a.end(); ++it) if (it != mi) {

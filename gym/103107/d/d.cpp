@@ -9,7 +9,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<std::vector<LL>> dp(n, std::vector<LL>(n)), val(n, std::vector<LL>(n));
   for (int i = 0; i < n; ++i) {
     LL now = 1;

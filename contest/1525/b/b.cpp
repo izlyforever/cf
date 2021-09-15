@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     if (std::is_sorted(a.begin(), a.end())) {
       std::cout << "0\n";
     } else if (a[0] == 1 || a.back() == n) {

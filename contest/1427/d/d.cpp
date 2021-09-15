@@ -37,7 +37,7 @@ int main() {
     for (int i = 1; i <= n; ++i) p[a[i]] = i;
   }
   print(r.size());
-  for (auto &x : r) {
+  for (auto& x : r) {
     std::cout << x.size() << " ";
     for (auto i : x) std::cout << i << " ";
     println;

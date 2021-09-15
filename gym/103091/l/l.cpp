@@ -10,7 +10,7 @@ int main() {
   std::vector<int> ans(n);
   auto f = [&](std::vector<std::vector<int>> e) {
     std::vector<int> in(n);
-    for (auto &u : e) for (auto v : u) ++in[v];
+    for (auto& u : e) for (auto v : u) ++in[v];
     std::queue<int> Q;
     int alive = n;
     for (int i = 0; i < n; ++i) if (in[i] == 0) Q.push(i), --alive;

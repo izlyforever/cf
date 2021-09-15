@@ -43,7 +43,7 @@ void solve() {
   // 可以离散化，但没有必要
   SegTree A(m - 1);
   std::vector<std::tuple<int, int, int>> a(n);
-  for (auto &[w, l, r] : a) {
+  for (auto& [w, l, r] : a) {
     std::cin >> l >> r >> w;
     --r;
   }

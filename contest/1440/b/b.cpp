@@ -12,7 +12,7 @@ int main() {
     std::cin >> n >> k;
     int nk = n * k;
     std::vector<int> a(nk);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int l = n / 2 + 1;
     LL r = 0;
     for (int i = 0; i < k; ++i) {

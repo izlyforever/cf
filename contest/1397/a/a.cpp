@@ -15,7 +15,7 @@ int main() {
     for (int i = 0; i < n; ++i) {
       std::string s;
       std::cin >> s;
-      for (auto &x : s) ++c[x - 'a'];
+      for (auto& x : s) ++c[x - 'a'];
     }
     bool flag = 1;
     for (int i = 0; i < 26; ++i) if (c[i] % n) flag = 0;

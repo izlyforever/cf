@@ -9,7 +9,7 @@ int main() {
   std::cin >> cas;
   while (cas--) {
     std::vector<int> a(3);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     std::cout << (a[0] + a[1] > a[2] ? "Yes\n" : "No\n");
   }

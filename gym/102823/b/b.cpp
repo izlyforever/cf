@@ -12,7 +12,7 @@ LL powMod(LL x, int n) {
   }
   return r;
 }
-void bitreverse(std::vector<LL> &a) {
+void bitreverse(std::vector<LL>& a) {
   for (int i = 0, j = 0; i != a.size(); ++i) {
     if (i > j) std::swap(a[i], a[j]);
     for (int l = a.size() >> 1;
@@ -20,7 +20,7 @@ void bitreverse(std::vector<LL> &a) {
   }
 }
 
-void ntt(std::vector<LL> &a, bool isInverse = false) {
+void ntt(std::vector<LL>& a, bool isInverse = false) {
   LL g = powMod(ROOT, (M - 1) / a.size());
   if (isInverse) {
     g = powMod(g, M - 2);
@@ -69,7 +69,7 @@ int main() {
     int n, L, m;
     std::cin >> n >> L >> m;
     std::vector<LL> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::reverse(a.begin(), a.end());
     std::vector<LL> b(n);
     LL now = 1;

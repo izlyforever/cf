@@ -8,8 +8,8 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b(n), d(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   for (int i = 0; i < n; ++i) d[i] = abs(a[i] - b[i]);
   std::cout << std::accumulate(d.begin(), d.end(), 0LL) << '\n';
   std::vector<int> cur[2], ans;

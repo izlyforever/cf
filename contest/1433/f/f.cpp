@@ -9,14 +9,14 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m ,k;
   std::cin >> n >> m >> k;
-  auto cmax = [](int &x, int y) {
+  auto cmax = [](int& x, int y) {
     if (x < y) x = y;
   };
   std::vector<std::vector<int>> dp(m + 1, std::vector<int>(k, -1e9));
   dp[0][0] = 0;
   for (int i = 0; i < n; ++i) {
     std::vector<int> a(m);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int j = 0; j < m; ++j) {
       for (int cnt = m; cnt >= 1; --cnt) {
         for (int _ = 0; _ < k; ++_) {

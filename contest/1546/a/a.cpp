@@ -8,8 +8,8 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   for (int i = 0; i < n; ++i) a[i] -= b[i];
   if (std::accumulate(a.begin(), a.end(), 0) == 0) {
     std::vector<std::pair<int, int>> x, y, ans;

@@ -4,7 +4,7 @@ using LL = long long;
 // #include "include/izlyforever.hpp"
 
 // a 单调递增，且最大值小于 mx。a 变成下一个字典序大于自身的序列
-bool next(std::vector<int> &a, int mx) {
+bool next(std::vector<int>& a, int mx) {
   int n = a.size(), i = 1;
   while (i <= n && a[n - i] == mx - i) ++i;
   if (i > n) return false;
@@ -84,7 +84,7 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::vector<int>> a(n, std::vector<int>(m));
-  for (auto &x : a) for (auto &i : x) std::cin >> i;
+  for (auto& x : a) for (auto& i : x) std::cin >> i;
   ECC A(a);
   A.setK(2);
   if (A.solve()) {

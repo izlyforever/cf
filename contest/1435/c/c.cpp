@@ -10,12 +10,12 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int m = 6;
   std::vector<int> a(m);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end());
   int n;
   std::cin >> n;
   std::vector<int> b(n);
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::vector<pii> p;
   for (int i = 0; i < m; ++i) {
     for (int j = 0; j < n; ++j) {

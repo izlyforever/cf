@@ -32,7 +32,7 @@ class Dinic {
   int dfs(int u, int t, int f) {
     if (u == t || f == 0) return f;
     int r = f;
-    for (int &i = cur[u]; i < g[u].size(); ++i) {
+    for (int& i = cur[u]; i < g[u].size(); ++i) {
       int j = g[u][i];
       auto [v, c] = e[j];
       if (c > 0 && h[v] == h[u] + 1) {

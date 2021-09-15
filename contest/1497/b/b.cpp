@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<int> a(n), cnt(m);
-    for (auto &x : a) {
+    for (auto& x : a) {
       std::cin >> x;
       ++cnt[x % m];
     }

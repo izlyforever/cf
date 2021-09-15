@@ -10,18 +10,18 @@ LL powmod(LL x,LL n){
   }
   return r;
 }
-void bitreverse(vector<LL> &a){
+void bitreverse(vector<LL>& a){
   for(int i=0,j=0;i!=a.size();++i){
     if(i>j) swap(a[i],a[j]);
     for(int l=a.size()>>1;(j^=l)<l;l>>=1);
   }
 }
-void ntt(vector<LL> &a,bool isInverse=false){
+void ntt(vector<LL>& a,bool isInverse=false){
   LL g = powmod(ROOT,(M-1)/a.size());
   if(isInverse){
     g = powmod(g,M-2);
     LL invLen = powmod(LL(a.size()),M-2);
-    for(auto &x:a) x=x*invLen%M;
+    for(auto& x:a) x=x*invLen%M;
   }
   bitreverse(a);
   vector<LL> w(a.size(),1);
@@ -79,7 +79,7 @@ int main(){
       else if(cnt[i]==1) ++c1;
     }
     vector<LL> a(c1+1),b(c2+1);
-    auto inc = [](LL &a,LL b){if((a+=b)>=M) a-=M;};
+    auto inc = [](LL& a,LL b){if((a+=b)>=M) a-=M;};
     LL p2=1;
     for(int i=0;i<=c1;++i){
       a[i] = binom(c1,i)*p2%M;

@@ -9,7 +9,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int r = 0;
   LL cnt = 0;
   for (int d = 1; d < 31; ++d) {

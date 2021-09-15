@@ -18,7 +18,7 @@ int main() {
     }
     int t = c[0] > c[1];
     for (int i = 0; i < n; ++i) if (i % 2 == t) a[i] = 1;
-    for (auto &x : a) std::cout << x << " ";
+    for (auto& x : a) std::cout << x << " ";
     std::cout << std::endl;
   }
   return 0;

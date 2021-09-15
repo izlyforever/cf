@@ -7,8 +7,8 @@ bool solve() {
   LL A, B;
   std::cin >> A >> B >> n;
   std::vector<LL> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::vector<int> r;
   LL mx = 0, sm = 0;
   for (int i = 0; i < n; ++i) {

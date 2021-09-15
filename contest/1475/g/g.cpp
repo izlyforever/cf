@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), r(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.rbegin(), a.rend());
     int mx = a[0];
     std::vector<int> mp(2e5 + 2, -1);

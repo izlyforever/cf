@@ -6,7 +6,7 @@ int solve() {
   int n, x;
   std::cin >> n >> x;
   std::vector<int> a(n);
-  for (auto &t : a) std::cin >> t;
+  for (auto& t : a) std::cin >> t;
   --n;
   while (n && a[n - 1] <= a[n]) --n;
   if (n == 0) return 0;

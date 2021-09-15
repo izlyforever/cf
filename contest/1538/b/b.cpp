@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int sm = std::accumulate(a.begin(), a.end(), 0);
     if (sm % n) {
       std::cout << "-1\n";

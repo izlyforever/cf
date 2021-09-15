@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     auto [mi, mx] = std::minmax_element(a.begin(), a.end());
     if (*mi == *mx) print("NO");
     else {

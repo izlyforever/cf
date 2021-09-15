@@ -14,7 +14,7 @@ std::vector<T> discrete(std::vector<T>& a) {
     r[id] = x;
     x = id;
   }
-  for (auto &x : a) ++x;
+  for (auto& x : a) ++x;
   return r;
 }
 
@@ -54,7 +54,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<std::pair<int, int>> a(n);
-    for (auto &[x, y] : a) std::cin >> x >> y;
+    for (auto& [x, y] : a) std::cin >> x >> y;
     std::sort(a.begin(), a.end());
     std::vector<int> b(2 * n);
     for (int i = 0; i < n; ++i) {

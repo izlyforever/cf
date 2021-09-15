@@ -24,11 +24,11 @@ $$
 $$
 \begin{aligned}
 \sum_{k = 0}^n f(k) {n \choose k} x^k (1 - x)^{n-k} 
-&= \sum_{k = 0}^n \sum_{i = 0}^k {n \choose k} {k \choose i} f_i x^k (1 - x)^{n-k} \\
-&= \sum_{i = 0}^n \sum_{k = i}^n {n \choose i}  {n - i \choose k - i} f_i x^k (1 - x)^{n-k} \\
-&= \sum_{i = 0}^n f_i {n \choose i}  x^i (1 - x)^ {n - i} \sum_{k - i = 0}^{n - i} {n - i \choose k - i} x^{k - i} (1 - x)^{i - k} \\
-&= \sum_{i = 0}^n f_i {n \choose i}  x^i (1 - x)^ {n - i} (1 + \frac{x}{1-x})^{n - i} \\
-&= \sum_{i = 0}^n f_i {n \choose i}  x^i
+ &= \sum_{k = 0}^n \sum_{i = 0}^k {n \choose k} {k \choose i} f_i x^k (1 - x)^{n-k} \\
+ &= \sum_{i = 0}^n \sum_{k = i}^n {n \choose i}  {n - i \choose k - i} f_i x^k (1 - x)^{n-k} \\
+ &= \sum_{i = 0}^n f_i {n \choose i}  x^i (1 - x)^ {n - i} \sum_{k - i = 0}^{n - i} {n - i \choose k - i} x^{k - i} (1 - x)^{i - k} \\
+ &= \sum_{i = 0}^n f_i {n \choose i}  x^i (1 - x)^ {n - i} (1 + \frac{x}{1-x})^{n - i} \\
+ &= \sum_{i = 0}^n f_i {n \choose i}  x^i
 \end{aligned}\
 $$
 上述式子最后一项，只有 $m + 1$ 项，$f_0, \cdots, f_m$ 可以由 NTT 计算。

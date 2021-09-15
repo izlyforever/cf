@@ -7,7 +7,7 @@ using LL = long long;
 int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
-  auto cmin = [](auto &x, auto y) {
+  auto cmin = [](auto& x, auto y) {
     if (x > y) x = y;
   };
   int n, m, k;
@@ -15,14 +15,14 @@ int main() {
   std::vector<std::vector<int>> d(n, std::vector<int>(n, 1e9));
   for (int i = 0; i < n; ++i) d[i][i] = 0;
   std::vector<std::tuple<int, int, int>> road(m);
-  for (auto &[x, y, w] : road) {
+  for (auto& [x, y, w] : road) {
     std::cin >> x >> y >> w;
     --x; --y;
     cmin(d[x][y], w);
     d[y][x] = d[x][y];
   }
   std::vector<std::pair<int, int>> travel(k);
-  for (auto &[a, b] : travel) {
+  for (auto& [a, b] : travel) {
     std::cin >> a >> b;
     --a; --b;
   }

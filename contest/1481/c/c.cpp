@@ -15,7 +15,7 @@ std::vector<int> solve() {
   }
   for (int i = 1; i <= n; ++i) if (!e[i].empty()) pos[i] = e[i][0];
   std::vector<int> c(m);
-  for (auto &x : c) std::cin >> x;
+  for (auto& x : c) std::cin >> x;
   std::vector<int> r;
   for (int i = 0; i < m; ++i) {
     int x = c[i];

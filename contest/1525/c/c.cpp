@@ -12,8 +12,8 @@ int main() {
     std::cin >> n >> m;
     std::vector<int> a(n), id(n);
     std::string s(n, '0');
-    for (auto &x : a) std::cin >> x;
-    for (auto &c : s) std::cin >> c;
+    for (auto& x : a) std::cin >> x;
+    for (auto& c : s) std::cin >> c;
     std::iota(id.begin(), id.end(), 0);
     std::sort(id.begin(), id.end(), [&](int i, int j) {
       return a[i] < a[j];

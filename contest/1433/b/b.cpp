@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int now = 0, r = 0;
     while (now < n && a[now] == 0) ++now;
     while (now < n) {

@@ -6,9 +6,9 @@ int solve() {
   int n, x;
   std::cin >> n >> x;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
-  if (std::all_of(a.begin(), a.end(), [&](const int &t) { return t == x;})) return 0;
-  if (std::any_of(a.begin(), a.end(), [&](const int &t) { return t == x;})) return 1;
+  for (auto& x : a) std::cin >> x;
+  if (std::all_of(a.begin(), a.end(), [&](const int& t) { return t == x;})) return 0;
+  if (std::any_of(a.begin(), a.end(), [&](const int& t) { return t == x;})) return 1;
   int s = std::accumulate(a.begin(), a.end(), 0);
   if (x * n == s) return 1;
   return 2;

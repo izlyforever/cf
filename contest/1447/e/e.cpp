@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::function<int(std::vector<int>, int)> dfs = [&](std::vector<int> a, int now) -> int {
     if (now < 0 || a.size() <= 2) return 0;
     std::vector<int> b, c;

@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> p(n);
-  for (auto &x : p) std::cin >> x;
+  for (auto& x : p) std::cin >> x;
   std::vector<std::vector<int>> r(n, std::vector<int>(n));
   for (int i = 0; i < n; ++i) {
     int j = 0, now = 0;

@@ -20,7 +20,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int r = 0;
     for (int i = 1; i < n; ++i) {
       r += f(a[i - 1], a[i]);

@@ -8,7 +8,7 @@ int main() {
   int n, m, p;
   std::cin >> n >> m >> p;
   std::vector<std::string> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   // jiangly yyds
   auto begin = std::chrono::steady_clock::now();
   std::mt19937 rnd(begin.time_since_epoch().count());
@@ -19,7 +19,7 @@ int main() {
     for (int i = 0; i < m; ++i) if (a[x][i] == '1') b.emplace_back(i);
     int cnt = b.size();  // 题目要求 cnt <= p，所以不会很大
     std::vector<int> sum(1 << cnt);
-    for (const auto &s : a) {
+    for (const auto& s : a) {
       int msk = 0;
       for (int i = 0; i < cnt; ++i) if (s[b[i]] == '1') {
         msk |= 1 << i;

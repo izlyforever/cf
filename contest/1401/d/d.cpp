@@ -53,7 +53,7 @@ int main() {
     int m;
     std::cin >> m;
     std::vector<LL> p(m);
-    for (auto &x : p) std::cin >> x;
+    for (auto& x : p) std::cin >> x;
     if (r.size() > p.size()) {
       std::vector<LL> tmp(r.size() - p.size(), 1);
       p.insert(p.end(), tmp.begin(), tmp.end());

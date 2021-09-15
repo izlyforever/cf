@@ -2,7 +2,7 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-std::vector<std::pair<int, int>> f(std::vector<LL> &a, std::vector<LL> &s) {
+std::vector<std::pair<int, int>> f(std::vector<LL>& a, std::vector<LL>& s) {
   // 从小到大一层一层的 push 数字只会越来越大! 大致懂了
   int n = a.size();
   std::stack<int> Q;
@@ -32,8 +32,8 @@ LL solve() {
   int n, m;
   std::cin >> n >> m;
   std::vector<LL> a(n), b(m);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::vector<LL> sa(n + 1), sb(m + 1);
   for (int i = 0; i < n; ++i) sa[i + 1] = sa[i] + a[i];
   for (int i = 0; i < m; ++i) sb[i + 1] = sb[i] + b[i];

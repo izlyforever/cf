@@ -9,7 +9,7 @@ void solve() {
   std::cin >> n >> m;
   std::vector<std::pair<int, int>> a(n);
   int s = 0;
-  for (auto &[id, x] : a) {
+  for (auto& [id, x] : a) {
     std::cin >> id >> x;
     s += x;
   }

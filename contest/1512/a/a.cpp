@@ -12,7 +12,7 @@ int main() {
     std::cin >> n;
     std::vector<int> a(n);
     std::map<int, int> mp;
-    for (auto &x : a) std::cin >> x, ++mp[x];
+    for (auto& x : a) std::cin >> x, ++mp[x];
     for (int i = 0; i < n; ++i) if (mp[a[i]] == 1) {
       std::cout << i + 1 << '\n';
     }

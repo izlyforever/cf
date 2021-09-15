@@ -9,7 +9,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> h(n), dp(n);
-  for (auto &x : h) std::cin >> x;
+  for (auto& x : h) std::cin >> x;
   std::stack<int> low, high;
   for (int i = 0; i < n; ++i) {
     dp[i] = (i == 0 ? 0 : dp[i - 1] + 1);

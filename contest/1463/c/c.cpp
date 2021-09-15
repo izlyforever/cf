@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<std::pair<LL, LL>> a(n);
-    for (auto &[t, x] : a) std::cin >> t >> x;
+    for (auto& [t, x] : a) std::cin >> t >> x;
     a.emplace_back(INT64_MAX, 0);
     LL t = a[0].first, x0 = 0, x1 = a[0].second;
     int now = 0, r = 0;

@@ -16,7 +16,7 @@ int main() {
       if (x > y) std::swap(x, y);
       a[i] = {x, y, i};
     }
-    std::sort(a.begin(), a.end(), [](const tp &A, const tp &B) {
+    std::sort(a.begin(), a.end(), [](const tp& A, const tp& B) {
       return std::get<0>(A) < std::get<0>(B) || (std::get<0>(A) == std::get<0>(B) && std::get<1>(A) > std::get<1>(B));
     });
     std::map<int, int> mp;

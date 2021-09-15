@@ -14,7 +14,7 @@ int main() {
     c[0] = std::min(c[0], c[1] + h);
     c[1] = std::min(c[1], c[0] + h);
     int r = 0;
-    for (auto &x : s) r += c[x - '0'];
+    for (auto& x : s) r += c[x - '0'];
     std::cout << r << std::endl;
   }
   return 0;

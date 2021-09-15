@@ -26,7 +26,7 @@ int main() {
       ans[a[i].second] = id;
     }
     std::cout << "YES\n";
-    for (auto &x : ans) std::cout << x << ' ';
+    for (auto& x : ans) std::cout << x << ' ';
     std::cout << '\n';
   }
   return 0;

@@ -3,7 +3,7 @@
 using LL = long long;
 
 const int INF = 5e8;
-std::vector<int> solve(const std::vector<int> &a, int m) {
+std::vector<int> solve(const std::vector<int>& a, int m) {
   int n = a.size();
   std::vector<int> id(n), ai(n);
   std::iota(id.begin(), id.end(), 0);
@@ -20,7 +20,7 @@ std::vector<int> solve(const std::vector<int> &a, int m) {
     --x; --y;
     c[y].insert(ai[x]);
   }
-  auto mex = [&](const std::set<int> &d) {
+  auto mex = [&](const std::set<int>& d) {
     for (int i = 0; i < n; ++i) if (!d.count(i)) return i;
     return n;
   };
@@ -37,7 +37,7 @@ int main() {
   for (int i = 0; i < 4; ++i) std::cin >> n[i];
   std::vector<int> a[4];
   for (int i = 0; i < 4; ++i) a[i].resize(n[i]);
-  for (int i = 0; i < 4; ++i) for (auto &x : a[i]) std::cin >> x;
+  for (int i = 0; i < 4; ++i) for (auto& x : a[i]) std::cin >> x;
   for (int i = 1; i < 4; ++i) {
     auto t = solve(a[i - 1], n[i]);
     for (int j = 0; j < n[i]; ++j) a[i][j] += t[j];

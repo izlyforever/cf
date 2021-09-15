@@ -37,7 +37,7 @@ int main(){
     return a;
   };
   LL r = 1;
-  for(auto &p:g(x)){
+  for(auto& p:g(x)){
     r = r*powmod(p,f(n,p))%M;
   }
   cout<<r<<endl;

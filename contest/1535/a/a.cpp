@@ -9,7 +9,7 @@ int main() {
   std::cin >> cas;
   while (cas--) {
     std::vector<int> a(4), p(4);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::iota(p.begin(), p.end(), 0);
     std::sort(p.begin(), p.end(), [&](int i, int j) {
       return a[i] < a[j];

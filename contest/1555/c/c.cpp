@@ -8,8 +8,8 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   int ans = INT_MAX;
   for (int i = 1; i < n; ++i) b[i] += b[i - 1];
   for (int i = n - 1; i > 0; --i) a[i - 1] += a[i];

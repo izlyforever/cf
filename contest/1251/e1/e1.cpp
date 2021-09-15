@@ -18,7 +18,7 @@ int main(){
     LL r = 0;
     priority_queue<int,vector<int>,greater<int>> q; //白嫖的votes
     for(int i=n-1;i>=0;--i){
-      for(auto &x:a[i]) q.push(x);
+      for(auto& x:a[i]) q.push(x);
       while(n-q.size()<i){
         r+=q.top();
         q.pop();

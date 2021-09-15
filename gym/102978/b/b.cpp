@@ -53,7 +53,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   const LL M = 998244353;
   Binom::init(n, M);
   std::vector<LL> x(n);

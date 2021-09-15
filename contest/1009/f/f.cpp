@@ -7,7 +7,7 @@ using LL = long long;
 using LL = long long;
 
 // 为了代码简洁，树的编号以 1 开始。
-std::vector<int> dsuOnTree(std::vector<std::vector<int>> &e, int rt = 1) {
+std::vector<int> dsuOnTree(std::vector<std::vector<int>>& e, int rt = 1) {
   int n = e.size();
   // 预处理出重儿子
   std::vector<int> sz(n), son(n);

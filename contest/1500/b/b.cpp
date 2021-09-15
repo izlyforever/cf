@@ -17,8 +17,8 @@ int main() {
   LL k;
   std::cin >> n >> m >> k;
   std::vector<int> a(n), b(m);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::vector<int> pa(N, -1), pb(N, -1);
   for (int i = 0; i < n; ++i) pa[a[i]] = i;
   for (int i = 0; i < m; ++i) pb[b[i]] = i;

@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<std::string> a(n);
-    for (auto &s : a) std::cin >> s;
+    for (auto& s : a) std::cin >> s;
     std::vector<int> l(10, n), r(10, -1), u(10, n), d(10, -1), ans(10);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {

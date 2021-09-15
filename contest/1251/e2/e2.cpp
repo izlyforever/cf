@@ -18,7 +18,7 @@ int main(){
     LL r = 0;
     multiset<int> q; //白嫖的votes
     for(int i=n-1;i>=0;--i){
-      for(auto &x:a[i]) q.insert(x);
+      for(auto& x:a[i]) q.insert(x);
       while(n-q.size()<i){
         r+=*q.begin();
         q.erase(q.begin());

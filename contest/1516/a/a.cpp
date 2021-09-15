@@ -11,7 +11,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int i = 0; k && i + 1 < n; ++i) {
       int now = std::min(a[i], k);
       a[i] -= now;

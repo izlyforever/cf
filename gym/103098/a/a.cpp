@@ -41,33 +41,33 @@ class MInt {
     if (--n == -1) n += M;
     return *this;
   }
-  MInt& operator+=(const MInt &A) {
+  MInt& operator+=(const MInt& A) {
     n += A.n;
     if (n >= M) n -= M;
     return (*this);
   }
-  MInt& operator-=(const MInt &A) {
+  MInt& operator-=(const MInt& A) {
     n -= A.n;
     if (n < 0) n += M;
     return (*this);
   }
-  MInt& operator*=(const MInt &A) {
+  MInt& operator*=(const MInt& A) {
     n = 1LL * n * A.n % M;
     return (*this);
   }
-  MInt& operator/=(const MInt &A) {
+  MInt& operator/=(const MInt& A) {
     return (*this) *= A.inv();
   }
-  MInt operator+(const MInt &A) const {
+  MInt operator+(const MInt& A) const {
     return MInt(*this) += A;
   }
-  MInt operator-(const MInt &A) const {
+  MInt operator-(const MInt& A) const {
     return MInt(*this) -= A;
   }
-  MInt operator*(const MInt &A) const {
+  MInt operator*(const MInt& A) const {
     return MInt(*this) *= A;
   }
-  MInt operator/(const MInt &A) const {
+  MInt operator/(const MInt& A) const {
     return MInt(*this) /= A;
   }
   MInt operator<<(int x) const {
@@ -88,7 +88,7 @@ class MInt {
   MInt operator&(int x) const {
     return MInt(*this) & x;
   }
-  MInt& operator&=(int x) {
+  MInt& operator &=(int x) {
     n &= x;
     return (*this);
   }
@@ -103,13 +103,13 @@ class MInt {
     }
     return R;
   }
-  friend std::istream &operator>>(std::istream &in, MInt &A) {
+  friend std::istream& operator>>(std::istream& in, MInt& A) {
     LL x;
     in >> x;
     A = MInt(x);
     return in;
   }
-  friend std::ostream &operator<<(std::ostream &out, const MInt &A) {
+  friend std::ostream& operator<<(std::ostream& out, const MInt& A) {
     out << A.n;
     return out;
   }

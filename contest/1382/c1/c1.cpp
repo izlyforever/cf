@@ -20,7 +20,7 @@ int main() {
       }
     }
     std::cout << q.size();
-    for (auto &x : q) std::cout << " " << x;
+    for (auto& x : q) std::cout << " " << x;
     std::cout << std::endl;
   }
   return 0;

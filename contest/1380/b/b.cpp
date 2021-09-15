@@ -12,7 +12,7 @@ int main() {
     string a;
     int R = 0, S = 0, P = 0;
     cin >> a;
-    for (auto &c:a){
+    for (auto& c:a){
       if(c == 'R') ++P;
       else if(c == 'P') ++S;
       else ++ R;

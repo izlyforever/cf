@@ -6,7 +6,7 @@ bool solve() {
   int n, k;
   std::cin >> n >> k;
   std::vector<int> h(n);
-  for (auto &x : h) std::cin >> x;
+  for (auto& x : h) std::cin >> x;
   int l = h[0], r = h[0];
   for (int i = 1; i + 1 < n; ++i) {
     l = std::max(l - k + 1 , h[i]);

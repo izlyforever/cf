@@ -13,7 +13,7 @@ int main() {
     for (int i = 0; i < n; ++i) {
       s[i % r].push_back(a[i]);
     }
-    for (auto &x : s) std::sort(x.begin(), x.end());
+    for (auto& x : s) std::sort(x.begin(), x.end());
     for (int i = 0; i < n; ++i) {
       a[i] = s[i % r][i / r];
     }

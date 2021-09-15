@@ -28,7 +28,7 @@ int main() {
     int n, m, k;
     std::cin >> n >> m >> k;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     LL r = 0;
     for (int i = 0; i + m <= n; ++i) {

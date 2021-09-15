@@ -8,8 +8,8 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n), b(n);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   // dp[i][j] 表示扭转了 [i, j] 区间后的差值
   std::vector<std::vector<LL>> dp(n, std::vector<LL>(n));
   LL ans = 0;

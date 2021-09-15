@@ -14,7 +14,7 @@ int main() {
     std::cin >> n;
     std::vector<int> a(n);
     int r = 0;
-    for (auto &x : a) {
+    for (auto& x : a) {
       std::cin >> x;
       r += x;
     };

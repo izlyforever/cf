@@ -14,7 +14,7 @@ int main() {
     for (int i = 0; i < 10; ++i) {
       for (int j = 0; j < 10; ++j) {
         std::string t;
-        for (auto &x : a) {
+        for (auto& x : a) {
           if (x == '0' + i || x == '0' + j) t.push_back(x);
         }
         if(t.size()) q.push_back(t);
@@ -30,7 +30,7 @@ int main() {
       return std::max(r, cnt/2*2);
     };
     int r = 0;
-    for (auto &x : q) {
+    for (auto& x : q) {
       r = std::max(r, f(x));
     }
     std::cout << a.size() - r << std::endl;

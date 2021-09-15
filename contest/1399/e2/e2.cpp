@@ -60,7 +60,7 @@ int main() {
     std::sort(q[0].begin(), q[0].end(), std::greater<>());
     std::sort(q[1].begin(), q[1].end(), std::greater<>());
     int r = 1e9;
-    for (auto &x : q[0]) s += x;
+    for (auto& x : q[0]) s += x;
     for (int i = 0, j = q[0].size(); i <= q[1].size(); ++i) {
       while (j > 0 && s - q[0][j - 1] >= 0) {
         s -= q[0][--j];

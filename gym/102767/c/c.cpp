@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int r = 0;
     for (int i = 0; i + 1 < n; ++i) {
       r = std::max(r, std::__gcd(a[i], a[i + 1]));

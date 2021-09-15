@@ -38,7 +38,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> b(n);
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::set<int> S{b[0]};
   for (int i = 1; i < n; ++i) {
     auto [x, y] = std::minmax(b[i - 1], b[i]);
@@ -57,7 +57,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> b(n);
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::stack<int> l, r;
   for (int i = 1; i < n; ++i) if (b[i] != b[i - 1]) {
     if (b[i] > b[i - 1]) {
@@ -82,7 +82,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> b(n), a(2 * n - 1);
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   a[0] = b[0];
   std::stack<int> l, r;
   for (int i = 1; i < n; ++i) {

@@ -5,7 +5,7 @@ bool solve() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::pair<int, int>> a(m);
-  for (auto &[x, y] : a) std::cin >> y >> x;
+  for (auto& [x, y] : a) std::cin >> y >> x;
   a.emplace_back(0, 1);
   std::sort(a.begin(), a.end());
   int now = 3;

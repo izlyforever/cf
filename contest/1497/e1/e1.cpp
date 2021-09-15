@@ -17,7 +17,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<int> a(n);
-    for (auto &x : a) {
+    for (auto& x : a) {
       std::cin >> x;
       x = f[x];
     }

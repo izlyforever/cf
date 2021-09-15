@@ -20,7 +20,7 @@ int main() {
   std::vector<LL> a(n + 1);
   a[1] = 1;
   LL odd = 1, even = 1;
-  auto add = [](LL &x, LL y) {
+  auto add = [](LL& x, LL y) {
     (x += y) >= M && (x -= M);
   };
   for (int i = 2; i <= n; ++i) {

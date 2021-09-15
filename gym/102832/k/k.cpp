@@ -48,7 +48,7 @@ int main() {
   };
   auto change = [&](int x, int y) {
     int fx = find(x);
-    auto &it = mp[fx];
+    auto& it = mp[fx];
     for (auto t : bad[a[x]]) if (it.count(t)) {
       ans -= it[t];
     }

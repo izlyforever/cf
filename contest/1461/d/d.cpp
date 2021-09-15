@@ -11,7 +11,7 @@ int main() {
     int n, q;
     std::cin >> n >> q;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.begin(), a.end());
     std::vector<LL> b(n + 1);
     for (int i = 0; i < n; ++i) {

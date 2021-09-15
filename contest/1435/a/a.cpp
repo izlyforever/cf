@@ -13,7 +13,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     for (int i = 0; i < n; i += 2) {
       std::swap(a[i], a[i + 1]);
       a[i] = -a[i];

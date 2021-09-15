@@ -18,7 +18,7 @@ int main() {
       p[a[i]] = i;
     }
     std::map<int, int> mp;
-    for (auto &x : b) {
+    for (auto& x : b) {
       std::cin >> x;
       --x;
       ++mp[x];

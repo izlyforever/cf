@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int ans = 0;
   for (int i = n - 1; ~i; --i) {
     ans = abs(a[i] - ans);

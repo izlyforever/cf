@@ -10,10 +10,10 @@ using LL = long long;
 
 const int P = 998244353;
 
-void add(int &x, int y) {
+void add(int& x, int y) {
     (x += y) >= P && (x -= P);
 }
-void sub(int &x, int y) {
+void sub(int& x, int y) {
     (x -= y) < 0 && (x += P);
 }
 struct FWT {
@@ -22,7 +22,7 @@ struct FWT {
         for (; N < n; N <<= 1);
         return N;
     }
-    void FWTor(std::vector<int> &a, bool rev) {
+    void FWTor(std::vector<int>& a, bool rev) {
         int n = a.size();
         for (int l = 2, m = 1; l <= n; l <<= 1, m <<= 1) {
             for (int j = 0; j < n; j += l) for (int i = 0; i < m; i++) {
@@ -31,7 +31,7 @@ struct FWT {
             }
         }
     }
-    void FWTand(std::vector<int> &a, bool rev) {
+    void FWTand(std::vector<int>& a, bool rev) {
         int n = a.size();
         for (int l = 2, m = 1; l <= n; l <<= 1, m <<= 1) {
             for (int j = 0; j < n; j += l) for (int i = 0; i < m; i++) {
@@ -40,7 +40,7 @@ struct FWT {
             }
         }
     }
-    void FWTxor(std::vector<int> &a, bool rev) {
+    void FWTxor(std::vector<int>& a, bool rev) {
         int n = a.size(), inv2 = (P + 1) >> 1;
         for (int l = 2, m = 1; l <= n; l <<= 1, m <<= 1) {
             for (int j = 0; j < n; j += l) for (int i = 0; i < m; i++) {
@@ -91,7 +91,7 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::string> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::vector<int> c(1 << n), g(1 << n);
   for (int i = 0; i < m; ++i) {
     int r = 0;

@@ -7,7 +7,7 @@ LL solve() {
   int n;
   std::cin >> n;
   std::vector<LL> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::set<LL> S;
   for (int i = 1; i < n; ++i) {
     S.insert(a[i] - a[i - 1]);

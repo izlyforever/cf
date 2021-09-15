@@ -1,10 +1,10 @@
 #include<bits/stdc++.h>
 using namespace std;
 using LL = long long;
-LL solve(vector<int> &a,int bit){
+LL solve(vector<int>& a,int bit){
   if(bit<0) return 0;
   vector<int> l,r;
-  for(auto &x:a){
+  for(auto& x:a){
     if((x>>bit)&1) l.push_back(x);
     else r.push_back(x);
   }
@@ -17,7 +17,7 @@ int main(){
   int n;
   while(cin>>n){
     vector<int> a(n);
-    for(auto &x:a) cin>>x;
+    for(auto& x:a) cin>>x;
     cout<<solve(a,30)<<endl;
   }
   return 0;

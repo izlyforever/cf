@@ -17,7 +17,7 @@ void initPrime() {
 }
 
 template<typename T>
-void Mobius(std::vector<T> &a, int n) {   // new_a[n] = \sum_{d | n} old_a[d]
+void Mobius(std::vector<T>& a, int n) {   // new_a[n] = \sum_{d | n} old_a[d]
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = 1; j * p[i] <= n; ++j) {
       a[j * p[i]] += a[j];
@@ -25,7 +25,7 @@ void Mobius(std::vector<T> &a, int n) {   // new_a[n] = \sum_{d | n} old_a[d]
   }
 }
 template<typename T>
-void MobiusInv2(std::vector<T> &a, int n) { // old_a[n] = \sum_{d | n} new_a[d]
+void MobiusInv2(std::vector<T>& a, int n) { // old_a[n] = \sum_{d | n} new_a[d]
   for (int i = p.size() - 2; i; --i) {
     for (int j = n / p[i]; j; --j) {
       a[j * p[i]] -= a[j];
@@ -33,7 +33,7 @@ void MobiusInv2(std::vector<T> &a, int n) { // old_a[n] = \sum_{d | n} new_a[d]
   }
 }
 template<typename T>
-void MobiusInv(std::vector<T> &a, int n) {
+void MobiusInv(std::vector<T>& a, int n) {
   for (int i = 1; i <= n; ++i) {
     for (int j = i * 2; j <= n; j += i) {
       a[j] -= a[i];
@@ -41,7 +41,7 @@ void MobiusInv(std::vector<T> &a, int n) {
   }
 }
 template<typename T>
-void MobiusTFalse(std::vector<T> &a, int n) {
+void MobiusTFalse(std::vector<T>& a, int n) {
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = 1; j * p[i] <= n; ++j) {
       a[j] += a[j * p[i]];
@@ -50,7 +50,7 @@ void MobiusTFalse(std::vector<T> &a, int n) {
 }
 
 template<typename T>
-void MobiusT(std::vector<T> &a, int n) {
+void MobiusT(std::vector<T>& a, int n) {
   for (int i = 1; p[i] <= n; ++i) {
     for (int j = n / p[i]; j; --j) {
       a[j] += a[j * p[i]];

@@ -11,8 +11,8 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> tag(n), s(n);
-    for (auto &x : tag) std::cin >> x;
-    for (auto &x : s) std::cin >> x;
+    for (auto& x : tag) std::cin >> x;
+    for (auto& x : s) std::cin >> x;
     std::vector<LL> dp(n);
     for (int i = 0; i < n; ++i) {
       for (int j = i - 1; j >= 0; --j) {

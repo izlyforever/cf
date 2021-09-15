@@ -11,8 +11,8 @@ int main() {
     int n, x;
     std::cin >> n >> x;
     std::vector<int> a(n), b(n);
-    for (auto &x : a) std::cin >> x;
-    for (auto &x : b) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
+    for (auto& x : b) std::cin >> x;
     bool flag = true;
     for (int i = 0; i < n; ++i) {
       if (a[i] + b[n - 1 - i] > x) {

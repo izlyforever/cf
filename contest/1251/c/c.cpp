@@ -11,7 +11,7 @@ int main(){
     string a;
     cin>>a;
     queue<int> odd,even;
-    for(auto &x:a){
+    for(auto& x:a){
       if((x-'0')%2==0) even.push(x-'0');
       else odd.push(x-'0');
     }
@@ -27,7 +27,7 @@ int main(){
         even.pop();
       }
     }
-    for(auto &x:r) cout<<x;
+    for(auto& x:r) cout<<x;
     cout<<endl;
   }
   return 0;

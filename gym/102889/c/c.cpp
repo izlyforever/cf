@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   for (int i = 1; i <= n; ++i) std::cout << i << " \n"[i == n];
   for (int i = 1; i <= n; ++i) std::cout << 1 << " \n"[i == n];
   return 0;

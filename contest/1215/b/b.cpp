@@ -17,11 +17,11 @@ int main(){
     else np.emplace_back(i);
   }
   LL cp=0,cnp=0;
-  for(auto &x:p){
+  for(auto& x:p){
     cp+=lower_bound(p.begin(),p.end(),x)-p.begin();
     cnp+=lower_bound(np.begin(),np.end(),x)-np.begin();
   }
-  for(auto &x:np){
+  for(auto& x:np){
     cp+=lower_bound(np.begin(),np.end(),x)-np.begin();
     cnp+=lower_bound(p.begin(),p.end(),x)-p.begin();
   }

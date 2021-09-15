@@ -8,7 +8,7 @@ void solve() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), b(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int ans = 2 * n - 1;
     for (int i = 1; i < n - 1; ++i) {
         if (1LL * (a[i] - a[i - 1]) * (a[i] - a[i + 1]) > 0) ++ans;

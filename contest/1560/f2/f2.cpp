@@ -3,7 +3,7 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-std::string dfs(const std::string &s, int k) {
+std::string dfs(const std::string& s, int k) {
   int n = s.size();
   std::set<char> S;
   int i = 0;

@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n), b(n), c;
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int now = 0;
     for (int i = 0; i < n; ++i) {
       now = std::max(now, a[i]);
@@ -26,7 +26,7 @@ int main() {
         last = i;
       }
     }
-    for (auto &x : c) std::cout << x << " ";
+    for (auto& x : c) std::cout << x << " ";
     std::cout << "\n";
   }
   return 0;

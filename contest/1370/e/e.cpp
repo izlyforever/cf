@@ -18,7 +18,7 @@ int main(){
   }
   auto f = [&](int sign){
     int mx = 0,cur=0;
-    for(auto &x:a){
+    for(auto& x:a){
       cur += sign*x;
       mx = max(mx,cur);
       cur = max(cur,0);

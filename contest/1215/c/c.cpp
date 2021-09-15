@@ -31,7 +31,7 @@ int main(){
     r.push_back({p.back(),q.back()});
   }
   cout<<r.size()<<endl;
-  for(auto &[x,y]:r) cout<<x<<" "<<y<<endl;
+  for(auto& [x,y]:r) cout<<x<<" "<<y<<endl;
   return 0;
 }
 

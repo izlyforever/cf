@@ -22,7 +22,7 @@ struct Node {
   int d;
   LL v;
   Node(int _d, LL _v) : d(_d), v(_v) {}
-  bool operator<(const Node &A) const {
+  bool operator<(const Node& A) const {
     return (v + 1) / 2 * d < (A.v + 1) / 2 * A.d;
   }
 };

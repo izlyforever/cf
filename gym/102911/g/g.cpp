@@ -8,8 +8,8 @@ int main() {
   int n, s;
   std::cin >> n >> s;
   std::vector<int> d(n), r(n);
-  for (auto &x : d) std::cin >> x;
-  for (auto &x : r) std::cin >> x;
+  for (auto& x : d) std::cin >> x;
+  for (auto& x : r) std::cin >> x;
   std::priority_queue<int> mx;
   int i, ans = 0;
   for (i = 0; i < n; ++i) {

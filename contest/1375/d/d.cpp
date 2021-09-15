@@ -42,7 +42,7 @@ int main(){
       while(c[mex]) ++mex;
     }
     cout<<q.size()<<endl;
-    for(auto &x:q) cout<<x<<" ";
+    for(auto& x:q) cout<<x<<" ";
     cout<<endl;
   }
   return 0;

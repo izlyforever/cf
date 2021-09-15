@@ -15,7 +15,7 @@ class Node {
       x >>= 1;
     }
   }
-  Node operator+=(const Node &A) {
+  Node operator+=(const Node& A) {
     for (int i = 0; i < N; ++i) a[i] += A.a[i];
     return *this;
   }
@@ -29,7 +29,7 @@ LL deal(const Node & A, const Node & B) {
 }
 
 // 为了代码简洁，树的编号以 1 开始
-LL dsuOnTree(std::vector<std::vector<int>> &e, std::vector<int> &a, int rt = 1) {
+LL dsuOnTree(std::vector<std::vector<int>>& e, std::vector<int>& a, int rt = 1) {
   int n = a.size();
   // 预处理出重儿子
   std::vector<int> sz(n), son(n);

@@ -7,7 +7,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::map<std::vector<int>, int> sg;
-  std::function<int(std::vector<int>)> dfs = [&](const std::vector<int> &a) -> int {
+  std::function<int(std::vector<int>)> dfs = [&](const std::vector<int>& a) -> int {
     std::vector<int> b;
     for (auto x : a) if (x) b.emplace_back(x);
     std::sort(b.begin(), b.end());

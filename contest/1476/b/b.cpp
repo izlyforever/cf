@@ -11,7 +11,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<LL> p(n);
-    for (auto &x : p) std::cin >> x;
+    for (auto& x : p) std::cin >> x;
     LL r = 0, s = p[0];
     for (int i = 1; i < n; ++i) {
       if (s * k < p[i] * 100) {

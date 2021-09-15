@@ -8,7 +8,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   LL ans = 0;
   for (int i = 1; i < n; ++i) ans = std::max(ans, 1LL * a[i] * a[i - 1]);
   std::cout << ans << '\n';

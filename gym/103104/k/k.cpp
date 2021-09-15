@@ -46,7 +46,7 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   // 可以离线公用同一个 BlockAbs 省空间！如果强制在线的话，空间就不知道怎么省了
   int sn = sqrt(n);
   std::vector<BlockAbs> block;

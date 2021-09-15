@@ -11,7 +11,7 @@ int main(){
     string a;
     cin>>a;
     int l=0,r=0;
-    for(auto &c:a){
+    for(auto& c:a){
       if(c=='0') ++l;
       else ++r;
     }

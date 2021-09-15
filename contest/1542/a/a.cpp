@@ -8,7 +8,7 @@ bool solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(2 * n);
-  for (auto &x : a) std::cin >> x, x &= 1;
+  for (auto& x : a) std::cin >> x, x &= 1;
   return n == std::count(a.begin(), a.end(), 1);
 }
 

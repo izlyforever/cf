@@ -8,8 +8,8 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<std::pair<int, int>> a(n), b(m);
-  for (auto &[x, y] : a) std::cin >> x >> y;
-  for (auto &[x, y] : b) std::cin >> x >> y;
+  for (auto& [x, y] : a) std::cin >> x >> y;
+  for (auto& [x, y] : b) std::cin >> x >> y;
   std::sort(a.begin(), a.end());
   int cnt = 1;
   for (int i = 1; i < n; ++i) {

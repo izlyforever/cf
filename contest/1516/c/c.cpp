@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   int sm = std::accumulate(a.begin(), a.end(), 0);
   if (sm & 1) {
     std::cout << "0\n";
@@ -22,7 +22,7 @@ int main() {
     }
   }
   if (dp[sm] == sm) {
-    for (auto &x : a) x = __builtin_ctz(x);
+    for (auto& x : a) x = __builtin_ctz(x);
     std::cout << "1\n";
     std::cout << 1 + std::distance(a.begin(), std::min_element(a.begin(), a.end())) << '\n';
   } else {

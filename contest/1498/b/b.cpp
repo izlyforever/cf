@@ -11,7 +11,7 @@ int main() {
     int n, w;
     std::cin >> n >> w;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     std::sort(a.rbegin(), a.rend());
     std::multiset<int> S{w};
     for (auto x : a) {

@@ -2,7 +2,7 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-int solve(std::vector<int> &a, std::vector<int> &b) {
+int solve(std::vector<int>& a, std::vector<int>& b) {
   int n = a.size(), now = 0, bi = b.size() - 1;
   std::vector<int> c(n + 1);
   for (int i = n - 1; i >= 0; --i) {
@@ -35,8 +35,8 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<int> a(n), b(m);
-    for (auto &x : a) std::cin >> x;
-    for (auto &x : b) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
+    for (auto& x : b) std::cin >> x;
     int ai = std::lower_bound(a.begin(), a.end(), 0) - a.begin();
     int bi = std::lower_bound(b.begin(), b.end(), 0) - b.begin();
     std::vector<int> x, y;

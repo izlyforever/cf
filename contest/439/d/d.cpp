@@ -13,8 +13,8 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<int> a(n), b(m);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
 
   auto f = [&](int ma) {
     LL r = 0;

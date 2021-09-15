@@ -13,7 +13,7 @@ int main() {
     int n, k;
     std::cin >> n >> k;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     sort(a.begin(), a.end(), std::greater<>());
     LL r = 0;
     for (int i = 0; i <= k; ++i) r += a[i];

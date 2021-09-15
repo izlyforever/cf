@@ -5,16 +5,16 @@
 using LL = long long;
 using pii = std::pair<int, int>;
 
-LL val(const int &x, const int &n) {
+LL val(const int& x, const int& n) {
   int xn = x / n, rn = x - xn * n;
   return 1ll * xn * xn * (n - rn) + 1ll * (xn + 1) * (xn + 1) * rn;
 }
-LL cmpVal(const pii &A) {
+LL cmpVal(const pii& A) {
   return val(A.first, A.second) - val(A.first, A.second + 1);
 }
 class cmp {
  public:
-  bool operator() (const pii &lhs, const pii &rhs) const {
+  bool operator() (const pii& lhs, const pii& rhs) const {
     return cmpVal(lhs) < cmpVal(rhs);
   }
 };

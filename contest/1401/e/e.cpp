@@ -44,17 +44,17 @@ int main() {
   sort(la.begin(), la.end());
   sort(ra.begin(), ra.end());
   std::vector<std::tuple<int, int, int>> b(m);
-  for (auto &[x, ly, ry] : b) std::cin >> x >> ly >> ry;
+  for (auto& [x, ly, ry] : b) std::cin >> x >> ly >> ry;
   sort(b.begin(), b.end());
   LL r = 1;
   Bitree A(N + 1);
-  for (auto &[x, y] : la) {
+  for (auto& [x, y] : la) {
     A.add(y + 1, 1);
     if (x == N) ++r;
   }
   //std::cout << A.sum(100) << std::endl;
   int lid = 0, rid = 0;
-  for (auto &[x, ly, ry] : b) {
+  for (auto& [x, ly, ry] : b) {
     while (lid < la.size() && la[lid].first < x) {
       A.add(la[lid].second + 1, -1);
       ++lid;

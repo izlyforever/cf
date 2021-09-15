@@ -6,7 +6,7 @@ int main(){
   int n,k;
   cin>>n>>k;
   vector<int> a(n);
-  for(auto &x:a) cin>>x;
+  for(auto& x:a) cin>>x;
   auto f = [&](int m){
     int now = -2,s=0;
     for(int i=k%2;i<n;++i){

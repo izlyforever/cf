@@ -11,7 +11,7 @@ int main() {
     int n, m;
     std::cin >> n >> m;
     std::vector<std::string> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     if (m % 2 == 1) {
       std::cout << "YES\n";
       for (int i = 0; i <= m; ++i) std::cout << (i % 2 + 1) << " \n"[i == m];

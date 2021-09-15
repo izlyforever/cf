@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     bool flag = true;
     int now = a[0], cur = 0;
     for (int i = 1; i < n; ++i) {

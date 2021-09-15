@@ -25,7 +25,7 @@ int main() {
       std::cout << "No" << std::endl;
     } else if (cnt == 1) {
       std::cout << "Yes" << std::endl;
-      for (auto &x : a) {
+      for (auto& x : a) {
         std::cout << (x == '?' ? 'd' : x);
       }
       std::cout << std::endl;

@@ -42,7 +42,7 @@ class Poly {
     if (size() <= n) return Poly();
     return Poly(std::vector<LL>(a.begin() + n, a.end()));
   }
-  Poly &operator+=(const Poly &A) {
+  Poly& operator+=(const Poly& A) {
     if (size() < A.size()) a.resize(A.size());
     for (int i = 0; i < A.size(); ++i) {
       if ((a[i] += A.a[i]) >= M) a[i] -= M;
@@ -50,7 +50,7 @@ class Poly {
     standard();
     return *this;
   }
-  Poly &operator-=(const Poly &rhs) {
+  Poly& operator-=(const Poly& rhs) {
     if (size() < rhs.size()) a.resize(rhs.size());
     for (int i = 0; i < rhs.size(); ++i) {
       if ((a[i] -= rhs.a[i]) < 0) a[i] += M;
@@ -58,10 +58,10 @@ class Poly {
     standard();
     return *this;
   }
-  Poly &operator*=(Poly rhs) {
+  Poly& operator*=(Poly rhs) {
     return *this = (*this * rhs);
   }
-  Poly &operator/=(Poly rhs) {
+  Poly& operator/=(Poly rhs) {
     int n = size(), m = rhs.size();
     if (n < m) return (*this) = Poly();
     reverse();
@@ -71,13 +71,13 @@ class Poly {
     reverse();
     return *this;
   }
-  Poly &operator%=(Poly rhs) {
+  Poly& operator%=(Poly rhs) {
     return (*this) -= (*this) / rhs * rhs;
   }
-  Poly operator+(const Poly &rhs) const {
+  Poly operator+(const Poly& rhs) const {
     return Poly(*this) += rhs;
   }
-  Poly operator-(const Poly &rhs) const {
+  Poly operator-(const Poly& rhs) const {
     return Poly(*this) -= rhs;
   }
   Poly operator*(Poly rhs) const {
@@ -196,7 +196,7 @@ class Poly {
       }
     };
     build(0, n, 1);
-    std::function<void(int, int, int, const Poly &)> solve = [&](int l, int r, int p, const Poly &f) {
+    std::function<void(int, int, int, const Poly& )> solve = [&](int l, int r, int p, const Poly& f) {
       if (r - l == 1) {
         ans[l] = f[0];
       } else {

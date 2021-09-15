@@ -8,8 +8,8 @@ int main() {
   int n, m;
   std::cin >> n >> m;
   std::vector<int> a(n), b(m);
-  for (auto &x : a) std::cin >> x;
-  for (auto &x : b) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
+  for (auto& x : b) std::cin >> x;
   std::sort(a.begin(), a.end());
   std::sort(b.begin(), b.end());
   std::multiset<int> S(b.begin(), b.end());

@@ -12,7 +12,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     bool flag = false;
     for (int i = 1; i < n; ++i) if (a[i - 1] <= a[i]) {
       flag = true;

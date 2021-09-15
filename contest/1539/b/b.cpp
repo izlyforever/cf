@@ -8,7 +8,7 @@ void solve() {
   std::string s;
   std::cin >> n >> q >> s;
   std::vector<int> a{0};
-  for (auto &x : s) a.emplace_back(a.back() + (x - 'a' + 1));
+  for (auto& x : s) a.emplace_back(a.back() + (x - 'a' + 1));
   while (q--) {
     int l, r;
     std::cin >> l >> r;

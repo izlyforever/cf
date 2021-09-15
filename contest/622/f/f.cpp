@@ -27,7 +27,7 @@ std::vector<int> spf(int N) {
 }
 // 计算在 f 处的 lagrange 函数在 m 点的取值（模 M）
 // 保证 M 为素数，0 <= f[i] < M
-LL Lagrange(const std::vector<LL> &f, int m, LL M) {
+LL Lagrange(const std::vector<LL>& f, int m, LL M) {
   int n = f.size();
   if (m < n) return f[m];
   LL nfac = 1;
@@ -48,7 +48,7 @@ LL Lagrange(const std::vector<LL> &f, int m, LL M) {
 // f(x) =  \sum_{i = 0}^{n - 1} f_i \prod_{j \neq i} \frac{x - j}{i - j}
 // f(m) = \sum_{i = 0}^{n - 1} (-1)^{n - 1 - i} f_i \binom{m}{i} \binom{m - i - 1}{n - 1 - i}
 
-LL powSum(LL n, int k, LL M, const std::vector<int> &sp){
+LL powSum(LL n, int k, LL M, const std::vector<int>& sp){
   if (k == 0) return n % M;
   std::vector<LL> f(k + 2);
   f[1] = 1;

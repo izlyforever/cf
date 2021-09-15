@@ -7,7 +7,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   std::sort(a.begin(), a.end());
   LL ans = a.back(), cur = 0;
   for (int i = n - 1; i > 0; --i) a[i] -= a[i - 1];

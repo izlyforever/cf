@@ -8,7 +8,7 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   auto f = [&]() -> std::vector<int> {
     std::vector<int> pre(n, -1);
     std::stack<int> Q;

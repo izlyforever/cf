@@ -33,7 +33,7 @@ int main() {
       s.emplace_back("B 1");
     }
     std::cout << s.size() << '\n';
-    for (auto &x : s) std::cout << x << '\n';
+    for (auto& x : s) std::cout << x << '\n';
   }
   return 0;
 }

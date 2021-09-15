@@ -23,10 +23,10 @@ int main(){
     for(int i=1;i+1<n;i+=2){
       c.push_back(a[i]-a[i+1]);
     }
-    auto f = [&](vector<LL> &x){
+    auto f = [&](vector<LL>& x){
       LL r = 0;
       LL cur = 0;
-      for(auto &i:x){
+      for(auto& i:x){
         cur += i;
         r = max(r,cur);
         if(cur<0) cur = 0;

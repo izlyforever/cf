@@ -4,7 +4,7 @@
 using LL = long long;
 
 const int M = 998244353;
-int f(const std::vector<int> &l, std::vector<int> r, int m) {
+int f(const std::vector<int>& l, std::vector<int> r, int m) {
   int n = l.size();
   for (int i = 0; i < n; ++i) {
     m -= l[i];
@@ -46,8 +46,8 @@ int main() {
   int ans = 0;
   for (int i = 1; i <= m; ++i) if (mu[i]) {
     auto li = l, ri = r;
-    for (auto &x : li) x = (x + i - 1) / i;
-    for (auto &x : ri) x /= i;
+    for (auto& x : li) x = (x + i - 1) / i;
+    for (auto& x : ri) x /= i;
     if (mu[i] == 1) {
       ans += f(li, ri, m / i);
       if (ans >= M) ans -= M;

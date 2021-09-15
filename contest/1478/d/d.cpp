@@ -7,7 +7,7 @@ bool solve() {
   LL k, x;
   std::cin >> n >> k;
   std::vector<LL> a(n);
-  for (auto &x : a) std::cin >> x;
+  for (auto& x : a) std::cin >> x;
   LL mn = *std::min_element(a.begin(), a.end());
   LL t = 0;
   for (auto x : a) t = std::__gcd(t, x - mn);

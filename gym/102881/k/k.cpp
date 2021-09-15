@@ -8,8 +8,8 @@ int main() {
   int n;
   std::cin >> n;
   std::vector<int> h(n), g(n);
-  for (auto &x : h) std::cin >> x;
-  for (auto &x : g) std::cin >> x;
+  for (auto& x : h) std::cin >> x;
+  for (auto& x : g) std::cin >> x;
   std::cout << [&]() -> int {
     int l = 0, r = INT_MAX;
     for (int i = 0; i + 1 < n; ++i) {

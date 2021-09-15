@@ -7,7 +7,7 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<std::pair<LL, LL>> a(n);
-  for (auto &[x, y] : a) std::cin >> y >> x;
+  for (auto& [x, y] : a) std::cin >> y >> x;
   std::sort(a.begin(), a.end());
   LL cur = 0, ans = 0;
   int i = 0;

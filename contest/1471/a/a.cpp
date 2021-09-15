@@ -11,7 +11,7 @@ int main() {
     int n, x;
     std::cin >> n >> x;
     std::vector<int> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     LL mn = 0, mx = 0;
     for (int i = 0; i < n; ++i) {
       mn += a[i];

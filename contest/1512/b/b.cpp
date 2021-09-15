@@ -11,7 +11,7 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<std::string> s(n);
-    for (auto &x : s) std::cin >> x;
+    for (auto& x : s) std::cin >> x;
     std::vector<std::pair<int, int>> a;
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) if (s[i][j] == '*') {
@@ -33,7 +33,7 @@ int main() {
         s[a[0].first][0] = s[a[1].first][0] = '*';
       }
     }
-    for (auto &x : s) std::cout << x << '\n';
+    for (auto& x : s) std::cout << x << '\n';
   }
   return 0;
 }

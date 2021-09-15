@@ -14,10 +14,10 @@ int main() {
     int n;
     std::cin >> n;
     std::vector<LL> a(n);
-    for (auto &x : a) std::cin >> x;
+    for (auto& x : a) std::cin >> x;
     int b[N]{};
     for (int i = 0; i < N; ++i) {
-      for (auto &x : a) if ((x >> i) & 1) ++b[i];
+      for (auto& x : a) if ((x >> i) & 1) ++b[i];
     }
     LL r = 0;
     for (int i = 0; i < n; ++i) {
