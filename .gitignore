@@ -4,6 +4,6 @@ cpplibforCP/
 *.exe
 *.out
 main*
-test*
+test.*
 in
 out
