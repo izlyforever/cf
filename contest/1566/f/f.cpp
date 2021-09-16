@@ -47,25 +47,27 @@ void solve() {
         ++j;
       }
     } else {
-      int k = dp[i - 1].size() - 2, t = lj - dp[i - 1].size();
       dp[i].emplace_back(prefix[i - 1].back());
+      int k = 1;
       while (j < m && b[j].second < a[i + 1]) {
         LL cur = b[j].first - a[i];
-        while (k >= 0 && a[i] - b[t + k + 1].second > cur) --k;
-        dp[i].emplace_back(std::min(prefix[i - 1][k], suffix[i - 1][k + 1]));
+        while (k < dp[i - 1].size() && a[i] - b[lj - k].second <= cur) ++k;
+        dp[i].emplace_back(std::min(prefix[i - 1][dp[i - 1].size() - k] + 2 * cur, suffix[i - 1][dp[i - 1].size() - k] + cur));
+        ++j;
       }
     }
     if (i < n) {
-      int sz = dp[i].size();
-      prefix[i].resize(sz);
-      suffix[i].resize(sz);
+      int sz = j - lj;
+      prefix[i].resize(sz + 1);
+      suffix[i].resize(sz + 1);
       LL tmpL = INT64_MAX, tmpR = INT64_MAX;
-      for (int k = 0; k < sz; ++k) {
-        tmpL = std::min(tmpL, dp[i][k] + (k + 1 == sz ? 0 : a[i + 1] - b[lj + k + 1].second));
+      for (int k = 0; k <= sz; ++k) {
+        tmpL = std::min(tmpL, dp[i][k] + (k == sz ? 0 : a[i + 1] - b[lj + k].second));
         prefix[i][k] = tmpL;
       }
-      for (int k = sz - 1; k >= 0; --k) {
-        tmpR = std::min(tmpR, dp[i][k] + (k + 1 == sz ? 0 : 2 * (a[i + 1] - b[lj + k + 1].second)));
+      // 注意这里有一个偏移，导致上面 dp 计算时没有 + 1
+      for (int k = sz; k >= 0; --k) {
+        tmpR = std::min(tmpR, dp[i][k] + (k == sz ? 0 : 2 * (a[i + 1] - b[lj + k].second)));
         suffix[i][k] = tmpR;
       }
     }

@@ -7,3 +7,4 @@ main*
 test.*
 in
 out
+*.dSYM/
