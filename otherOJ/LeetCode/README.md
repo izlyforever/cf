@@ -1,5 +1,20 @@
 LeetCode 最大的好处就是每次错了会给你一组错的例子，坏处显而易见：没有自动补全
 
+
+## [周赛 259](https://leetcode-cn.com/contest/weekly-contest-259)
+
+### [5877. 检测正方形](https://leetcode-cn.com/contest/weekly-contest-259/problems/detect-squares/)
+
+map 存点，搞对角就行了，但是！！！我以为题目要考虑矩形，结果看了半天硬是没看出来错在哪
+
+### [5878. 重复 K 次的最长子序列](https://leetcode-cn.com/contest/weekly-contest-259/problems/longest-subsequence-repeated-k-times/)
+
+首先统计出所有可能的字符（算重），然后主题字符总数不超过 7（算重），然后暴力，总共要考虑的字符串不会超过
+$$ 
+7! + 7 \cdot 6! + {7 \choose 2} 5! + \cdots < 10^4
+$$
+然后还能剪枝优化一下，然后每个字符串最多处理 $n(n < 2000)$ 次，所以肯定不会超
+
 ## [周赛 258](https://leetcode-cn.com/contest/weekly-contest-258/problems/smallest-missing-genetic-value-in-each-subtree/)
 
 ### [5869. 两个回文子序列长度的最大乘积](https://leetcode-cn.com/problems/maximum-product-of-the-length-of-two-palindromic-subsequences/)
