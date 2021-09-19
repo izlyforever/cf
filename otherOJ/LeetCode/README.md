@@ -13,7 +13,7 @@ map 存点，搞对角就行了，但是！！！我以为题目要考虑矩形�
 $$ 
 7! + 7 \cdot 6! + {7 \choose 2} 5! + \cdots < 10^4
 $$
-然后还能剪枝优化一下，然后每个字符串最多处理 $n(n < 2000)$ 次，所以肯定不会超
+然后还能剪枝优化一下，然后每个字符串最多处理 $n(n < 16000)$ 次，所以肯定不会超
 
 ## [周赛 258](https://leetcode-cn.com/contest/weekly-contest-258/problems/smallest-missing-genetic-value-in-each-subtree/)
 
