@@ -1,5 +1,14 @@
 # Atcoder 做题记录
 
+## [AtCoder Beginner Contest 220](https://atcoder.jp/contests/abc220)
+
+### E
+
+可以通过根据是否最短路通过最高点，通过的话直接处理，否则就变成两个相同的规模减 1 的，DP 即可
+### F
+
+这种简单常见的 树上 DP 做的就很舒服，很舒畅
+
 ## [AtCoder Beginner Contest 218](https://atcoder.jp/contests/abc218)
 
 ### C
