@@ -58,6 +58,7 @@
 - [Codeforces Round #727 (Div. 2)](https://codeforces.com/contest/1539/)：达到历史最高分 2103（完成第一个目标）
 - [Codeforces Round #728 (Div. 1)](https://codeforces.com/contest/1540)：达到历史最高分 2131
 - [Codeforces Round #736 (Div. 2)](https://codeforces.com/contest/1549)：最佳历史排名：19 名 4802 分
+- [Codeforces Round #744 (Div. 3)](https://codeforces.com/contests/1579): 01:53:05 AK (87 名)
 
 ## 明显进步
 
