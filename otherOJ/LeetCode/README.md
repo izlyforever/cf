@@ -1,6 +1,10 @@
 LeetCode 最大的好处就是每次错了会给你一组错的例子，坏处显而易见：没有自动补全
 
 
+## [LCP 49. 环形闯关游戏](https://leetcode-cn.com/problems/K8GULz/)
+
+可以从高位到低位一位一位的试，如果不要这一位，且这一位后面所有值都填 1，如果可以解决，那这位不必要，否则就必然需要，然后每次试可以做到 $O(n)$，从而总体能达到 O(n \cdot Bit)
+
 ## [周赛 259](https://leetcode-cn.com/contest/weekly-contest-259)
 
 ### [5877. 检测正方形](https://leetcode-cn.com/contest/weekly-contest-259/problems/detect-squares/)
