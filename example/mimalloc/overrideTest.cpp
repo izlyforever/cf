@@ -28,4 +28,9 @@ int main() {
   LL ans = f(n);
   A.show();
   cerr(ans);
+
+  Timer B;
+  auto b = new int[n];
+  cerr(b[0]);   // 确保确实替换对了
+  B.show();
 }
