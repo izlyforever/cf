@@ -17,7 +17,12 @@ class Deng {
     x.clear();
   }
   void f(std::vector<int>& x) {
-    std::thread t(&Deng::process, this, std::ref(x));
+    // std::thread t(&Deng::process, this, std::ref(x));
+    // t.detach();
+    
+    std::thread t([&]() {
+      process(x);
+    });
     t.detach();
   }
   std::vector<int> getValue() {
@@ -26,7 +31,6 @@ class Deng {
 };
 
 int main() {
-
 {
   Deng qiming;
   std::vector<int> x{1, 3, 2, 5};
