@@ -6,7 +6,7 @@ void debug(std::vector<T> a){
   std::cout << std::endl;
 }
 
-class Deng {
+class Deng : public std::enable_shared_from_this<Deng> {
   std::vector<int> x_;
  public:
   Deng() : x_{2, 4, 6, 8} {}
@@ -18,11 +18,20 @@ class Deng {
   }
   void f(std::vector<int>& x) {
     // std::thread t(&Deng::process, this, std::ref(x));
-    // t.detach();
-    
-    std::thread t([&]() {
-      process(x);
+
+    std::thread t([this, &x]() {
+      this->process(x);
     });
+
+    // std::weak_ptr<Deng> weak_this = shared_from_this();
+    // std::thread t([weak_this, &x]() {
+    //   auto shared_this = weak_this.lock();
+    //   if (!shared_this) {
+    //     return;
+    //   }
+    //   shared_this->process(x);
+    // });
+
     t.detach();
   }
   std::vector<int> getValue() {
@@ -31,12 +40,17 @@ class Deng {
 };
 
 int main() {
-{
-  Deng qiming;
-  std::vector<int> x{1, 3, 2, 5};
-  qiming.f(x);
-  debug(x);
-  debug(qiming.getValue());
-}
-std::this_thread::sleep_for(std::chrono::seconds(2));
+  {
+    auto qiming = std::make_shared<Deng>();
+    std::vector<int> x{1, 3, 2, 5};
+    int timers = 1024;
+    while (timers--) {
+      std::this_thread::sleep_for(std::chrono::milliseconds(50));
+      qiming->f(x);
+    }
+    debug(x);
+    debug(qiming->getValue());
+  }
+  std::this_thread::sleep_for(std::chrono::seconds(2));
+  return 0;
 }
