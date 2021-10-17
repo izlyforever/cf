@@ -1,8 +1,8 @@
-# []
+# [Codeforces Round #749 (Div. 1 + Div. 2, based on Technocup 2022 Elimination Round 1)](https://codeforces.com/contest/1586)
 
 ## A
 
-注意到每个数都不一样，因此最多只有一个 2，因此如果和不是素数全选，否则如果去掉最小的是不是素数，就去掉最小的，否则去掉次小的
+如果和不是素数全选，否则必然是奇数，然后去掉一个奇数即可
 
 ## B
 

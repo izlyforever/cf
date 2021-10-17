@@ -24,11 +24,8 @@ void solve() {
     for (int i = 1; i <= n; ++i) std::cout << i << " \n"[i == n];
   } else {
     std::cout << n - 1 << '\n';
-    int it = std::min_element(a.begin(), a.end()) - a.begin();
-    if (isPrime(s - a[it])) {
-      a[it] = INT_MAX;
-      it = std::min_element(a.begin(), a.end()) - a.begin();
-    }
+    int it = 0;
+    while (a[it] % 2 == 0) ++it;
     ++it;
     for (int i = 1; i <= n; ++i) if (i != it) {
       std::cout << i << ' ';

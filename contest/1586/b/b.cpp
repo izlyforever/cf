@@ -8,7 +8,7 @@ void solve() {
   int n, m;
   std::cin >> n >> m;
   std::vector<int> cnt(n + 1);
-  for (int i = 0; i < n; ++i) {
+  for (int i = 0; i < m; ++i) {
     int a, b, c;
     std::cin >> a >> b >> c;
     ++cnt[b];
