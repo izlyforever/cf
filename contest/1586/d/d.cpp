@@ -19,15 +19,15 @@ void solve() {
   std::vector<int> a(n + 1, 1), ans(n + 1);
   a[n] = 2;
   for (int i = 2; i <= n; ++i) {
-    a[n] = i;
     int x = query(a, n);
     if (x == 0) break;
     ans[x] = i - 1;
+    ++a[n];
   }
   if (a[n] == 2) {
     ans[n] = n;
   } else {
-    ans[n] = (a[n] == n ? n + 1 : n + 2) - a[n];
+    ans[n] = n + 2 - a[n];
     for (int i = 1; i < n; ++i) if (ans[i]) {
       ans[i] += ans[n];
     }
@@ -37,8 +37,9 @@ void solve() {
     a[n] = n + i - ans[n];
     ans[query(a, n)] = i;
   }
-  for (int i = 1; i <= n; ++i) if (!ans[i]) {
-    ans[i] = 1;
+  for (int i = 1; i < n; ++i) if (!ans[i]) {
+    ans[i] = (ans[n] == 1 ? n : 1); // only once
+    break;
   }
   std::cout << "!";
   for (int i = 1; i <= n; ++i) std::cout << ' ' << ans[i];
