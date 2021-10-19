@@ -17,24 +17,28 @@ void solve() {
   int n;
   std::cin >> n;
   std::vector<int> a(n + 1, 1), ans(n + 1);
-  a[n] = n;
-  // 看最后一个数是多少
-  for (int i = 0; i < n; ++i) {
-    if (query(a, n)) {
-      ans.back() = i + 1;
-      break;
-    }
-    --a.back();
+  a[n] = 2;
+  for (int i = 2; i <= n; ++i) {
+    a[n] = i;
+    int x = query(a, n);
+    if (x == 0) break;
+    ans[x] = i - 1;
   }
-  if (ans.back() == 0) ans.back() = n;
-  for (int i = ans[n] + 1; i <= n; ++i) {
-    a[n] = i - ans[n] + 1;
-    ans[query(a, n)] = i;
+  if (a[n] == 2) {
+    ans[n] = n;
+  } else {
+    ans[n] = (a[n] == n ? n + 1 : n + 2) - a[n];
+    for (int i = 1; i < n; ++i) if (ans[i]) {
+      ans[i] += ans[n];
+    }
   }
   a = std::vector<int>(n + 1, n);
-  for (int i = 1; i < ans[n]; ++i) {
+  for (int i = 2; i < ans[n]; ++i) {
     a[n] = n + i - ans[n];
     ans[query(a, n)] = i;
+  }
+  for (int i = 1; i <= n; ++i) if (!ans[i]) {
+    ans[i] = 1;
   }
   std::cout << "!";
   for (int i = 1; i <= n; ++i) std::cout << ' ' << ans[i];
