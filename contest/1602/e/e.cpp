@@ -59,6 +59,7 @@ void solve() {
   std::sort(b.begin(), b.end());
   std::vector<int> pos(m); // 0 <= pos[i] <= n
   std::function<void(int, int, int, int)> divConquer = [&](int p, int q, int l, int r) {
+    if (l >= r) return;
     int m = (l + r) / 2, len = q - p + 1;
     { // 提前析构，释放内存
       int bm = b[m];
@@ -73,8 +74,8 @@ void solve() {
       int x = std::min_element(pre.begin(), pre.end()) - pre.begin();
       pos[m] = p + x;
     }
-    if (l != m) divConquer(p, pos[m], l, m);
-    if (m + 1 != r) divConquer(pos[m], q, m + 1, r);
+    divConquer(p, pos[m], l, m);
+    divConquer(pos[m], q, m + 1, r);
   };
   divConquer(0, n, 0, m);
   std::vector<int> c;
