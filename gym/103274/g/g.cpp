@@ -39,7 +39,7 @@ int bitCountll(unsigned long long n) {
 // https://www.cnblogs.com/lukelouhao/archive/2012/06/12/2546267.html
 
 // faster than bitCount
-int bitCountTable(unsigned int n) { 
+int bitCountTable(unsigned n) { 
   static int table[256] =  { 
     0, 1, 1, 2, 1, 2, 2, 3, 1, 2, 2, 3, 2, 3, 3, 4, 
     1, 2, 2, 3, 2, 3, 3, 4, 2, 3, 3, 4, 3, 4, 4, 5, 
