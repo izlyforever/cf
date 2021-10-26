@@ -71,7 +71,7 @@ int bitCountTableLL(unsigned long long n) {
 void solve() {
   int n, m;
   std::cin >> n >> m;
-  int last = 0;
+  int last = 0; // 我们需要记录最后一个为 0 的值
   // for (int i = 1; i <= n; ++i) if (bitCount(i) % 2 == 0) {
   for (int i = 1; i <= n; ++i) if (!__builtin_parity(i)) {
     if (i - m > last) last = i;
