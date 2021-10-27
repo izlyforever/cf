@@ -68,7 +68,7 @@ int bitCountTableLL(unsigned long long n) {
 // https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
 // 根据情况换成 bool
-void solve() {
+bool solve() {
   int n, m;
   std::cin >> n >> m;
   int last = 0; // 我们需要记录最后一个为 0 的值
@@ -76,16 +76,28 @@ void solve() {
   for (int i = 1; i <= n; ++i) if (!__builtin_parity(i)) {
     if (i - m > last) last = i;
   }
-  std::cout << (last != n ? "Pay the bill" : "Free snacks!") << '\n';
+  return last != n;
 }
+
+class Timer {
+  std::chrono::steady_clock::time_point start_;
+ public:
+  Timer() : start_(std::chrono::steady_clock::now()) {}
+  void show() {
+    auto elapsedTime = std::chrono::steady_clock::now() - start_;
+    std::cerr << "Time used: " << elapsedTime.count() / 1'000'000 << "ms\n";
+  }
+};
 
 int main() {
   //freopen("in", "r", stdin);
+  Timer X;
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   // std::cin >> cas; // 根据情况注释掉
   while (cas--) {
-    solve();
+    std::cout << (solve() ? "Pay the bill" : "Free snacks!") << '\n';
   }
+  X.show();
   return 0;
 }
