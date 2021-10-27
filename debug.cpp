@@ -1,5 +1,5 @@
-#pragma comment(linker,"/STACK:10240000,10240000")
-#pragma GCC optimize("Ofast,no-stack-protector,unroll-loops")
+// #pragma comment(linker,"/STACK:10240000,10240000")
+// #pragma GCC optimize("Ofast,no-stack-protector,unroll-loops")
 // #pragma GCC target("sse,sse2,sse3,ssse3,sse4.1,sse4.2,abm,mmx,avx,avx2,popcnt,tune=native")
 
 #include <ext/pb_ds/assoc_container.hpp>
