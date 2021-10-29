@@ -14,7 +14,6 @@ class Timer {
 };
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 
-// This example tell us there are no difference between ULL and LL
 int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 1e8 + 2;
@@ -43,3 +42,4 @@ int main() {
   A.show("LL");
 }
 }
+// This example tell us there are no difference between ULL and LL
