@@ -14,5 +14,6 @@
 
 ## E
 
-直接 dp，注意到 $dp[n][x] = x^n, n < x$, $dp[n][x] = dp[n][x - n - 1] + \binom{n}{1}dp[n - 1][x - n - 1] + \cdots, + \binom{n}{n} dp[0][x - n - 1]$
+直接 dp，注意到 $dp[n][x] = x^n, n < x$, $dp[n][x] = dp[n][x - n - 1] + \binom{n}{1}dp[n - 1][x - n + 1] \cdot (n - 1) + \cdots, + \binom{n}{n} dp[0][x - n + 1] \cdot (n - 1)^n$
 
+注意到 $dp[0][x] = 1, dp[1][x] = 0$
