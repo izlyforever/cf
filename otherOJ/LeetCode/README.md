@@ -1,5 +1,10 @@
 LeetCode 最大的好处就是每次错了会给你一组错的例子，坏处显而易见：没有自动补全
 
+## [建信04. 电学实验课](https://leetcode-cn.com/contest/ccbft-2021fall/problems/lSjqMF/)
+
+可以看出，每次可以，斜着向上，向下，平这走。所以其实可以用动态规划做，然后状态转移其实是左乘矩阵 $\begin{pmatrix} 1 & 1 & 0 & \cdots & 0 \\ 1 & 1 & 1 & \cdots & 0 \\ 0 & 1 & 1 & \cdots & 0 \\ & & & \ddots & \\ 0 & 0 & 0 & \cdots & 0 \end{pmatrix}$
+
+所以可以用简单的矩阵乘法，然后取 $A[i][j]$ 就是答案。但是复杂度过不了。所以需要用特征多项式和叉姐的做法
 
 ## [LCP 49. 环形闯关游戏](https://leetcode-cn.com/problems/K8GULz/)
 
