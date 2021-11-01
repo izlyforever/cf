@@ -2,8 +2,8 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 using LL = long long;
 
-class PstSegTree {
-  const inline static LL inf = 1e18 + 2;
+class SegTree {
+  static inline const LL inf = 1e18 + 2;
   struct Node {
     int l, r, val;
   };
@@ -37,7 +37,7 @@ class PstSegTree {
     return ans;
   }
  public:
-  PstSegTree() {
+  SegTree() {
     newNode();
   }
   void add(LL x, int val) {
@@ -54,7 +54,7 @@ int main() {
   int n, q;
   std::cin >> q >> n;
   std::vector<LL> a(n);
-  PstSegTree A;
+  SegTree A;
   A.add(0, n);
   while (q--) {
     int op;
