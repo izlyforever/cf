@@ -9,7 +9,6 @@
 //                           __gnu_pbds::rb_tree_tag,             \
 //                           __gnu_pbds::tree_order_statistics_node_update>
 
-#include <iostream>
 #include <bits/stdc++.h>
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 #define clog(x) std::clog << (#x) << " is " << (x) << '\n';
