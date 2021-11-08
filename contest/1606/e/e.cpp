@@ -33,7 +33,6 @@ void init() {
   }
 }
 
-// 根据情况换成 bool
 void solve() {
   int n, x;
   std::cin >> n >> x;
@@ -45,7 +44,7 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   init();
   int cas = 1;
-  // std::cin >> cas; // 根据情况注释掉
+  // std::cin >> cas;
   while (cas--) {
     solve();
   }

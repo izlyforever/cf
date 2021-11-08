@@ -14,7 +14,6 @@ int f(std::vector<int> a) {
   }
   return ans == n ? INT_MAX : ans;
 }
-// 根据情况换成 bool
 void solve() {
   int n, d;
   std::cin >> n >> d;
@@ -40,7 +39,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     solve();
   }

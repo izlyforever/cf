@@ -66,7 +66,6 @@ int bitCountTableLL(unsigned long long n) {
 }
 // https://www.cnblogs.com/graphics/archive/2010/06/21/1752421.html
 
-// 根据情况换成 bool
 bool solve() {
   int n, m;
   std::cin >> n >> m;
@@ -93,7 +92,7 @@ int main() {
   Timer X;
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
-  // std::cin >> cas; // 根据情况注释掉
+  // std::cin >> cas;
   while (cas--) {
     std::cout << (solve() ? "Pay the bill" : "Free snacks!") << '\n';
   }

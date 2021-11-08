@@ -2,7 +2,6 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-// 根据情况换成 bool
 int solve() {
   int x, y;
   std::cin >> x >> y;
@@ -16,7 +15,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     std::cout << solve() << '\n';
   }

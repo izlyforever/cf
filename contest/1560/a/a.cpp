@@ -16,7 +16,7 @@ int main() {
     a.emplace_back(now++);
   }
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     int x;
     std::cin >> x;

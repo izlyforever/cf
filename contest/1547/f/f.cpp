@@ -2,7 +2,6 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-// 根据情况换成 bool
 int solve() {
     int n;
     std::cin >> n;

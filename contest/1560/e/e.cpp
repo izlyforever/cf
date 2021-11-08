@@ -7,7 +7,6 @@ std::string check(const std::string& a, char c) {
   for (auto& x : a) if (x != c) b += x;
   return b;
 }
-// 根据情况换成 bool
 bool solve(std::string& ans, std::string& order) {
   std::string t;
   std::cin >> t;
@@ -35,7 +34,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     std::string ans, order;
     if (solve(ans, order)) {

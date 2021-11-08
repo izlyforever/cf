@@ -2,7 +2,6 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
-// 根据情况换成 bool
 const int N = 3e5 + 2;
 int dp[N];
 void init() {
@@ -24,7 +23,7 @@ int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   init();
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     solve();
   }

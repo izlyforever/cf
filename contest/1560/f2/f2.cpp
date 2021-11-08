@@ -25,7 +25,6 @@ std::string dfs(const std::string& s, int k) {
   return s;
 }
 
-// 根据情况换成 bool
 void solve() {
   int n, k;
   std::cin >> n >> k;
@@ -36,7 +35,7 @@ int main() {
   //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
-  std::cin >> cas; // 根据情况注释掉
+  std::cin >> cas;
   while (cas--) {
     solve();
   }
