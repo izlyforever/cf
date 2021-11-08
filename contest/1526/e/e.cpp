@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 int powMod(int x, int n, int p) {
@@ -25,7 +24,6 @@ int main() {
   for (int i = 1; i < n; ++i) {
     if (rk[s[i] + 1] > rk[s[i + 1] + 1]) --equal;
   }
-  clog(n - equal);
   int ans = 1, fac = 1;
   for (int i = 0; i < n; ++i) {
     ans = 1LL * ans * (k + equal - i) % M;

@@ -1,6 +1,5 @@
 
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
 using LL = long long;
 

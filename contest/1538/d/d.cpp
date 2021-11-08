@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 const int N = 1e5 + 2;

@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 constexpr int M = 1e9 + 7;

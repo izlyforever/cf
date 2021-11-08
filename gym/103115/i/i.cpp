@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 int floor(int a, int n) { // n > 0

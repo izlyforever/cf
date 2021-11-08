@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 // 模正数向下取整 和 向上取整

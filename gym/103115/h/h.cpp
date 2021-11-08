@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 int main() {
@@ -17,8 +16,6 @@ int main() {
       --x1;
       --x2;
     }
-    clog(x1);
-    clog(x2);
     int ans = 0;
     while (1) {
       ++ans;

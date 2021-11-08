@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#define clog(x) std::clog << (#x) << " is " << (x) << '\n';
 using LL = long long;
 
 int main() {
@@ -40,7 +39,6 @@ int main() {
         for (auto x : p) ans += std::string(cnt[x], "ANOT"[x]);
       }
     } while (std::next_permutation(p.begin(), p.end()));
-    clog(mx);
     std::cout << ans << '\n';
   }
   return 0;
