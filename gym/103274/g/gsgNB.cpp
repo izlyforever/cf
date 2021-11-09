@@ -17,7 +17,6 @@ class RingBuffer {
   }
 };
 
-
 class MexS {
   static inline const int B = 64; // submit use 64bit
   using ULL = unsigned long long;
@@ -44,7 +43,7 @@ class MexS {
       id = tid;
     }
   }
-  void erase(int id) { // make sure there is an element in this set
+  void erase(int id) { // make sure id in this set
     if (id < 0 || id >= cnt_.size() || --cnt_[id]) return;
     if (id <= ans_) ans_ = id;
     for (auto &x : a_) {
