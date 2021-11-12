@@ -10,7 +10,6 @@ int query(int l, int r) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, t, k;
   std::cin >> n >> t >> k;

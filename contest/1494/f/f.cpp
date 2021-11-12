@@ -45,7 +45,6 @@ std::stack<int> EulerPath(std::vector<std::set<int>> e, int rt) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::cin >> n >> m;

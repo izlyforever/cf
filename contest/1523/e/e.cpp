@@ -60,7 +60,6 @@ int lucas(int n, int k) {
 // 模板例题：https://www.luogu.com.cn/problem/P3807
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   Binom::init(1e5 + 2);
   int cas = 1;

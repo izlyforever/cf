@@ -17,7 +17,6 @@ LL solve(LL a, LL b, LL c) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, s;
   std::cin >> n >> s;

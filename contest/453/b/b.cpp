@@ -4,8 +4,7 @@
 #define println std::cout << std::endl
 using LL = long long;
 
-int main() {
-  //freopen("in","r",stdin);
+int main() {;
   std::ios::sync_with_stdio(false);
   std::cin.tie(nullptr);
   int n;

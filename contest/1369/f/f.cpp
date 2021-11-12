@@ -2,7 +2,6 @@
 using namespace std;
 using LL = long long;
 int main(){
-  //freopen("in","r",stdin)
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   function<bool(LL,LL)> f = [&](LL s,LL t)->bool{
     if(t%2==1) return s%2==0;

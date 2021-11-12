@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::map<std::vector<int>, int> sg;
   std::function<int(std::vector<int>)> dfs = [&](const std::vector<int>& a) -> int {

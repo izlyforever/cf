@@ -896,7 +896,6 @@ using PolyOrigin = Poly<PolyBaseOrigin<MInt<FFTM>>, MInt<FFTM>>;
 using PolyOriginDynamic = Poly<PolyBaseOrigin<ModInt>, ModInt>;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, k;
   std::cin >> n >> k;

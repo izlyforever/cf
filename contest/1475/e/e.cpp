@@ -20,7 +20,6 @@ LL binom(int n, int k) {
   return fac[n] * ifac[k] % M * ifac[n - k] % M;
 }
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   init();
   int cas = 1;

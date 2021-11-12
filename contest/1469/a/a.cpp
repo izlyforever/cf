@@ -8,7 +8,6 @@ bool solve() {
   return s[0] != ')' && s.back() != '(';
 }
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;

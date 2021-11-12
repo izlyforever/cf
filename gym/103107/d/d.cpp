@@ -4,7 +4,6 @@ using LL = long long;
 const LL M = 1000003;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n;
   std::cin >> n;

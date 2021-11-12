@@ -9,7 +9,6 @@ int ceil(int a, int n) { // n > 0
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::cin >> n >> m;

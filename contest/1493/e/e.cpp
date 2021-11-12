@@ -25,7 +25,6 @@ std::string solve() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::cout << solve() << "\n";
   return 0;

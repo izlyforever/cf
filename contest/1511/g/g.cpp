@@ -8,7 +8,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::cin >> n >> m;

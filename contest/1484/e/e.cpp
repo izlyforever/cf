@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   // 设 a[i][j] 为从 j + 1 到 i 这一段放在一起的结果
   // f[i] = \max(f[j] + a[i][j])，注意到如果最后一段不以 i 为最低点，那么删除这个点不影响结果。

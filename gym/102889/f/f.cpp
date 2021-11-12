@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, p, q, m, b, c, t;
   std::cin >> n >> p >> q >> m >> b >> c >> t;

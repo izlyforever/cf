@@ -19,7 +19,6 @@ bool f(int n,int m){
   }
 }
 int main(){
-  //freopen("in","r",stdin)
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int n,m;
   cin>>n>>m;

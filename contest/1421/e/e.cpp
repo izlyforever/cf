@@ -8,7 +8,6 @@ const int N = 2e5 + 2;
 LL dp[N][3][2][2];
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::memset(dp, -0x3f, sizeof(dp));
   auto upmax = [](LL& a, LL b) {

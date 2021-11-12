@@ -5,7 +5,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto f = [](std::vector<LL> a) -> LL {
     std::sort(a.begin(), a.end());

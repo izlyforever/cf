@@ -49,7 +49,6 @@ class SegTree {
 };
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, q;
   std::cin >> q >> n;

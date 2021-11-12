@@ -7,7 +7,6 @@ const LL inv2 = (M + 1) / 2;
 const LL inv4 = inv2 * inv2 % M;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::cin >> n >> m;

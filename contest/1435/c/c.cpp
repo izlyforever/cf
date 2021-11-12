@@ -6,7 +6,6 @@ using LL = long long;
 using pii = std::pair<int, int>;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int m = 6;
   std::vector<int> a(m);

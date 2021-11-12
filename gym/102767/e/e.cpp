@@ -19,7 +19,6 @@ int spf() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   spf();
   int cas = 1;

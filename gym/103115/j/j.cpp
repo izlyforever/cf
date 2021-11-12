@@ -2,7 +2,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 1e6 + 2;
   std::vector<int> cnt(N);

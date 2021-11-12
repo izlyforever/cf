@@ -16,7 +16,6 @@ void addedge(int u, int v) {
   to[cnt] = v;
 }
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas;
   std::cin >> cas;

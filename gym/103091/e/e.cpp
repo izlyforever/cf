@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto f = [](int n, int x, int y) -> std::vector<int> {
     if (n < x + y - 1) return {-1};

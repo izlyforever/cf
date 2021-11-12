@@ -12,7 +12,6 @@ int powMod(int x, int n, int p) {
 
 const int M = 998244353;
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, k;
   std::cin >> n >> k;

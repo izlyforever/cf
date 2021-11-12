@@ -6,7 +6,6 @@ constexpr int N = 20;
 LL cnt[N][N],s[N],dp[1<<N];
 
 int main(){
-  //freopen("in", "r", stdin);
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int n;
   cin>>n;

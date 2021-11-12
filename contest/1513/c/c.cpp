@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 2e5 + 12, M = 1e9 + 7;
   std::vector<std::array<int, 10>> dp(N);

@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 
 int main() {
-  //freopen("in","r",stdin)
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas;
   std::cin >> cas;

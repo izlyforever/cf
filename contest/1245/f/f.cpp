@@ -2,8 +2,7 @@
 using namespace std;
 using LL = long long;
 
-int main(){
-  //freopen("in","r",stdin);
+int main(){;
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   function<int(int,int)> g = [&](int x ,int n)->int{
     int ret = 1,zeros=0;

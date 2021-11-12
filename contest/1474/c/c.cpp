@@ -3,7 +3,6 @@
 using LL = long long;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto f = [](std::map<int, int> mp, int x) {
     std::vector<std::pair<int, int>> r;

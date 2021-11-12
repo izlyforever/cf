@@ -40,7 +40,6 @@ void solve() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   init();
   int cas = 1;

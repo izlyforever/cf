@@ -21,7 +21,6 @@ std::vector<LL> Dijkstra(int s, const edge& e) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;

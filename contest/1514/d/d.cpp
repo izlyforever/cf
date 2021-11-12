@@ -4,7 +4,6 @@ using LL = long long;
 std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, q;
   std::cin >> n >> q;

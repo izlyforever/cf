@@ -33,7 +33,6 @@ int solve() {
   return ans == INT_MAX ? -1 : ans;
 }
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::cout << solve() << std::endl;
   return 0;

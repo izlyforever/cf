@@ -3,7 +3,6 @@
 #define print(x) std::cout << (x) << std::endl
 using LL = long long;
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n;
   std::cin >> n;

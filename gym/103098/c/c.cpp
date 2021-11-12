@@ -25,7 +25,6 @@ class DSU {
 // follow ideal of triple__a，乘积图的最小生成树也是贪心的做法：
 // 第一张图两个点相连，需要连第二张图剩下的点的个数，此后第一张图的点就少了一个相当于
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n[2], m[2];
   std::cin >> n[0] >> m[0] >> n[1] >> m[1];

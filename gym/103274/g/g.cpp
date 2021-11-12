@@ -88,7 +88,6 @@ class Timer {
 };
 
 int main() {
-  //freopen("in", "r", stdin);
   Timer X;
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;

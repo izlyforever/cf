@@ -40,7 +40,6 @@ void solve() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;
@@ -97,7 +96,6 @@ int main() {
 // }
 
 // int main() {
-//   //freopen("in", "r", stdin);
 //   std::cin.tie(nullptr)->sync_with_stdio(false);
 //   int cas = 1;
 //   std::cin >> cas;

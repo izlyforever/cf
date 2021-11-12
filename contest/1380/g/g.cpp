@@ -5,7 +5,6 @@ using LL = long long;
 const int N = 2e5+4;
 int a[N],p[N],b[N];
 int main() {
-  //freopen("in", "r", stdin);
   std::ios::sync_with_stdio(false); std::cin.tie(nullptr);
   int cas;
   int n, m, k;

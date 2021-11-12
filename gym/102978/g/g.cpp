@@ -39,7 +39,6 @@ void idft(std::vector<LL>& a) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   w[0] = 1;
   for (int i = 1; i < 7; ++i) w[i] = w[i - 1] * g % M;

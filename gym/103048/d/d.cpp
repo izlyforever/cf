@@ -18,7 +18,6 @@ void initPrime() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   initPrime();
   auto f = [](int n, int i) {

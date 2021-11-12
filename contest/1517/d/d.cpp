@@ -7,7 +7,6 @@ std::vector<std::tuple<int, int, int>> dir[N][N];
 int dp[12][N][N];
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m, k;
   std::cin >> n >> m >> k;

@@ -32,7 +32,6 @@ LL solve(int n, int a, int c) {
   return r % M;
 }
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::string s;
   int c;

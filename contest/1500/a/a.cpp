@@ -37,7 +37,6 @@ std::optional<std::tuple<int, int, int, int>> solve() {
 
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto r = solve();
   if (r.has_value()) {

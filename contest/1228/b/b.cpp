@@ -12,7 +12,6 @@ LL powmod(LL x,LL n){
   return r;
 }
 int main(){
-  //freopen("in", "r", stdin);
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int h,w;
   cin>>h>>w;

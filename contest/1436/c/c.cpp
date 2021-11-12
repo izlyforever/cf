@@ -7,7 +7,6 @@ using LL = long long;
 const LL M = 1e9+7;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, x, pos;
   std::cin >> n >> x >> pos;

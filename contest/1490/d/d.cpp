@@ -21,7 +21,6 @@ int cartesian_build(std::vector<Node>& tree, int n) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;

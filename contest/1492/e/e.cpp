@@ -79,7 +79,6 @@ class ECC {
 };
 
 int main() {
-  // freopen("C:\\Users\\dna049\\cf\\in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::cin >> n >> m;

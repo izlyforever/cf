@@ -4,8 +4,7 @@ using LL = long long;
 using pii = std::pair<int, int>;
 using pll = std::pair<LL, LL>;
 
-int main() {
-  // freopen("in","r",stdin);
+int main() {;
   std::ios::sync_with_stdio(false);
   std::cin.tie(nullptr);
   int cas = 1;

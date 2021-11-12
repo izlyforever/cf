@@ -14,7 +14,6 @@ LL powMod(LL x, LL n) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, m;
   std::string s;

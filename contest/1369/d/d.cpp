@@ -13,7 +13,6 @@ LL powmod(LL x,LL n){
 }
 
 int main(){
-  //freopen("in","r",stdin)
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int cas;
   cin>>cas;

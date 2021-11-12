@@ -7,7 +7,6 @@ bool check(int x) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::vector<int> a;
   int now = 1;

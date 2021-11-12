@@ -883,7 +883,6 @@ for i in range(8):
 */
 
 int main() {
-  // freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   PolyOrigin mod({1, 0, -1, -6, -2, -1, 1});
   std::vector<MInt<FFTM>> b{1, 1, 3, 10, 23, 62};

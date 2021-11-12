@@ -56,7 +56,6 @@ void mul(std::vector<LL>& a, std::vector<LL> b) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 1e5 + 2;
   std::vector<LL> inv(N);

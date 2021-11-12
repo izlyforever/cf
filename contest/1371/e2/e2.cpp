@@ -3,8 +3,7 @@ using namespace std;
 using LL = long long;
 const int N = 4002;
 
-int main(){
-  //freopen("in","r",stdin);
+int main(){;
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int n,p;
   cin>>n>>p;

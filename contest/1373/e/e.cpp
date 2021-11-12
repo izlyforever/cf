@@ -2,8 +2,7 @@
 using namespace std;
 using LL = long long;
 const LL inf = 1e17+2;
-int main(){
-  //freopen("in","r",stdin);
+int main(){;
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   auto csum = [](int a,int b){
     return (a+b)*(b-a+1)/2;

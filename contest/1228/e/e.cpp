@@ -24,7 +24,6 @@ LL binom(int n,int k){
 }
 int a[N][N];
 int main(){
-  //freopen("in", "r", stdin);
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   init();
   int n;

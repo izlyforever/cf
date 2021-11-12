@@ -123,7 +123,6 @@ using Mod = MInt<M>;
 const int N = 1002;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::vector<std::vector<Mod>> a(N + 2, std::vector<Mod>(N + 2));
   auto b = a;

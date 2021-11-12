@@ -40,7 +40,6 @@ std::vector<int> countPrefix(std::string s, std::string t) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::string s;
   std::cin >> s;

@@ -16,7 +16,6 @@ std::vector<int> spf(int N) {
 }
 const LL M = 1e9 + 7;
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 2e5 + 2;
   auto sp = spf(N);

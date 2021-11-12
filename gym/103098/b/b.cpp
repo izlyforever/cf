@@ -17,7 +17,6 @@ using LL = long long;
 // 4k    , ..., 2k + 2, 0, 2k - 1,..., 3,      1,      2k + 1,      2,...,     2k, 2k + 3,..., 4k - 1
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n;
   std::cin >> n;

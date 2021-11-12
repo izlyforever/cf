@@ -64,7 +64,6 @@ LL powSum(LL n, int k, LL M, const std::vector<int>& sp){
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const LL M = 1e9 + 7;
   int n, k;

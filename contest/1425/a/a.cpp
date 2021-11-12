@@ -12,8 +12,7 @@ LL f(LL n) {
   return 1 + f(n - 2);
 }
 
-int main() {
-  //freopen("in","r",stdin);
+int main() {;
   std::ios::sync_with_stdio(false);
   std::cin.tie(nullptr);
   int cas;

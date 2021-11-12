@@ -2,7 +2,6 @@
 #define watch(x) std::cout << (#x) << " is " << (x) << std::endl
 
 int main(){
-  //freopen("in","r",stdin)
   std::ios::sync_with_stdio(false);std::cin.tie(nullptr);
   int cas;
   std::cin>>cas;

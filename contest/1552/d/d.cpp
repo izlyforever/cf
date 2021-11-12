@@ -61,7 +61,6 @@ bool solve2() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;

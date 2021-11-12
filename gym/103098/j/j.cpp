@@ -18,7 +18,6 @@ std::vector<int> initPrime() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto p = initPrime();
   auto f = [&](int n) {

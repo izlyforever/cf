@@ -211,7 +211,6 @@ class Poly {
 }; // Poly 全家桶测试：https://www.luogu.com.cn/training/3015#information
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n, k;
   std::cin >> n >> k;

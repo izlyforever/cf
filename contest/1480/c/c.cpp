@@ -38,7 +38,6 @@ int solve() {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int r = solve();
   std::cout << "! " << r << std::endl;

@@ -233,7 +233,6 @@ std::vector<LL> sumFraction(std::vector<LL> a, std::vector<LL> b, int N) {
 }
 
 int main() {
-  // freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n;
   std::cin >> n;

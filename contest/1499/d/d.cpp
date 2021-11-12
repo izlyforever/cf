@@ -42,7 +42,6 @@ int solve(const std::vector<int>& f) {
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   auto [f, _] = npf(2e7 + 2);
   int cas = 1;

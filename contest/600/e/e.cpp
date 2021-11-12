@@ -50,7 +50,6 @@ std::vector<LL> dsuOnTree(std::vector<std::vector<int>>& e, std::vector<int>& a,
 }
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int n;
   std::cin >> n;

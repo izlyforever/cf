@@ -3,7 +3,6 @@ using LL = long long;
 const int N = 1e5 + 2;
 int p[N];
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   // std::cin >> cas;

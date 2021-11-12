@@ -6,7 +6,6 @@ const int N = 60;
 const LL M = 1e9 + 7;
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   int cas = 1;
   std::cin >> cas;

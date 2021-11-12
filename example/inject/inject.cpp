@@ -4,7 +4,6 @@ using LL = long long;
 #include "Add.hpp"
 
 int main() {
-  //freopen("in", "r", stdin);
   std::cin.tie(nullptr)->sync_with_stdio(false);
   std::cout << "Please input two integers:" << std::endl;
   int a, b;
