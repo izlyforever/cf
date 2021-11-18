@@ -1,0 +1,14 @@
+8 5
+abcabcab
+defdefdb
+abcabcab
+aaaaaaaa
+bbbbbbbb
+cccccccc
+bbbbbbbb
+cccccccc
+1 1 3 7
+1 2 3 8
+4 1 8 8
+5 2 7 6
+5 5 8 7
