@@ -56,6 +56,25 @@ $$
 - 应该尽量一个循环一个模块，这样可以利用高速缓存
 - 整体复杂度可达到 $O(m \log m + m \log n)$
 - 目前 2021.11.18 15:20:00 78ms 最佳
-- 有些人说用 Möbius 反演做，但是貌似并不会更简单
 
 ~~貌似我们完全可以不用考虑 $Z_m, B_m$ 直接去处理 $C_m$ 类似的情况啊，直接枚举 $(d, l)$ 啊~~，这样不行的原因是 lcm 的值没法控制
+
+
+[Möbius 反演的做法](https://blog.csdn.net/qq_47903865/article/details/121323986?utm_source=app&app_version=4.18.0&code=app_1562916241&uLinkId=usr1mkqgl919blen) 原文（错误太多了，还是看我这里的吧）作者直接包容排斥，感觉还是题解的排斥做法更好
+
+- $\text{lcm}(S) | x$ 的答案为 $h(x) = (\sum_{d | x} d)^n$
+- $\text{lcm}(S) = x$ 的答案为 $g(x) = \sum_{d | x} \mu(d) h(\frac{x}{d})$
+- $\text{lcm}(S) = x, \gcd(S) = 1$ 的答案为 $f(x) = \sum_{d | x} \mu(d) d^n g(\frac{x}{d})$（这里应用了可乘函数的逆公式，以及下面性质）
+- $\text{lcm}(S) = xt, \gcd(S) = t$ 的答案为 $t^n f(x)$
+- 无限制的答案为 $H(m) = \left(\frac{m(m + 1)}{2} \right)^n$
+- $\gcd(S) = 1$ 的答案为 $G(m) = \sum_{d = 1}^m \mu(d) d^n H(\lfloor \frac{m}{d} \rfloor)$(这里应用了可乘函数的逆公式，以及下面性质)
+- $\gcd(S) = t$ 的答案为 $F(t) = t^n G(\lfloor \frac{m}{t} \rfloor)$
+
+所以最终答案就是 
+
+$$
+H(m) - \sum_{i = q + 1}^m F(i) - \sum_{i = 1}^q i^n \sum_{j = 1}^{\lfloor \frac{p - 1}{i} \rfloor} f(j)
+$$
+
+注意到 $F(t)$ 的值和 $m$ 强绑定（$\lfloor \frac{m}{t} \rfloor$ 最多只有 $2 \sqrt{m}$ 个值，然后可以用整除分块），因此计算所有 $F(t)$ 计算量为 $O(m)$，所以复杂度 $O(m \log m + m\log n)$
+
