@@ -20,11 +20,11 @@ void sub(int& x, int y) {
   if (x < 0) x += M;
 }
 
-std::vector<int> Dirchlet(const std::vector<int>& f, const std::vector<int>& g, int m) {
+std::vector<int> DirichletProduct(const std::vector<int>& f, const std::vector<int>& g, int m) {
   std::vector<int> h(m + 1);
   for (int i = 1; i <= m; ++i) {
-    for (int j = 1; i * j <= m; ++j) {
-      add(h[i * j], 1LL * f[i] * g[j] % M);
+    for (int j = 1, ij = i; ij <= m; ij += i, ++j) {
+      h[ij] = (h[ij] + 1LL * f[i] * g[j]) % M;
     }
   }
   return h;
@@ -46,12 +46,12 @@ int solve(int n, int m, int lcmMin, int gcdMax) {
     }
   }
   for (auto &x : h) x = powMod(x, n);
-  auto g = Dirchlet(h, mu, m);
+  auto g = DirichletProduct(h, mu, m);
   std::vector<int> pn(m + 1);
   for (int i = 1; i <= m; ++i) pn[i] = powMod(i, n);
   std::vector<int> pnMu(m + 1);
   for (int i = 1; i <= m; ++i) pnMu[i] = 1LL * pn[i] * mu[i] % M;
-  auto f = Dirchlet(g, pnMu, m);
+  auto f = DirichletProduct(g, pnMu, m);
   auto sumf = f;
   for (int i = 1; i <= m; ++i) add(sumf[i], sumf[i - 1]);
   for (int i = 1; i <= m; ++i) add(pnMu[i], pnMu[i - 1]);
@@ -70,14 +70,20 @@ int solve(int n, int m, int lcmMin, int gcdMax) {
     G[x] = ans < 0 ? ans + M : ans;
     return G[x];
   };
+  for (int i = 1; i <= m; ++i) add(pn[i], pn[i - 1]);
   int ans = H[m];
-  for (int i = gcdMax + 1; i <= m; ++i) {
-    sub(ans, 1LL * pn[i] * getG(m / i) % M);
+  for (int i = gcdMax + 1, j; i <= m; i = j + 1) {
+    j = m / (m / i);
+    ans = (ans - 1LL * (pn[j] - pn[i - 1]) * getG(m / i)) % M;
   }
-  for (int i = 1; i <= gcdMax; ++i) {
-    sub(ans, 1LL * pn[i] * sumf[(lcmMin - 1) / i] % M);
+  if (--lcmMin) {
+    gcdMax = std::min(gcdMax, lcmMin);
+    for (int i = 1, j; i <= gcdMax; i = j + 1) {
+      j = std::min(lcmMin / (lcmMin / i), gcdMax);
+      ans = (ans - 1LL * (pn[j] - pn[i - 1]) * sumf[lcmMin / i]) % M;
+    }
   }
-  return ans;
+  return ans < 0 ? ans + M : ans;
 }
 
 int main() {
