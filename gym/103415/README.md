@@ -1,5 +1,13 @@
 # [The 2021 CCPC Guangzhou Onsite](https://codeforces.com/gym/103415/)
 
+## C
+
+二分一下合理性，注意可以从差距最小的开始
+
+## H
+
+若 $a = b = c$，那么仅全为 0 时有解（因为这迫使 $x = y = z$，然后只能为 0），否则必然可以
+
 ## K
 
 $$
