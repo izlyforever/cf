@@ -66,7 +66,6 @@ int arcCos(double cos) {
 }
 
 int main() {
-  std::cin.tie(nullptr)->sync_with_stdio(false);
   const int N = 1e7;
   std::vector<double> x(N);
   std::uniform_real_distribution<double> unif(-1.0, 1.0);
@@ -77,11 +76,6 @@ int main() {
     Timer A;
     for (int i = 0; i < N; ++i) ax[i] = acos(x[i]);
     A.show("acos");
-  }
-  {
-    Timer A;
-    for (int i = 0; i < N; ++i) afx[i] = acosFastS(x[i]);
-    A.show("acosFastS");
   }
   init();
   {
@@ -115,7 +109,6 @@ int main() {
 }
 
 // Time used[acos]: 117ms
-// Time used[acosFastS]: 7ms
 // Time used[acosTable]: 234ms
 // Time used[acosFast]: 9ms
 // Time used[asin]: 106ms
