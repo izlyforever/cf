@@ -26,6 +26,7 @@
 - [Codeforces Round #703 (Div. 2)](https://codeforces.com/contest/1486)：被 A 题卡我是没想到的。
 - [Educational Codeforces Round 106 (Rated for Div. 2)](https://codeforces.com/contest/1499)：奇耻大辱，掉了 184 分！
 - [Educational Codeforces Round 109 (Rated for Div. 2)](https://codeforces.com/contest/1525)：2021 年再打 EDU 场是狗（-111 分！）
+- [Codeforces Global Round 17](https://codeforces.com/contest/1610)：比赛结束 A 题都没过
 
 ## 记录
 
