@@ -31,7 +31,10 @@ void generate(int m) {
     std::cout << "}\n\n";
     return;
   } else if (m % 2 == 0) {
-    std::cerr << "Sorry, not support!\n\n";
+    std::cerr << "Sorry, not support for even number which is not power of 2: " << m << "\n\n";
+    return;
+  } else if (m >> 30) {
+    std::cerr << "Sorry, not support for number bigger than 2^30: " << m << "\n\n";
     return;
   }
   auto [d, x, y] = exGcd(1LL << 32, 1LL * m);
@@ -47,11 +50,10 @@ void generate(int m) {
   std::cout << "    if (n & 1) {\n";
   std::cout << "      ULL t = ULL(rr) * xx;\n";
   std::cout << "      rr = (t + ULL(unsigned(t) * mr) * m) >> 32;\n";
-  std::cout << "      rr = std::min(rr, rr - m);\n";
   std::cout << "    }\n";
   std::cout << "    ULL t = ULL(xx) * xx;\n";
   std::cout << "    xx = (t + ULL(unsigned(t) * mr) * m) >> 32;\n";
-  std::cout << "    xx = std::min(xx, xx - m);\n";
+  std::cout << "    n >>= 1;\n";  
   std::cout << "  }\n";
   std::cout << "  return ULL(rr) * m1inv % m;\n";
   std::cout << "}\n\n";
@@ -63,5 +65,6 @@ int main() {
   generate(1000000009);
   generate(1024);
   generate(24);
+  generate((1 << 30) + 1);
   return 0;
 }
