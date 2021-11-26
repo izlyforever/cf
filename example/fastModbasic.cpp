@@ -38,6 +38,7 @@ void generate(int m) {
     return;
   }
   auto [d, x, y] = exGcd(1LL << 32, 1LL * m);
+  y = -y;
   if (y < 0) y += 1LL << 32;
   std::cout << "using ULL = unsigned long long;\n";
   std::cout << "unsigned fastPowMod" << m << "(unsigned x, unsigned n) {\n";
