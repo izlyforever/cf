@@ -3,7 +3,7 @@ int main(void) {
     int foo=10, bar=15, high, low;
     __asm__ __volatile__(
     "mull %%edx"
-    : "=a"(high), "=d"(low)
+    : "=a"(low), "=d"(high)
     : "a"(foo), "d"(bar)
     );
     printf("%d %d\n", high, low);

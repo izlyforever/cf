@@ -8,7 +8,7 @@ unsigned muluh(unsigned a, unsigned b, unsigned& c) {
   unsigned x;
   __asm__ __volatile__(
     "mull %%edx"
-    : "=a"(x), "=d"(c)
+    : "=a"(c), "=d"(x)
     : "a"(a), "d"(b)
   );
   return x;
@@ -18,7 +18,7 @@ unsigned muluh(unsigned a, unsigned b) {
   unsigned x;
   __asm__ __volatile__(
     "mull %%edx"
-    : "=a"(x)
+    : "=d"(x)
     : "a"(a), "d"(b)
   );
   return x;
