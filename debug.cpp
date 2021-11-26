@@ -34,10 +34,6 @@ int main() {
   //   // do something
   // }
 
-  Timer A;
-
-
-  A.show();
   return 0;
 }
 
