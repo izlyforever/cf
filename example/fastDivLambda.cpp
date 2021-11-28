@@ -59,6 +59,7 @@ std::function<T(T)> getDivFun(T d) {
 }
 
 std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
+std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
 class Timer final {
   std::chrono::high_resolution_clock::time_point start_;
   std::string name_;
@@ -76,12 +77,11 @@ inline uint32_t div14(uint32_t n) {
 
 int main() {
   const int N = 1e8 + 2;
-  std::vector<uint32_t> a(N);
-  for (auto &x : a) x = rnd();
-
   // test for mod = 14
-  uint32_t mod = 14;
   {
+    std::vector<uint32_t> a(N);
+    for (auto &x : a) x = rnd();
+    uint32_t mod = 14;
     for (auto x : a) {
       if (div14(x) != x / mod) {
         std::cerr << x << ' ' << div14(x) << ' ' << x / mod << '\n';
@@ -101,26 +101,59 @@ int main() {
       cerr(sum);
     }
   }
-
-  mod = 0;
-  while ((mod = rnd()) == 0);
-  auto f = getDivFun<uint32_t, u_int64_t>(mod);
-  for (auto x : a) {
-    if (f(x) != x / mod) {
-      std::cerr << x << ' ' << f(x) << ' ' << x / mod << '\n';
-      return -1;
+  // test for uint32
+  {
+    std::vector<uint32_t> a(N);
+    for (auto &x : a) x = rnd();
+    uint32_t mod = 0;
+    while ((mod = rnd()) == 0);
+    auto f = getDivFun<uint32_t, u_int64_t>(mod);
+    for (auto x : a) {
+      if (f(x) != x / mod) {
+        std::cerr << x << ' ' << f(x) << ' ' << x / mod << '\n';
+        return -1;
+      }
+    }
+    {
+      Timer A("default");
+      uint64_t sum = 0;
+      for (auto x : a) sum += x / mod;
+      cerr(sum);
+    }
+    {
+      Timer A("fast?");
+      uint64_t sum = 0;
+      for (auto x : a) sum += f(x);
+      cerr(sum);
     }
   }
+  // test for uint64
   {
-    Timer A("default");
-    uint64_t sum = 0;
-    for (auto x : a) sum += x / mod;
-    cerr(sum);
-  }
-  {
-    Timer A("fast?");
-    uint64_t sum = 0;
-    for (auto x : a) sum += f(x);
-    cerr(sum);
+    std::vector<uint64_t> a(N);
+    for (auto &x : a) x = rnd();
+    uint64_t mod = 0;
+    while ((mod = rnd64()) == 0);
+    mod = mod % INT_MAX; // avoid answer too small
+    auto f = getDivFun<u_int64_t, __uint128_t>(mod);
+    for (auto x : a) {
+      if (f(x) != x / mod) {
+        std::cerr << x << ' ' << f(x) << ' ' << x / mod << '\n';
+        return -1;
+      }
+    }
+    {
+      Timer A("default");
+      __uint128_t sum = 0;
+      for (auto x : a) sum += x / mod;
+      cerr(uint64_t(sum >> 64));
+      cerr(uint64_t(sum));
+    }
+    {
+      Timer A("fast?");
+      __uint128_t sum = 0;
+      for (auto x : a) sum += f(x);
+      cerr(uint64_t(sum >> 64));
+      cerr(uint64_t(sum));
+    }
   }
 }
