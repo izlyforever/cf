@@ -75,13 +75,36 @@ inline uint32_t div14(uint32_t n) {
 }
 
 int main() {
-  uint32_t mod = rnd();
-  while (mod == 0) mod = rnd();
-  mod = 14;
-  auto f = getDivFun<uint32_t, u_int64_t>(mod);
   const int N = 1e8 + 2;
   std::vector<uint32_t> a(N);
   for (auto &x : a) x = rnd();
+
+  // test for mod = 14
+  uint32_t mod = 14;
+  {
+    for (auto x : a) {
+      if (div14(x) != x / mod) {
+        std::cerr << x << ' ' << div14(x) << ' ' << x / mod << '\n';
+        return -1;
+      }
+    }
+    {
+      Timer A("const default");
+      uint64_t sum = 0;
+      for (auto x : a) sum += x / mod;
+      cerr(sum);
+    }
+    {
+      Timer A("mod14");
+      uint64_t sum = 0;
+      for (auto x : a) sum += div14(x);
+      cerr(sum);
+    }
+  }
+
+  mod = 0;
+  while ((mod = rnd()) == 0);
+  auto f = getDivFun<uint32_t, u_int64_t>(mod);
   for (auto x : a) {
     if (f(x) != x / mod) {
       std::cerr << x << ' ' << f(x) << ' ' << x / mod << '\n';
@@ -92,12 +115,6 @@ int main() {
     Timer A("default");
     uint64_t sum = 0;
     for (auto x : a) sum += x / mod;
-    cerr(sum);
-  }
-  {
-    Timer A("code");
-    uint64_t sum = 0;
-    for (auto x : a) sum += div14(x);
     cerr(sum);
   }
   {
