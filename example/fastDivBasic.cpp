@@ -95,6 +95,20 @@ uint32_t div6700417(uint32_t n) {
   return 641ull * n >> 32;
 }
 
+static inline  __attribute__((always_inline)) 
+unsigned muluh(unsigned a, unsigned b) {
+  unsigned x;
+  __asm__ __volatile__(
+    "mull %%edx"
+    : "=d"(x)
+    : "a"(a), "d"(b)
+  );
+  return x;
+}
+uint32_t div6700417Asm(uint32_t n) {
+  return muluh(641, n);
+}
+
 int main() {
   std::cin.tie(nullptr)->sync_with_stdio(false);
   const int M = 6700417;
