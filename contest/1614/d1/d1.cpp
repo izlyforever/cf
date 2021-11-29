@@ -1,6 +1,6 @@
 #undef _GLIBCXX_DEBUG
 #include <bits/stdc++.h>
-#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
+#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 using LL = long long;
 
 const int N = 5e6 + 2;

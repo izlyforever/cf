@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
+#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 using LL = long long;
 template<typename T>
 using SignedT = std::enable_if_t<std::is_signed_v<T>>;

@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
+#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 template<typename T>
 void debug(std::vector<T> a){
   for (auto& i : a) std::cout << i << ' ';

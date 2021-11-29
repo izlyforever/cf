@@ -1,5 +1,5 @@
 #include <bits/stdc++.h>
-#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n';
+#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 using LL = long long;
 
 std::string dfs(const std::string& s, int k) {
