@@ -11,7 +11,8 @@
 //                           __gnu_pbds::tree_order_statistics_node_update>
 
 #include <bits/stdc++.h>
-#define watch(x) std::cout << (#x) << " is " << (x) << std::endl
+#define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
+#define NewLine std::cerr << '\n'
 using LL = long long;
 std::mt19937 rnd(std::chrono::steady_clock::now().time_since_epoch().count());
 std::mt19937_64 rnd64(std::chrono::steady_clock::now().time_since_epoch().count());
