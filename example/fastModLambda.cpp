@@ -27,10 +27,6 @@ std::tuple<T, T, T> exGcd(T a, T b) {
 template<typename T, typename T2>
 using TwiceT = std::enable_if_t<sizeof(T) * 2 == sizeof(T2)>;
 
-template<typename T, typename T2, typename enable = TwiceT<T, T2>>
-T inv(T x, T M) {
-  return x == 1 ? x : T2(M - M / x) * inv<T, T2>(M % x, M) % M;
-}
 template<typename T>
 using UnsignedT = std::enable_if_t<std::is_unsigned_v<T>>;
 
@@ -46,17 +42,21 @@ class fastPowMod {
     if (!flag) {
       assert(m_ & 1);
       m1_ = (T(1) << Bit) % m_;
-      m1inv_ = inv<T, T2>(m1_, m_);
+      if constexpr(4 == sizeof (T)) {
+        auto [d, x, y] = exGcd(int32_t(m1_), int32_t(m_));
+        m1inv_ = x < 0 ? x + m_ : x;
+      } else {
+        auto [d, x, y] = exGcd(int64_t(m1_), int64_t(m_));
+        m1inv_ = x < 0 ? x + m_ : x;
+      }
       if constexpr(4 == sizeof (T)) {
         auto [d, x, y] = exGcd(int64_t(1) << Bit, int64_t(m_));
         y = -y;
-        if (y < 0) y += int64_t(1) << Bit;
-        mr_ = y;
+        mr_ = y < 0 ? y + int64_t(1) << Bit : y;
       } else {
         auto [d, x, y] = exGcd(__int128(1) << Bit, __int128(m_));
         y = -y;
-        if (y < 0) y += __int128(1) << Bit;
-        mr_ = y;
+        mr_ = y < 0 ? y + __int128(1) << Bit : y;
       }
     }
   }
