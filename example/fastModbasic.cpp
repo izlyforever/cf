@@ -11,10 +11,6 @@ int powMod(int x, int n, int M) {
   return r;
 }
 
-LL inv(LL x, LL M) {
-  return x == 1 ? x : __int128(M - M / x) * inv(M % x, M) % M;
-}
-
 template<typename T>
 std::tuple<T, T, T> exGcd(T a, T b) {
   if (b == 0) return {a, 1, 0};
@@ -44,12 +40,15 @@ void generate(int m) {
   auto [d, x, y] = exGcd(1LL << 32, 1LL * m);
   y = -y;
   if (y < 0) y += 1LL << 32;
+  int m1 = (1LL << 32) % m;
+  auto [d1, x1, y1] = exGcd(m1, m);
+  if (x1 < 0) x1 += m;
   std::cout << "using ULL = unsigned long long;\n";
   std::cout << "unsigned fastPowMod" << m << "(unsigned x, unsigned n) {\n";
   std::cout << "  static const unsigned m = " << m << "U;\n";
   std::cout << "  static const unsigned mr = " << y << "U;\n";
-  std::cout << "  static const unsigned m1 = " << (1LL << 32) % m << "U;\n";
-  std::cout << "  static const unsigned m1inv = " << inv((1LL << 32) % m, m) << "U;\n";
+  std::cout << "  static const unsigned m1 = " << m1 << "U;\n";
+  std::cout << "  static const unsigned m1inv = " << x1 << "U;\n";
   std::cout << "  unsigned xx = (ULL(x) << 32) % m, rr = m1;\n";
   std::cout << "  while (n) {\n";
   std::cout << "    if (n & 1) {\n";
@@ -65,7 +64,6 @@ void generate(int m) {
 }
 
 int main() {
-  cerr(inv(22, 39));
   generate(998244353);
   generate(1000000007);
   generate(1000000009);
