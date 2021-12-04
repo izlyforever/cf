@@ -1,0 +1,6 @@
+[submodule "cpplibforCP"]
+	path = cpplibforCP
+	url = git@github.com:izlyforever/cpplibforCP.git
+[submodule "example/mimallocTest/mimalloc"]
+	path = example/mimallocTest/mimalloc
+	url = https://github.com/microsoft/mimalloc.git
