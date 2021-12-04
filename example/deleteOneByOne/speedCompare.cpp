@@ -11,24 +11,28 @@ void solve() {
   }
 
   auto b = a;
-  Timer A;
-  LL ta = 0;
-  while (!a.empty()) {
-    auto it = a.begin();
-    ta += it->second;
-    a.erase(it);
+  {
+    Timer A;
+    LL ta = 0;
+    while (!a.empty()) {
+      auto it = a.begin();
+      ta += it->second;
+      a.erase(it);
+    }
+    cerr(ta);
   }
-  A.show();
+  {
 
-  Timer B;
-  LL tb = 0;
-  for (auto it = b.begin(); it != b.end(); ++it) {
-    tb += it->second;
   }
-  b.clear();
-  B.show();
-  std::cout << ta << ' ' << tb << '\n';
-
+  {
+    Timer B;
+    LL tb = 0;
+    for (auto it = b.begin(); it != b.end(); ++it) {
+      tb += it->second;
+    }
+    b.clear();
+    cerr(tb);
+  }
 }
 
 int main() {
