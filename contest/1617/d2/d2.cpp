@@ -28,33 +28,31 @@ void solve() {
     }
   }
   int x = a[id], y = a[id + 3];
+  auto getType = [&](int z) {
+    if (type[z] == -1) {
+      type[z] = query(x, y, z);
+    }
+  };
   type[x] = 1;
   type[y] = 0;
-  type[a[id + 1]] = query(x, y, a[id + 1]);
-  type[a[id + 2]] = !type[a[id + 1]];
-  for (auto t : a) {
-    if (type[t] == -1) {
-      type[t] = query(x, y, t);
-    }
-  }
-  for (int i = 0; i < n; ++i) if (i != g && i != b) {
+  for (int i = 0; i < n; ++i) {
     if (ans[i]) {
       if (query(y, 3 * i + 1, 3 * i + 2)) {
         type[3 * i + 1] = type[3 * i + 2] = 1;
-        type[3 * i + 3] = query(x, y, 3 * i + 3);
+        getType(3 * i + 3);
       } else {
         type[3 * i + 3] = 1;
-        type[3 * i + 1] = query(x, y, 3 * i + 1);
+        getType(3 * i + 1);
         type[3 * i + 2] = !type[3 * i + 1];
       }
     } else {
       if (query(x, 3 * i + 1, 3 * i + 2)) {
         type[3 * i + 3] = 0;
-        type[3 * i + 1] = query(x, y, 3 * i + 1);
+        getType(3 * i + 1);
         type[3 * i + 2] = !type[3 * i + 1];
       } else {
         type[3 * i + 1] = type[3 * i + 2] = 0;
-        type[3 * i + 3] = query(x, y, 3 * i + 3);
+        getType(3 * i + 3);
       }
     }
   }
