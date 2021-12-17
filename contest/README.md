@@ -27,7 +27,7 @@
 - [Educational Codeforces Round 106 (Rated for Div. 2)](https://codeforces.com/contest/1499)：奇耻大辱，掉了 184 分！
 - [Educational Codeforces Round 109 (Rated for Div. 2)](https://codeforces.com/contest/1525)：2021 年再打 EDU 场是狗（-111 分！）
 - [Codeforces Global Round 17](https://codeforces.com/contest/1610)：比赛结束 A 题都没过
-- [Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 + Div. 2)](https://codeforces.com/contest/1609) 只做了两题！看错题意被 $b$ 搞的心态爆炸
+- [Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 + Div. 2)](https://codeforces.com/contest/1609) 只做了两题！看错题意被 $b$ 搞的心态爆炸。然后连续摆烂了好几场
 
 ## 记录
 
@@ -72,5 +72,6 @@
 - 学习字符串算法 2021-02-12
 - 学习分治和分块算法 2021-03-16
 - 学习可持续算法 2021-04-28
+- 没有了精神上的压力 2021-06-06
 
 > 等一个大赛前的全面复习！外加精准快速的键盘敲击，那技术上更上一层楼，量变引起质变，成为 Grandmaster 就指日可待了
