@@ -29,12 +29,13 @@ LL solve() {
   int n;
   std::string a, b;
   std::cin >> n >> a >> b;
+  std::vector<int> cnt(26);
+  for (int i = 0; i < n; ++i) ++cnt[a[i] - 'a'];
   std::vector<std::vector<int>> d(26);
-  for (int i = 0; i < n; ++i) {
-    int id = a[i] - 'a';
-    d[id].emplace_back(i);
+  for (int i = 0; i < 26; ++i) d[i].reserve(cnt[i]);
+  for (int i = n - 1; i >= 0; --i) {
+    d[a[i] - 'a'].emplace_back(i);
   }
-  for (int i = 0; i < 26; ++i) std::reverse(d[i].begin(), d[i].end());
   Bitree<int> bitree(n);
   LL ans = INT64_MAX, cur = 0;
   for (int i = 0; i < n; ++i) {
