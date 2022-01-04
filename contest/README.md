@@ -28,6 +28,7 @@
 - [Educational Codeforces Round 109 (Rated for Div. 2)](https://codeforces.com/contest/1525)：2021 年再打 EDU 场是狗（-111 分！）
 - [Codeforces Global Round 17](https://codeforces.com/contest/1610)：比赛结束 A 题都没过
 - [Deltix Round, Autumn 2021 (open for everyone, rated, Div. 1 + Div. 2)](https://codeforces.com/contest/1609) 只做了两题！看错题意被 $b$ 搞的心态爆炸。然后连续摆烂了好几场
+- [Hello 2022](https://codeforces.com/contest/1621)，只做了三个题，还做的稀烂，我吐了
 
 ## 记录
 
