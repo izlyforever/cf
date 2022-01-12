@@ -16,7 +16,16 @@ private:
 
 void solve() {
   std::shared_ptr<Foo> sptr = std::make_shared<Foo>(1);
-  sptr.reset();
+  {
+    auto p = sptr.get();
+    cerr("will crash");
+    delete p;
+    cerr("crash not print");
+    std::this_thread::sleep_for(std::chrono::milliseconds(100));
+  }
+  // {
+  //   sptr.reset();
+  // }
   std::shared_ptr<int> a = std::make_shared<int>(13);
   auto b = a;
   a.reset(new int(12));
