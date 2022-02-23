@@ -15,8 +15,8 @@ void solve() {
   int c = 1;
   while (s[c] == s[0]) ++c;
   // we may assum s[0] = R, then c line blew will not visit
-  LL ans = n * n - 1LL * c * (n - 1);
-  ans -= 1LL * (cnt[s[0] != 'D'] - c) * cnt[s[0] == 'D'];
+  LL ans = 1LL * n * n - 1LL * c * (n - 1);
+  ans -= 1LL * (cnt[0] - c) * cnt[1];
   std::cout << ans << '\n';
 }
 
