@@ -25,6 +25,20 @@ struct AlignTest {
   uint32_t reserved : 22;
 };
 
+struct AlignTest2 {
+  uint64_t time_stamp;
+
+  const char* name;
+
+  uint32_t event : 8;
+  // Count of arguments
+
+  uint32_t argc : 2;
+
+  // Reserved bites for future usage and compatibility
+  uint32_t reserved : 22;
+};
+
 struct Node1 {
   uint16_t c;
   uint8_t a;
@@ -53,6 +67,7 @@ struct structAlign1 {
 
 void solve() {
   cerr(sizeof (AlignTest));  // 24
+  cerr(sizeof (AlignTest2));  // 24
   cerr(sizeof (Node1));  // 4
   cerr(sizeof (Node2));  // 4
   cerr(sizeof (structAlign));  // 16
