@@ -66,8 +66,8 @@ struct structAlign1 {
 #pragma pack()
 
 void solve() {
-  cerr(sizeof (AlignTest));  // 24
-  cerr(sizeof (AlignTest2));  // 24
+  cerr(sizeof (AlignTest));  // 24,
+  cerr(sizeof (AlignTest2));  // 24 for 64bit cpu, 16 for 32bit cpu
   cerr(sizeof (Node1));  // 4
   cerr(sizeof (Node2));  // 4
   cerr(sizeof (structAlign));  // 16
