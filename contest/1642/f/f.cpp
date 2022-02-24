@@ -3,9 +3,8 @@
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 using LL = long long;
 using ULL = unsigned long long;
-// 6 Gb is needed
-constexpr int N = 1564;
-using Node = std::array<ULL, N>;
+const int N = 1e5 + 2;
+const int sqrtN = std::sqrt(N);
 
 void solve() {
   int n, m;
@@ -29,29 +28,35 @@ void solve() {
     }
   }
   std::sort(a.begin(), a.end());
-  std::map<int, Node> mp;
+  std::map<int, std::vector<int>> mp;
   int sz = a.size();
   for (int i = 0; i < sz; ++i) {
     for (int j = 1; j <= m; ++j) {
-      mp[a[i][j]][i / 64] |= 1ULL << (i % 64);
+      mp[a[i][j]].emplace_back(i);
+    }
+  }
+  std::map<int, std::bitset<N>> bmp;
+  for (auto &[x, v] : mp) {
+    if (v.size() >= sqrtN) {
+      std::bitset<N> tmp;
+      tmp.set();
+      for (auto t : v) tmp[t] = 0;
+      bmp[x] = std::move(tmp);
     }
   }
   int ans = INT_MAX;
+  std::bitset<N> A;
   for (int i = 0; i < sz; ++i) {
-    auto hsh = mp[a[i][1]];
-    for (int j = 2; j <= m; ++j) {
-      auto& tmp = mp[a[i][j]];
-      for (int t = 0; t < N; ++t) {
-        hsh[t] |= tmp[t];
+    A.set();
+    for (int j = 1; j <= m; ++j) {
+      auto& it = mp[a[i][j]];
+      if (it.size() < sqrtN) {
+        for (auto x : it) A[x] = 0;
+      } else {
+        A &= bmp[a[i][j]];
       }
     }
-    int x = sz;
-    for (int j = 0; j < N; ++j) if (hsh[j] != std::numeric_limits<ULL>::max()) {
-      int k = 0;
-      while (hsh[j] & (1ULL << k)) ++k;
-      x = j * 64 + k;
-      break;
-    }
+    int x = A._Find_first();
     if (x < sz) ans = std::min(ans, a[i][0] + a[x][0]);
   }
   std::cout << (ans == INT_MAX ? -1 : ans) << '\n';
