@@ -1,6 +1,25 @@
 # Atcoder 做题记录
 
 
+## [AtCoder Beginner Contest 241](https://atcoder.jp/contests/abc241)
+
+### [Ex - Card Deck Score](https://atcoder.jp/contests/abc241/tasks/abc241_h)
+
+如[题解](https://atcoder.jp/contests/abc241/editorial/3481)所说：
+
+$$
+f(x) = \prod_{i = 1}^n (1 + A_i x + \cdots + A_i^{B_i} x^{B_i}) = \prod_{i = 1}^n \frac{1 - (A_i x)^{B_i + 1}}{1 - A_i x}
+$$
+
+答案为 $f(x)$ 在 $x^m$ 上的系数。注意到题中 $n < 16$，又
+
+$$
+\prod_{i = 1}^n \frac{1}{1 - A_i x} = \sum_{i = 1}^n \frac{c_i}{1 - A_i x}
+$$
+
+而这些系数可以通过，取 $x = A_i^{-1}$ 来得到 $c_i$，我们枚举所有乘法可能 $2^n$ 种，所以整体复杂度为 $O(n \cdot 2^n \log P)$
+
+
 ## [Exawizards Programming Contest 2021（AtCoder Beginner Contest 222）](https://atcoder.jp/contests/abc222)
 
 有史以来最差一次，服了，确实不能三心二意
