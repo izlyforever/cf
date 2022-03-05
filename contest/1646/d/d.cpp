@@ -13,45 +13,45 @@ void solve() {
     e[u].insert(v);
     e[v].insert(u);
   }
-  auto g = e;
-
-  std::vector<int> val(n);
-  std::set<int> S;
-  for (int i = 0; i < n; ++i) S.insert(i);
-  std::priority_queue<std::pair<int, int>> Q;
+  using Node = std::array<std::pair<int, int>, 2>;
+  std::vector<Node> dp(n);
+  std::function<void(int, int)> pdfs = [&](int u, int fa) {
+    for (auto v : e[u]) if (v != fa) {
+      pdfs(v, u);
+      auto [x, y] = std::max(dp[v][0], dp[v][1]);
+      dp[u][0].first += x;
+      dp[u][0].second += y;
+      dp[u][1].first += dp[v][0].first;
+      dp[u][1].second += dp[v][0].second;
+    }
+    dp[u][0].second -= 1;
+    ++dp[u][1].first;
+    dp[u][1].second -= e[u].size();
+  };
+  pdfs(0, 0);
   std::vector<int> a;
   a.reserve(n);
-  while (!S.empty()) {
-    for (auto x : S) if (e[x].size() <= 1) {
-      if (e[x].empty()) {
-        a.emplace_back(x);
-        if (val[x]) continue;
-        for (auto y : g[x]) val[x] += val[y];
+  std::function<void(int, int, int)> dfs = [&](int u, int fa, int t) {
+    if (t == 1) {
+      if (dp[u][1] >= dp[u][0]) {
+        a.emplace_back(u);
       } else {
-        Q.push({e[x].size() - g[x].size(), x});
+        t = 0;
       }
     }
-    for (auto x : a) S.erase(x);
-    a.clear();
-    while (!Q.empty()) {
-      auto [cu, u]  = Q.top();
-      Q.pop();
-      if (val[u] || e[u].empty()) continue;
-      auto v = *e[u].begin();
-      for (auto x : e[v]) {
-        e[x].erase(v);
-      }
-      e[v].clear();
-      val[v] = 1;
+    for (auto v : e[u]) if (v != fa) {
+      dfs(v, u, 1 - t);
     }
-  }
-  int cnt = 0;
+  };
+  dfs(0, 0, 1);
+  std::vector<int> val(n, 1);
+  for (auto x : a) val[x] = e[x].size();
+  int cnt = 0, sum = 0;
   for (int i = 0; i < n; ++i) {
-    int sm = 0;
-    for (auto x : g[i]) sm += val[x];
-    if (sm == val[i]) ++cnt;
+    if (val[i] == e[i].size()) ++cnt;
+    sum += val[i];
   }
-  std::cout << cnt << ' ' << std::accumulate(val.begin(), val.end(), 0) << '\n';
+  std::cout << cnt<< ' ' << sum << '\n';
   for (int i = 0; i < n; ++i) {
     std::cout << val[i] << ' ';
   }
