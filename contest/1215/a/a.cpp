@@ -17,4 +17,3 @@ int main(){
   }else cout<<n/k1<<endl;
   return 0;
 }
-

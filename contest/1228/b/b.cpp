@@ -41,4 +41,3 @@ int main(){
   cout<<powmod(2LL,r)<<endl;
   return 0;
 }
-

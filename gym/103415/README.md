@@ -85,4 +85,3 @@ H(m) - \sum_{i = q + 1}^m F(i) - \sum_{i = 1}^q i^n \sum_{j = 1}^{\lfloor \frac{
 $$
 
 注意到 $F(t)$ 的值和 $m$ 强绑定（$\lfloor \frac{m}{t} \rfloor$ 最多只有 $2 \sqrt{m}$ 个值，然后可以用整除分块），因此计算所有 $F(t)$ 计算量为 $O(m)$，所以复杂度 $O(m \log m + m\log n)$
-

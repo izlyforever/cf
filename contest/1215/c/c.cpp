@@ -33,4 +33,3 @@ int main(){
   for(auto& [x,y]:r) cout<<x<<" "<<y<<endl;
   return 0;
 }
-

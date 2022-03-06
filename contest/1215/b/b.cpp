@@ -27,4 +27,3 @@ int main(){
   cout<<cnp<<" "<<cp<<endl;
   return 0;
 }
-

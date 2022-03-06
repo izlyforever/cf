@@ -5,4 +5,3 @@ int main() {
   std::cout << "hello link and load\n";
   return 0;
 }
-

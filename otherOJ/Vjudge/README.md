@@ -79,4 +79,3 @@ $$
 ## [阶乘](https://vjudge.net/problem/SPOJ-FACTMODP)
 
 min25 的毒瘤 $\sqrt{n} \log n$ 阶乘题
-

@@ -30,4 +30,3 @@ int main(){
   cout<<dp[(1<<N)-1]<<endl;
   return 0;
 }
-

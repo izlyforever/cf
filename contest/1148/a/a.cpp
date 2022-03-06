@@ -9,4 +9,3 @@ int main(){
   cout<<(a!=b)+2*min(a,b)+2*c<<endl;
   return 0;
 }
-

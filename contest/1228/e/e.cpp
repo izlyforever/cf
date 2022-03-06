@@ -40,4 +40,3 @@ int main(){
   cout<<(r%M+M)%M<<endl;
   return 0;
 }
-

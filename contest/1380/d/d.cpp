@@ -50,4 +50,3 @@ int main() {
   cout << (flag?r:-1) << endl;
   return 0;
 }
-

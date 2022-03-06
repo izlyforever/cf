@@ -18,4 +18,3 @@ int main(){
   cout<<powmod(powmod(2,m)-1,n)<<endl;
   return 0;
 }
-
