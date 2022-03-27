@@ -1,6 +1,7 @@
 #include <bits/stdc++.h>
 #define cerr(x) std::cerr << (#x) << " is " << (x) << '\n'
 using LL = long long;
+// variadic function arguments
 
 void write2(int level, const char* fmt, ...) {
 }
