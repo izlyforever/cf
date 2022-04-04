@@ -15,9 +15,31 @@ int A1::f(int x) {
   return x ^ 1;
 }
 
+class B {
+ public:
+  virtual int f(int x = 0) = 0;
+};
+
+class B1 : public B {
+public:
+  int f(int x) override;
+};
+
+int B1::f(int x) {
+  return x ^ 1;
+}
+
 int main() {
-  A1 x;
-  cerr(x.f(1));
-  cerr(x.f());
+  {
+    A1 x;
+    cerr(x.f(1));
+    cerr(x.f());
+  }
+  {
+    B1 y;
+    cerr(y.f(1));
+
+    cerr(y.f());
+  }
   return 0;
 }
