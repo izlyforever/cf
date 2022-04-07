@@ -11,5 +11,8 @@ int main() {
     }
   }
   printf("%d\n", s);
+  /* 注释测试 */
+  /* 中文测试 */
+  printf("垃圾上海\n");
   return 0;
 }
