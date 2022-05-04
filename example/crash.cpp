@@ -1,7 +1,8 @@
 #include <bits/stdc++.h>
 
 int divCrash(int x) {
-  return 100 / x;
+  int ans = 100 / x;
+  return ans;
 }
 
 int main() {
