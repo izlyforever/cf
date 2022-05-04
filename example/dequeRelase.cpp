@@ -36,9 +36,7 @@ void solve() {
     a3.pop_front();
     std::cout << i << " a4: " << std::endl;
     a4.pop_front();
-    std::this_thread::sleep_for(std::chrono::seconds(1));
   }
-  std::this_thread::sleep_for(std::chrono::seconds(3));
 }
 
 int main() {
