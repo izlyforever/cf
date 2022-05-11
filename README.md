@@ -3,7 +3,7 @@
 - Think twice, code once
 - 如果没有本质修改，且没有发现问题，大概率题意理解错了。
 
-## Code by izlyforever
+## Code by [izlyforever](https://codeforces.com/profile/izlyforever)
 
 Source Code In Codeforces and other OJs.
 
