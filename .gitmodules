@@ -6,7 +6,4 @@
 	path = example/mimallocTest/mimalloc
 	url = https://github.com/microsoft/mimalloc.git
   ignore = dirty
-[submodule "BigInt"]
-	path = BigInt
-	url = git@github.com:izlyforever/BigInt.git
-  ignore = dirty
+
