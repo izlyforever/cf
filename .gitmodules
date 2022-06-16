@@ -1,9 +1,3 @@
 [submodule "cpplibforCP"]
 	path = cpplibforCP
 	url = git@github.com:izlyforever/cpplibforCP.git
-  ignore = dirty
-[submodule "example/mimallocTest/mimalloc"]
-	path = example/mimallocTest/mimalloc
-	url = https://github.com/microsoft/mimalloc.git
-  ignore = dirty
-

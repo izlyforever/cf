@@ -7,6 +7,12 @@
 
 Source Code In Codeforces and other OJs.
 
+## Use [cf-tool](https://github.com/izlyforever/cf-tool)
+
+my config
+``` shell
+g++ $%full%$ -o $%file%$.out -std=c++17 -D_GLIBCXX_DEBUG -Wall -Wshadow -Wno-error
+```
 
 ## Genius
 
