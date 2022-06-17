@@ -1,11 +1,12 @@
 atcoder.cpp
 
+cpplibforCP
 .vscode/
 .DS_Store
 *.dSYM/
 
 main*
 test*
+*.in
 *.out
 *.exe
-in
