@@ -7,6 +7,6 @@ cpplibforCP
 
 main*
 test*
-*.in
+in
 *.out
 *.exe

@@ -25,7 +25,9 @@ void debug(std::vector<T> a){
 }
 
 int main() {
-  //freopen("in", "r", stdin);
+// #ifndef ONLINE_JUDGE
+//   freopen("in", "r", stdin);
+// #endif // ONLINE_JUDGE
   //freopen("out", "w", stdout);
   std::cin.tie(nullptr)->sync_with_stdio(false);
 
